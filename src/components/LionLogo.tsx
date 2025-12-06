@@ -22,33 +22,33 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
       )}
     >
       {/* Background blend layer */}
-      <div 
+      <div
         className="absolute inset-0 rounded-full opacity-30 blur-3xl"
         style={{
           background: "radial-gradient(circle, hsl(270 80% 60% / 0.4) 0%, transparent 70%)",
         }}
       />
-      
+
       {/* Reflective light layers */}
-      <div 
+      <div
         className="absolute inset-0 rounded-full opacity-20 animate-pulse-glow"
         style={{
           background: "radial-gradient(circle at 30% 30%, hsl(270 80% 60% / 0.5) 0%, transparent 50%)",
           filter: "blur(40px)",
         }}
       />
-      <div 
+      <div
         className="absolute inset-0 rounded-full opacity-15"
         style={{
           background: "radial-gradient(circle at 70% 70%, hsl(280 100% 70% / 0.4) 0%, transparent 50%)",
           filter: "blur(30px)",
         }}
       />
-      
+
       {/* Main logo image with fine purple border light */}
       <div className="relative z-10 w-full h-full">
         <img
-          src="/lionlogo.png"
+          src={`${import.meta.env.BASE_URL}lionlogo.png`}
           alt="Mowglai Lion Logo"
           className="w-full h-full object-contain relative z-10"
           style={{
@@ -60,9 +60,9 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
             mixBlendMode: "screen",
           }}
         />
-        
+
         {/* Very fine purple light along image border */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: `
@@ -74,7 +74,7 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
           }}
         />
       </div>
-      
+
       {/* Ambient light particles */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(8)].map((_, i) => {
