@@ -120,7 +120,7 @@ const TestimonialsSection = ({ isDark = true }: TestimonialsSectionProps) => {
                 <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/lionlogo.png"
+                      src={`${import.meta.env.BASE_URL}lionlogo.png`}
                       alt=""
                       className="w-full h-full object-contain"
                       style={{
