@@ -1,7 +1,18 @@
 import { cn } from "@/lib/utils";
 import LionLogo from "./LionLogo";
+import { useState, useEffect } from "react";
 
 const HeroSection = () => {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const words = ["Transcend", "Redefine", "Elevate", "Revolutionize", "Amplify", "Ignite"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % words.length);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Ripple rings */}
@@ -23,9 +34,8 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10 flex flex-col items-center justify-center min-h-screen py-20">
         {/* Brand name with vanishing fog effect - ABOVE lion */}
-        {/* Brand name with vanishing fog effect - ABOVE lion */}
         <h1
-          className="text-6xl md:text-8xl lg:text-9xl font-display font-black mb-12 opacity-0 animate-fade-in cursor-default relative inline-block z-20"
+          className="text-5xl md:text-7xl lg:text-8xl font-display font-black mb-12 opacity-0 animate-fade-in cursor-default relative inline-block z-20"
           style={{ animationDelay: "0.1s" }}
         >
           {"MOWGLAI".split("").map((char, index) => (
@@ -55,7 +65,7 @@ const HeroSection = () => {
 
         {/* Tagline - BELOW lion */}
         <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-4 max-w-3xl mx-auto opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-          Crafting Digital Experiences That <span className="text-primary font-semibold">Transcend</span> Expectations
+          Crafting Digital Experiences That <span key={currentWordIndex} className="text-primary font-semibold inline-block animate-fade-in">{words[currentWordIndex]}</span> Expectations
         </p>
 
         {/* Motto - BELOW tagline */}

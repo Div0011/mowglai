@@ -63,7 +63,7 @@ const PricingSection = () => {
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {plans.map((plan, i) => (
             <div
               key={i}
@@ -74,7 +74,7 @@ const PricingSection = () => {
             >
               {/* Hover glow effect */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/10 group-hover:to-accent/10 transition-all duration-500 pointer-events-none" />
-              
+
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 animate-pulse-glow">
                   <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg shadow-primary/50">
@@ -94,8 +94,8 @@ const PricingSection = () => {
 
               <ul className="space-y-4 mb-8 relative z-10">
                 {plan.features.map((feature, j) => (
-                  <li 
-                    key={j} 
+                  <li
+                    key={j}
                     className="flex items-center gap-3 text-muted-foreground group-hover:text-foreground transition-colors group/item"
                     style={{ transitionDelay: `${j * 0.05}s` }}
                   >
@@ -109,7 +109,8 @@ const PricingSection = () => {
 
               <Button
                 className={cn(
-                  "w-full py-6 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group/btn",
+                  "w-full py-6 rounded-xl font-semibold transition-all duration-500 relative overflow-hidden group/btn",
+                  "blur-[2px] opacity-70 hover:blur-0 hover:opacity-100",
                   plan.popular
                     ? "bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/50"
                     : "bg-secondary hover:bg-secondary/80 text-secondary-foreground hover:scale-105"

@@ -69,7 +69,7 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 h-screen flex flex-col items-center py-6 z-50 transition-all duration-300 ease-out",
+        "fixed left-0 top-0 h-screen hidden md:flex flex-col items-center py-6 z-50 transition-all duration-300 ease-out",
         isExpanded ? "w-64" : "w-20"
       )}
       style={{
@@ -131,8 +131,8 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
               href={item.href}
               onClick={() => handleClick(item.label)}
               className={cn(
-                "relative overflow-hidden w-full flex items-center gap-3 h-12 rounded-xl transition-all duration-300 group",
-                isExpanded ? "justify-start px-4" : "justify-center",
+                "relative overflow-hidden flex items-center transition-all duration-300 group",
+                isExpanded ? "w-full h-12 rounded-xl justify-start px-4 gap-3" : "w-12 h-12 rounded-full justify-center",
                 isActive && "active"
               )}
               style={{

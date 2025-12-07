@@ -98,8 +98,8 @@ const TestimonialsSection = ({ isDark = true }: TestimonialsSectionProps) => {
           </p>
         </div>
 
-        {/* Testimonials grid - one by one reveal */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* Testimonials grid - Flip Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, i) => {
             const isVisible = visibleTestimonials.includes(i);
 
@@ -109,63 +109,85 @@ const TestimonialsSection = ({ isDark = true }: TestimonialsSectionProps) => {
                 ref={(el) => {
                   testimonialRefs.current[i] = el;
                 }}
-                className="glass-card rounded-3xl p-8 relative group hover:scale-105 transition-all duration-500 cursor-pointer overflow-hidden"
+                className="group h-[400px] perspective-1000 cursor-pointer"
                 style={{
                   opacity: isVisible ? 1 : 0,
                   transform: isVisible ? 'translateY(0)' : 'translateY(50px)',
                   transition: `opacity 0.6s ease-out ${i * 0.2}s, transform 0.6s ease-out ${i * 0.2}s`,
                 }}
               >
-                {/* Logo watermark in background - like About Us section */}
-                <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <img
-                      src={`${import.meta.env.BASE_URL}lionlogo.png`}
-                      alt=""
-                      className="w-full h-full object-contain"
-                      style={{
-                        filter: isDark
-                          ? "brightness(0) saturate(100%) invert(67%) sepia(35%) saturate(496%) hue-rotate(225deg) brightness(95%) contrast(89%) opacity(0.3)"
-                          : "brightness(0.3) blur(1px)",
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                      }}
-                    />
+                <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180">
+
+                  {/* FRONT FACE: Large Dark Purple Lion Logo */}
+                  <div className="absolute inset-0 w-full h-full glass-card rounded-3xl p-8 backface-hidden flex items-center justify-center">
+                    <div className="w-48 h-48 relative">
+                      <img
+                        src={`${import.meta.env.BASE_URL}lionlogo.png`}
+                        alt="Mowglai Lion"
+                        className="w-full h-full object-contain"
+                        style={{
+                          filter: "brightness(0) saturate(100%) invert(18%) sepia(88%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(110%) drop-shadow(0 0 20px rgba(139, 92, 246, 0.3))", // Dark purple filter + drop shadow
+                        }}
+                      />
+                    </div>
+                    {/* Subtle hint to hover */}
+                    <div className="absolute bottom-6 text-muted-foreground/50 text-sm font-medium animate-pulse">
+                      Hover to reveal
+                    </div>
                   </div>
-                </div>
 
-                {/* Quote icon */}
-                <div className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center opacity-80 group-hover:scale-110 transition-transform z-10">
-                  <Quote className="w-5 h-5 text-primary-foreground" />
-                </div>
+                  {/* BACK FACE: Testimonial Content (Flipped) */}
+                  <div className="absolute inset-0 w-full h-full glass-card rounded-3xl p-8 backface-hidden rotate-y-180 overflow-hidden">
+                    {/* Logo watermark in background */}
+                    <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <img
+                          src={`${import.meta.env.BASE_URL}lionlogo.png`}
+                          alt=""
+                          className="w-full h-full object-contain"
+                          style={{
+                            filter: isDark
+                              ? "brightness(0) saturate(100%) invert(67%) sepia(35%) saturate(496%) hue-rotate(225deg) brightness(95%) contrast(89%) opacity(0.3)"
+                              : "brightness(0.3) blur(1px)",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                          }}
+                        />
+                      </div>
+                    </div>
 
-                {/* Rating */}
-                <div className="flex gap-1 mb-6 relative z-10">
-                  {[...Array(testimonial.rating)].map((_, j) => (
-                    <Star key={j} className="w-5 h-5 fill-primary text-primary group-hover:scale-110 transition-transform" style={{ transitionDelay: `${j * 0.05}s` }} />
-                  ))}
-                </div>
+                    {/* Quote icon */}
+                    <div className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center opacity-80 z-10">
+                      <Quote className="w-5 h-5 text-primary-foreground" />
+                    </div>
 
-                {/* Content */}
-                <p className="text-muted-foreground leading-relaxed mb-8 group-hover:text-foreground transition-colors relative z-10">
-                  "{testimonial.content}"
-                </p>
+                    {/* Rating */}
+                    <div className="flex gap-1 mb-6 relative z-10">
+                      {[...Array(testimonial.rating)].map((_, j) => (
+                        <Star key={j} className="w-5 h-5 fill-primary text-primary" />
+                      ))}
+                    </div>
 
-                {/* Author */}
-                <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <span className="text-lg font-display font-bold text-primary">
-                      {testimonial.name.charAt(0)}
-                    </span>
+                    {/* Content */}
+                    <p className="text-muted-foreground leading-relaxed mb-8 relative z-10">
+                      "{testimonial.content}"
+                    </p>
+
+                    {/* Author */}
+                    <div className="absolute bottom-8 left-8 flex items-center gap-4 relative z-10">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center">
+                        <span className="text-lg font-display font-bold text-primary">
+                          {testimonial.name.charAt(0)}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </div>
 
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/10 group-hover:to-accent/10 transition-all duration-500 pointer-events-none z-0" />
+                </div>
               </div>
             );
           })}

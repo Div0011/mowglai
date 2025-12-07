@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import GalaxyBackground from "@/components/GalaxyBackground";
 import Sidebar from "@/components/Sidebar";
+import MobileNav from "@/components/MobileNav";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import PricingSection from "@/components/PricingSection";
@@ -35,9 +36,10 @@ const Index = () => {
 
       {/* Glassmorphic cylindrical sidebar */}
       <Sidebar isDark={isDark} onToggleTheme={handleToggleTheme} />
+      <MobileNav />
 
       {/* Main content with left padding for sidebar */}
-      <main className="pl-20">
+      <main className="pl-0 md:pl-20 pb-20 md:pb-0">
         <HeroSection />
         <AboutSection />
         <PricingSection />

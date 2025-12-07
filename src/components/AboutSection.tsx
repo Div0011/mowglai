@@ -1,4 +1,4 @@
-import { Palette, Rocket, Shield } from "lucide-react";
+import { Palette, Rocket, Shield, Globe, BarChart, Headphones } from "lucide-react";
 import { useState } from "react";
 import LionLogo from "./LionLogo";
 
@@ -18,10 +18,60 @@ const features = [
     title: "Performance First",
     description: "Lightning-fast load times and smooth interactions for the best user experience.",
   },
+  {
+    icon: Globe,
+    title: "Global Reach",
+    description: "Scale your business worldwide with infrastructure designed for global performance.",
+  },
+  {
+    icon: BarChart,
+    title: "Data Driven",
+    description: "Make informed decisions with integrated analytics and actionable insights.",
+  },
+  {
+    icon: Headphones,
+    title: "24/7 Support",
+    description: "Dedicated support team ready to assist you whenever you need help.",
+  },
 ];
 
 const AboutSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [visibleIndices, setVisibleIndices] = useState([0, 1, 2]);
+  const [poolIndices, setPoolIndices] = useState([3, 4, 5]);
+  const [fadingIndices, setFadingIndices] = useState<Set<number>>(new Set());
+
+  const handleCardHover = (slotIndex: number) => {
+    if (fadingIndices.has(slotIndex)) return;
+
+    // Start fading out
+    setFadingIndices(prev => new Set(prev).add(slotIndex));
+
+    // Wait for fade out, then swap
+    setTimeout(() => {
+      setVisibleIndices(prev => {
+        const newVisible = [...prev];
+        const oldFeatureIndex = newVisible[slotIndex];
+        const newFeatureIndex = poolIndices[0];
+
+        newVisible[slotIndex] = newFeatureIndex;
+
+        setPoolIndices(prevPool => {
+          const newPool = [...prevPool.slice(1), oldFeatureIndex];
+          return newPool;
+        });
+
+        return newVisible;
+      });
+
+      // Fade back in
+      setFadingIndices(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(slotIndex);
+        return newSet;
+      });
+    }, 300);
+  };
 
   return (
     <section id="about" className="py-16 relative">
@@ -39,33 +89,44 @@ const AboutSection = () => {
         </div>
 
         {/* Layout: Large Lion logo on left, cards on right */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
           {/* Lion Logo - larger, shifted more to the right */}
           <div className="w-full lg:w-1/2 lg:flex-shrink-0">
             <div className="flex justify-center lg:justify-end lg:pr-8">
-              <div className="opacity-0 animate-slide-in-left w-full max-w-md" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-                <LionLogo size="xl" className="w-full" />
+              <div
+                className="opacity-0 animate-slide-in-left w-full max-w-md"
+                style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
+              >
+                <div className="transition-transform duration-700 hover:rotate-y-180 perspective-1000 transform-style-3d">
+                  <LionLogo size="xl" className="w-full" />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Cards layout: Stunning Design (top right), Security Built-In (below right), Performance First (left of Security) */}
+          {/* Cards layout */}
           <div className="w-full lg:w-1/2">
-            <div className="grid grid-cols-2 gap-6">
-              {/* Stunning Design - top right */}
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Slot 0 - Top Right (Wide) */}
+              <div className="col-span-1 sm:col-span-2">
                 {(() => {
-                  const feature = features[0]; // Stunning Design
+                  const slotIndex = 0;
+                  const featureIndex = visibleIndices[slotIndex];
+                  const feature = features[featureIndex];
                   const Icon = feature.icon;
-                  const isHovered = hoveredIndex === 0;
-                  
+                  const isHovered = hoveredIndex === slotIndex;
+                  const isFading = fadingIndices.has(slotIndex);
+
                   return (
                     <div
-                      className="glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer hover:scale-105 transition-all duration-500"
-                      onMouseEnter={() => setHoveredIndex(0)}
+                      className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
+                      onMouseEnter={() => {
+                        setHoveredIndex(slotIndex);
+                        handleCardHover(slotIndex);
+                      }}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
-                      <div 
+                      <div
                         className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
                         style={{
                           transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
@@ -73,7 +134,7 @@ const AboutSection = () => {
                       >
                         <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
                       </div>
-                      <h3 
+                      <h3
                         className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
                         style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
                       >
@@ -84,13 +145,13 @@ const AboutSection = () => {
                       </p>
 
                       {/* Glow effect on hover */}
-                      <div 
+                      <div
                         className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
                         style={{ opacity: isHovered ? 1 : 0 }}
                       />
-                      
+
                       {/* Animated border on hover */}
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
                       />
                     </div>
@@ -98,19 +159,25 @@ const AboutSection = () => {
                 })()}
               </div>
 
-              {/* Performance First - bottom left */}
+              {/* Slot 1 - Bottom Left */}
               {(() => {
-                const feature = features[2]; // Performance First
+                const slotIndex = 1;
+                const featureIndex = visibleIndices[slotIndex];
+                const feature = features[featureIndex];
                 const Icon = feature.icon;
-                const isHovered = hoveredIndex === 2;
-                
+                const isHovered = hoveredIndex === slotIndex;
+                const isFading = fadingIndices.has(slotIndex);
+
                 return (
                   <div
-                    className="glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer hover:scale-105 transition-all duration-500"
-                    onMouseEnter={() => setHoveredIndex(2)}
+                    className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
+                    onMouseEnter={() => {
+                      setHoveredIndex(slotIndex);
+                      handleCardHover(slotIndex);
+                    }}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    <div 
+                    <div
                       className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
                       style={{
                         transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
@@ -118,7 +185,7 @@ const AboutSection = () => {
                     >
                       <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <h3 
+                    <h3
                       className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
                       style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
                     >
@@ -129,32 +196,38 @@ const AboutSection = () => {
                     </p>
 
                     {/* Glow effect on hover */}
-                    <div 
+                    <div
                       className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
                       style={{ opacity: isHovered ? 1 : 0 }}
                     />
-                    
+
                     {/* Animated border on hover */}
-                    <div 
+                    <div
                       className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
                     />
                   </div>
                 );
               })()}
 
-              {/* Security Built-In - bottom right */}
+              {/* Slot 2 - Bottom Right */}
               {(() => {
-                const feature = features[1]; // Security Built-In
+                const slotIndex = 2;
+                const featureIndex = visibleIndices[slotIndex];
+                const feature = features[featureIndex];
                 const Icon = feature.icon;
-                const isHovered = hoveredIndex === 1;
-                
+                const isHovered = hoveredIndex === slotIndex;
+                const isFading = fadingIndices.has(slotIndex);
+
                 return (
                   <div
-                    className="glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer hover:scale-105 transition-all duration-500"
-                    onMouseEnter={() => setHoveredIndex(1)}
+                    className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
+                    onMouseEnter={() => {
+                      setHoveredIndex(slotIndex);
+                      handleCardHover(slotIndex);
+                    }}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    <div 
+                    <div
                       className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
                       style={{
                         transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
@@ -162,7 +235,7 @@ const AboutSection = () => {
                     >
                       <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <h3 
+                    <h3
                       className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
                       style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
                     >
@@ -173,13 +246,13 @@ const AboutSection = () => {
                     </p>
 
                     {/* Glow effect on hover */}
-                    <div 
+                    <div
                       className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
                       style={{ opacity: isHovered ? 1 : 0 }}
                     />
-                    
+
                     {/* Animated border on hover */}
-                    <div 
+                    <div
                       className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
                     />
                   </div>
@@ -197,7 +270,7 @@ const AboutSection = () => {
               Our Mission
             </h3>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              To empower businesses with cutting-edge web solutions that drive growth, enhance user engagement, 
+              To empower businesses with cutting-edge web solutions that drive growth, enhance user engagement,
               and establish a powerful digital presence. We believe great software should be beautiful, fast, and accessible to everyone.
             </p>
           </div>
