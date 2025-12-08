@@ -1,25 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Ripples state for movement trail
+  const [ripples, setRipples] = useState<{ x: number; y: number; id: number; opacity: number; radius: number }[]>([]);
+  const lastRippleRef = useRef(0);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
-      
+
       const target = e.target as HTMLElement;
-      const isClickable = 
-        target.tagName === "A" || 
+      const isClickable =
+        target.tagName === "A" ||
         target.tagName === "BUTTON" ||
         !!target.closest("a") ||
         !!target.closest("button") ||
         target.getAttribute("role") === "button" ||
         window.getComputedStyle(target).cursor === "pointer";
-      
+
       setIsPointer(isClickable);
+
+      // Create ripple on movement
+      const now = Date.now();
+      if (now - lastRippleRef.current > 50) { // Throttled to every 50ms for smoother trail
+        lastRippleRef.current = now;
+        setRipples(prev => [
+          ...prev.slice(-15), // Keep last 15 ripples
+          { x: e.clientX, y: e.clientY, radius: 0, opacity: 0.8, id: now }
+        ]);
+      }
     };
 
     const handleMouseLeave = () => setIsVisible(false);
@@ -34,6 +48,27 @@ const CustomCursor = () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
     };
+  }, []);
+
+  // Animate ripples
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const animate = () => {
+      setRipples(prev =>
+        prev
+          .map(r => ({
+            ...r,
+            radius: r.radius + 1.5,
+            opacity: r.opacity - 0.02
+          }))
+          .filter(r => r.opacity > 0)
+      );
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   if (!isVisible) return null;
@@ -56,6 +91,7 @@ const CustomCursor = () => {
           }}
         />
       </div>
+
       {/* Trailing glow */}
       <div
         className="fixed pointer-events-none z-[9998] transition-all duration-300 ease-out"
@@ -71,6 +107,25 @@ const CustomCursor = () => {
           }}
         />
       </div>
+
+      {/* Water Ripple Trail */}
+      {ripples.map((ripple) => (
+        <div
+          key={ripple.id}
+          className="fixed pointer-events-none z-[9997]"
+          style={{
+            left: ripple.x - ripple.radius,
+            top: ripple.y - ripple.radius,
+            width: ripple.radius * 2,
+            height: ripple.radius * 2,
+            borderRadius: '50%',
+            opacity: ripple.opacity,
+            border: '1.5px solid hsl(270 80% 60%)',
+            boxShadow: `0 0 ${ripple.radius}px hsl(270 80% 60% / ${ripple.opacity * 0.5})`,
+            backgroundColor: 'transparent',
+          }}
+        />
+      ))}
     </>
   );
 };

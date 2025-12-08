@@ -101,8 +101,12 @@
     cursor: none;
   }
 
+  html,
   body {
     @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
+    width: 100%;
+    zoom: 1.0;
   }
 
   h1,
@@ -705,4 +709,34 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.7);
+}
+
+.hero-lion-wrapper {
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.about-lion-slot {
+  position: relative;
+}
+
+
+#hero-about-wrapper #about {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Transition Overlay & Hints */
+#section-transition-overlay {
+  background: black;
+  transition: opacity 0.3s ease-out;
+}
+
+#mission,
+#pricing {
+  will-change: opacity, transform;
 }

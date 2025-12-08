@@ -91,21 +91,22 @@ const AboutSection = () => {
         {/* Layout: Large Lion logo on left, cards on right */}
         <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
           {/* Lion Logo - larger, shifted more to the right */}
+          {/* Lion Logo slot on the left – hero lion will move here */}
           <div className="w-full lg:w-1/2 lg:flex-shrink-0">
             <div className="flex justify-center lg:justify-end lg:pr-8">
               <div
                 className="opacity-0 animate-slide-in-left w-full max-w-md"
                 style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
               >
-                <div className="transition-transform duration-700 hover:rotate-y-180 perspective-1000 transform-style-3d">
-                  <LionLogo size="xl" className="w-full" />
+                <div className="transition-transform duration-700 perspective-1000 transform-style-3d">
+                  <div className="about-lion-slot w-full aspect-square" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Cards layout */}
-          <div className="w-full lg:w-1/2">
+          <div className="w-full lg:w-1/2 about-right-content">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Slot 0 - Top Right (Wide) */}
               <div className="col-span-1 sm:col-span-2">
@@ -262,19 +263,7 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Mission statement */}
-        <div className="mt-20 glass-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
-          <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 text-foreground">
-              Our Mission
-            </h3>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              To empower businesses with cutting-edge web solutions that drive growth, enhance user engagement,
-              and establish a powerful digital presence. We believe great software should be beautiful, fast, and accessible to everyone.
-            </p>
-          </div>
-        </div>
+
       </div>
     </section>
   );
