@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Send, Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { SnowParticles } from "./SnowParticles";
 
 const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,11 +28,13 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-16 relative">
-      <div className="container mx-auto px-6">
+    <section id="contact" ref={sectionRef} className="py-16 relative overflow-hidden">
+      <SnowParticles parentRef={sectionRef} targetSelector=".js-snow-target" />
+
+      <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+          <h2 className="js-snow-target inline-block text-4xl md:text-5xl font-display font-bold mb-6">
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Get In Touch
             </span>
@@ -43,7 +47,7 @@ const ContactSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact info */}
           <div className="space-y-8">
-            <div className="glass-card rounded-2xl p-8">
+            <div className="js-snow-target glass-card rounded-2xl p-8">
               <h3 className="text-2xl font-display font-semibold mb-6 text-foreground">
                 Contact Information
               </h3>
@@ -90,7 +94,7 @@ const ContactSection = () => {
           </div>
 
           {/* Contact form */}
-          <div className="glass-card rounded-3xl p-8 md:p-10">
+          <div className="js-snow-target glass-card rounded-3xl p-8 md:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="group">
@@ -100,7 +104,7 @@ const ContactSection = () => {
                   <Input
                     required
                     placeholder="John Doe"
-                    className="bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                    className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
                   />
                 </div>
                 <div className="group">
@@ -111,7 +115,7 @@ const ContactSection = () => {
                     required
                     type="email"
                     placeholder="john@example.com"
-                    className="bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                    className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
                   />
                 </div>
               </div>
@@ -123,7 +127,7 @@ const ContactSection = () => {
                 <Input
                   required
                   placeholder="How can we help you?"
-                  className="bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                  className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
                 />
               </div>
 
@@ -135,7 +139,7 @@ const ContactSection = () => {
                   required
                   rows={5}
                   placeholder="Tell us about your project..."
-                  className="bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl resize-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                  className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl resize-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
                 />
               </div>
 

@@ -694,22 +694,20 @@
 }
 
 /* Custom scrollbar */
+/* Custom scrollbar - Hidden but scrollable */
+html,
+body {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.5);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.7);
-}
 
 .hero-lion-wrapper {
   will-change: transform;
@@ -737,6 +735,9 @@
 }
 
 #mission,
-#pricing {
+#pricing,
+#testimonials,
+#contact,
+#footer {
   will-change: opacity, transform;
 }

@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "@studio-freight/lenis";
 import GalaxyBackground from "@/components/GalaxyBackground";
+import StarryBackground from "@/components/StarryBackground";
 import Sidebar from "@/components/Sidebar";
 import MobileNav from "@/components/MobileNav";
 import HeroSection from "@/components/HeroSection";
@@ -14,6 +18,9 @@ import CustomCursor from "@/components/CustomCursor";
 
 import { initHeroToAboutTransition } from "@/animations/heroToAbout";
 import { initMissionToPricingTransition } from "@/animations/missionToPricing";
+import { initPricingToTestimonialsTransition } from "@/animations/sectionTransitions";
+import { TestimonialsRevealWrapper } from "@/components/transitions/TestimonialsRevealWrapper";
+import { FadeSlideWrapper } from "@/components/transitions/FadeSlideWrapper";
 
 const Index = () => {
   const [isDark, setIsDark] = useState(true);
@@ -30,6 +37,34 @@ const Index = () => {
   useEffect(() => {
     initHeroToAboutTransition();
     initMissionToPricingTransition();
+    initPricingToTestimonialsTransition();
+  }, []);
+
+  useEffect(() => {
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const ticker = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(ticker);
+
+    // Disable lag smoothing for Lenis
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(ticker);
+    };
   }, []);
 
   const handleToggleTheme = () => {
@@ -57,8 +92,17 @@ const Index = () => {
       {/* Custom cursor */}
       <CustomCursor />
 
+      {/* Static Starry Background */}
+      <StarryBackground />
+
       {/* Galaxy background with purple dots and water ripples */}
       <GalaxyBackground isDark={isDark} />
+
+      {/* Global overlay for transitions */}
+      <div
+        id="transition-overlay"
+        className="fixed inset-0 z-[50] pointer-events-none opacity-0 bg-gradient-to-b from-purple-700/40 via-purple-500/20 to-black/60 backdrop-blur-2xl"
+      ></div>
 
       {/* Glassmorphic cylindrical sidebar */}
       <Sidebar isDark={isDark} onToggleTheme={handleToggleTheme} />
@@ -71,14 +115,23 @@ const Index = () => {
           <AboutSection />
         </div>
 
-        <div id="mission-pricing-wrapper" className="relative">
+        <div id="mission-pricing-wrapper" className="relative z-30 min-h-screen">
           <MissionSection />
           <PricingSection />
+          <div id="testimonials-container" className="absolute inset-0 z-0 opacity-0 pointer-events-none">
+            <TestimonialsRevealWrapper>
+              <TestimonialsSection isDark={isDark} />
+            </TestimonialsRevealWrapper>
+          </div>
         </div>
 
-        <TestimonialsSection isDark={isDark} />
-        <ContactSection />
-        <Footer />
+        <FadeSlideWrapper className="z-10 relative">
+          <ContactSection />
+        </FadeSlideWrapper>
+
+        <FadeSlideWrapper>
+          <Footer />
+        </FadeSlideWrapper>
       </main>
     </div>
   );
