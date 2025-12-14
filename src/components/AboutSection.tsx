@@ -1,269 +1,120 @@
 import { Palette, Rocket, Shield, Globe, BarChart, Headphones } from "lucide-react";
-import { useState } from "react";
 import LionLogo from "./LionLogo";
+import { useRef } from "react";
+import gsap from "gsap";
 
 const features = [
-  {
-    icon: Palette,
-    title: "Stunning Design",
-    description: "Beautiful, intuitive interfaces that captivate users and elevate your brand presence.",
-  },
-  {
-    icon: Shield,
-    title: "Security Built-In",
-    description: "Enterprise-grade security measures to protect your data and your users.",
-  },
-  {
-    icon: Rocket,
-    title: "Performance First",
-    description: "Lightning-fast load times and smooth interactions for the best user experience.",
-  },
-  {
-    icon: Globe,
-    title: "Global Reach",
-    description: "Scale your business worldwide with infrastructure designed for global performance.",
-  },
-  {
-    icon: BarChart,
-    title: "Data Driven",
-    description: "Make informed decisions with integrated analytics and actionable insights.",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Support",
-    description: "Dedicated support team ready to assist you whenever you need help.",
-  },
+  { icon: Palette, title: "Stunning Design", description: "Intuitive interfaces that elevate your brand." },
+  { icon: Shield, title: "Security Built-In", description: "Enterprise-grade security protocols." },
+  { icon: Rocket, title: "Performance", description: "Lightning-fast load times and interactions." },
+  { icon: Globe, title: "Global Reach", description: "Infrastructure designed for worldwide scale." },
+  { icon: BarChart, title: "Data Driven", description: "Actionable insights with integrated analytics." },
+  { icon: Headphones, title: "24/7 Support", description: "Dedicated team ready to assist anytime." },
 ];
 
 const AboutSection = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [visibleIndices, setVisibleIndices] = useState([0, 1, 2]);
-  const [poolIndices, setPoolIndices] = useState([3, 4, 5]);
-  const [fadingIndices, setFadingIndices] = useState<Set<number>>(new Set());
-
-  const handleCardHover = (slotIndex: number) => {
-    if (fadingIndices.has(slotIndex)) return;
-
-    // Start fading out
-    setFadingIndices(prev => new Set(prev).add(slotIndex));
-
-    // Wait for fade out, then swap
-    setTimeout(() => {
-      setVisibleIndices(prev => {
-        const newVisible = [...prev];
-        const oldFeatureIndex = newVisible[slotIndex];
-        const newFeatureIndex = poolIndices[0];
-
-        newVisible[slotIndex] = newFeatureIndex;
-
-        setPoolIndices(prevPool => {
-          const newPool = [...prevPool.slice(1), oldFeatureIndex];
-          return newPool;
-        });
-
-        return newVisible;
-      });
-
-      // Fade back in
-      setFadingIndices(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(slotIndex);
-        return newSet;
-      });
-    }, 300);
-  };
+  // We will control the 3D scroll via Index.tsx GSAP context or internal useEffect if self-contained
+  // For the prompt's request "when user scrolls ... cards scroll vertically nd in 3D manner"
+  // We'll set up the structure here.
 
   return (
-    <section id="about" className="py-8 md:py-12 relative">
-      <div className="container mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-6 md:mb-8">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              About Us
-            </span>
+    <section id="about" className="relative w-full py-24 z-20">
+      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+        {/* Left Column: Huge Title & Logo */}
+        <div className="space-y-12" data-aos="fade-right">
+          {/* Diagonal Layout for Heading */}
+          <h2 className="text-[11vw] font-display font-black tracking-tighter text-foreground relative z-10 drop-shadow-sm flex flex-col space-y-2">
+            <span className="leading-none opacity-50">WHO</span>
+            <span className="text-primary opacity-90 leading-none self-end pr-[10vw]">WE</span>
+            <span className="text-primary opacity-50 leading-none self-end pr-[10vw]">ARE</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're a team of passionate developers and designers dedicated to crafting exceptional digital experiences.
-          </p>
+
+          {/* Integrated Logo Element - Magnetic & Full Fill */}
+          <div
+            className="relative w-[300px] h-[300px] flex items-center justify-center -ml-10 md:justify-start md:pl-20 cursor-pointer"
+            onMouseMove={(e) => {
+              const el = e.currentTarget;
+              const rect = el.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              const logo = el.querySelector('.magnetic-logo');
+              if (logo) gsap.to(logo, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: "power2.out" });
+            }}
+            onMouseLeave={(e) => {
+              const logo = e.currentTarget.querySelector('.magnetic-logo');
+              if (logo) gsap.to(logo, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+            }}
+          >
+            {/* Decorative Glow */}
+            <div className="absolute w-64 h-64 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="magnetic-logo relative w-64 h-64 md:w-80 md:h-80 rounded-full border border-primary/20 bg-background/5 overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-[0_0_80px_hsl(var(--primary))]">
+              {/* Logo 1: For Dark Mode (Green BG) - Default */}
+              <img
+                src="/mowglai-galaxy-landing/logo1.png"
+                alt="Mowglai Logo"
+                className="w-full h-full object-cover hidden dark:block transition-all duration-700 hover:scale-110 hover:opacity-80"
+              />
+
+              {/* Logo 2: For Light Mode (Peach BG) */}
+              <img
+                src="/mowglai-galaxy-landing/logo2.png"
+                alt="Mowglai Logo"
+                className="w-full h-full object-cover block dark:hidden transition-all duration-700 hover:scale-110 hover:opacity-80"
+              />
+            </div>
+          </div>
+
+          <div className="max-w-md ml-auto md:ml-12">
+            <p className="text-2xl font-light text-foreground/80 leading-relaxed">
+              Architects of the digital future. We blend art and engineering to create immersive web experiences.
+            </p>
+          </div>
         </div>
 
-        {/* Layout: Large Lion logo on left, cards on right */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 items-center lg:items-start">
-          {/* Lion Logo - larger, shifted more to the right */}
-          {/* Lion Logo slot on the left – hero lion will move here */}
-          <div className="w-full lg:w-1/2 lg:flex-shrink-0">
-            <div className="flex justify-center lg:justify-end lg:pr-8">
-              <div
-                className="opacity-0 animate-slide-in-left w-full max-w-md"
-                style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
-              >
-                <div className="transition-transform duration-700 perspective-1000 transform-style-3d">
-                  <div className="about-lion-slot w-full aspect-square" />
+        {/* Right Column: Double Column Scroll Cards */}
+        <div
+          id="about-cards-container"
+          className="relative w-full h-[800px] overflow-hidden -mt-10 masking-gradient"
+        >
+          {/* Gradient Masks */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-background via-background/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background via-background/80 to-transparent z-20 pointer-events-none" />
+
+          {/* Double Column Grid Stage */}
+          <div
+            id="about-cards-stage"
+            className="grid grid-cols-2 gap-6 animate-marquee-vertical hover:[animation-play-state:paused] py-10"
+          >
+            {[...features, ...features, ...features, ...features].map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <div
+                  key={i}
+                  className="group/card about-card relative w-full aspect-square bg-primary/5 border border-primary/20 hover:bg-card hover:border-primary transition-all duration-500 ease-out rounded-[2rem] flex flex-col items-center justify-center hover:justify-start p-6 cursor-pointer overflow-hidden shadow-lg hover:shadow-[0_0_30px_rgba(252,220,177,0.15)]"
+                >
+                  {/* Icon & Title Container */}
+                  <div className="flex flex-col items-center gap-4 group-hover/card:flex-row group-hover/card:w-full transition-all duration-500">
+                    <div className="p-4 rounded-full bg-primary/10 text-primary group-hover/card:bg-primary group-hover/card:text-background transition-colors duration-300 shrink-0">
+                      <Icon size={32} strokeWidth={1.5} className="group-hover/card:scale-90 transition-transform" />
+                    </div>
+                    <h3 className="text-lg font-display font-bold text-foreground text-center group-hover/card:text-left transition-all duration-300">
+                      {feature.title}
+                    </h3>
+                  </div>
+
+                  {/* Description - Hidden by default */}
+                  <div className="h-0 opacity-0 group-hover/card:h-auto group-hover/card:opacity-100 transition-all duration-500 delay-100 overflow-hidden text-center group-hover/card:text-left mt-0 group-hover/card:mt-4">
+                    <p className="text-sm text-muted-foreground font-body leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Cards layout */}
-          <div className="w-full lg:w-1/2 about-right-content">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Slot 0 - Top Right (Wide) */}
-              <div className="col-span-1 sm:col-span-2">
-                {(() => {
-                  const slotIndex = 0;
-                  const featureIndex = visibleIndices[slotIndex];
-                  const feature = features[featureIndex];
-                  const Icon = feature.icon;
-                  const isHovered = hoveredIndex === slotIndex;
-                  const isFading = fadingIndices.has(slotIndex);
-
-                  return (
-                    <div
-                      className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
-                      onMouseEnter={() => {
-                        setHoveredIndex(slotIndex);
-                        handleCardHover(slotIndex);
-                      }}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      <div
-                        className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
-                        style={{
-                          transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-                        }}
-                      >
-                        <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
-                      </div>
-                      <h3
-                        className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
-                        style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
-                      >
-                        {feature.title}
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors">
-                        {feature.description}
-                      </p>
-
-                      {/* Glow effect on hover */}
-                      <div
-                        className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
-                        style={{ opacity: isHovered ? 1 : 0 }}
-                      />
-
-                      {/* Animated border on hover */}
-                      <div
-                        className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
-                      />
-                    </div>
-                  );
-                })()}
-              </div>
-
-              {/* Slot 1 - Bottom Left */}
-              {(() => {
-                const slotIndex = 1;
-                const featureIndex = visibleIndices[slotIndex];
-                const feature = features[featureIndex];
-                const Icon = feature.icon;
-                const isHovered = hoveredIndex === slotIndex;
-                const isFading = fadingIndices.has(slotIndex);
-
-                return (
-                  <div
-                    className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
-                    onMouseEnter={() => {
-                      setHoveredIndex(slotIndex);
-                      handleCardHover(slotIndex);
-                    }}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                    <div
-                      className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
-                      style={{
-                        transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-                      }}
-                    >
-                      <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
-                    </div>
-                    <h3
-                      className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
-                      style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
-                    >
-                      {feature.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors">
-                      {feature.description}
-                    </p>
-
-                    {/* Glow effect on hover */}
-                    <div
-                      className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
-                      style={{ opacity: isHovered ? 1 : 0 }}
-                    />
-
-                    {/* Animated border on hover */}
-                    <div
-                      className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
-                    />
-                  </div>
-                );
-              })()}
-
-              {/* Slot 2 - Bottom Right */}
-              {(() => {
-                const slotIndex = 2;
-                const featureIndex = visibleIndices[slotIndex];
-                const feature = features[featureIndex];
-                const Icon = feature.icon;
-                const isHovered = hoveredIndex === slotIndex;
-                const isFading = fadingIndices.has(slotIndex);
-
-                return (
-                  <div
-                    className={`glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${isFading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} hover:scale-105`}
-                    onMouseEnter={() => {
-                      setHoveredIndex(slotIndex);
-                      handleCardHover(slotIndex);
-                    }}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                    <div
-                      className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-primary/30"
-                      style={{
-                        transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
-                      }}
-                    >
-                      <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
-                    </div>
-                    <h3
-                      className="text-xl font-display font-semibold mb-3 transition-colors duration-300"
-                      style={{ color: isHovered ? 'hsl(var(--primary))' : 'hsl(var(--foreground))' }}
-                    >
-                      {feature.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors">
-                      {feature.description}
-                    </p>
-
-                    {/* Glow effect on hover */}
-                    <div
-                      className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 transition-opacity duration-500 rounded-2xl"
-                      style={{ opacity: isHovered ? 1 : 0 }}
-                    />
-
-                    {/* Animated border on hover */}
-                    <div
-                      className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 pointer-events-none"
-                    />
-                  </div>
-                );
-              })()}
-            </div>
+              );
+            })}
           </div>
         </div>
-
-
       </div>
     </section>
   );

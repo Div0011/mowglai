@@ -85,9 +85,9 @@ const CustomCursor = () => {
         }}
       >
         <div
-          className="w-5 h-5 rounded-full bg-background border-2 border-primary"
+          className="w-5 h-5 rounded-full bg-primary border-2 border-accent"
           style={{
-            boxShadow: "0 0 15px hsl(270 80% 60% / 0.5), 0 0 30px hsl(270 80% 60% / 0.3)",
+            boxShadow: "0 0 15px hsl(var(--accent) / 0.5), 0 0 30px hsl(var(--accent) / 0.3)",
           }}
         />
       </div>
@@ -101,9 +101,9 @@ const CustomCursor = () => {
         }}
       >
         <div
-          className="w-10 h-10 rounded-full bg-primary/20 blur-md"
+          className="w-10 h-10 rounded-full bg-accent/20 blur-md"
           style={{
-            boxShadow: "0 0 30px hsl(270 80% 60% / 0.4)",
+            boxShadow: "0 0 30px hsl(var(--accent) / 0.4)",
           }}
         />
       </div>
@@ -120,8 +120,8 @@ const CustomCursor = () => {
             height: ripple.radius * 2,
             borderRadius: '50%',
             opacity: ripple.opacity,
-            border: '1.5px solid hsl(270 80% 60%)',
-            boxShadow: `0 0 ${ripple.radius}px hsl(270 80% 60% / ${ripple.opacity * 0.5})`,
+            border: '1.5px solid hsl(var(--accent))',
+            boxShadow: `0 0 ${ripple.radius}px hsl(var(--accent) / ${ripple.opacity * 0.5})`,
             backgroundColor: 'transparent',
           }}
         />

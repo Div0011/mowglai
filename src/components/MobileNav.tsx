@@ -104,10 +104,10 @@ const MobileNav = () => {
             <div
                 className="mx-4 mb-4 rounded-2xl p-2 flex justify-between items-center"
                 style={{
-                    background: 'rgba(10, 10, 10, 0.8)',
+                    background: 'hsl(var(--background) / 0.8)',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)',
+                    border: '1px solid hsl(var(--border) / 0.2)',
+                    boxShadow: '0 10px 30px -10px hsl(var(--primary) / 0.1)',
                 }}
             >
                 {navItems.map((item) => {

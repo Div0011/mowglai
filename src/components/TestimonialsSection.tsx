@@ -1,42 +1,82 @@
-import { Star, Quote } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+"use client";
 
-const testimonials = [
+import { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface Testimonial {
+    id: number;
+    name: string;
+    role: string;
+    company: string;
+    avatar: string;
+    rating: number;
+    text: string;
+    accent: "gold" | "green";
+}
+
+const testimonials: Testimonial[] = [
     {
+        id: 1,
         name: "Sarah Johnson",
-        role: "CEO, TechStart Inc.",
-        content: "Mowglai transformed our online presence completely. Their attention to detail and creative vision exceeded all expectations. Highly recommended!",
+        role: "CEO",
+        company: "TechStart Inc.",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "Mowglai transformed our online presence completely. Their attention to detail and creative vision exceeded all expectations. Highly recommended!",
+        accent: "gold",
     },
     {
+        id: 2,
         name: "Michael Chen",
-        role: "Founder, NexGen Solutions",
-        content: "The team delivered a stunning e-commerce platform that boosted our sales by 200%. Their technical expertise is truly world-class.",
+        role: "Founder",
+        company: "NexGen Solutions",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "The team delivered a stunning e-commerce platform that boosted our sales by 200%. Their technical expertise is truly world-class.",
+        accent: "green",
     },
     {
+        id: 3,
         name: "Emily Rodriguez",
-        role: "Marketing Director, Bloom Agency",
-        content: "Working with Mowglai was a pleasure from start to finish. They understood our vision and brought it to life beautifully.",
+        role: "Marketing Director",
+        company: "Bloom Agency",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "Working with Mowglai was a pleasure from start to finish. They understood our vision and brought it to life beautifully.",
+        accent: "gold",
     },
     {
+        id: 4,
         name: "David Thompson",
-        role: "CTO, Innovate Labs",
-        content: "Exceptional work! The web application they built for us is fast, secure, and beautifully designed. Our users love it!",
+        role: "CTO",
+        company: "Innovate Labs",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "Exceptional work! The web application they built for us is fast, secure, and beautifully designed. Our users love it!",
+        accent: "green",
     },
     {
+        id: 5,
         name: "Lisa Anderson",
-        role: "Founder, Creative Studio",
-        content: "Mowglai's team is professional, creative, and delivers on time. They turned our ideas into a stunning reality.",
+        role: "Founder",
+        company: "Creative Studio",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "Mowglai's team is professional, creative, and delivers on time. They turned our ideas into a stunning reality.",
+        accent: "gold",
     },
     {
+        id: 6,
         name: "James Wilson",
-        role: "CEO, Digital Ventures",
-        content: "Best investment we made. The website they created increased our conversion rate by 150%. Outstanding results!",
+        role: "CEO",
+        company: "Digital Ventures",
+        avatar: "/placeholder.svg?height=100&width=100",
         rating: 5,
+        text: "Best investment we made. The website they created increased our conversion rate by 150%. Outstanding results!",
+        accent: "green",
     },
 ];
 
@@ -44,157 +84,107 @@ interface TestimonialsSectionProps {
     isDark?: boolean;
 }
 
-const TestimonialsSection = ({ isDark = true }: TestimonialsSectionProps) => {
-    const sectionRef = useRef<HTMLElement>(null);
-    const testimonialRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const [visibleTestimonials, setVisibleTestimonials] = useState<number[]>([]);
+export default function TestimonialsSection({ isDark = true }: TestimonialsSectionProps) {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const nextTestimonial = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+        setTimeout(() => setIsAnimating(false), 500);
+    };
+
+    const prevTestimonial = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+        setTimeout(() => setIsAnimating(false), 500);
+    };
 
     useEffect(() => {
-        const observerOptions = {
-            root: null,
-            rootMargin: '-100px',
-            threshold: 0.3,
+        const interval = setInterval(() => {
+            // Auto-play removed or customized? User asked for layout. Auto-play is fine.
+            nextTestimonial();
+        }, 8000);
+        return () => clearInterval(interval);
+    }, [isAnimating]);
+
+    const getAccentColor = (accent: Testimonial["accent"]) => {
+        const colors = {
+            gold: "bg-[hsl(var(--accent))/0.1] border-[hsl(var(--accent))/0.3] text-[hsl(var(--accent))]",
+            green: "bg-[hsl(var(--primary))/0.1] border-[hsl(var(--primary))/0.3] text-[hsl(var(--primary))]",
         };
+        return colors[accent];
+    };
 
-        const observers = testimonialRefs.current.map((ref, index) => {
-            if (!ref) return null;
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            setVisibleTestimonials((prev) => {
-                                if (!prev.includes(index)) {
-                                    return [...prev, index];
-                                }
-                                return prev;
-                            });
-                        }, index * 200);
-                    }
-                });
-            }, observerOptions);
-
-            observer.observe(ref);
-            return observer;
-        });
-
-        return () => {
-            observers.forEach((observer) => observer?.disconnect());
-        };
-    }, []);
+    const activeTestimonial = testimonials[activeIndex];
 
     return (
-        <section ref={sectionRef} id="testimonials" className="py-16 relative overflow-hidden">
+        <section id="testimonials" className="w-full relative py-32 overflow-hidden">
             <div className="container mx-auto px-6">
-                {/* Section header */}
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-                        <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                            Client Testimonials
-                        </span>
-                    </h2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Don't just take our word for it. Here's what our clients have to say.
-                    </p>
-                </div>
+                {/* Massive Header */}
+                {/* Massive Header */}
+                <h2 className="text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground mb-24 relative z-10">
+                    VOICES <br />
+                    <span className="pl-[25vw] md:pl-[40vw] text-foreground/20 block -mt-4 md:-mt-10">OF</span>
+                    <span className="pl-[25vw] md:pl-[55vw] text-[10vw] font-display font-black tracking-tighter text-foreground mb-24 relative z-10">
+                        TRUST</span>
+                </h2>
 
-                {/* Testimonials grid - Flip Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    {testimonials.map((testimonial, i) => {
-                        const isVisible = visibleTestimonials.includes(i);
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 relative z-10">
+                    {/* Testimonial Quote - Huge */}
+                    <div className="lg:col-span-8 flex flex-col justify-center">
+                        <div className="relative">
+                            <Quote size={180} className="absolute -top-20 -left-10 text-primary/10" />
+                            <p className={cn(
+                                "text-2xl md:text-3xl lg:text-4xl font-display font-normal leading-loose text-foreground transition-all duration-500",
+                                isAnimating ? "opacity-0 translate-y-8" : "opacity-100 translate-y-0"
+                            )}>
+                                "{activeTestimonial.text}"
+                            </p>
+                        </div>
 
-                        return (
-                            <div
-                                key={i}
-                                ref={(el) => {
-                                    testimonialRefs.current[i] = el;
-                                }}
-                                className="group h-[320px] perspective-1000 cursor-pointer"
-                                style={{
-                                    opacity: isVisible ? 1 : 0,
-                                    transform: isVisible ? 'translateY(0)' : 'translateY(50px)',
-                                    transition: `opacity 0.6s ease-out ${i * 0.2}s, transform 0.6s ease-out ${i * 0.2}s`,
-                                }}
-                            >
-                                <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180">
-
-                                    {/* FRONT FACE: Large Dark Purple Lion Logo */}
-                                    <div className="absolute inset-0 w-full h-full glass-card rounded-3xl p-8 backface-hidden flex items-center justify-center">
-                                        <div className="w-48 h-48 relative">
-                                            <img
-                                                src={`${import.meta.env.BASE_URL}lionlogo.png`}
-                                                alt="Mowglai Lion"
-                                                className="w-full h-full object-contain"
-                                                style={{
-                                                    filter: "brightness(0) saturate(100%) invert(18%) sepia(88%) saturate(3000%) hue-rotate(265deg) brightness(90%) contrast(110%) drop-shadow(0 0 20px rgba(139, 92, 246, 0.3))", // Dark purple filter + drop shadow
-                                                }}
-                                            />
-                                        </div>
-                                        {/* Subtle hint to hover */}
-                                        <div className="absolute bottom-6 text-muted-foreground/50 text-sm font-medium animate-pulse">
-                                            Hover to reveal
-                                        </div>
-                                    </div>
-
-                                    {/* BACK FACE: Testimonial Content (Flipped) */}
-                                    <div className="absolute inset-0 w-full h-full glass-card rounded-3xl p-8 backface-hidden rotate-y-180 overflow-hidden">
-                                        {/* Logo watermark in background */}
-                                        <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <img
-                                                    src={`${import.meta.env.BASE_URL}lionlogo.png`}
-                                                    alt=""
-                                                    className="w-full h-full object-contain"
-                                                    style={{
-                                                        filter: isDark
-                                                            ? "brightness(0) saturate(100%) invert(67%) sepia(35%) saturate(496%) hue-rotate(225deg) brightness(95%) contrast(89%) opacity(0.3)"
-                                                            : "brightness(0.3) blur(1px)",
-                                                        maxWidth: "100%",
-                                                        maxHeight: "100%",
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* Quote icon */}
-                                        <div className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center opacity-80 z-10">
-                                            <Quote className="w-5 h-5 text-primary-foreground" />
-                                        </div>
-
-                                        {/* Rating */}
-                                        <div className="flex gap-1 mb-6 relative z-10">
-                                            {[...Array(testimonial.rating)].map((_, j) => (
-                                                <Star key={j} className="w-5 h-5 fill-primary text-primary" />
-                                            ))}
-                                        </div>
-
-                                        {/* Content */}
-                                        <p className="text-muted-foreground leading-relaxed mb-8 relative z-10">
-                                            "{testimonial.content}"
-                                        </p>
-
-                                        {/* Author */}
-                                        <div className="absolute bottom-8 left-8 flex items-center gap-4 relative z-10">
-                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center">
-                                                <span className="text-lg font-display font-bold text-primary">
-                                                    {testimonial.name.charAt(0)}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-                                                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                        <div className={cn(
+                            "mt-12 flex items-center gap-6 transition-all duration-500 delay-100",
+                            isAnimating ? "opacity-0" : "opacity-100"
+                        )}>
+                            <Avatar className="h-20 w-20 border-2 border-primary">
+                                <AvatarImage src={activeTestimonial.avatar} alt={activeTestimonial.name} />
+                                <AvatarFallback className="bg-primary text-background text-2xl font-bold">
+                                    {activeTestimonial.name.charAt(0)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <p className="text-2xl font-display font-bold text-foreground">{activeTestimonial.name}</p>
+                                <p className="text-lg text-primary">{activeTestimonial.role}, {activeTestimonial.company}</p>
                             </div>
-                        );
-                    })}
+                        </div>
+                    </div>
+
+                    {/* Navigation - Minimal */}
+                    <div className="lg:col-span-4 flex flex-col justify-end items-start lg:items-end">
+                        <div className="flex gap-4">
+                            <button
+                                onClick={prevTestimonial}
+                                className="w-16 h-16 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-foreground hover:text-background transition-all"
+                            >
+                                <ChevronLeft size={32} />
+                            </button>
+                            <button
+                                onClick={nextTestimonial}
+                                className="w-16 h-16 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-foreground hover:text-background transition-all"
+                            >
+                                <ChevronRight size={32} />
+                            </button>
+                        </div>
+
+                        <div className="mt-8 text-xl font-display font-bold text-foreground/50">
+                            {activeIndex + 1} / {testimonials.length}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     );
-};
-
-export default TestimonialsSection;
+}

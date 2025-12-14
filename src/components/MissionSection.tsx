@@ -42,29 +42,34 @@ const MissionSection = () => {
     }, []);
 
     return (
-        <section id="mission" className="py-20 md:py-32 relative flex flex-col items-center justify-center space-y-24 bg-background">
-            {/* Text changing effect */}
-            <div className="container mx-auto px-6 text-center">
-                <h2
-                    ref={textRef}
-                    className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-tight bg-gradient-to-r from-muted-foreground via-primary to-muted-foreground bg-[size:200%_auto] bg-clip-text text-transparent select-none"
-                    style={{ backgroundPosition: "0% center" }}
-                >
-                    CRAFTING DIGITAL <br /> EXCELLENCE
-                </h2>
-            </div>
+        <section id="mission" className="relative w-full py-32 z-20 overflow-hidden">
+            <div className="container mx-auto px-6">
 
-            {/* Mission Card */}
-            <div ref={missionRef} className="container mx-auto px-6 flex justify-center">
-                <div className="glass-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden max-w-4xl w-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
-                    <div className="relative z-10">
-                        <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 text-foreground">
-                            Our Mission
+                {/* 1. Huge Heading - Left Aligned */}
+                <div ref={textRef} className="mb-24" data-aos="fade-up">
+                    <h2 className="text-[12vw] font-display font-black tracking-tighter text-foreground opacity-90 flex flex-col">
+                        <h2 className="text-[12vw] leading-[0.6] font-display font-black tracking-tighter text-foreground opacity-80 select-none absolute left-0 -top-20 z-0 whitespace-nowrap">
+                            DIGITAL
+                        </h2>
+                        <span className="leading-[0.6] -mt-[12vw] md:-mt-[-12vw]">EXCELLENCE</span>  {/* place them one over another */}
+                    </h2>
+                </div>
+
+                {/* 2. Content Grid */}
+                <div ref={missionRef} className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                    <div className="space-y-8" data-aos="fade-right" data-aos-delay="200">
+                        <h3 className="text-4xl md:text-6xl font-display font-bold text-foreground">
+                            OUR MISSION
                         </h3>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                            To empower businesses with cutting-edge web solutions that drive growth, enhance user engagement,
-                            and establish a powerful digital presence. We believe great software should be beautiful, fast, and accessible to everyone.
+                        <div className="h-px w-full bg-primary/30" />
+                    </div>
+
+                    <div className="space-y-8" data-aos="fade-left" data-aos-delay="400">
+                        <p className="text-2xl md:text-3xl font-light leading-snug text-foreground/80">
+                            To empower businesses with cutting-edge web solutions that drive growth, enhance user engagement, and establish a powerful digital presence.
+                        </p>
+                        <p className="text-xl text-muted-foreground">
+                            We believe great software should be beautiful, fast, and accessible to everyone. We don't just build websites; we craft digital legacies that stand the test of time and technology.
                         </p>
                     </div>
                 </div>

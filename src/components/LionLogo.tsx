@@ -16,7 +16,7 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center",
+        "relative flex items-center justify-center rounded-full overflow-hidden",
         sizeClasses[size],
         className
       )}
@@ -25,7 +25,7 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
       <div
         className="absolute inset-0 rounded-full opacity-30 blur-3xl"
         style={{
-          background: "radial-gradient(circle, hsl(270 80% 60% / 0.4) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, transparent 70%)",
         }}
       />
 
@@ -33,14 +33,14 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
       <div
         className="absolute inset-0 rounded-full opacity-20 animate-pulse-glow"
         style={{
-          background: "radial-gradient(circle at 30% 30%, hsl(270 80% 60% / 0.5) 0%, transparent 50%)",
+          background: "radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.5) 0%, transparent 50%)",
           filter: "blur(40px)",
         }}
       />
       <div
         className="absolute inset-0 rounded-full opacity-15"
         style={{
-          background: "radial-gradient(circle at 70% 70%, hsl(280 100% 70% / 0.4) 0%, transparent 50%)",
+          background: "radial-gradient(circle at 70% 70%, hsl(var(--accent) / 0.4) 0%, transparent 50%)",
           filter: "blur(30px)",
         }}
       />
@@ -48,31 +48,13 @@ const LionLogo = ({ className, size = "xl" }: LionLogoProps) => {
       {/* Main logo image with fine purple border light */}
       <div className="relative z-10 w-full h-full">
         <img
-          src={`${import.meta.env.BASE_URL}lionlogo.png`}
-          alt="Mowglai Lion Logo"
+          src={`${import.meta.env.BASE_URL}assets/logo.png`}
+          alt="Mowglai Logo"
           className="w-full h-full object-contain relative z-10"
-          style={{
-            filter: `
-              drop-shadow(0 0 2px hsl(270 80% 60% / 0.4)) 
-              drop-shadow(0 0 4px hsl(270 80% 60% / 0.3)) 
-              drop-shadow(0 0 6px hsl(270 80% 60% / 0.2))
-            `,
-            mixBlendMode: "screen",
-          }}
         />
 
         {/* Very fine purple light along image border */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `
-              radial-gradient(ellipse at 30% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-              radial-gradient(ellipse at 70% 70%, rgba(168, 139, 250, 0.1) 0%, transparent 40%)
-            `,
-            mixBlendMode: "overlay",
-            filter: "blur(8px)",
-          }}
-        />
+
       </div>
 
       {/* Ambient light particles */}

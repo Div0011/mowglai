@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Users, Mail, DollarSign, MessageSquare, ChevronRight, Sun, Moon, Maximize, Minimize, Target } from "lucide-react";
+import { Home, Users, Mail, DollarSign, MessageSquare, ChevronRight, Sun, Moon } from "lucide-react";
 import LionLogo from "./LionLogo";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
@@ -17,8 +17,6 @@ interface NavItem {
 const navItems: NavItem[] = [
     { icon: Home, label: "Home", href: "#home" },
     { icon: Users, label: "About Us", href: "#about" },
-    { icon: Target, label: "Mission", href: "#mission" }, // Target might be missing if I removed it from imports above? No, I should keep Target if used in NavItem, but User said 'change the icon for immersive mode'.
-    // Wait, NavItems uses Target for Mission. I should re-add Target to imports.
     { icon: DollarSign, label: "Pricing", href: "#pricing" },
     { icon: MessageSquare, label: "Testimonials", href: "#testimonials" },
     { icon: Mail, label: "Contact", href: "#contact" },
@@ -33,21 +31,6 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
     const [activeItem, setActiveItem] = useState("Home");
     const [isExpanded, setIsExpanded] = useState(false);
     const [trailPosition, setTrailPosition] = useState(0);
-    const [showImmersiveHint, setShowImmersiveHint] = useState(true);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-
-    useEffect(() => {
-        const handleFullscreenChange = () => {
-            setIsFullscreen(!!document.fullscreenElement);
-        };
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
-        return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    }, []);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setShowImmersiveHint(false), 3000);
-        return () => clearTimeout(timer);
-    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -70,9 +53,7 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
 
                 if (scrollY >= start && scrollY <= end) {
                     const progress = (scrollY - start) / (end - start);
-                    if (progress < 0.35) {
-                        setActiveItem("Mission");
-                    } else if (progress < 0.75) {
+                    if (progress < 0.5) {
                         setActiveItem("Pricing");
                     } else {
                         setActiveItem("Testimonials");
@@ -85,7 +66,6 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
             const standardSections = [
                 { id: 'home', label: 'Home' },
                 { id: 'contact', label: 'Contact' }
-                // About is tricky because of its own pin, let's treat it as standard for now or explicitly check
             ];
 
             // Explicit check for Hero/About if not in main pin
@@ -134,26 +114,20 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
             } else {
                 gsap.to(window, { duration: 1, scrollTo: { y: href, offsetY: 0, autoKill: false } });
             }
-        } else if (href === "#mission") {
-            const st = ScrollTrigger.getAll().find(st => (st.trigger as HTMLElement)?.id === "mission-pricing-wrapper");
-            if (st) {
-                gsap.to(window, { duration: 1, scrollTo: st.start });
-            } else {
-                gsap.to(window, { duration: 1, scrollTo: { y: href, offsetY: 0, autoKill: false } });
-            }
         } else if (href === "#pricing") {
             const st = ScrollTrigger.getAll().find(st => (st.trigger as HTMLElement)?.id === "mission-pricing-wrapper");
             if (st) {
-                // Determine duration of pin and scroll to middle phase
-                const midPoint = st.start + (st.end - st.start) * 0.45;
-                gsap.to(window, { duration: 1, scrollTo: midPoint });
+                // Scroll to start of the pinned section for Pricing
+                gsap.to(window, { duration: 1, scrollTo: st.start });
             } else {
                 gsap.to(window, { duration: 1, scrollTo: { y: href, offsetY: 0, autoKill: false } });
             }
         } else if (href === "#testimonials") {
             const st = ScrollTrigger.getAll().find(st => (st.trigger as HTMLElement)?.id === "mission-pricing-wrapper");
             if (st) {
-                gsap.to(window, { duration: 1, scrollTo: st.end }); // End of pin is where Testimonials are stable
+                // Scroll to middle-end of pin for Testimonials
+                const testimonialPoint = st.start + (st.end - st.start) * 0.6;
+                gsap.to(window, { duration: 1, scrollTo: testimonialPoint });
             } else {
                 gsap.to(window, { duration: 1, scrollTo: { y: href, offsetY: 0, autoKill: false } });
             }
@@ -299,42 +273,6 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
                     <Moon className="w-5 h-5 group-hover:-rotate-12 transition-transform duration-300 relative z-10 text-primary" />
                 )}
             </button>
-
-            {/* Immersive Mode Toggle */}
-            <div className="relative mt-4 z-20">
-                {showImmersiveHint && (
-                    <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 w-48 p-3 rounded-lg bg-primary/20 backdrop-blur-md border border-primary/40 text-xs text-primary-foreground animate-in fade-in slide-in-from-left-4 duration-500">
-                        <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[8px] border-r-primary/40"></div>
-                        Enter Immersive Mode for better experience
-                    </div>
-                )}
-                <button
-                    onClick={() => {
-                        if (!document.fullscreenElement) {
-                            document.documentElement.requestFullscreen().catch(() => { });
-                        } else {
-                            document.exitFullscreen().catch(() => { });
-                        }
-                    }}
-                    className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110",
-                        showImmersiveHint ? "animate-pulse" : ""
-                    )}
-                    style={{
-                        background: 'linear-gradient(135deg, hsl(270 80% 60%), hsl(280 100% 70%))',
-                        boxShadow: '0 0 15px hsl(270 80% 60% / 0.5)',
-                    }}
-                >
-                    {isFullscreen ? (
-                        <Minimize className="w-5 h-5 text-white" />
-                    ) : (
-                        <Maximize className="w-5 h-5 text-white" />
-                    )}
-                </button>
-            </div>
-
-
-            {/* Bottom decorative element deleted as it is replaced by immersive button area */}
         </aside>
     );
 };

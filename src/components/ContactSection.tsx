@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { SnowParticles } from "./SnowParticles";
+
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -28,137 +28,71 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-16 relative overflow-hidden">
-      <SnowParticles parentRef={sectionRef} targetSelector=".js-snow-target" />
+    <section id="contact" ref={sectionRef} className="relative w-full py-32 z-20 overflow-hidden">
+      <div className="container mx-auto px-6">
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="js-snow-target inline-block text-4xl md:text-5xl font-display font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Get In Touch
-            </span>
+        {/* Huge Header */}
+        <div className="mb-24 relative">
+          <h2 className="text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground select-none relative z-10">
+            GET IN <br />
+            <span className="text-primary ml-[38vw]">TOUCH</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to start your project? Let's create something amazing together.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact info */}
-          <div className="space-y-8">
-            <div className="js-snow-target glass-card rounded-2xl p-8">
-              <h3 className="text-2xl font-display font-semibold mb-6 text-foreground">
-                Contact Information
-              </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+          {/* Contact Info - Minimal & Large */}
+          <div className="space-y-12">
+            <p className="text-3xl font-light text-foreground/80 max-w-lg leading-snug">
+              Ready to start your project? Let's create something amazing together.
+            </p>
 
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 group cursor-pointer hover:scale-105 transition-transform">
-                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 group-hover:scale-110 transition-all">
-                    <Mail className="w-5 h-5 text-primary group-hover:rotate-12 transition-transform" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Email</p>
-                    <p className="text-foreground font-medium group-hover:text-primary transition-colors">hello@mowglai.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 group cursor-pointer hover:scale-105 transition-transform">
-                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 group-hover:scale-110 transition-all">
-                    <Phone className="w-5 h-5 text-primary group-hover:rotate-12 transition-transform" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Phone</p>
-                    <p className="text-foreground font-medium group-hover:text-primary transition-colors">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 group cursor-pointer hover:scale-105 transition-transform">
-                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 group-hover:scale-110 transition-all">
-                    <MapPin className="w-5 h-5 text-primary group-hover:rotate-12 transition-transform" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Location</p>
-                    <p className="text-foreground font-medium group-hover:text-primary transition-colors">San Francisco, CA</p>
-                  </div>
-                </div>
+            <div className="space-y-8">
+              <div className="group cursor-pointer">
+                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Email</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">hello@mowglai.com</p>
               </div>
-            </div>
 
-            {/* Additional info */}
-            <div className="glass-card rounded-2xl p-8">
-              <h4 className="font-display font-semibold mb-3 text-foreground">Working Hours</h4>
-              <p className="text-muted-foreground">Monday - Friday: 9:00 AM - 6:00 PM PST</p>
-              <p className="text-muted-foreground">Weekend: By appointment only</p>
+              <div className="group cursor-pointer">
+                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Phone</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">+1 (555) 123-4567</p>
+              </div>
+
+              <div className="group cursor-pointer">
+                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Location</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">San Francisco, CA</p>
+              </div>
             </div>
           </div>
 
-          {/* Contact form */}
-          <div className="js-snow-target glass-card rounded-3xl p-8 md:p-10">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="group">
-                  <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
-                    Your Name
-                  </label>
-                  <Input
-                    required
-                    placeholder="John Doe"
-                    className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
-                  />
-                </div>
-                <div className="group">
-                  <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
-                    Email Address
-                  </label>
-                  <Input
-                    required
-                    type="email"
-                    placeholder="john@example.com"
-                    className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
-                  />
-                </div>
-              </div>
-
-              <div className="group">
-                <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
-                  Subject
-                </label>
+          {/* Form - Clean & underlined */}
+          <div className="glass-card p-10 md:p-14 rounded-[2rem]">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="space-y-6">
                 <Input
                   required
-                  placeholder="How can we help you?"
-                  className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl h-12 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                  placeholder="Your Name"
+                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
                 />
-              </div>
-
-              <div className="group">
-                <label className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors">
-                  Message
-                </label>
+                <Input
+                  required
+                  type="email"
+                  placeholder="Email Address"
+                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
+                />
                 <Textarea
                   required
-                  rows={5}
+                  rows={4}
                   placeholder="Tell us about your project..."
-                  className="js-snow-target bg-secondary/50 border-glass-border/30 focus:border-primary rounded-xl resize-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-primary/20"
+                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 resize-none transition-all font-display font-bold"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-semibold py-6 rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/50 transition-all duration-500 hover:scale-105 relative overflow-hidden group blur-[2px] opacity-70 hover:blur-0 hover:opacity-100"
+                className="w-full bg-foreground text-background hover:bg-background hover:text-foreground border-2 border-foreground font-display font-black text-xl py-8 rounded-xl transition-all uppercase tracking-widest"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {isSubmitting ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>

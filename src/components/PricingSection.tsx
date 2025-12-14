@@ -48,79 +48,59 @@ const plans = [
 
 const PricingSection = () => {
   return (
-    <section id="pricing" className="py-16 relative">
+    <section id="pricing" className="relative w-full py-32 z-20">
       <div className="container mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Pricing Plans
-            </span>
+
+        {/* Header */}
+        <div className="mb-24">
+          <h2 className="text-[15vw] leading-[0.8] font-display font-black tracking-tighter text-foreground opacity-20 select-none absolute left-0 -top-20 z-0 whitespace-nowrap">
+            PRICING
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Transparent pricing for every stage of your business journey.
-          </p>
+          <div className="relative z-10 pt-20">
+            <h2 className="text-6xl md:text-8xl font-display font-bold text-foreground mb-4">
+              INVESTMENT
+            </h2>
+            <p className="text-2xl text-primary font-body tracking-wider uppercase">
+              Select your path
+            </p>
+          </div>
         </div>
 
-        {/* Pricing cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* Plans List - More typographic, less 'card' */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {plans.map((plan, i) => (
             <div
               key={i}
+              data-aos="fade-up"
+              data-aos-delay={i * 200}
               className={cn(
-                "glass-card rounded-3xl p-8 relative transition-all duration-500 hover:scale-105 group cursor-pointer",
-                plan.popular && "border-primary/50 glow-box hover:glow-box"
+                "relative p-8 md:p-12 border-t border-primary/20 transition-all duration-500 hover:bg-primary/5 group",
+                plan.popular && "lg:-mt-12 bg-primary/5 border-primary/50"
               )}
             >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/0 to-accent/0 group-hover:from-primary/10 group-hover:to-accent/10 transition-all duration-500 pointer-events-none" />
-
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 animate-pulse-glow">
-                  <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg shadow-primary/50">
-                    <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                    Most Popular
-                  </span>
-                </div>
-              )}
-
-              <div className="text-center mb-8 relative z-10">
-                <h3 className="text-xl font-display font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">{plan.name}</h3>
-                <div className="text-4xl font-display font-bold text-primary mb-2 group-hover:scale-110 transition-transform inline-block">
+              <div className="mb-8">
+                <h3 className="text-3xl md:text-4xl font-display font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                  {plan.name}
+                </h3>
+                <div className="text-5xl md:text-6xl font-display font-black text-foreground mb-4">
                   {plan.price}
                 </div>
-                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">{plan.description}</p>
+                <p className="text-muted-foreground">{plan.description}</p>
               </div>
 
-              <ul className="space-y-4 mb-8 relative z-10">
+              <ul className="space-y-4 mb-12">
                 {plan.features.map((feature, j) => (
-                  <li
-                    key={j}
-                    className="flex items-center gap-3 text-muted-foreground group-hover:text-foreground transition-colors group/item"
-                    style={{ transitionDelay: `${j * 0.05}s` }}
-                  >
-                    <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 group-hover/item:bg-primary/30 transition-all">
-                      <Check className="w-3 h-3 text-primary group-hover/item:scale-110 transition-transform" />
-                    </div>
-                    <span className="group-hover/item:translate-x-1 transition-transform">{feature}</span>
+                  <li key={j} className="flex items-center gap-3 text-lg text-foreground/80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    {feature}
                   </li>
                 ))}
               </ul>
 
               <Button
-                className={cn(
-                  "w-full py-6 rounded-xl font-semibold transition-all duration-500 relative overflow-hidden group/btn",
-                  "blur-[2px] opacity-70 hover:blur-0 hover:opacity-100",
-                  plan.popular
-                    ? "bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/50"
-                    : "bg-secondary hover:bg-secondary/80 text-secondary-foreground hover:scale-105"
-                )}
+                className="w-full py-8 text-xl font-display font-bold uppercase tracking-widest bg-transparent border border-foreground hover:bg-foreground hover:text-background transition-all"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+                Choose Plan
               </Button>
             </div>
           ))}
