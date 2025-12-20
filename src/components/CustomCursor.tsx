@@ -9,7 +9,19 @@ const CustomCursor = () => {
   const [ripples, setRipples] = useState<{ x: number; y: number; id: number; opacity: number; radius: number }[]>([]);
   const lastRippleRef = useRef(0);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(pointer: coarse)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
@@ -71,7 +83,7 @@ const CustomCursor = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  if (!isVisible) return null;
+  if (isMobile || !isVisible) return null;
 
   return (
     <>

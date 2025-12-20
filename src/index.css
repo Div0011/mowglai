@@ -61,7 +61,12 @@
 @layer base {
   * {
     @apply border-border;
-    cursor: none;
+  }
+
+  @media (pointer: fine) {
+    * {
+      cursor: none;
+    }
   }
 
   html {
@@ -104,13 +109,16 @@
     /* Uppercase matches Cyrene style usually */
   }
 
-  a,
-  button,
-  [role="button"],
-  input,
-  textarea,
-  select {
-    cursor: none;
+  @media (pointer: fine) {
+
+    a,
+    button,
+    [role="button"],
+    input,
+    textarea,
+    select {
+      cursor: none;
+    }
   }
 }
 
