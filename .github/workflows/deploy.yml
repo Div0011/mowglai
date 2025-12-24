@@ -45,8 +45,10 @@ jobs:
           server: 82.25.120.199
           username: u707591712.mowglai.in
           password: ${{ secrets.MOWGLAI_SECRET }}
+          port: 21
           local-dir: ./dist/
           server-dir: ./public_html/
+          security: loose  # <--- Add this line!
 
   deploy:
     environment:
