@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const features = [
-  { id: 1, icon: Palette, title: "Stunning Design", description: "Architectural precision for a magnetic, memorable digital experience." },
-  { id: 2, icon: Shield, title: "Secure Protocols", description: "Enterprise-grade encryption protecting your assets against evolving threats." },
-  { id: 3, icon: Rocket, title: "Peak Speed", description: "Optimized codebases for sub-second loads and silky-smooth interaction." },
-  { id: 4, icon: Globe, title: "Global Scale", description: "Auto-scaling infrastructure to handle millions of simultaneous visitors." },
-  { id: 5, icon: BarChart, title: "Data Clarity", description: "Deep analytics transforming raw behavior into meaningful business growth." },
-  { id: 6, icon: Headphones, title: "Elite Support", description: "24/7 dedicated engineering support available across every timezone." },
+  { id: 1, icon: Palette, title: "Modern & Stylish", description: "Creating modest yet visually striking designs tailored for any client profile." },
+  { id: 2, icon: Shield, title: "Professional Grade", description: "Robust protocols ensuring your digital presence is secure and reliable." },
+  { id: 3, icon: Rocket, title: "Peak Performance", description: "Optimized for speed and smoothness, respecting your user's time." },
+  { id: 4, icon: Globe, title: "International Exp.", description: "Proven track record with leading firms across multiple continents." },
+  { id: 5, icon: BarChart, title: "Client Centric", description: "We adapt to your specific needs, regardless of industry or scale." },
+  { id: 6, icon: Headphones, title: "Flexible Schedule", description: "Active Mon-Sat across different time zones to match your workflow." },
 ];
 
 const AboutSection = () => {
@@ -25,24 +25,24 @@ const AboutSection = () => {
         <div className="space-y-12" data-aos="fade-right">
           {/* Two-line heading with one word faded - Jungle Theme */}
           <h2 className="text-[11vw] font-display font-black tracking-tighter text-foreground relative z-10 drop-shadow-sm flex flex-col">
-            <span className="leading-[0.8] opacity-10 uppercase">Wild</span>
-            <span className="text-primary leading-[0.8] uppercase">Architects</span>
+            <span className="leading-[0.8] opacity-10 uppercase">Digital</span>
+            <span className="text-primary leading-[0.8] uppercase">Artisans</span>
           </h2>
 
           {/* Integrated Logo Element - Magnetic & Foggy */}
           <div
-            className="relative w-full aspect-square max-w-[280px] sm:max-w-[320px] md:max-w-[400px] mx-auto md:ml-0 flex items-center justify-center cursor-pointer group/logo-container"
+            className="relative w-full aspect-square max-w-[400px] sm:max-w-[440px] md:max-w-[500px] mx-auto md:ml-0 flex items-center justify-center cursor-pointer group/logo-container p-20"
             onMouseMove={(e) => {
               const el = e.currentTarget;
               const rect = el.getBoundingClientRect();
               const x = e.clientX - rect.left - rect.width / 2;
               const y = e.clientY - rect.top - rect.height / 2;
               const logo = el.querySelector('.magnetic-logo');
-              if (logo) gsap.to(logo, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: "power2.out" });
+              if (logo) gsap.to(logo, { x: x * 0.6, y: y * 0.6, duration: 0.4, ease: "power3.out" });
             }}
             onMouseLeave={(e) => {
               const logo = e.currentTarget.querySelector('.magnetic-logo');
-              if (logo) gsap.to(logo, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+              if (logo) gsap.to(logo, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
             }}
           >
             {/* Background Atmosphere */}
@@ -60,7 +60,7 @@ const AboutSection = () => {
 
           <div className="max-w-md ml-auto md:ml-12">
             <p className="text-2xl font-light text-foreground/80 leading-relaxed italic border-l-4 border-primary/30 pl-6 text-center md:text-left">
-              "We don't just build websites; we design digital habitats where brands thrive in the wild."
+              "We are your flexible digital partners. Partnering with ambitious brands worldwide, we craft stylish, professional websites that fit your unique vision."
             </p>
           </div>
         </div>

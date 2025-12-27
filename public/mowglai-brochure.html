@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Digital Brochure</title>
+    <style>
+        :root {
+            --primary: #1B3022;
+            /* Deep Forest Green */
+            --secondary: #F4F1EA;
+            /* Cream */
+            --accent: #C5A059;
+            /* Copper/Gold */
+            --white: #ffffff;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--primary);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Page 1: Home & About */
+        #home {
+            background-color: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+        }
+
+        .logo-mark {
+            border: 2px solid var(--accent);
+            padding: 20px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 3rem;
+            letter-spacing: 5px;
+            margin: 10px 0;
+            color: var(--accent);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .content-box {
+            max-width: 800px;
+            margin-top: 40px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Page 2: Services & Pricing */
+        #pricing {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 30px;
+        }
+
+        .price-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            border-top: 5px solid var(--accent);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: var(--primary);
+        }
+
+        /* Page 3: Why Us & Legal */
+        #why-us {
+            background-color: var(--primary);
+            color: var(--secondary);
+        }
+
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-item {
+            width: 250px;
+            text-align: center;
+        }
+
+        .benefit-item h3 {
+            color: var(--accent);
+        }
+
+        footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+            padding-top: 20px;
+            width: 80%;
+        }
+
+        .cta-button {
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: transform 0.3s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <section id="home" class="page">
+        <div class="logo-mark">
+            <span style="font-size: 40px; font-weight: bold; color: var(--accent);">M</span>
+        </div>
+        <h1>MOWGLAI</h1>
+        <p class="tagline">CRAFTING DIGITAL EXCELLENCE SINCE 2025</p>
+
+        <div class="content-box">
+            <p>Based in the heart of <strong>Noida, India</strong>, Mowglai is a premier digital solutions agency. We
+                bridge the gap between complex engineering and elegant design for a global clientele spanning
+                <strong>London, Singapore, and India</strong>.</p>
+        </div>
+        <a href="#pricing" class="cta-button">VIEW OUR SOLUTIONS</a>
+    </section>
+
+    <section id="pricing" class="page">
+        <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Plans & Services</h2>
+        <p>Expertly built for performance and scalability.</p>
+
+        <div class="services-grid">
+            <div class="price-card">
+                <h3>Basic</h3>
+                <p>Essential Presence</p>
+                <div class="price">$499</div>
+                <ul style="list-style: none; padding: 0; font-size: 0.9rem;">
+                    <li>Single Page Design</li>
+                    <li>Mobile Responsive</li>
+                    <li>SEO Optimized</li>
+                </ul>
+            </div>
+
+            <div class="price-card" style="background-color: var(--primary); color: var(--secondary);">
+                <h3 style="color: var(--accent);">Professional</h3>
+                <p>Growth Ready</p>
+                <div class="price" style="color: var(--accent);">$999</div>
+                <ul style="list-style: none; padding: 0; font-size: 0.9rem;">
+                    <li>Multi-page Website</li>
+                    <li>Custom UI Architecture</li>
+                    <li>CMS Integration</li>
+                </ul>
+            </div>
+
+            <div class="price-card">
+                <h3>Enterprise</h3>
+                <p>Full-Scale Global</p>
+                <div class="price">Custom</div>
+                <ul style="list-style: none; padding: 0; font-size: 0.9rem;">
+                    <li>E-commerce Solutions</li>
+                    <li>Advanced Security</li>
+                    <li>24/7 Priority Support</li>
+                </ul>
+            </div>
+        </div>
+        <a href="#why-us" class="cta-button"
+            style="background-color: var(--primary); color: var(--secondary); margin-top: 40px;">WHY CHOOSE US?</a>
+    </section>
+
+    <section id="why-us" class="page">
+        <h2 style="color: var(--accent); font-size: 2.5rem;">The Mowglai Advantage</h2>
+
+        <div class="benefits">
+            <div class="benefit-item">
+                <h3>Global Vision</h3>
+                <p>Strategies tested in London and Singapore markets, brought to your business.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>2025 Tech Stack</h3>
+                <p>We use the latest secure frameworks to ensure your site is future-proof.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>Noida Hub</h3>
+                <p>Local support with international standards of delivery.</p>
+            </div>
+        </div>
+
+        <a href="https://mowglai.in" class="cta-button">EXPLORE MOWGLAI.IN</a>
+
+        <footer>
+            <p><strong>Privacy & Terms:</strong> All projects are protected by international NDA standards. We value
+                your data as much as your design. &copy; 2025 Mowglai Digital Solutions.</p>
+            <p>London | Singapore | Noida</p>
+        </footer>
+    </section>
+
+</body>
+
+</html>

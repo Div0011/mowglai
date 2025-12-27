@@ -49,17 +49,17 @@ const ContactSection = () => {
             <div className="space-y-8">
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Email</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">hello@mowglai.com</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">hello@mowglai.in</p>
               </div>
 
               <div className="group cursor-pointer">
-                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Phone</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">+1 (555) 123-4567</p>
+                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Hours</p>
+                <p className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Mon - Sat • Global Zones</p>
               </div>
 
               <div className="group cursor-pointer">
-                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Location</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">San Francisco, CA</p>
+                <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">HQ Location</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Noida, India</p>
               </div>
             </div>
           </div>

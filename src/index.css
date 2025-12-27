@@ -732,29 +732,18 @@
   animation: marquee-vertical 20s linear infinite;
 }
 
-/* Custom scrollbar */
-
+/* Hide Scrollbar Global */
 html,
 body {
-  /* overflow-x: hidden; is handled in @layer base */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
 }
 
-/* Optional: Add a nice visual scrollbar if desired, or leave default */
 ::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.3);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
+  display: none;
+  /* Chrome/Safari/Webkit */
 }
 
 

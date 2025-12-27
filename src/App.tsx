@@ -9,6 +9,9 @@ import About from "./pages/About";
 import Investment from "./pages/Investment";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import OurDNA from "./pages/OurDNA";
+import CustomRequest from "./pages/CustomRequest";
+import ProjectRequest from "./pages/ProjectRequest";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +26,9 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/investment" element={<Investment />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/our-dna" element={<OurDNA />} />
+          <Route path="/custom-request" element={<CustomRequest />} />
+          <Route path="/project-request" element={<ProjectRequest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

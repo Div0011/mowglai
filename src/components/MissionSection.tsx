@@ -1,4 +1,6 @@
 import { useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Fingerprint } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -51,14 +53,14 @@ const MissionSection = () => {
 
                 {/* 1. Huge Heading - Balanced Styling */}
                 <div ref={textRef} className="mb-16 relative" data-aos="fade-up">
-                    <h2 className="text-[14vw] md:text-[12vw] font-display font-black tracking-tighter text-foreground flex flex-col items-center">
-                        <span className="leading-[0.8] opacity-10">OUR</span>
-                        <span className="text-primary leading-[0.8] -mt-2 md:-mt-4">JOURNEY</span>
+                    <h2 className="text-[14vw] md:text-[15vw] font-display font-black tracking-tighter text-foreground flex flex-col items-center">
+                        <span className="leading-[0.8] opacity-10">GLOBAL</span>
+                        <span className="text-primary leading-[0.8] -mt-2 md:-mt-0">VISION</span>
                     </h2>
 
                     {/* Decorative Background Text */}
                     <div className="absolute -top-6 md:-top-10 left-0 w-full text-center opacity-[0.03] select-none pointer-events-none font-display font-black text-[20vw] md:text-[25vw] leading-none whitespace-nowrap">
-                        THRIVE
+                        LOUD
                     </div>
                 </div>
 
@@ -66,32 +68,58 @@ const MissionSection = () => {
                 <div ref={missionRef} className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start relative z-10">
                     <div className="space-y-10" data-aos="fade-right">
                         <div>
-                            <p className="text-primary font-display tracking-[0.4em] uppercase text-sm mb-4">Core Survival</p>
+                            <p className="text-primary font-display tracking-[0.4em] uppercase text-sm mb-4">International Standard</p>
                             <h3 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-tight">
-                                MISSION & <br /> <span className="text-primary/50">INSTINCT</span>
+                                BUILT FOR <br /> <span className="text-primary/50">THE WORLD</span>
                             </h3>
                         </div>
                         <div className="h-0.5 w-32 bg-primary" />
+
+                        {/* Interactive Stats Button - Moved to left side */}
+                        <div className="pt-4">
+                            <Link
+                                to="/our-dna"
+                                className="group relative inline-flex items-center gap-4 px-8 py-4 bg-background/50 backdrop-blur-sm border border-primary/20 rounded-full transition-all duration-500 hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
+                                onMouseMove={(e) => {
+                                    const btn = e.currentTarget;
+                                    const rect = btn.getBoundingClientRect();
+                                    const x = e.clientX - rect.left - rect.width / 2;
+                                    const y = e.clientY - rect.top - rect.height / 2;
+                                    gsap.to(btn, { x: x * 0.2, y: y * 0.2, duration: 0.3, ease: "power2.out" });
+                                    const icon = btn.querySelector('.btn-icon');
+                                    if (icon) gsap.to(icon, { x: x * 0.1, y: y * 0.1, duration: 0.3, ease: "power2.out" });
+                                }}
+                                onMouseLeave={(e) => {
+                                    gsap.to(e.currentTarget, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+                                    const icon = e.currentTarget.querySelector('.btn-icon');
+                                    if (icon) gsap.to(icon, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+                                }}
+                            >
+                                <div className="btn-icon relative flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary transition-colors duration-500">
+                                    <Fingerprint className="w-6 h-6 text-primary group-hover:text-background transition-colors duration-500" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="font-display font-bold text-primary tracking-[0.2em] uppercase text-sm group-hover:text-foreground transition-colors">
+                                        Discover
+                                    </span>
+                                    <span className="text-[10px] text-muted-foreground tracking-widest uppercase group-hover:text-primary transition-colors">
+                                        Our DNA
+                                    </span>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
 
                     <div className="space-y-12" data-aos="fade-left" data-aos-delay="200">
                         <p className="text-3xl md:text-4xl font-light leading-tight text-foreground/90 italic border-l-2 border-primary/20 pl-8 transition-all hover:border-primary duration-500">
-                            "To empower businesses with wild digital solutions that drive growth and establish a dominant presence in the market habitat."
+                            "Bringing world-class quality to clients worldwide. We create modest, stylish, and professional websites for any industry."
                         </p>
                         <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
-                            We believe great software should be beautiful, fast, and accessible to everyone. We don't just build websites; we craft digital legacies that stand the test of time and technology. Our team lives at the intersection of Nature & Engineering.
+                            We are built for flexibility. Operating <strong>Monday to Saturday</strong> across multiple time zones, we align perfectly with your schedule. Whether you are a startup or an enterprise, our global team delivers modern digital craftsmanship that speaks a universal language.
                         </p>
 
                         {/* Interactive Stats Button */}
-                        <div className="pt-8">
-                            <button
-                                onClick={() => window.location.href = '#about'}
-                                className="group relative px-10 py-4 bg-primary/5 hover:bg-primary transition-all duration-500 rounded-full border border-primary/20 overflow-hidden"
-                            >
-                                <span className="relative z-10 font-display font-bold text-primary group-hover:text-primary-foreground transition-colors uppercase tracking-widest">Discover our DNA</span>
-                                <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                            </button>
-                        </div>
+                        {/* Interactive Stats Button - Removed from here */}
                     </div>
                 </div>
             </div>

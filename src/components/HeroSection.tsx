@@ -12,7 +12,7 @@ const HeroSection = () => {
 
                 {/* Pre-title */}
                 <p className="text-primary font-display tracking-[0.5em] text-sm md:text-lg uppercase mb-6" data-aos="fade-down" data-aos-delay="100">
-                    Est. 2024
+                    Est. 2025
                 </p>
 
                 {/* Massive Title Block */}
@@ -25,7 +25,7 @@ const HeroSection = () => {
                 {/* Subtitle / Value Prop */}
                 <div className="mt-8 md:mt-12 max-w-3xl" data-aos="fade-up" data-aos-delay="300">
                     <p className="text-xl md:text-3xl text-foreground/80 font-body font-light leading-relaxed">
-                        We craft <span className="text-primary font-semibold">immersive digital experiences</span> that captivate audiences and define industry standards.
+                        We craft <span className="text-primary font-semibold">modern, stylish websites</span> for visionary brands. Delivering digital elegance that transcends borders.
                     </p>
                 </div>
 
@@ -36,6 +36,7 @@ const HeroSection = () => {
                 >
                     <Link
                         to="/contact"
+                        data-theme="gold"
                         className="w-full sm:w-auto px-10 py-4 bg-primary text-background text-lg font-bold uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors duration-300 rounded-full text-center"
                     >
                         Start a Project
@@ -52,7 +53,7 @@ const HeroSection = () => {
 
             {/* Bottom Indicators */}
             <div className="absolute bottom-12 left-10 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
-                San Francisco, CA
+                Global Digital Partnership
             </div>
             <div className="absolute bottom-12 right-10 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
                 Scroll to Explore

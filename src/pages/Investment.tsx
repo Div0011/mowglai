@@ -4,6 +4,8 @@ import NextPageButton from "@/components/NextPageButton";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Sparkles } from "lucide-react";
 import { useState } from "react";
+import BrochurePDF from "@/components/BrochurePDF";
+import { Link } from "react-router-dom";
 
 const Investment = () => {
     const [planType, setPlanType] = useState<"standard" | "premium">("standard");
@@ -52,8 +54,8 @@ const Investment = () => {
                                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
                                     Our premium tier offers bespoke digital architecture, dedicated 24/7 survival support, and unmatched growth for industry leaders.
                                 </p>
-                                <Button className="px-12 py-8 text-xl font-display font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-foreground hover:text-background transition-all rounded-full">
-                                    Inquire for Apex
+                                <Button asChild className="px-12 py-8 text-xl font-display font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-foreground hover:text-background transition-all rounded-full">
+                                    <a href="mailto:hello@mowglai.in">Inquire for Apex</a>
                                 </Button>
                             </div>
                         )}
@@ -68,19 +70,17 @@ const Investment = () => {
                             <Download className="w-12 h-12 text-primary mb-6 animate-bounce" />
                             <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 text-primary">OUR BROCHURE</h3>
                             <p className="text-foreground/70 mb-8 max-w-xs text-sm sm:text-base leading-relaxed lowercase">Get a detailed breakdown of our wild strategies and success stories.</p>
-                            <Button variant="outline" className="w-full py-6 rounded-full border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500">
-                                DOWNLOAD BROCHURE
-                            </Button>
+                            <BrochurePDF variant="outline" className="w-full py-6 rounded-full border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500" />
                         </div>
 
                         <div className="relative group p-8 sm:p-12 rounded-[2.5rem] flex flex-col items-center text-center border border-primary/30 transition-all duration-700 bg-[linear-gradient(135deg,rgba(252,211,77,0.08),rgba(146,64,14,0.05))] hover:shadow-[0_0_40px_rgba(252,211,77,0.1)] overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[2.5rem] pointer-events-none" />
 
                             <FileText className="w-12 h-12 text-primary mb-6" />
-                            <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 text-primary">CUSTOM BROCHURE</h3>
+                            <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 text-primary">CUSTOM QUOTATION</h3>
                             <p className="text-foreground/70 mb-8 max-w-xs text-sm sm:text-base leading-relaxed lowercase">Tell us your goal and we'll generate a personalized strategy for your market habitat.</p>
-                            <Button variant="outline" className="w-full py-6 rounded-full border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500">
-                                REQUEST CUSTOM BROCHURE
+                            <Button asChild variant="outline" className="w-full py-6 rounded-full border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500">
+                                <a href="mailto:hello@mowglai.in">REQUEST CUSTOM QUOTATION</a>
                             </Button>
                         </div>
                     </div>

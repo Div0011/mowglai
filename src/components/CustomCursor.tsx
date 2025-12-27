@@ -1,19 +1,24 @@
 import { useEffect, useState, useRef } from "react";
+import { gsap } from "gsap";
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isInverted, setIsInverted] = useState(false); // New state for color inversion
 
-  // Ripples state for movement trail
-  const [ripples, setRipples] = useState<{ x: number; y: number; id: number; opacity: number; radius: number }[]>([]);
-  const lastRippleRef = useRef(0);
+  // Refs for direct DOM manipulation (better performance than state for cursor position)
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const followerRef = useRef<HTMLDivElement>(null);
 
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.matchMedia("(pointer: coarse)").matches);
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+      const isSmallScreen = window.innerWidth <= 1024;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile((isCoarse && isSmallScreen) || isMobileUA);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -22,11 +27,25 @@ const CustomCursor = () => {
 
   useEffect(() => {
     if (isMobile) return;
+
+    // Use GSAP's quickTo for high-performance following
+    const cursorX = gsap.quickTo(cursorRef.current, "x", { duration: 0.1, ease: "power3.out" });
+    const cursorY = gsap.quickTo(cursorRef.current, "y", { duration: 0.1, ease: "power3.out" });
+    const followerX = gsap.quickTo(followerRef.current, "x", { duration: 0.6, ease: "power3.out" });
+    const followerY = gsap.quickTo(followerRef.current, "y", { duration: 0.6, ease: "power3.out" });
+
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
 
+      // Update GSAP positions
+      cursorX(e.clientX);
+      cursorY(e.clientY);
+      followerX(e.clientX);
+      followerY(e.clientY);
+
       const target = e.target as HTMLElement;
+
+      // Pointer Check
       const isClickable =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
@@ -37,15 +56,10 @@ const CustomCursor = () => {
 
       setIsPointer(isClickable);
 
-      // Create ripple on movement
-      const now = Date.now();
-      if (now - lastRippleRef.current > 50) { // Throttled to every 50ms for smoother trail
-        lastRippleRef.current = now;
-        setRipples(prev => [
-          ...prev.slice(-15), // Keep last 15 ripples
-          { x: e.clientX, y: e.clientY, radius: 0, opacity: 0.8, id: now }
-        ]);
-      }
+      // Theme/Color Check
+      // Look for data-theme="gold" in the ancestry
+      const themeElement = target.closest('[data-theme="gold"]');
+      setIsInverted(!!themeElement);
     };
 
     const handleMouseLeave = () => setIsVisible(false);
@@ -60,84 +74,41 @@ const CustomCursor = () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, []);
+  }, [isMobile]);
 
-  // Animate ripples
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const animate = () => {
-      setRipples(prev =>
-        prev
-          .map(r => ({
-            ...r,
-            radius: r.radius + 1.5,
-            opacity: r.opacity - 0.02
-          }))
-          .filter(r => r.opacity > 0)
-      );
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  if (isMobile || !isVisible) return null;
+  if (isMobile) return null;
 
   return (
     <>
-      {/* Main cursor - black body with purple outline */}
-      <div
-        className="fixed pointer-events-none z-[9999] transition-transform duration-100 ease-out"
-        style={{
-          left: position.x - 10,
-          top: position.y - 10,
-          transform: isPointer ? "scale(1.5)" : "scale(1)",
-        }}
-      >
-        <div
-          className="w-5 h-5 rounded-full bg-primary border-2 border-accent"
-          style={{
-            boxShadow: "0 0 15px hsl(var(--accent) / 0.5), 0 0 30px hsl(var(--accent) / 0.3)",
-          }}
-        />
-      </div>
+      {/* 
+        Cursor Styles:
+        Default (Green Bg): Golden Cursor
+        Inverted (Gold Bg): Green Cursor (#1B3022)
+      */}
 
-      {/* Trailing glow */}
+      {/* Follower (Large Circle) */}
       <div
-        className="fixed pointer-events-none z-[9998] transition-all duration-300 ease-out"
+        ref={followerRef}
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] w-12 h-12 rounded-full border transition-[width,height,border-color,background-color] duration-300 ease-out custom-cursor-follower ${isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
         style={{
-          left: position.x - 20,
-          top: position.y - 20,
+          transform: 'translate(-50%, -50%)', // Center on coordinates
+          borderColor: isInverted ? '#1B3022' : '#C5A059',
+          backgroundColor: isPointer ? (isInverted ? 'rgba(27, 48, 34, 0.1)' : 'rgba(197, 160, 89, 0.1)') : 'transparent',
+          scale: isPointer ? 1.5 : 1,
         }}
-      >
-        <div
-          className="w-10 h-10 rounded-full bg-accent/20 blur-md"
-          style={{
-            boxShadow: "0 0 30px hsl(var(--accent) / 0.4)",
-          }}
-        />
-      </div>
+      />
 
-      {/* Water Ripple Trail */}
-      {ripples.map((ripple) => (
-        <div
-          key={ripple.id}
-          className="fixed pointer-events-none z-[9997]"
-          style={{
-            left: ripple.x - ripple.radius,
-            top: ripple.y - ripple.radius,
-            width: ripple.radius * 2,
-            height: ripple.radius * 2,
-            borderRadius: '50%',
-            opacity: ripple.opacity,
-            border: '1.5px solid hsl(var(--accent))',
-            boxShadow: `0 0 ${ripple.radius}px hsl(var(--accent) / ${ripple.opacity * 0.5})`,
-            backgroundColor: 'transparent',
-          }}
-        />
-      ))}
+      {/* Main Dot */}
+      <div
+        ref={cursorRef}
+        className={`fixed top-0 left-0 pointer-events-none z-[9999] w-3 h-3 rounded-full transition-colors duration-300 ease-out custom-cursor-dot ${isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+        style={{
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: isInverted ? '#1B3022' : '#C5A059',
+        }}
+      />
     </>
   );
 };

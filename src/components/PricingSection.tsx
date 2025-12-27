@@ -1,11 +1,13 @@
-import { Check, Sparkles, ArrowRight } from "lucide-react";
+import { Check, Sparkles, ArrowRight, Download } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { generateQuotationPDF } from "@/utils/generateQuotation";
 
 const plans = [
   {
-    name: "Starter",
-    price: "$999",
+    name: "BASIC",
+    price: "$499",
     description: "Perfect for small businesses getting started online",
     features: [
       "Single page website",
@@ -17,11 +19,11 @@ const plans = [
     popular: false,
   },
   {
-    name: "Professional",
-    price: "$2,499",
+    name: "ADVANCED",
+    price: "$999",
     description: "Ideal for growing businesses needing more features",
     features: [
-      "Multi-page website (up to 10)",
+      "Multi-page website (up to 5)",
       "Custom animations",
       "Advanced SEO & Analytics",
       "CMS integration",
@@ -31,7 +33,7 @@ const plans = [
     popular: true,
   },
   {
-    name: "Enterprise",
+    name: "EPIC",
     price: "Custom",
     description: "Full-scale solutions for large organizations",
     features: [
@@ -47,6 +49,16 @@ const plans = [
 ];
 
 const PricingSection = () => {
+  const navigate = useNavigate();
+
+  const handlePlanClick = (plan: typeof plans[0]) => {
+    if (plan.price === "Custom") {
+      navigate("/custom-request");
+    } else {
+      navigate("/project-request", { state: { plan } });
+    }
+  };
+
   return (
     <section id="pricing" className="relative w-full py-16 z-20">
       <div className="container mx-auto px-6">
@@ -102,16 +114,33 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <Button
-                className={cn(
-                  "w-full py-8 text-xl font-display font-black uppercase tracking-widest rounded-full transition-all duration-500 shadow-lg",
-                  plan.popular
-                    ? "bg-primary text-primary-foreground hover:bg-foreground hover:text-background"
-                    : "bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-background"
+              <div className="flex flex-col gap-3 mt-auto">
+                <Button
+                  onClick={() => handlePlanClick(plan)}
+                  data-theme={plan.popular ? "gold" : undefined}
+                  className={cn(
+                    "w-full py-8 text-xl font-display font-black uppercase tracking-widest rounded-full transition-all duration-500 shadow-lg",
+                    plan.popular
+                      ? "bg-primary text-primary-foreground hover:bg-foreground hover:text-background"
+                      : "bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-background"
+                  )}
+                >
+                  START {plan.price === "Custom" ? "DIALOGUE" : "ASCENT"}
+                </Button>
+
+                {plan.price !== "Custom" && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      generateQuotationPDF(plan);
+                    }}
+                    className="flex justify-center items-center gap-2 py-2 text-xs font-bold tracking-widest uppercase text-primary/60 hover:text-primary transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download Proposal
+                  </button>
                 )}
-              >
-                START {plan.name === "Enterprise" ? "DIALOGUE" : "ASCENT"}
-              </Button>
+              </div>
             </div>
           ))}
         </div>
