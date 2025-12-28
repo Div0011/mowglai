@@ -10,7 +10,7 @@ const About = () => {
             <AboutSection />
             <MissionSection />
             <TestimonialsSection />
-            <NextPageButton label="See Investments" to="/investment" />
+            <NextPageButton label="Our Services" to="/services" />
         </PageLayout>
     );
 };

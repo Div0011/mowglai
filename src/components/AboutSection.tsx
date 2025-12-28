@@ -1,5 +1,5 @@
 import { Palette, Rocket, Shield, Globe, BarChart, Headphones } from "lucide-react";
-import LionLogo from "./LionLogo";
+
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
@@ -53,8 +53,8 @@ const AboutSection = () => {
               <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/40 via-primary/5 to-transparent backdrop-blur-md opacity-100 group-hover:opacity-0 transition-opacity duration-1000 pointer-events-none" />
               <div className="absolute inset-0 z-10 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] opacity-100 group-hover:opacity-0 transition-opacity duration-700" />
 
-              <img src="/mowglai-galaxy-landing/logo1.png" className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 hidden dark:block" alt="Logo" />
-              <img src="/mowglai-galaxy-landing/logo2.png" className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 block dark:hidden" alt="Logo" />
+              <img src={`${import.meta.env.BASE_URL}logo1.png`} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 hidden dark:block" alt="Logo" />
+              <img src={`${import.meta.env.BASE_URL}logo2.png`} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 block dark:hidden" alt="Logo" />
             </div>
           </div>
 

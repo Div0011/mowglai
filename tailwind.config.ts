@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Boldonse", "serif"],
-        body: ["Boldonse", "serif"],
+        body: ["Josefin Sans", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
