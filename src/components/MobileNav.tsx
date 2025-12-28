@@ -1,4 +1,4 @@
-import { Home, Users, Mail, DollarSign } from "lucide-react";
+import { Home, Users, Mail, DollarSign, Layers } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const navItems = [
     { icon: Home, label: "Home", href: "/" },
     { icon: Users, label: "About", href: "/about" },
+    { icon: Layers, label: "Services", href: "/services" },
     { icon: DollarSign, label: "Price", href: "/investment" },
     { icon: Mail, label: "Contact", href: "/contact" },
 ];

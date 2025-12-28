@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Facebook, Twitter, Linkedin, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -14,6 +14,7 @@ interface NavItem {
 const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
     { icon: Users, label: "ABOUT", href: "/about" },
+    { icon: Layers, label: "SERVICES", href: "/services" },
     { icon: DollarSign, label: "INVESTMENT", href: "/investment" },
     { icon: Mail, label: "CONTACT", href: "/contact" },
 ];
@@ -58,6 +59,32 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
                 </Magnetic>
             </div>
 
+
+            {/* Logo - Fixed Top Left - Visible Always */}
+            <div className="fixed top-8 left-8 z-[60]">
+                <Magnetic amount={0.4}>
+                    <div
+                        className="w-20 h-20 flex items-center justify-center cursor-pointer"
+                        onClick={() => navigate('/')}
+                    >
+                        <div className="w-16 h-16 rounded-full border border-primary/20 bg-background/5 overflow-hidden backdrop-blur-sm">
+                            {/* Dark Mode Logo */}
+                            <img
+                                src={`${import.meta.env.BASE_URL}logo1.png`}
+                                alt="Mowglai Logo"
+                                className="w-full h-full object-cover hidden dark:block"
+                            />
+                            {/* Light Mode Logo */}
+                            <img
+                                src={`${import.meta.env.BASE_URL}logo2.png`}
+                                alt="Mowglai Logo"
+                                className="w-full h-full object-cover block dark:hidden"
+                            />
+                        </div>
+                    </div>
+                </Magnetic>
+            </div>
+
             {/* Full Screen Menu Overlay */}
             <div
                 className={cn(
@@ -67,28 +94,6 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
             >
                 {/* Background Gradient - Warm subtle overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 pointer-events-none" />
-
-                {/* Logo - Top Left - Magnetic */}
-                <div className="absolute top-8 left-8 z-[60]">
-                    <Magnetic amount={0.4}>
-                        <div className="w-20 h-20 flex items-center justify-center cursor-pointer">
-                            <div className="w-16 h-16 rounded-full border border-primary/20 bg-background/5 overflow-hidden">
-                                {/* Dark Mode Logo */}
-                                <img
-                                    src="/logo1.png"
-                                    alt="Mowglai Logo"
-                                    className="w-full h-full object-cover hidden dark:block"
-                                />
-                                {/* Light Mode Logo */}
-                                <img
-                                    src="/logo2.png"
-                                    alt="Mowglai Logo"
-                                    className="w-full h-full object-cover block dark:hidden"
-                                />
-                            </div>
-                        </div>
-                    </Magnetic>
-                </div>
 
                 {/* Main Layout Flex Container */}
                 <div className="absolute inset-0 flex w-full h-full">

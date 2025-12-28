@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Home, Users, Mail, DollarSign, MessageSquare, ChevronRight, Sun, Moon } from "lucide-react";
-import LionLogo from "./LionLogo";
+
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -170,10 +170,7 @@ const Sidebar = ({ isDark, onToggleTheme }: SidebarProps) => {
                 }}
             />
 
-            {/* Logo */}
-            <div className="mb-8 relative z-20">
-                <LionLogo size="sm" className="w-12 h-12" />
-            </div>
+
 
             {/* Toggle button */}
             <button

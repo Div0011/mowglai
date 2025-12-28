@@ -4,6 +4,7 @@ import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
 import CustomCursor from "@/components/CustomCursor";
 import ThemeToggle from "@/components/ThemeToggle";
+
 import Footer from "@/components/Footer";
 import ScrollToTop from "./ScrollToTop";
 import { motion, AnimatePresence } from "framer-motion";
