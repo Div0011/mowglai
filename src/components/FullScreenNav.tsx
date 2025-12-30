@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Facebook, Twitter, Linkedin, Layers, Bot, MessageSquareText } from "lucide-react";
-import ChatbotModal from "@/components/ChatbotModal";
+import { useState } from "react";
+import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Twitter, Linkedin, Layers, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
-import gsap from "gsap";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Magnetic from "@/components/Magnetic";
 
 interface NavItem {
@@ -23,14 +21,13 @@ const navItems: NavItem[] = [
 interface FullScreenNavProps {
     isDark?: boolean;
     onToggleTheme?: () => void;
+    onOpenChat: () => void;
 }
 
-const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
+const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isChatOpen, setIsChatOpen] = useState(false);
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
     const navigate = useNavigate();
-    const location = useLocation();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -49,13 +46,13 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
                 <Magnetic>
                     <button
                         onClick={toggleMenu}
-                        className="p-4 rounded-full hover:bg-primary/10 transition-colors duration-300 group"
+                        className="w-14 h-14 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 group border border-transparent hover:border-primary/20 bg-background/5 backdrop-blur-sm"
                         aria-label="Toggle Menu"
                     >
                         {isOpen ? (
-                            <X className="w-8 h-8 text-primary group-hover:rotate-90 transition-transform duration-300" />
+                            <X className="w-6 h-6 text-primary group-hover:rotate-90 transition-transform duration-300" />
                         ) : (
-                            <Menu className="w-8 h-8 text-primary" />
+                            <Menu className="w-6 h-6 text-primary" />
                         )}
                     </button>
                 </Magnetic>
@@ -102,7 +99,7 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
 
                     {/* Navigation Columns (90% Width) */}
                     <nav className="w-[90%] flex h-full">
-                        {navItems.map((item, index) => {
+                        {navItems.map((item) => {
                             const isHovered = hoveredItem === item.label;
 
                             return (
@@ -152,35 +149,47 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
                         })}
                     </nav>
 
+                    {/* Mobile Social Icons (Bottom Row) */}
+                    <div className="absolute bottom-10 left-0 w-full flex md:hidden justify-center gap-6 z-50">
+                        {[
+                            { icon: Instagram, href: "https://instagram.com/mowglai", label: "Instagram" },
+                            { icon: Twitter, href: "https://twitter.com/mowglai", label: "X (Twitter)" },
+                            { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
+                        ].map((item, i) => (
+                            <Magnetic key={i} amount={0.5}>
+                                <a
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="relative group w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/10 bg-background/50 backdrop-blur-sm"
+                                    aria-label={item.label}
+                                >
+                                    <item.icon className="w-5 h-5 text-primary/60 group-hover:text-primary transition-colors" />
+                                </a>
+                            </Magnetic>
+                        ))}
+                    </div>
+
                     {/* Right Sidebar (10% Width) - Social Icons */}
                     <div className="hidden md:flex w-[10%] h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5">
 
                         <div className="flex flex-col gap-8 items-center">
                             {/* Magnetic Social Icons */}
                             {[
-                                { icon: Instagram, href: "#", label: "Instagram" },
-                                { icon: Twitter, href: "#", label: "X (Twitter)" },
-                                { icon: Linkedin, href: "#", label: "LinkedIn" }, // Replaced Facebook
-                                { icon: Bot, isChat: true, label: "AI Assistant" } // Replaced LinkedIn
+                                { icon: Instagram, href: "https://instagram.com/mowglai", label: "Instagram" },
+                                { icon: Twitter, href: "https://twitter.com/mowglai", label: "X (Twitter)" },
+                                { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
                             ].map((item, i) => (
                                 <Magnetic key={i} amount={0.5}>
-                                    {item.isChat ? (
-                                        <button
-                                            onClick={() => setIsChatOpen(true)}
-                                            className="relative group w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/10"
-                                            aria-label={item.label}
-                                        >
-                                            <item.icon className="w-5 h-5 text-primary/60 group-hover:text-primary transition-colors" />
-                                        </button>
-                                    ) : (
-                                        <a
-                                            href={item.href}
-                                            className="relative group w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/10"
-                                            aria-label={item.label}
-                                        >
-                                            <item.icon className="w-5 h-5 text-primary/60 group-hover:text-primary transition-colors" />
-                                        </a>
-                                    )}
+                                    <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative group w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/10"
+                                        aria-label={item.label}
+                                    >
+                                        <item.icon className="w-5 h-5 text-primary/60 group-hover:text-primary transition-colors" />
+                                    </a>
                                 </Magnetic>
                             ))}
                         </div>
@@ -188,8 +197,6 @@ const FullScreenNav = ({ isDark, onToggleTheme }: FullScreenNavProps) => {
 
                 </div>
             </div>
-
-            <ChatbotModal isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
         </>
     );
 };

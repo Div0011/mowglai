@@ -4,8 +4,7 @@ import NextPageButton from "@/components/NextPageButton";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Sparkles } from "lucide-react";
 import { useState } from "react";
-import BrochurePDF from "@/components/BrochurePDF";
-import { Link } from "react-router-dom";
+import { downloadAsHtml } from "@/utils/pdfDownloader";
 
 const Investment = () => {
     const [planType, setPlanType] = useState<"standard" | "premium">("standard");
@@ -64,22 +63,21 @@ const Investment = () => {
                     {/* Brochure Section - Glossy Golden Style */}
                     <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-up">
                         <div className="relative group p-8 sm:p-12 rounded-[2.5rem] flex flex-col items-center text-center border border-primary/30 transition-all duration-700 bg-[linear-gradient(135deg,rgba(252,211,77,0.08),rgba(146,64,14,0.05))] hover:shadow-[0_0_40px_rgba(252,211,77,0.1)] overflow-hidden">
-                            {/* Inner Glossy Effect overlay */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[2.5rem] pointer-events-none" />
 
                             <Download className="w-12 h-12 text-primary mb-6 animate-bounce" />
                             <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 text-primary">OUR BROCHURE</h3>
                             <p className="text-foreground/70 mb-8 max-w-xs text-lg sm:text-xl leading-relaxed lowercase">Get a detailed breakdown of our wild strategies and success stories.</p>
 
-                            <a
-                                href="/mowglai-brochure.html"
-                                download
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    downloadAsHtml(`${import.meta.env.BASE_URL}mowglai-brochure.html`, 'Mowglai_Brochure.html');
+                                }}
                                 className="w-full py-6 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500 text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center cursor-pointer"
                             >
-                                Open Brochure
-                            </a>
+                                Download Brochure
+                            </button>
                         </div>
 
                         <div className="relative group p-8 sm:p-12 rounded-[2.5rem] flex flex-col items-center text-center border border-primary/30 transition-all duration-700 bg-[linear-gradient(135deg,rgba(252,211,77,0.08),rgba(146,64,14,0.05))] hover:shadow-[0_0_40px_rgba(252,211,77,0.1)] overflow-hidden">
@@ -88,15 +86,15 @@ const Investment = () => {
                             <FileText className="w-12 h-12 text-primary mb-6" />
                             <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 text-primary">CUSTOM QUOTATION</h3>
                             <p className="text-foreground/70 mb-8 max-w-xs text-lg sm:text-xl leading-relaxed lowercase">Tell us your goal and we'll generate a personalized strategy for your market habitat.</p>
-                            <a
-                                href="/mowglai-proposal-epic.html"
-                                download
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    downloadAsHtml(`${import.meta.env.BASE_URL}mowglai-quotation.html`, 'Mowglai_Quotation.html');
+                                }}
                                 className="w-full py-6 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500 text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center"
                             >
-                                Sample Quotation
-                            </a>
+                                Download Quotation
+                            </button>
                         </div>
                     </div>
                 </div>
