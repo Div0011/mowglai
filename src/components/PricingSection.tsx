@@ -2,6 +2,7 @@ import { Check, Sparkles, ArrowRight, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { downloadAsHtml } from "@/utils/pdfDownloader";
 
 const plans = [
   {
@@ -16,7 +17,7 @@ const plans = [
       "1 month support",
     ],
     popular: false,
-    proposalFile: "/mowglai-proposal-basic.html",
+    proposalFile: "mowglai-proposal-basic.html",
   },
   {
     name: "ADVANCED",
@@ -31,7 +32,7 @@ const plans = [
       "3 months support",
     ],
     popular: true,
-    proposalFile: "/mowglai-proposal-advanced.html",
+    proposalFile: "mowglai-proposal-advanced.html",
   },
   {
     name: "EPIC",
@@ -46,7 +47,7 @@ const plans = [
       "Dedicated team",
     ],
     popular: false,
-    proposalFile: "/mowglai-proposal-epic.html",
+    proposalFile: "mowglai-quotation.html",
   },
 ];
 
@@ -131,12 +132,12 @@ const PricingSection = () => {
                 </Button>
 
                 <a
-                  href={plan.proposalFile}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`${import.meta.env.BASE_URL}${plan.proposalFile}`}
                   className="flex justify-center items-center gap-2 py-2 text-xs font-bold tracking-widest uppercase text-primary/60 hover:text-primary transition-colors cursor-pointer"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    downloadAsHtml(`${import.meta.env.BASE_URL}${plan.proposalFile}`, `Mowglai_${plan.name}_Proposal.html`);
+                  }}
                 >
                   <Download className="w-4 h-4" />
                   Download Proposal

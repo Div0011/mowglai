@@ -308,7 +308,7 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed bottom-24 right-4 md:right-12 w-[90vw] md:w-[400px] h-[600px] max-h-[80vh] bg-background border border-primary/20 rounded-[2rem] shadow-[0_0_50px_rgba(var(--primary-rgb),0.2)] z-[71] flex flex-col overflow-hidden"
+                        className="fixed bottom-24 right-4 md:right-8 w-[90vw] md:w-[400px] h-[600px] max-h-[70vh] bg-background border border-primary/20 rounded-[2rem] shadow-[0_0_50px_rgba(var(--primary-rgb),0.2)] z-[71] flex flex-col overflow-hidden origin-bottom-right"
                     >
                         {/* Header */}
                         <div className="p-4 border-b border-primary/10 bg-primary/5 flex items-center justify-between">
