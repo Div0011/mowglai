@@ -1,0 +1,11 @@
+node_modules
+.git
+.gitignore
+README.md
+Dockerfile
+docker-compose.yml
+.env
+dist
+*.md
+.email_mowglai.html
+logo_*.txt

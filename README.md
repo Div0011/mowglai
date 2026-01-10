@@ -20,6 +20,17 @@ To run this project locally:
     npm run dev
     ```
 
+4.  **Run with Docker**:
+    Build the image:
+    ```sh
+    docker build -t mowglai .
+    ```
+    Run the container:
+    ```sh
+    docker run -p 5173:5173 mowglai
+    ```
+    Open [http://localhost:5173/mowglai/](http://localhost:5173/mowglai/) in your browser.
+
 ## Technologies
 
 - Vite
