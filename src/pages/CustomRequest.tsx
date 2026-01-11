@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
@@ -90,6 +91,10 @@ const CustomRequest = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Custom Request"
+                description="Tell us your vision. Mowglai creates custom digital solutions for your business needs. Share your idea and get a tailored proposal."
+            />
             <section className="relative min-h-screen py-16">
                 <div className="container mx-auto px-6">
                     {/* Header */}

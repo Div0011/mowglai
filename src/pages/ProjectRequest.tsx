@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import SEO from "@/components/SEO";
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,6 +59,10 @@ ${formData.workPlan}
 
     return (
         <PageLayout>
+            <SEO
+                title="Project Request"
+                description="Initialize your project with Mowglai. choose your investment plan and submit your project details to get started."
+            />
             <section className="relative min-h-screen py-24 px-6 flex items-center justify-center overflow-hidden">
                 {/* Background Atmosphere */}
                 <div className="absolute inset-0 bg-background z-0" />

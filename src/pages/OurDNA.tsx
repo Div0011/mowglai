@@ -2,6 +2,7 @@ import PageLayout from "@/components/PageLayout";
 import { Code2, Layers, Zap, Target, Users, Rocket, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 const OurDNA = () => {
     const workflowSteps = [
@@ -69,6 +70,10 @@ const OurDNA = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Our DNA"
+                description="Discover the core principles and workflow behind Mowglai. User-centric design, performance-first engineering, and scalable architecture."
+            />
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center py-16 overflow-hidden">
                 {/* Background Effects */}

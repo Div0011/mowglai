@@ -1,5 +1,6 @@
 import PageLayout from "@/components/PageLayout";
 import PricingSection from "@/components/PricingSection";
+import SEO from "@/components/SEO";
 import NextPageButton from "@/components/NextPageButton";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Sparkles } from "lucide-react";
@@ -11,6 +12,10 @@ const Investment = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Investment Plans"
+                description="Transparent pricing for web design and development. Choose from our Standard or Premium investment plans for your digital growth."
+            />
             <section className="relative pt-16 pb-16">
                 <div className="container mx-auto px-6">
                     {/* Header - Two-line style */}

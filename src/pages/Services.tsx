@@ -1,6 +1,7 @@
 
 import PageLayout from "@/components/PageLayout";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Palette, Shield, Rocket, Globe, BarChart } from "lucide-react";
 import NextPageButton from "@/components/NextPageButton";
@@ -74,6 +75,10 @@ const Services = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Our Services"
+                description="Explore our capabilities in Web Design, Development, Redesign, Database Architecture, and Global Strategy."
+            />
             {/* Hero Section - Cleaned up background */}
             <section className="relative min-h-[50vh] flex items-center justify-center pt-32 pb-12 overflow-hidden">
                 {/* Standard Background Effects */}
