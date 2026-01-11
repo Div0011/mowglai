@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import PricingSection from "@/components/PricingSection";
 import NextPageButton from "@/components/NextPageButton";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,12 @@ const Investment = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Investment Opportunities"
+                description="Explore investment opportunities with Mowglai. Join us in shaping the future of digital technology and innovation."
+                keywords="investment, startup funding, tech investment, digital agency investor"
+                url="https://mowglai.in/investment"
+            />
             <section className="relative pt-16 pb-16">
                 <div className="container mx-auto px-6">
                     {/* Header - Two-line style */}

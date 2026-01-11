@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import ContactSection from "@/components/ContactSection";
 import NextPageButton from "@/components/NextPageButton";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,11 @@ import { Quote } from "lucide-react";
 const Contact = () => {
     return (
         <PageLayout>
+            <SEO
+                title="Contact Us"
+                description="Get in touch with Mowglai. We are ready to discuss your project and help you achieve your digital goals."
+                url="https://mowglai.in/contact"
+            />
             <ContactSection />
 
             <section className="relative py-20">
