@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import { Code2, Layers, Zap, Target, Users, Rocket, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -69,6 +70,11 @@ const OurDNA = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Our DNA"
+                description="Discover the core values and philosophy that drive Mowglai. Excellence, innovation, and integrity are in our DNA."
+                url="https://mowglai.in/our-dna"
+            />
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center py-16 overflow-hidden">
                 {/* Background Effects */}
