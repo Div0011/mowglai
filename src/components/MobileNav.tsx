@@ -1,7 +1,8 @@
-import { Home, Users, Mail, DollarSign, Layers } from "lucide-react";
+import { Home, Users, Mail, DollarSign, Layers, Menu, X, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
     { icon: Home, label: "Home", href: "/" },
@@ -11,75 +12,123 @@ const navItems = [
     { icon: Mail, label: "Contact", href: "/contact" },
 ];
 
+const socialItems = [
+    { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+    { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
+    { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
+];
+
+const glassStyle = {
+    background: 'hsl(var(--background) / 0.7)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid hsl(var(--border) / 0.2)',
+    boxShadow: '0 0 20px hsl(var(--primary) / 0.15)',
+};
+
 const MobileNav = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+    const router = useRouter();
+    const pathname = usePathname();
     const [activeItem, setActiveItem] = useState("Home");
+    const [isOpen, setIsOpen] = useState(false);
 
     // Sync active item with location
     useEffect(() => {
-        const currentPath = location.pathname;
+        const currentPath = pathname;
         const active = navItems.find(item => item.href === currentPath);
         if (active) setActiveItem(active.label);
-    }, [location]);
+    }, [pathname]);
 
     const handleClick = (e: React.MouseEvent, label: string, href: string) => {
         e.preventDefault();
         setActiveItem(label);
-        navigate(href);
+        router.push(href);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     return (
         <nav
-            className="fixed right-4 top-1/2 -translate-y-1/2 z-50 md:hidden flex flex-col gap-4"
+            className="fixed right-[calc(1rem+env(safe-area-inset-right))] top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-4 md:hidden"
             aria-label="Mobile Navigation"
         >
-            <div
-                className="rounded-full py-6 px-2 flex flex-col justify-center items-center gap-6"
-                style={{
-                    background: 'hsl(var(--background) / 0.7)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid hsl(var(--border) / 0.2)',
-                    boxShadow: '0 0 20px hsl(var(--primary) / 0.15)',
-                }}
-            >
-                {navItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeItem === item.label;
+            {/* Top Row: Nav Items (Left) + Toggle (Right) */}
+            <div className="flex items-center gap-4">
 
-                    return (
-                        <a
-                            key={item.label}
-                            href={item.href}
-                            onClick={(e) => handleClick(e, item.label, item.href)}
-                            className={cn(
-                                "flex flex-col items-center justify-center w-14 transition-all duration-300 relative",
-                                isActive ? "text-primary scale-110" : "text-muted-foreground opacity-70 hover:opacity-100"
-                            )}
-                            aria-label={item.label}
+                {/* Regular Nav Items - Expands to the left (Horizontal) */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 20, scale: 0.8 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            exit={{ opacity: 0, x: 20, scale: 0.8 }}
+                            className="h-16 rounded-full px-4 flex items-center justify-center gap-2 overflow-hidden"
+                            style={glassStyle}
                         >
-                            <div className={cn(
-                                "p-2 rounded-full transition-all duration-300 mb-1",
-                                isActive ? "bg-primary/20 shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)]" : "bg-transparent"
-                            )}>
-                                <Icon className="w-5 h-5" />
-                            </div>
-                            <span className={cn(
-                                "text-xs font-medium tracking-wide",
-                                isActive ? "font-bold" : "font-normal"
-                            )}>
-                                {item.label}
-                            </span>
+                            {navItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = activeItem === item.label;
 
-                            {/* Active Indicator Dot */}
-                            {isActive && (
-                                <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-l-full shadow-[0_0_10px_var(--primary)] animate-pulse" />
-                            )}
-                        </a>
-                    );
-                })}
+                                return (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        onClick={(e) => handleClick(e, item.label, item.href)}
+                                        className={cn(
+                                            "flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-300 relative",
+                                            isActive ? "text-primary bg-primary/10" : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
+                                        )}
+                                        aria-label={item.label}
+                                    >
+                                        <Icon className="w-5 h-5" />
+
+                                        {/* Active Indicator - Dot at bottom */}
+                                        {isActive && (
+                                            <div className="absolute bottom-2 w-1 h-1 bg-primary rounded-full shadow-[0_0_5px_var(--primary)]" />
+                                        )}
+                                    </a>
+                                );
+                            })}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Toggle Button */}
+                <motion.button
+                    layout
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-16 h-16 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 text-primary z-50 flex-shrink-0"
+                    style={glassStyle}
+                    aria-label={isOpen ? "Close menu" : "Open menu"}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </motion.button>
             </div>
+
+            {/* Vertical Social Links - Drops down */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -20, height: 0 }}
+                        className="w-16 rounded-full py-4 flex flex-col items-center gap-6 overflow-hidden"
+                        style={glassStyle}
+                    >
+                        {socialItems.map((item) => (
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-3 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
+                                aria-label={item.label}
+                            >
+                                <item.icon className="w-5 h-5" />
+                            </a>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };

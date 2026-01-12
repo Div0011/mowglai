@@ -1,0 +1,30 @@
+{
+  "[project]/.vscode/mowglai.in/src/components/CustomCursor.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/.vscode/mowglai.in/src/components/CustomCursor.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_vscode_mowglai_in_src_components_CustomCursor_tsx_3c2146b5._.js",
+      "static/chunks/_vscode_mowglai_in_src_components_CustomCursor_tsx_353eec8a._.js"
+    ]
+  },
+  "[project]/.vscode/mowglai.in/src/components/ChatbotModal.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/.vscode/mowglai.in/src/components/ChatbotModal.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_vscode_mowglai_in_8cf68672._.js",
+      "static/chunks/_vscode_mowglai_in_src_components_ChatbotModal_tsx_353eec8a._.js"
+    ]
+  },
+  "[project]/.vscode/mowglai.in/src/components/JungleBackground.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/.vscode/mowglai.in/src/components/JungleBackground.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_vscode_mowglai_in_src_components_JungleBackground_tsx_949b3861._.js",
+      "static/chunks/_vscode_mowglai_in_src_components_JungleBackground_tsx_353eec8a._.js"
+    ]
+  },
+  "[project]/.vscode/mowglai.in/src/components/GalaxyBackground.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/.vscode/mowglai.in/src/components/GalaxyBackground.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_vscode_mowglai_in_src_components_GalaxyBackground_tsx_91538860._.js",
+      "static/chunks/_vscode_mowglai_in_src_components_GalaxyBackground_tsx_353eec8a._.js"
+    ]
+  }
+}

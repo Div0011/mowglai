@@ -1,13 +1,13 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface NextPageButtonProps {
     label: string;
-    to: string;
+    href: string;
 }
 
-const NextPageButton = ({ label, to }: NextPageButtonProps) => {
+const NextPageButton = ({ label, href }: NextPageButtonProps) => {
     return (
         <div className="w-full h-[300px] flex items-center justify-center relative overflow-hidden bg-background/5">
 
@@ -41,7 +41,7 @@ const NextPageButton = ({ label, to }: NextPageButtonProps) => {
 
             {/* Main Big Button - Now in Foreground */}
             <Link
-                to={to}
+                href={href}
                 className="group relative z-10 px-8 py-4 sm:px-12 sm:py-6 rounded-full border-2 border-primary/20 bg-background/40 hover:bg-primary/20 hover:border-primary/50 transition-all duration-700 overflow-hidden backdrop-blur-xl scale-100 sm:scale-110 md:scale-125"
             >
                 <div className="flex items-center gap-3 sm:gap-4 text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground tracking-tight uppercase leading-none">

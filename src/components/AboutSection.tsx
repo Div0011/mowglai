@@ -1,9 +1,12 @@
+"use client";
+
 import { Palette, Rocket, Shield, Globe, BarChart, Headphones } from "lucide-react";
 
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import NextImage from "next/image";
 
 const features = [
   { id: 1, icon: Palette, title: "Modern & Stylish", description: "Creating modest yet visually striking designs tailored for any client profile." },
@@ -53,8 +56,22 @@ const AboutSection = () => {
               <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/40 via-primary/5 to-transparent backdrop-blur-md opacity-100 group-hover:opacity-0 transition-opacity duration-1000 pointer-events-none" />
               <div className="absolute inset-0 z-10 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] opacity-100 group-hover:opacity-0 transition-opacity duration-700" />
 
-              <img src={`${import.meta.env.BASE_URL}logo1.png`} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 hidden dark:block" alt="Logo" />
-              <img src={`${import.meta.env.BASE_URL}logo2.png`} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 block dark:hidden" alt="Logo" />
+              <NextImage
+                src="/logo1.png"
+                alt="Mowglai Logo Dark"
+                width={320}
+                height={320}
+                className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 hidden dark:block"
+                priority
+              />
+              <NextImage
+                src="/logo2.png"
+                alt="Mowglai Logo Light"
+                width={320}
+                height={320}
+                className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 block dark:hidden"
+                priority
+              />
             </div>
           </div>
 

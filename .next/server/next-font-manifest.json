@@ -1,0 +1,43 @@
+{
+  "app": {
+    "[project]/.vscode/mowglai.in/app/_not-found/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/about/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/contact/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/custom-request/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/investment/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/our-dna/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/project-request/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ],
+    "[project]/.vscode/mowglai.in/app/services/page": [
+      "static/media/Boldonse_Regular-s.p.b8166443.ttf",
+      "static/media/JosefinSans_VariableFont_wght-s.p.262bf9e2.ttf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

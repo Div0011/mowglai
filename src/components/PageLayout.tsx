@@ -1,24 +1,28 @@
+"use client";
+
 import { useEffect, Suspense, useState } from "react";
-import GalaxyBackground from "@/components/GalaxyBackground";
+import dynamic from "next/dynamic";
 import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
-import CustomCursor from "@/components/CustomCursor";
 import ThemeToggle from "@/components/ThemeToggle";
-import ChatbotModal from "@/components/ChatbotModal";
 import { Bot } from "lucide-react";
 
 import Footer from "@/components/Footer";
 import ScrollToTop from "./ScrollToTop";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
-import JungleBackground from "@/components/JungleBackground";
+import { usePathname } from "next/navigation";
+
+const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
+const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: false });
+const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
+const GalaxyBackground = dynamic(() => import("@/components/GalaxyBackground"), { ssr: false });
 
 interface PageLayoutProps {
     children: React.ReactNode;
 }
 
 const PageLayout = ({ children }: PageLayoutProps) => {
-    const location = useLocation();
+    const pathname = usePathname();
     const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
@@ -47,10 +51,10 @@ const PageLayout = ({ children }: PageLayoutProps) => {
             <MobileNav />
 
             {/* Permanent Chatbot Trigger - Bottom Right */}
-            <div className="fixed bottom-8 right-8 z-[60]">
+            <div className="fixed bottom-[calc(2rem+env(safe-area-inset-bottom))] right-[calc(2rem+env(safe-area-inset-right))] z-[60]">
                 <button
                     onClick={() => setIsChatOpen(true)}
-                    className="relative group w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center transition-all duration-300 hover:bg-primary/20 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)] backdrop-blur-md"
+                    className="relative group w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center transition-all duration-300 hover:bg-primary/20 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)] backdrop-blur-md"
                     aria-label="Open AI Assistant"
                 >
                     <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping opacity-20 group-hover:opacity-40" />
@@ -63,7 +67,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
             <main className="relative z-10 w-full overflow-hidden">
                 <AnimatePresence mode="wait">
                     <motion.div
-                        key={location.pathname}
+                        key={pathname}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}

@@ -1,0 +1,12 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/custom-request/page": "app/custom-request/page.js",
+  "/investment/page": "app/investment/page.js",
+  "/our-dna/page": "app/our-dna/page.js",
+  "/page": "app/page.js",
+  "/project-request/page": "app/project-request/page.js",
+  "/services/page": "app/services/page.js"
+}

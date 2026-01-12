@@ -1,0 +1,3 @@
+module.exports=[73040,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(86544);a.n(d("[project]/.vscode/mowglai.in/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},66223,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(86544);a.n(d("[project]/.vscode/mowglai.in/node_modules/next/dist/client/components/builtin/global-error.js"))},63993,a=>{"use strict";a.i(73040);var b=a.i(66223);a.n(b)}];
+
+//# sourceMappingURL=ff797_next_dist_client_components_builtin_global-error_f14a3799.js.map

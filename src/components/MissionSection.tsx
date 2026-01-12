@@ -1,5 +1,7 @@
+"use client";
+
 import { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Fingerprint } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -78,7 +80,7 @@ const MissionSection = () => {
                         {/* Interactive Stats Button - Moved to left side */}
                         <div className="pt-4">
                             <Link
-                                to="/our-dna"
+                                href="/our-dna"
                                 className="group relative inline-flex items-center gap-4 px-8 py-4 bg-background/50 backdrop-blur-sm border border-primary/20 rounded-full transition-all duration-500 hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
                                 onMouseMove={(e) => {
                                     const btn = e.currentTarget;

@@ -1,15 +1,18 @@
+"use client";
+
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Bot, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Message {
     id: string;
     sender: 'bot' | 'user';
     text: string;
-    options?: { label: string; action: () => void }[];
+    options?: { label: string; action: () => void; path?: string; external?: boolean }[];
 }
 
 interface ChatbotModalProps {
@@ -17,7 +20,6 @@ interface ChatbotModalProps {
     onClose: () => void;
 }
 
-// --- KNOWLEDGE BASE ---
 // --- KNOWLEDGE BASE ---
 const SUPPORTED_SERVICES = {
     web_design: ['web design', 'ui', 'ux', 'website', 'interface', 'landing', 'store', 'shop', 'blog', 'site', 'redesign', 'revamp', 'visuals', 'looks'],
@@ -79,7 +81,7 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
     const [draftData, setDraftData] = useState({ service: '', details: '' });
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const navigate = useNavigate();
+    const router = useRouter();
 
     // Initial Greeting
     useEffect(() => {
@@ -146,7 +148,7 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
             simulateTyping(() => {
                 const mailSubject = `New Project Request: ${draftData.service}`;
                 const mailBody = `Service Requested: ${draftData.service}\n\nProject Details:\n${text}`;
-                const mailToLink = `mailto:hello@mowglai.in?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+                const mailToLink = `mailto:info@mowglai.in?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
                 addMessage("I have compiled your request dossier. You can now transmit this directly to our command center.", 'bot');
                 addMessage(`Summary:\nService: ${draftData.service}\nDetails: ${text}`, 'bot', [
@@ -179,17 +181,23 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
             // 0. CHECK FAQ KNOWLEDGE BASE FIRST
             const faqMatch = FAQ_KNOWLEDGE_BASE.find(item => item.keywords.some(k => lowerInput.includes(k)));
             if (faqMatch) {
-                const opts = faqMatch.options?.map(opt => ({
-                    label: opt.label,
-                    action: () => {
-                        if (opt.external) {
-                            window.open(opt.path, '_blank');
-                        } else {
-                            onClose();
-                            navigate(opt.path);
-                        }
-                    }
-                }));
+                const opts = faqMatch.options?.map(opt => {
+                    const isExternal = 'external' in opt ? opt.external : false;
+                    const path = opt.path;
+                    return {
+                        label: opt.label,
+                        action: () => {
+                            if (isExternal) {
+                                window.open(path, '_blank');
+                            } else {
+                                onClose();
+                                router.push(path);
+                            }
+                        },
+                        path: path,
+                        external: isExternal
+                    };
+                });
 
                 addMessage(faqMatch.response, 'bot', opts);
                 return;
@@ -200,8 +208,8 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
             if (futureMatch) {
                 addMessage(`That is an ambitious frontier! While we are currently focused on core web technologies, our labs are in the process of upgrading our capabilities to include ${futureMatch.toUpperCase()}.`, 'bot');
                 addMessage("Would you like to explore our current high-performance solutions or join our waitlist for future tech?", 'bot', [
-                    { label: "Explore Current Services", action: () => { onClose(); navigate('/services'); } },
-                    { label: "Contact for Waitlist", action: () => { onClose(); navigate('/contact'); } }
+                    { label: "Explore Current Services", action: () => { onClose(); router.push('/services'); } },
+                    { label: "Contact for Waitlist", action: () => { onClose(); router.push('/contact'); } }
                 ]);
                 return;
             }
@@ -220,49 +228,49 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
             // 4. Responses based on match
             if (matchType === 'design') {
                 addMessage("Aesthetic excellence is our specialty. We craft visually stunning, responsive interfaces that merge art with precision.", 'bot', [
-                    { label: "See Design Services", action: () => { onClose(); navigate('/services'); } },
-                    { label: "View Portfolio", action: () => { onClose(); navigate('/work'); } }
+                    { label: "See Design Services", action: () => { onClose(); router.push('/services'); } },
+                    { label: "View Portfolio", action: () => { onClose(); router.push('/work'); } }
                 ]);
             } else if (matchType === 'dev') {
                 addMessage("Robust engineering is in our DNA. Whether it's a complex web app, CMS, or API integration, we build for scale and security.", 'bot', [
-                    { label: "View Dev Solutions", action: () => { onClose(); navigate('/services'); } },
-                    { label: "Start a Project", action: () => { onClose(); navigate('/contact'); } }
+                    { label: "View Dev Solutions", action: () => { onClose(); router.push('/services'); } },
+                    { label: "Start a Project", action: () => { onClose(); router.push('/contact'); } }
                 ]);
             } else if (matchType === 'strat') {
                 addMessage("Growth requires map-making. Our strategy team assists with SEO, Content Curation, and Market Analysis to position your brand globally.", 'bot', [
-                    { label: "Explore Strategy", action: () => { onClose(); navigate('/services'); } }
+                    { label: "Explore Strategy", action: () => { onClose(); router.push('/services'); } }
                 ]);
             } else if (matchType === 'data') {
                 addMessage("Data is the lifeblood of modern business. We design secure, high-performance database architectures and cloud solutions.", 'bot', [
-                    { label: "Data Services", action: () => { onClose(); navigate('/services'); } }
+                    { label: "Data Services", action: () => { onClose(); router.push('/services'); } }
                 ]);
             } else if (matchType === 'price') {
                 addMessage("Financial clarity is key. We offer transparent investment plans: Basic, Advanced, and Epic, tailored to your growth stage.", 'bot', [
-                    { label: "View Investment Plans", action: () => { onClose(); navigate('/investment'); } }
+                    { label: "View Investment Plans", action: () => { onClose(); router.push('/investment'); } }
                 ]);
             } else if (matchType === 'about') {
                 addMessage("Mowglai is a global collective of Digital Artisans. We operate Monday to Saturday across multiple time zones, ensuring we align perfectly with your schedule.", 'bot');
                 addMessage("Our philosophy is 'Growth in the Wild'—combining rapid Adaptation with resilient Survival strategies. We have delivered 100+ projects in 15+ countries.", 'bot', [
-                    { label: "Read Our DNA", action: () => { onClose(); navigate('/our-dna'); } },
-                    { label: "Meet the Team", action: () => { onClose(); navigate('/about'); } }
+                    { label: "Read Our DNA", action: () => { onClose(); router.push('/our-dna'); } },
+                    { label: "Meet the Team", action: () => { onClose(); router.push('/about'); } }
                 ]);
             } else if (matchType === 'contact') {
                 addMessage("Communication is the first step to evolution. You can reach our command center directly via email or through our social channels.", 'bot', [
-                    { label: "Go to Contact Page", action: () => { onClose(); navigate('/contact'); } },
-                    { label: "Email: hello@mowglai.in", action: () => { window.location.href = "mailto:hello@mowglai.in"; } }
+                    { label: "Go to Contact Page", action: () => { onClose(); router.push('/contact'); } },
+                    { label: "Email: info@mowglai.in", action: () => { window.location.href = "mailto:info@mowglai.in"; } }
                 ]);
             } else if (matchType === 'social') {
                 addMessage("Join our tribe in the digital wild. Follow us for updates, insights, and success stories.", 'bot', [
-                    { label: "Instagram", action: () => { window.open("https://instagram.com/mowglai", "_blank"); } },
+                    { label: "Instagram", action: () => { window.open("https://www.instagram.com/mowglai_", "_blank"); } },
                     { label: "LinkedIn", action: () => { window.open("https://linkedin.com/company/mowglai", "_blank"); } },
-                    { label: "X (Twitter)", action: () => { window.open("https://twitter.com/mowglai", "_blank"); } }
+                    { label: "X (Twitter)", action: () => { window.open("https://x.com/Mowglai11", "_blank"); } }
                 ]);
             } else {
                 // Fallback or Generic
                 addMessage("I am processing your signal. While I didn't catch a specific service request, our team can likely assist. We specialize in Web Design, Development, and Digital Strategy.", 'bot', [
                     { label: "Start a Project Request", action: () => startDrafting() },
-                    { label: "View All Services", action: () => { onClose(); navigate('/services'); } },
-                    { label: "Contact Human Command", action: () => { onClose(); navigate('/contact'); } }
+                    { label: "View All Services", action: () => { onClose(); router.push('/services'); } },
+                    { label: "Contact Human Command", action: () => { onClose(); router.push('/contact'); } }
                 ]);
             }
         });
@@ -277,8 +285,8 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
             if (plan === "EPIC") text = "The EPIC plan provides custom-engineered digital ecosystems and unlimited scalability for market leaders.";
 
             addMessage(text, 'bot', [
-                { label: "View Details & Pricing", action: () => { onClose(); navigate('/investment'); } },
-                { label: "Request This Plan", action: () => { onClose(); navigate('/contact'); } }
+                { label: "View Details & Pricing", action: () => { onClose(); router.push('/investment'); } },
+                { label: "Request This Plan", action: () => { onClose(); router.push('/contact'); } }
             ]);
         });
     };
@@ -352,18 +360,29 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
                                     {msg.options && (
                                         <div className="mt-3 flex flex-wrap gap-2">
                                             {msg.options.map((option, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={option.action}
-                                                    className="px-4 py-2 rounded-full border border-primary/30 bg-background/50 text-sm font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                                                >
-                                                    {option.label}
-                                                </button>
+                                                option.path && !option.external ? (
+                                                    <Link
+                                                        key={idx}
+                                                        href={option.path}
+                                                        onClick={() => { onClose(); option.action(); }}
+                                                        className="px-4 py-2 rounded-full border border-primary/30 bg-background/50 text-sm font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                                                    >
+                                                        {option.label}
+                                                    </Link>
+                                                ) : (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={option.action}
+                                                        className="px-4 py-2 rounded-full border border-primary/30 bg-background/50 text-sm font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                                                    >
+                                                        {option.label}
+                                                    </button>
+                                                )
                                             ))}
                                         </div>
                                     )}
 
-                                    <span className="text-[10px] text-muted-foreground mt-2 opacity-50 uppercase tracking-wider">
+                                    <span className="text-[10px] text-muted-foreground mt-2 uppercase tracking-wider">
                                         {msg.sender === 'bot' ? 'Guardian AI' : 'You'}
                                     </span>
                                 </div>
