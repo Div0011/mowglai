@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -58,6 +59,12 @@ ${formData.workPlan}
 
     return (
         <PageLayout>
+            <SEO
+                title="Start a Project"
+                description="Ready to bring your digital vision to life? Request a project proposal from Mowglai's expert team."
+                keywords="project request, web development quote, app development proposal, digital agency services"
+                url="https://mowglai.in/project-request"
+            />
             <section className="relative min-h-screen py-24 px-6 flex items-center justify-center overflow-hidden">
                 {/* Background Atmosphere */}
                 <div className="absolute inset-0 bg-background z-0" />
