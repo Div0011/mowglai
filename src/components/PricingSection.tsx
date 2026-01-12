@@ -1,5 +1,7 @@
-import { Check, Sparkles, ArrowRight, Download } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import { Check, Sparkles, ArrowRight, Download, Smartphone } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
@@ -52,13 +54,13 @@ const plans = [
 ];
 
 const PricingSection = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handlePlanClick = (plan: typeof plans[0]) => {
     if (plan.price === "Custom") {
-      navigate("/custom-request");
+      router.push("/custom-request");
     } else {
-      navigate("/project-request", { state: { plan } });
+      router.push(`/project-request?plan=${plan.name.toLowerCase()}`);
     }
   };
 
@@ -112,7 +114,10 @@ const PricingSection = () => {
                 {plan.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-4 text-xl text-foreground/80 leading-tight">
                     <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span>{feature}</span>
+                    <span>
+                      {feature}
+                      {feature.includes("Mobile") && <Smartphone className="inline w-4 h-4 ml-2 text-primary" />}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -132,11 +137,11 @@ const PricingSection = () => {
                 </Button>
 
                 <a
-                  href={`${import.meta.env.BASE_URL}${plan.proposalFile}`}
+                  href={`/${plan.proposalFile}`}
                   className="flex justify-center items-center gap-2 py-2 text-xs font-bold tracking-widest uppercase text-primary/60 hover:text-primary transition-colors cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
-                    downloadAsHtml(`${import.meta.env.BASE_URL}${plan.proposalFile}`, `Mowglai_${plan.name}_Proposal.html`);
+                    downloadAsHtml(`/${plan.proposalFile}`, `Mowglai_${plan.name}_Proposal.html`);
                   }}
                 >
                   <Download className="w-4 h-4" />

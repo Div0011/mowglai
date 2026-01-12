@@ -8,10 +8,10 @@ interface Ripple {
 }
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [position, setPosition] = useState({ x: 0, y: 0 }); // Unused
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isInverted, setIsInverted] = useState(false); // New state for color inversion
+  const [isInverted, setIsInverted] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
   // Refs for direct DOM manipulation (better performance than state for cursor position)
@@ -37,15 +37,19 @@ const CustomCursor = () => {
     if (isMobile) return;
 
     // Use GSAP's quickTo for high-performance following
+    // Set initial alignment to prevent "shifting" from transform conflicts
+    gsap.set([cursorRef.current, followerRef.current], { xPercent: -50, yPercent: -50 });
+
     const cursorX = gsap.quickTo(cursorRef.current, "x", { duration: 0.1, ease: "power3.out" });
     const cursorY = gsap.quickTo(cursorRef.current, "y", { duration: 0.1, ease: "power3.out" });
-    const followerX = gsap.quickTo(followerRef.current, "x", { duration: 0.6, ease: "power3.out" });
-    const followerY = gsap.quickTo(followerRef.current, "y", { duration: 0.6, ease: "power3.out" });
+    const followerX = gsap.quickTo(followerRef.current, "x", { duration: 0.35, ease: "power3.out" });
+    const followerY = gsap.quickTo(followerRef.current, "y", { duration: 0.35, ease: "power3.out" });
 
     const handleMouseMove = (e: MouseEvent) => {
-      setIsVisible(true);
+      // Use functional updates to avoid stale closure issues and redundant sets
+      setIsVisible(prev => prev ? prev : true);
 
-      // Update GSAP positions
+      // Update GSAP positions (direct DOM manipulation remains outside React state)
       cursorX(e.clientX);
       cursorY(e.clientY);
       followerX(e.clientX);
@@ -53,16 +57,15 @@ const CustomCursor = () => {
 
       const target = e.target as HTMLElement;
 
-      // Pointer Check
+      // Pointer Check - Avoid getComputedStyle for performance on every move
       const isClickable =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
         !!target.closest("a") ||
         !!target.closest("button") ||
-        target.getAttribute("role") === "button" ||
-        window.getComputedStyle(target).cursor === "pointer";
+        target.getAttribute("role") === "button";
 
-      setIsPointer(isClickable);
+      setIsPointer(prev => prev === isClickable ? prev : isClickable);
 
       // Spawn ripple on move (throttled by distance)
       const dist = Math.hypot(e.clientX - lastRipplePos.current.x, e.clientY - lastRipplePos.current.y);
@@ -75,10 +78,10 @@ const CustomCursor = () => {
         }, 1500); // Match animation duration
       }
 
-      // Theme/Color Check
-      // Look for data-theme="gold" in the ancestry
+      // Theme/Color Check - Look for data-theme="gold" in the ancestry
       const themeElement = target.closest('[data-theme="gold"]');
-      setIsInverted(!!themeElement);
+      const shouldInvert = !!themeElement;
+      setIsInverted(prev => prev === shouldInvert ? prev : shouldInvert);
     };
 
     const handleMouseLeave = () => setIsVisible(false);
@@ -114,6 +117,16 @@ const CustomCursor = () => {
     return () => window.removeEventListener("click", handleClick);
   }, [isMobile]);
 
+  // Handle scaling via GSAP to avoid conflict with positional transforms
+  useEffect(() => {
+    if (isMobile || !followerRef.current) return;
+    gsap.to(followerRef.current, {
+      scale: isPointer ? 1.6 : 1,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+  }, [isPointer, isMobile]);
+
   if (isMobile) return null;
 
   return (
@@ -141,23 +154,20 @@ const CustomCursor = () => {
       {/* Follower (Large Circle) */}
       <div
         ref={followerRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] w-12 h-12 rounded-full border transition-[width,height,border-color,background-color] duration-300 ease-out custom-cursor-follower ${isVisible ? 'opacity-100' : 'opacity-0'
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] w-12 h-12 rounded-full border border-primary/20 custom-cursor-follower transition-[opacity,background-color,border-color] duration-300 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'
           }`}
         style={{
-          transform: 'translate(-50%, -50%)', // Center on coordinates
           borderColor: isInverted ? '#1B3022' : '#C5A059',
           backgroundColor: isPointer ? (isInverted ? 'rgba(27, 48, 34, 0.1)' : 'rgba(197, 160, 89, 0.1)') : 'transparent',
-          scale: isPointer ? 1.5 : 1,
         }}
       />
 
       {/* Main Dot */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] w-3 h-3 rounded-full transition-colors duration-300 ease-out custom-cursor-dot ${isVisible ? 'opacity-100' : 'opacity-0'
+        className={`fixed top-0 left-0 pointer-events-none z-[9999] w-3 h-3 rounded-full custom-cursor-dot transition-[opacity,background-color] duration-300 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'
           }`}
         style={{
-          transform: 'translate(-50%, -50%)',
           backgroundColor: isInverted ? '#1B3022' : '#C5A059',
         }}
       />

@@ -1,13 +1,17 @@
+"use client";
+
 import { useState, useRef } from "react";
 import { Send, Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { sendEmail } from "@/utils/emailSender";
 
 
 const ContactSection = () => {
   const { toast } = useToast();
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -15,16 +19,37 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
+    const subject = `New Contact Message from ${formData.name}`;
+    const result = await sendEmail({
+      subject: subject,
+      email: formData.email,
+      name: formData.name,
+      message: formData.message
     });
 
+    if (result.status === 'success') {
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } else {
+      // Fallback
+      const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+        `;
+      window.location.href = `mailto:info@mowglai.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      toast({
+        title: "Opening Email Client",
+        description: "Server unreachable. Please check your email client.",
+      });
+    }
+
     setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
   };
 
   return (
@@ -49,7 +74,7 @@ const ContactSection = () => {
             <div className="space-y-8">
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Email</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">hello@mowglai.in</p>
+                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">info@mowglai.in</p>
               </div>
 
               <div className="group cursor-pointer">
@@ -71,18 +96,24 @@ const ContactSection = () => {
                 <Input
                   required
                   placeholder="Your Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
                 />
                 <Input
                   required
                   type="email"
                   placeholder="Email Address"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
                 />
                 <Textarea
                   required
                   rows={4}
                   placeholder="Tell us about your project..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 resize-none transition-all font-display font-bold"
                 />
               </div>

@@ -1,12 +1,19 @@
 # Mowglai Galaxy Landing
 
-This is the Mowglai Galaxy Landing page project, built with React, Vite, and Tailwind CSS.
+This is the Mowglai Galaxy Landing page project, built with **Next.js 15 (App Router)**, **React**, **TypeScript**, and **Tailwind CSS**.
 
-## Project info
+## Project Info
 
-**URL**: https://mowglai.com
+**URL**: [https://mowglai.in](https://mowglai.in)
 
-## getting Started
+## Optimization Features
+
+- **Server Components**: Core pages are rendered on the server to minimize client-side JavaScript (the "JavaScript Tax").
+- **Image Optimization**: Powered by `next/image` with automatic WebP conversion and priority loading for LCP.
+- **Dynamic Imports**: Heavy animation libraries (GSAP, Three.js) are loaded asynchronously.
+- **Advanced SEO**: Automated metadata generation with JSON-LD schema support.
+
+## Getting Started
 
 To run this project locally:
 
@@ -14,29 +21,20 @@ To run this project locally:
 2.  Install dependencies:
     ```sh
     npm install
+    # or
+    bun install
     ```
 3.  Start the development server:
     ```sh
     npm run dev
     ```
 
-4.  **Run with Docker**:
-    Build the image:
-    ```sh
-    docker build -t mowglai .
-    ```
-    Run the container:
-    ```sh
-    docker run -p 5173:5173 mowglai
-    ```
-    Open [http://localhost:5173/mowglai/](http://localhost:5173/mowglai/) in your browser.
-
 ## Technologies
 
-- Vite
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- GSAP
-- Three.js (@react-three/fiber, @react-three/drei)
+- **Framework**: Next.js 15
+- **Icons**: Lucide React
+- **Styling**: Tailwind CSS
+- **Interactivity**: Framer Motion
+- **Animations**: GSAP
+- **3D Visuals**: Three.js (@react-three/fiber, @react-three/drei)
+- **Deployment**: Optimized for Vercel/Cloudflare

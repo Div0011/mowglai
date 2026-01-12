@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Twitter, Linkedin, Layers, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useRouter, usePathname } from "next/navigation";
 import Magnetic from "@/components/Magnetic";
+import MowglaiLogo from "@/components/MowglaiLogo";
 
 interface NavItem {
     icon: React.ElementType;
@@ -27,7 +28,8 @@ interface FullScreenNavProps {
 const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-    const navigate = useNavigate();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -36,17 +38,17 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     const handleClick = (e: React.MouseEvent, label: string, href: string) => {
         e.preventDefault();
         setIsOpen(false);
-        navigate(href);
+        router.push(href);
     };
 
     return (
         <>
-            {/* Hamburger Button - Fixed Top Right */}
-            <div className="fixed top-8 right-8 z-[60]">
+            {/* Hamburger Button - Fixed Top Right - Desktop Only */}
+            <div className="hidden md:block fixed top-[calc(2rem+env(safe-area-inset-top))] right-[calc(2rem+env(safe-area-inset-right))] z-[60]">
                 <Magnetic>
                     <button
                         onClick={toggleMenu}
-                        className="w-14 h-14 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 group border border-transparent hover:border-primary/20 bg-background/5 backdrop-blur-sm"
+                        className="w-16 h-16 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 group border border-transparent hover:border-primary/20 bg-background/5 backdrop-blur-sm"
                         aria-label="Toggle Menu"
                     >
                         {isOpen ? (
@@ -59,26 +61,16 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
             </div>
 
 
+
             {/* Logo - Fixed Top Left - Visible Always */}
-            <div className="fixed top-8 left-8 z-[60]">
+            <div className="fixed top-[calc(2rem+env(safe-area-inset-top))] left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
                 <Magnetic amount={0.4}>
                     <div
-                        className="w-20 h-20 flex items-center justify-center cursor-pointer"
-                        onClick={() => navigate('/')}
+                        className="cursor-pointer"
+                        onClick={() => router.push('/')}
                     >
-                        <div className="w-16 h-16 rounded-full border border-primary/20 bg-background/5 overflow-hidden backdrop-blur-sm">
-                            {/* Dark Mode Logo */}
-                            <img
-                                src={`${import.meta.env.BASE_URL}logo1.png`}
-                                alt="Mowglai Logo"
-                                className="w-full h-full object-cover hidden dark:block"
-                            />
-                            {/* Light Mode Logo */}
-                            <img
-                                src={`${import.meta.env.BASE_URL}logo2.png`}
-                                alt="Mowglai Logo"
-                                className="w-full h-full object-cover block dark:hidden"
-                            />
+                        <div className="w-20 h-20 flex items-center justify-center">
+                            <MowglaiLogo size="lg" className="w-16 h-16" />
                         </div>
                     </div>
                 </Magnetic>
@@ -152,8 +144,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     {/* Mobile Social Icons (Bottom Row) */}
                     <div className="absolute bottom-10 left-0 w-full flex md:hidden justify-center gap-6 z-50">
                         {[
-                            { icon: Instagram, href: "https://instagram.com/mowglai", label: "Instagram" },
-                            { icon: Twitter, href: "https://twitter.com/mowglai", label: "X (Twitter)" },
+                            { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+                            { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
                             { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
                         ].map((item, i) => (
                             <Magnetic key={i} amount={0.5}>
@@ -176,8 +168,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                         <div className="flex flex-col gap-8 items-center">
                             {/* Magnetic Social Icons */}
                             {[
-                                { icon: Instagram, href: "https://instagram.com/mowglai", label: "Instagram" },
-                                { icon: Twitter, href: "https://twitter.com/mowglai", label: "X (Twitter)" },
+                                { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+                                { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
                                 { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
                             ].map((item, i) => (
                                 <Magnetic key={i} amount={0.5}>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const HeroSection = () => {
     return (
@@ -35,14 +35,14 @@ const HeroSection = () => {
                     style={{ animationDelay: "1s", animationFillMode: "forwards" }}
                 >
                     <Link
-                        to="/contact"
+                        href="/contact"
                         data-theme="gold"
                         className="w-full sm:w-auto px-10 py-4 bg-primary text-background text-lg font-bold uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors duration-300 rounded-full text-center"
                     >
                         Start a Project
                     </Link>
                     <Link
-                        to="/investment"
+                        href="/investment"
                         className="w-full sm:w-auto px-10 py-4 border border-foreground/30 text-foreground text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
                     >
                         Learn More
