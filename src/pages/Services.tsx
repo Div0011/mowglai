@@ -1,5 +1,6 @@
 
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Palette, Shield, Rocket, Globe, BarChart } from "lucide-react";
@@ -74,6 +75,12 @@ const Services = () => {
 
     return (
         <PageLayout>
+            <SEO
+                title="Our Services"
+                description="Expert web and mobile app development services. From custom software to digital transformation, we deliver excellence."
+                keywords="web development, mobile apps, UI/UX design, custom software, digital services"
+                url="https://mowglai.in/services"
+            />
             {/* Hero Section - Cleaned up background */}
             <section className="relative min-h-[50vh] flex items-center justify-center pt-32 pb-12 overflow-hidden">
                 {/* Standard Background Effects */}

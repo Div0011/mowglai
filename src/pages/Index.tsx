@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import { SEO } from "@/components/SEO";
 import HeroSection from "@/components/HeroSection";
 import NextPageButton from "@/components/NextPageButton";
 import { Sparkles, Globe, Zap, Layers } from "lucide-react";
@@ -24,6 +25,11 @@ const Home = () => {
 
   return (
     <PageLayout>
+      <SEO
+        title="Crafting Digital Excellence"
+        description="Mowglai is a premier digital agency specializing in high-end web and mobile application development. We craft digital experiences that define the future."
+        url="https://mowglai.in/"
+      />
       <div className="relative w-full h-screen">
         <HeroSection />
       </div>
