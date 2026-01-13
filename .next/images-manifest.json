@@ -51,7 +51,7 @@
     "qualities": [
       75
     ],
-    "unoptimized": false,
+    "unoptimized": true,
     "sizes": [
       640,
       750,
