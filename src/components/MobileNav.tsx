@@ -41,17 +41,17 @@ const MobileNav = () => {
     const handleClick = (e: React.MouseEvent, label: string, href: string) => {
         e.preventDefault();
         setActiveItem(label);
+        setIsOpen(false);
         router.push(href);
-        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     return (
         <nav
-            className="fixed right-[calc(1rem+env(safe-area-inset-right))] top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-4 md:hidden"
+            className="fixed right-[calc(1rem+env(safe-area-inset-right))] top-[calc(1rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-4 md:hidden"
             aria-label="Mobile Navigation"
         >
             {/* Top Row: Nav Items (Left) + Toggle (Right) */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
 
                 {/* Regular Nav Items - Expands to the left (Horizontal) */}
                 <AnimatePresence>
@@ -60,7 +60,7 @@ const MobileNav = () => {
                             initial={{ opacity: 0, x: 20, scale: 0.8 }}
                             animate={{ opacity: 1, x: 0, scale: 1 }}
                             exit={{ opacity: 0, x: 20, scale: 0.8 }}
-                            className="h-16 rounded-full px-4 flex items-center justify-center gap-2 overflow-hidden"
+                            className="h-14 rounded-full px-2 flex items-center justify-center gap-1 overflow-hidden"
                             style={glassStyle}
                         >
                             {navItems.map((item) => {
@@ -73,16 +73,16 @@ const MobileNav = () => {
                                         href={item.href}
                                         onClick={(e) => handleClick(e, item.label, item.href)}
                                         className={cn(
-                                            "flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-300 relative",
+                                            "flex flex-col items-center justify-center w-9 h-9 rounded-full transition-all duration-300 relative",
                                             isActive ? "text-primary bg-primary/10" : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
                                         )}
                                         aria-label={item.label}
                                     >
-                                        <Icon className="w-5 h-5" />
+                                        <Icon className="w-4 h-4" />
 
                                         {/* Active Indicator - Dot at bottom */}
                                         {isActive && (
-                                            <div className="absolute bottom-2 w-1 h-1 bg-primary rounded-full shadow-[0_0_5px_var(--primary)]" />
+                                            <div className="absolute bottom-1.5 w-1 h-1 bg-primary rounded-full shadow-[0_0_5px_var(--primary)]" />
                                         )}
                                     </a>
                                 );
@@ -95,12 +95,12 @@ const MobileNav = () => {
                 <motion.button
                     layout
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-16 h-16 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 text-primary z-50 flex-shrink-0"
+                    className="w-14 h-14 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 text-primary z-50 flex-shrink-0"
                     style={glassStyle}
                     aria-label={isOpen ? "Close menu" : "Open menu"}
                     whileTap={{ scale: 0.95 }}
                 >
-                    {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </motion.button>
             </div>
 

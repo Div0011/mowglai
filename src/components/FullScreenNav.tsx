@@ -63,14 +63,14 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
 
             {/* Logo - Fixed Top Left - Visible Always */}
-            <div className="fixed top-[calc(2rem+env(safe-area-inset-top))] left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
+            <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] left-[calc(1rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
                 <Magnetic amount={0.4}>
                     <div
                         className="cursor-pointer"
                         onClick={() => router.push('/')}
                     >
-                        <div className="w-20 h-20 flex items-center justify-center">
-                            <MowglaiLogo size="lg" className="w-16 h-16" />
+                        <div className="w-14 h-14 md:w-20 md:h-20 flex items-center justify-center">
+                            <MowglaiLogo size="md" className="w-12 h-12 md:w-16 md:h-16" />
                         </div>
                     </div>
                 </Magnetic>
