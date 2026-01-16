@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import NextImage from "next/image";
+import MowglaiLogo from "@/components/MowglaiLogo";
 
 const features = [
   { id: 1, icon: Palette, title: "Modern & Stylish", description: "Creating modest yet visually striking designs tailored for any client profile." },
@@ -27,14 +27,14 @@ const AboutSection = () => {
         {/* Left Column: Huge Title & Logo */}
         <div className="space-y-12" data-aos="fade-right">
           {/* Two-line heading with one word faded - Jungle Theme */}
-          <h2 className="text-[11vw] font-display font-black tracking-tighter text-foreground relative z-10 drop-shadow-sm flex flex-col">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[11vw] font-display font-black tracking-tighter text-foreground relative z-10 drop-shadow-sm flex flex-col">
             <span className="leading-[0.8] opacity-10 uppercase">Digital</span>
             <span className="text-primary leading-[0.8] uppercase">Artisans</span>
           </h2>
 
           {/* Integrated Logo Element - Magnetic & Foggy */}
           <div
-            className="relative w-full aspect-square max-w-[400px] sm:max-w-[440px] md:max-w-[500px] mx-auto md:ml-0 flex items-center justify-center cursor-pointer group/logo-container p-20"
+            className="relative w-full aspect-square max-w-[400px] sm:max-w-[440px] md:max-w-[500px] mx-auto md:ml-0 flex items-center justify-center cursor-pointer group/logo-container p-4 sm:p-20"
             onMouseMove={(e) => {
               const el = e.currentTarget;
               const rect = el.getBoundingClientRect();
@@ -51,27 +51,12 @@ const AboutSection = () => {
             {/* Background Atmosphere */}
             <div className="absolute w-[80%] h-[80%] bg-primary/10 rounded-full blur-[80px] md:blur-[100px] pointer-events-none animate-pulse" />
 
-            <div className="magnetic-logo relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-80 md:h-80 rounded-full border border-primary/20 bg-background/5 overflow-hidden shadow-[0_0_50px_rgba(var(--primary-rgb),0.2)] transition-all duration-700 group hover:shadow-[0_0_100px_hsl(var(--primary))] ring-1 ring-primary/10 ring-offset-8 ring-offset-transparent">
-              {/* Fog Layer - Disappears on hover */}
-              <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/40 via-primary/5 to-transparent backdrop-blur-md opacity-100 group-hover:opacity-0 transition-opacity duration-1000 pointer-events-none" />
-              <div className="absolute inset-0 z-10 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] opacity-100 group-hover:opacity-0 transition-opacity duration-700" />
+            {/* The Logo Component */}
+            <div className="magnetic-logo relative w-full h-full aspect-square transition-all duration-700">
+              <MowglaiLogo size="full" className="shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)] group-hover/logo-container:shadow-[0_0_60px_hsl(var(--primary))]" />
 
-              <NextImage
-                src="/logo1.png"
-                alt="Mowglai Logo Dark"
-                width={320}
-                height={320}
-                className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 hidden dark:block"
-                priority
-              />
-              <NextImage
-                src="/logo2.png"
-                alt="Mowglai Logo Light"
-                width={320}
-                height={320}
-                className="object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 block dark:hidden"
-                priority
-              />
+              {/* Fog Layer - Disappears on hover */}
+              <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/20 via-primary/5 to-transparent backdrop-blur-sm opacity-100 group-hover/logo-container:opacity-0 transition-opacity duration-1000 pointer-events-none rounded-full" />
             </div>
           </div>
 

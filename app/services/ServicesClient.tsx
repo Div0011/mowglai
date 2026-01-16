@@ -80,9 +80,9 @@ export default function ServicesClient() {
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-[150px]" />
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <h1 className="text-6xl sm:text-7xl md:text-[10vw] font-display font-black text-foreground mb-6 leading-[0.85] uppercase" data-aos="fade-up">
+                    <h1 className="text-5xl sm:text-7xl md:text-[10vw] font-display font-black text-foreground mb-6 leading-[0.85] uppercase" data-aos="fade-up">
                         <span className="block opacity-10">Our</span>
-                        <span className="block text-primary -mt-4">Services</span>
+                        <span className="block text-primary -mt-4 uppercase">Services</span>
                     </h1>
 
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
@@ -156,7 +156,7 @@ const ServicePanel = ({ service, index }: { service: any, index: number }) => {
                             <div className="inline-block px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-base font-bold text-primary uppercase tracking-wider mb-2">
                                 {service.category}
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.1]">
+                            <h2 className="text-xl sm:text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.1]">
                                 {service.title}
                             </h2>
                         </div>
