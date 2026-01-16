@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/divya/.vscode/mowglai.in/src/components/GalaxyBackground.tsx"],"sourcesContent":["const GalaxyBackground = () => {\r\n  return (\r\n    <div className=\"fixed inset-0 -z-10 bg-background\" />\r\n  );\r\n};\r\n\r\nexport default GalaxyBackground;"],"names":[],"mappings":";;;;;;AAAA,MAAM,mBAAmB;IACvB,qBACE,0NAAC;QAAI,WAAU;;;;;;AAEnB;KAJM;uCAMS"}}]
-}

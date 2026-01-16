@@ -23,7 +23,7 @@ const AvatarImage = React.forwardRef<
 >(({ className, src, alt, ...props }, ref) => (
   <AvatarPrimitive.Image asChild ref={ref} src={src} {...props}>
     <div className={cn("relative aspect-square h-full w-full", className)}>
-      {src && (
+      {src && typeof src === 'string' && (
         <Image
           src={src}
           alt={alt || "Avatar"}
