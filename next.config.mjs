@@ -1,8 +1,12 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
     images: {
-        unoptimized: true,
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [
             {
@@ -15,4 +19,4 @@ const nextConfig = {
     transpilePackages: ['gsap', 'three', '@react-three/fiber', '@react-three/drei'],
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
