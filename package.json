@@ -7,7 +7,7 @@
 		"dev": "next dev --turbo",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "eslint ."
 	},
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
@@ -61,6 +61,7 @@
 		"react": "^19.2.3",
 		"react-day-picker": "^8.10.1",
 		"react-dom": "^19.2.3",
+		"react-helmet-async": "^2.0.5",
 		"react-hook-form": "^7.70.0",
 		"react-resizable-panels": "^2.1.9",
 		"recharts": "^2.15.4",
@@ -74,6 +75,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.39.2",
 		"@tailwindcss/typography": "^0.5.19",
+		"@types/aos": "^3.0.7",
 		"@types/node": "^22.19.5",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",

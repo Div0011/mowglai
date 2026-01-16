@@ -1,5 +1,6 @@
 import PageLayout from "@/components/PageLayout";
 import AboutSection from "@/components/AboutSection";
+import TeamSection from "@/components/TeamSection";
 import MissionSection from "@/components/MissionSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import NextPageButton from "@/components/NextPageButton";
@@ -14,6 +15,7 @@ export default function About() {
         <PageLayout>
             <AboutSection />
             <MissionSection />
+            <TeamSection />
             <TestimonialsSection />
             <NextPageButton label="Our Services" href="/services" />
         </PageLayout>

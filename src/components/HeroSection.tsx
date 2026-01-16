@@ -52,10 +52,10 @@ const HeroSection = () => {
             </div>
 
             {/* Bottom Indicators */}
-            <div className="absolute bottom-12 left-10 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
+            <div className="absolute bottom-12 ml-2 left-24 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
                 Global Digital Partnership
             </div>
-            <div className="absolute bottom-12 right-10 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
+            <div className="absolute bottom-12 mr-2 right-24 hidden md:block text-xs font-display tracking-widest text-foreground/40 uppercase">
                 Scroll to Explore
             </div>
 
