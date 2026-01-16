@@ -58,9 +58,9 @@ ${formData.message}
 
         {/* Huge Header */}
         <div className="mb-24 relative">
-          <h2 className="text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground select-none relative z-10">
+          <h2 className="text-7xl sm:text-8xl md:text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground select-none relative z-10">
             GET IN <br />
-            <span className="text-primary ml-[38vw]">TOUCH</span>
+            <span className="text-primary ml-0 md:ml-[38vw]">TOUCH</span>
           </h2>
         </div>
 
@@ -74,17 +74,17 @@ ${formData.message}
             <div className="space-y-8">
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Email</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">info@mowglai.in</p>
+                <p className="text-2xl sm:text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">info@mowglai.in</p>
               </div>
 
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Hours</p>
-                <p className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Mon - Sat • Global Zones</p>
+                <p className="text-xl sm:text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Mon - Sat • Global Zones</p>
               </div>
 
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">HQ Location</p>
-                <p className="text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Noida, India</p>
+                <p className="text-2xl sm:text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">Noida, India</p>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ ${formData.message}
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-foreground text-background hover:bg-background hover:text-foreground border-2 border-foreground font-display font-black text-xl py-8 rounded-xl transition-all uppercase tracking-widest"
+                className="w-full bg-foreground text-background hover:bg-background hover:text-foreground border-2 border-foreground font-display font-black text-sm sm:text-lg md:text-xl py-6 md:py-8 rounded-xl transition-all uppercase tracking-widest"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </Button>

@@ -17,7 +17,7 @@ const HeroSection = () => {
 
                 {/* Massive Title Block */}
                 <div className="flex flex-col items-center leading-none">
-                    <h1 className="text-[12vw] md:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-wide transition-all duration-700 cursor-default select-none" data-aos="zoom-out" data-aos-duration="1200">
+                    <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-wide transition-all duration-700 cursor-default select-none" data-aos="zoom-out" data-aos-duration="1200">
                         MOWGLAI
                     </h1>
                 </div>
@@ -37,13 +37,13 @@ const HeroSection = () => {
                     <Link
                         href="/contact"
                         data-theme="gold"
-                        className="w-full sm:w-auto px-10 py-4 bg-primary text-background text-lg font-bold uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors duration-300 rounded-full text-center"
+                        className="w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-background text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors duration-300 rounded-full text-center"
                     >
                         Start a Project
                     </Link>
                     <Link
                         href="/investment"
-                        className="w-full sm:w-auto px-10 py-4 border border-foreground/30 text-foreground text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
+                        className="w-full sm:w-auto px-8 sm:px-10 py-4 border border-foreground/30 text-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
                     >
                         Learn More
                     </Link>

@@ -4,7 +4,7 @@ import NextPageButton from "@/components/NextPageButton";
 import { AestheticShowcase } from "@/components/AestheticShowcase";
 
 export const metadata = {
-    title: "Mowglai | Crafting Digital Excellence",
+    title: "Mowglaii | Crafting Digital Excellence",
     description: "Mowglai creates stunning, high-performance websites and web applications. We transform your digital presence with cutting-edge design and expert development.",
 };
 
@@ -20,7 +20,7 @@ export default function Home() {
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
                         <div data-aos="fade-right">
-                            <h2 className="text-5xl md:text-7xl font-display font-bold mb-8 leading-tight">
+                            <h2 className="text-2xl sm:text-5xl md:text-7xl font-display font-bold mb-8 leading-tight">
                                 WE CREATE <span className="opacity-10">THE</span> <span className="text-primary italic">EXTRAORDINARY</span>
                             </h2>
                             <p className="text-xl text-muted-foreground font-body leading-relaxed mb-12">

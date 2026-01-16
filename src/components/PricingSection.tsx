@@ -70,9 +70,9 @@ const PricingSection = () => {
 
         {/* Header - Two-line style with faded word */}
         <div className="mb-24 text-center">
-          <h2 className="text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground mb-8 relative z-10 flex flex-col items-center">
+          <h2 className="text-xl sm:text-6xl md:text-8xl lg:text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground mb-8 relative z-10 flex flex-col items-center">
             <span className="opacity-10">THE</span>
-            <span className="text-primary -mt-4">INVESTMENT</span>
+            <span className="text-primary -mt-2 sm:-mt-4 uppercase leading-none">Investment</span>
           </h2>
           <p className="text-xl text-primary font-body tracking-[0.3em] uppercase opacity-60">
             Value Beyond Measurement
@@ -98,10 +98,10 @@ const PricingSection = () => {
                 {plan.popular && (
                   <span className="inline-block px-4 py-1 rounded-full bg-primary text-background text-[10px] font-bold tracking-widest uppercase mb-6">Most Popular</span>
                 )}
-                <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-foreground group-hover:text-primary transition-colors">
+                <h3 className="text-xl sm:text-3xl md:text-4xl font-display font-bold mb-4 text-foreground group-hover:text-primary transition-colors">
                   {plan.name}
                 </h3>
-                <div className="text-5xl md:text-6xl font-display font-black text-foreground mb-4">
+                <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black text-foreground mb-4">
                   {plan.price}
                   {plan.price !== "Custom" && <span className="text-lg font-normal text-muted-foreground ml-2">/ project</span>}
                 </div>
@@ -127,7 +127,7 @@ const PricingSection = () => {
                   onClick={() => handlePlanClick(plan)}
                   data-theme={plan.popular ? "gold" : undefined}
                   className={cn(
-                    "w-full py-8 text-xl font-display font-black uppercase tracking-widest rounded-full transition-all duration-500 shadow-lg",
+                    "w-full py-6 md:py-8 text-xs sm:text-lg md:text-xl font-display font-black uppercase tracking-widest rounded-full transition-all duration-500 shadow-lg",
                     plan.popular
                       ? "bg-primary text-primary-foreground hover:bg-foreground hover:text-background"
                       : "bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-background"

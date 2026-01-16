@@ -4,11 +4,25 @@
   # Ensure HTTPS
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
+ 
   RewriteBase /
+  
+  # Remove trailing slashes and redirect to .html
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+[^/])/$ /$1.html [L,R=301]
+  
+  # Serve .html files without .html extension
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+  
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
   RewriteRule . /index.html [L]
 </IfModule>
+
+# Enable directory index for static files
+Options +Indexes

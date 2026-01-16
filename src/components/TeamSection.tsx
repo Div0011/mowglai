@@ -2,14 +2,14 @@
 
 import { Github, Twitter, Mail, Linkedin, Globe } from "lucide-react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import NextImage from "next/image";
+// import { cn } from "@/lib/utils";
+// import NextImage from "next/image";
 
 const teamMembers = [
     {
         id: 1,
         name: "Ajay Ahlawat",
-        role: "CEO & Manager",
+        role: "CEO, Manager",
         image: "/team/ajay.jpg", // Placeholder
         socials: {
             linkedin: "#",
@@ -23,16 +23,16 @@ const teamMembers = [
         role: "CTO",
         image: "/team/aryan.jpg", // Placeholder
         socials: {
-            twitter: "https://twitter.com/awryan_447",
+            twitter: "https://twitter.com/aryan_447",
             github: "https://github.com/aryan447",
             email: "mailto:singharyan4477@gmail.com",
         },
     },
     {
         id: 2,
-        name: "Akshay Baghel",
+        name: "Ankit Baghel",
         role: "Developer",
-        image: "/team/akshay.jpg", // Placeholder
+        image: "/team/ankit.jpg", // Placeholder
         socials: {
             linkedin: "#",
             github: "#",
@@ -42,12 +42,12 @@ const teamMembers = [
     {
         id: 4,
         name: "Divyansh Awasthi",
-        role: "Junior Dev (Intern)",
+        role: "CFO, Superviser",
         image: "/team/divyansh.jpg", // Placeholder
         socials: {
             github: "https://github.com/div0011",
             linkedin: "#",
-            email: "mailto:divyansh@mowglai.com",
+            email: "mailto:divyanshawasthi90@gmail.com",
         },
     },
 ];
@@ -82,14 +82,14 @@ const TeamSection = () => {
                                     {/* Fallback initials if image missing */}
                                     {member.name.split(" ").map((n) => n[0]).join("")}
                                 </div>
-                                {/* 
+                                {/*
                  Uncomment when actual images are available in public/team/
                  <NextImage
                   src={member.image}
                   alt={member.name}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                /> 
+                />
                 */}
 
                                 {/* Overlay with Socials */}
