@@ -55,13 +55,13 @@ const MissionSection = () => {
 
                 {/* 1. Huge Heading - Balanced Styling */}
                 <div ref={textRef} className="mb-16 relative" data-aos="fade-up">
-                    <h2 className="text-[14vw] md:text-[15vw] font-display font-black tracking-tighter text-foreground flex flex-col items-center">
+                    <h2 className="text-5xl sm:text-8xl md:text-[15vw] font-display font-black tracking-tighter text-foreground flex flex-col items-center">
                         <span className="leading-[0.8] opacity-10">GLOBAL</span>
                         <span className="text-primary leading-[0.8] -mt-2 md:-mt-0">VISION</span>
                     </h2>
 
                     {/* Decorative Background Text */}
-                    <div className="absolute -top-6 md:-top-10 left-0 w-full text-center opacity-[0.03] select-none pointer-events-none font-display font-black text-[20vw] md:text-[25vw] leading-none whitespace-nowrap">
+                    <div className="absolute -top-6 md:-top-10 left-0 w-full text-center opacity-[0.03] select-none pointer-events-none font-display font-black text-[12vw] md:text-[25vw] leading-none whitespace-nowrap">
                         LOUD
                     </div>
                 </div>
@@ -81,7 +81,7 @@ const MissionSection = () => {
                         <div className="pt-4">
                             <Link
                                 href="/our-dna"
-                                className="group relative inline-flex items-center gap-4 px-8 py-4 bg-background/50 backdrop-blur-sm border border-primary/20 rounded-full transition-all duration-500 hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
+                                className="group relative inline-flex items-center gap-4 px-6 sm:px-8 py-4 bg-background/50 backdrop-blur-sm border border-primary/20 rounded-full transition-all duration-500 hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]"
                                 onMouseMove={(e) => {
                                     const btn = e.currentTarget;
                                     const rect = btn.getBoundingClientRect();

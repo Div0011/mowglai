@@ -47,11 +47,11 @@ const MobileNav = () => {
 
     return (
         <nav
-            className="fixed right-[calc(1rem+env(safe-area-inset-right))] top-[calc(1rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-4 md:hidden"
+            className="fixed right-[calc(0.875rem+env(safe-area-inset-right))] top-[calc(1rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-0.5 md:hidden"
             aria-label="Mobile Navigation"
         >
             {/* Top Row: Nav Items (Left) + Toggle (Right) */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-0.5">
 
                 {/* Regular Nav Items - Expands to the left (Horizontal) */}
                 <AnimatePresence>
@@ -60,7 +60,7 @@ const MobileNav = () => {
                             initial={{ opacity: 0, x: 20, scale: 0.8 }}
                             animate={{ opacity: 1, x: 0, scale: 1 }}
                             exit={{ opacity: 0, x: 20, scale: 0.8 }}
-                            className="h-14 rounded-full px-2 flex items-center justify-center gap-1 overflow-hidden"
+                            className="h-14 rounded-full px-0.5 flex items-center justify-center gap-0 overflow-hidden"
                             style={glassStyle}
                         >
                             {navItems.map((item) => {
@@ -73,12 +73,12 @@ const MobileNav = () => {
                                         href={item.href}
                                         onClick={(e) => handleClick(e, item.label, item.href)}
                                         className={cn(
-                                            "flex flex-col items-center justify-center w-9 h-9 rounded-full transition-all duration-300 relative",
+                                            "flex flex-col items-center justify-center w-9 h-10 rounded-full transition-all duration-300 relative",
                                             isActive ? "text-primary bg-primary/10" : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
                                         )}
                                         aria-label={item.label}
                                     >
-                                        <Icon className="w-4 h-4" />
+                                        <Icon className="w-5 h-5" />
 
                                         {/* Active Indicator - Dot at bottom */}
                                         {isActive && (
@@ -111,7 +111,7 @@ const MobileNav = () => {
                         initial={{ opacity: 0, y: -20, height: 0 }}
                         animate={{ opacity: 1, y: 0, height: 'auto' }}
                         exit={{ opacity: 0, y: -20, height: 0 }}
-                        className="w-16 rounded-full py-4 flex flex-col items-center gap-6 overflow-hidden"
+                        className="w-14 rounded-full py-4 flex flex-col items-center gap-4 overflow-hidden"
                         style={glassStyle}
                     >
                         {socialItems.map((item) => (

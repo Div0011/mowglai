@@ -14,6 +14,7 @@ const josefinSans = localFont({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://mowglai.in"),
     title: {
         default: "Mowglai | Crafting Digital Excellence",
         template: "%s | Mowglai"
@@ -35,9 +36,9 @@ export const metadata: Metadata = {
         description: "Mowglai creates stunning, high-performance websites and web applications.",
         siteName: "Mowglai",
         images: [{
-            url: "https://mowglai.in/logo1.png",
+            url: "/mowglai-logo-new.jpg",
             width: 1200,
-            height: 630,
+            height: 1200,
             alt: "Mowglai Digital Excellence"
         }],
         locale: "en_US",
@@ -46,13 +47,18 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Mowglai | Crafting Digital Excellence",
         description: "Mowglai creates stunning, high-performance websites and web applications.",
-        images: ["https://mowglai.in/logo1.png"],
+        images: ["/mowglai-logo-new.jpg"],
         creator: "@mowglai",
     },
     icons: {
-        icon: "/mowglai-favicon.png",
-        apple: "/mowglai-favicon.png",
+        icon: [
+            { url: "/mowglai-logo-new.jpg", type: "image/jpeg", sizes: "any" }
+        ],
+        apple: [
+            { url: "/mowglai-logo-new.jpg", sizes: "180x180", type: "image/jpeg" }
+        ],
     },
+    manifest: "/site.webmanifest",
     alternates: {
         canonical: "https://mowglai.in",
     },
