@@ -9,7 +9,7 @@ const teamMembers = [
     {
         id: 1,
         name: "Ajay Ahlawat",
-        role: "CEO, Manager",
+        role: "Chief Executive Officer, Manager",
         image: "/team/ajay.jpg", // Placeholder
         socials: {
             linkedin: "#",
@@ -20,7 +20,7 @@ const teamMembers = [
     {
         id: 3,
         name: "Aryan Singh",
-        role: "CTO",
+        role: "Chief Technology Officer",
         image: "/team/aryan.jpg", // Placeholder
         socials: {
             twitter: "https://twitter.com/aryan_447",
@@ -31,7 +31,7 @@ const teamMembers = [
     {
         id: 2,
         name: "Ankit Baghel",
-        role: "Developer",
+        role: "Web Developer",
         image: "/team/ankit.jpg", // Placeholder
         socials: {
             linkedin: "#",
@@ -42,7 +42,7 @@ const teamMembers = [
     {
         id: 4,
         name: "Divyansh Awasthi",
-        role: "CFO, Superviser",
+        role: "Chief Financial Officer, Superviser",
         image: "/team/divyansh.jpg", // Placeholder
         socials: {
             github: "https://github.com/div0011",
