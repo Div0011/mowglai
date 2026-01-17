@@ -1,19 +1,19 @@
 import ProjectRequestClient from "./ProjectRequestClient";
 
 export const metadata = {
-    title: "Project Request | Mowglai - Start Your Web Development Journey",
+    title: "Project Request: Start Your Journey",
     description: "Start your web development project with Mowglai. Select your plan, share your vision, and get started on building your extraordinary digital experience. Quick and easy project initiation.",
     keywords: ["project request", "web development plan", "start web project", "website development quote", "request web development", "custom website project", "web application development", "Mowglai project"],
     alternates: {
-        canonical: "https://mowglai.in/project-request",
+        canonical: "/project-request",
     },
     openGraph: {
-        title: "Project Request | Mowglai - Start Your Web Development Journey",
+        title: "Project Request: Start Your Journey",
         description: "Start your web development project with Mowglai. Select your plan, share your vision, and get started on building your extraordinary digital experience.",
-        url: "https://mowglai.in/project-request",
+        url: "/project-request",
         images: [
             {
-                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                url: "/mowglai-logo-new.jpg",
                 width: 1200,
                 height: 1200,
                 alt: "Mowglai Project Request"
@@ -23,12 +23,36 @@ export const metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Project Request | Mowglai - Start Your Web Development Journey",
+        title: "Project Request: Start Your Journey",
         description: "Start your web development project with Mowglai. Select your plan, share your vision, and get started.",
-        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        images: ["/mowglai-logo-new.jpg"],
     },
 };
 
+const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mowglai.in"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Project Request",
+            "item": "https://mowglai.in/project-request"
+        }
+    ]
+};
+
 export default function ProjectRequest() {
-    return <ProjectRequestClient />;
+    return (
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
+            <ProjectRequestClient />
+        </>
+    );
 }

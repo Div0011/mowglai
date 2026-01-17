@@ -1,1 +1,0 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,4484,e=>{"use strict";var i=e.i(99845);e.s(["default",0,()=>(0,i.jsx)("div",{className:"fixed inset-0 -z-10 bg-background"})])},67818,e=>{e.n(e.i(4484))}]);

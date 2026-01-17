@@ -6,19 +6,19 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import NextPageButton from "@/components/NextPageButton";
 
 export const metadata = {
-    title: "About Us | Mowglai - Our Mission & Team",
+    title: "About Us: Our Mission & Team",
     description: "Discover Mowglai's mission to transform the digital landscape through innovation, creativity, and technical excellence. Meet our expert team of developers and designers crafting world-class digital experiences.",
     keywords: ["about Mowglai", "digital agency team", "web development mission", "creative agency philosophy", "Mowglai values", "tech team", "design experts", "development studio"],
     alternates: {
-        canonical: "https://mowglai.in/about",
+        canonical: "/about",
     },
     openGraph: {
-        title: "About Us | Mowglai - Our Mission & Team",
+        title: "About Us: Our Mission & Team",
         description: "Discover Mowglai's mission to transform the digital landscape through innovation, creativity, and technical excellence. Meet our expert team.",
-        url: "https://mowglai.in/about",
+        url: "/about",
         images: [
             {
-                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                url: "/mowglai-logo-new.jpg",
                 width: 1200,
                 height: 1200,
                 alt: "About Mowglai Digital Agency"
@@ -28,9 +28,9 @@ export const metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "About Us | Mowglai - Our Mission & Team",
+        title: "About Us: Our Mission & Team",
         description: "Discover Mowglai's mission to transform the digital landscape through innovation, creativity, and technical excellence.",
-        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        images: ["/mowglai-logo-new.jpg"],
     },
 };
 

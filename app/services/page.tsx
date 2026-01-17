@@ -1,19 +1,19 @@
 import ServicesClient from "./ServicesClient";
 
 export const metadata = {
-    title: "Our Services | Mowglai - Web Development & Digital Solutions",
+    title: "Our Services: Web Development & Digital Solutions",
     description: "Explore Mowglai's comprehensive web development services: custom websites, 3D web experiences, React & Next.js applications, UI/UX design, and digital transformation solutions. Expert development for your business.",
     keywords: ["web development services", "custom website development", "React development", "Next.js development", "3D web development", "UI/UX design services", "mobile app development", "digital transformation", "software development", "web application development"],
     alternates: {
-        canonical: "https://mowglai.in/services",
+        canonical: "/services",
     },
     openGraph: {
-        title: "Our Services | Mowglai - Web Development & Digital Solutions",
+        title: "Our Services: Web Development & Digital Solutions",
         description: "Explore Mowglai's comprehensive web development services: custom websites, 3D web experiences, React & Next.js applications, UI/UX design.",
-        url: "https://mowglai.in/services",
+        url: "/services",
         images: [
             {
-                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                url: "/mowglai-logo-new.jpg",
                 width: 1200,
                 height: 1200,
                 alt: "Mowglai Web Development Services"
@@ -23,9 +23,9 @@ export const metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Our Services | Mowglai - Web Development & Digital Solutions",
+        title: "Our Services: Web Development & Digital Solutions",
         description: "Explore Mowglai's comprehensive web development services: custom websites, 3D web experiences, React & Next.js applications.",
-        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        images: ["/mowglai-logo-new.jpg"],
     },
 };
 

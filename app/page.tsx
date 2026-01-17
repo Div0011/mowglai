@@ -4,19 +4,18 @@ import NextPageButton from "@/components/NextPageButton";
 import { AestheticShowcase } from "@/components/AestheticShowcase";
 
 export const metadata = {
-    title: "Mowglai | Premium Digital Agency - Web Development & Design",
+    title: "Premium Digital Agency - Web Development & Design",
     description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications. Expert web development, 3D design, and immersive digital experiences. Transform your brand with cutting-edge technology and creative excellence.",
-    keywords: ["web development agency", "custom website design", "3D web development", "React development", "Next.js development", "digital transformation", "UI/UX design", "web application development", "premium digital agency", "galaxy theme websites", "immersive web experiences"],
     alternates: {
-        canonical: "https://mowglai.in/",
+        canonical: "/",
     },
     openGraph: {
-        title: "Mowglai | Premium Digital Agency - Web Development & Design",
+        title: "Premium Digital Agency - Web Development & Design",
         description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications. Expert web development, 3D design, and immersive digital experiences.",
-        url: "https://mowglai.in/",
+        url: "/",
         images: [
             {
-                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                url: "/mowglai-logo-new.jpg",
                 width: 1200,
                 height: 1200,
                 alt: "Mowglai - Premium Digital Agency"
@@ -28,9 +27,9 @@ export const metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Mowglai | Premium Digital Agency - Web Development & Design",
+        title: "Premium Digital Agency - Web Development & Design",
         description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications.",
-        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        images: ["/mowglai-logo-new.jpg"],
         creator: "@mowglai",
         site: "@mowglai",
     },

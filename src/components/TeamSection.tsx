@@ -3,14 +3,14 @@
 import { Github, Twitter, Mail, Linkedin, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 // import { cn } from "@/lib/utils";
-// import NextImage from "next/image";
+import NextImage from "next/image";
 
 const teamMembers = [
     {
         id: 1,
         name: "Ajay Ahlawat",
         role: "Chief Executive Officer, Manager",
-        image: "/team/ajay.jpg", // Placeholder
+        image: "/team/aa.jpeg", // Placeholder
         socials: {
             linkedin: "#",
             twitter: "#",
@@ -21,7 +21,7 @@ const teamMembers = [
         id: 3,
         name: "Aryan Singh",
         role: "Chief Technology Officer",
-        image: "/team/aryan.jpg", // Placeholder
+        image: "/team/aj.jpeg", // Placeholder
         socials: {
             twitter: "https://twitter.com/aryan_447",
             github: "https://github.com/aryan447",
@@ -32,7 +32,7 @@ const teamMembers = [
         id: 2,
         name: "Ankit Baghel",
         role: "Web Developer",
-        image: "/team/ankit.jpg", // Placeholder
+        image: "/team/ab.jpeg", // Placeholder
         socials: {
             linkedin: "#",
             github: "#",
@@ -43,7 +43,7 @@ const teamMembers = [
         id: 4,
         name: "Divyansh Awasthi",
         role: "Chief Financial Officer, Superviser",
-        image: "/team/divyansh.jpg", // Placeholder
+        image: "/team/da.jpeg", // Placeholder
         socials: {
             github: "https://github.com/div0011",
             linkedin: "#",
@@ -77,20 +77,17 @@ const TeamSection = () => {
                             className="group relative flex flex-col items-center"
                         >
                             {/* Image Container */}
-                            <div className="relative w-full aspect-[4/5] overflow-hidden rounded-2xl border border-primary/20 bg-primary/5 mb-6 group-hover:border-primary/50 transition-colors duration-500">
+                            <div className="relative w-full aspect-[4/5] overflow-hidden rounded-2xl mb-6">
                                 <div className="absolute inset-0 flex items-center justify-center text-primary/20 text-4xl font-black uppercase tracking-widest">
                                     {/* Fallback initials if image missing */}
                                     {member.name.split(" ").map((n) => n[0]).join("")}
                                 </div>
-                                {/*
-                 Uncomment when actual images are available in public/team/
-                 <NextImage
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                */}
+                                <NextImage
+                                    src={member.image}
+                                    alt={member.name}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
 
                                 {/* Overlay with Socials */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">

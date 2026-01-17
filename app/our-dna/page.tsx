@@ -64,19 +64,19 @@ const principles = [
 ];
 
 export const metadata = {
-    title: "Our DNA | Mowglai - Core Values & Development Process",
+    title: "Our DNA: Core Values & Development Process",
     description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology. Learn how we deliver world-class digital experiences through precision, creativity, and technical excellence.",
     keywords: ["Mowglai DNA", "web development process", "agency core values", "development workflow", "web development methodology", "digital agency culture", "creative process", "technical excellence", "project workflow"],
     alternates: {
-        canonical: "https://mowglai.in/our-dna",
+        canonical: "/our-dna",
     },
     openGraph: {
-        title: "Our DNA | Mowglai - Core Values & Development Process",
+        title: "Our DNA: Core Values & Development Process",
         description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology. Learn how we deliver world-class digital experiences.",
-        url: "https://mowglai.in/our-dna",
+        url: "/our-dna",
         images: [
             {
-                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                url: "/mowglai-logo-new.jpg",
                 width: 1200,
                 height: 1200,
                 alt: "Mowglai Our DNA - Core Values"
@@ -86,15 +86,35 @@ export const metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Our DNA | Mowglai - Core Values & Development Process",
+        title: "Our DNA: Core Values & Development Process",
         description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology.",
-        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        images: ["/mowglai-logo-new.jpg"],
     },
+};
+
+const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mowglai.in"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Our DNA",
+            "item": "https://mowglai.in/our-dna"
+        }
+    ]
 };
 
 export default function OurDNA() {
     return (
         <PageLayout>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
             <section className="relative min-h-screen flex items-center justify-center py-16 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
                 <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-[120px]" />
