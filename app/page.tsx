@@ -4,13 +4,55 @@ import NextPageButton from "@/components/NextPageButton";
 import { AestheticShowcase } from "@/components/AestheticShowcase";
 
 export const metadata = {
-    title: "Mowglaii | Crafting Digital Excellence",
-    description: "Mowglai creates stunning, high-performance websites and web applications. We transform your digital presence with cutting-edge design and expert development.",
+    title: "Mowglai | Premium Digital Agency - Web Development & Design",
+    description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications. Expert web development, 3D design, and immersive digital experiences. Transform your brand with cutting-edge technology and creative excellence.",
+    keywords: ["web development agency", "custom website design", "3D web development", "React development", "Next.js development", "digital transformation", "UI/UX design", "web application development", "premium digital agency", "galaxy theme websites", "immersive web experiences"],
+    alternates: {
+        canonical: "https://mowglai.in/",
+    },
+    openGraph: {
+        title: "Mowglai | Premium Digital Agency - Web Development & Design",
+        description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications. Expert web development, 3D design, and immersive digital experiences.",
+        url: "https://mowglai.in/",
+        images: [
+            {
+                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                width: 1200,
+                height: 1200,
+                alt: "Mowglai - Premium Digital Agency"
+            }
+        ],
+        type: "website",
+        siteName: "Mowglai",
+        locale: "en_US",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Mowglai | Premium Digital Agency - Web Development & Design",
+        description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications.",
+        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+        creator: "@mowglai",
+        site: "@mowglai",
+    },
+};
+
+const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mowglai.in"
+        }
+    ]
 };
 
 export default function Home() {
     return (
         <PageLayout>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
             <div className="relative w-full h-screen">
                 <HeroSection />
             </div>
