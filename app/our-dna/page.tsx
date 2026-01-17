@@ -64,8 +64,32 @@ const principles = [
 ];
 
 export const metadata = {
-    title: "Our DNA | Mowglai",
-    description: "Explore the core values and innovative processes that define Mowglai's approach to digital excellence.",
+    title: "Our DNA | Mowglai - Core Values & Development Process",
+    description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology. Learn how we deliver world-class digital experiences through precision, creativity, and technical excellence.",
+    keywords: ["Mowglai DNA", "web development process", "agency core values", "development workflow", "web development methodology", "digital agency culture", "creative process", "technical excellence", "project workflow"],
+    alternates: {
+        canonical: "https://mowglai.in/our-dna",
+    },
+    openGraph: {
+        title: "Our DNA | Mowglai - Core Values & Development Process",
+        description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology. Learn how we deliver world-class digital experiences.",
+        url: "https://mowglai.in/our-dna",
+        images: [
+            {
+                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                width: 1200,
+                height: 1200,
+                alt: "Mowglai Our DNA - Core Values"
+            }
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Our DNA | Mowglai - Core Values & Development Process",
+        description: "Discover Mowglai's DNA: our core values, innovative development process, and workflow methodology.",
+        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+    },
 };
 
 export default function OurDNA() {
