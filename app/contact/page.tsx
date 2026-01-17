@@ -6,8 +6,32 @@ import { Quote } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
-    title: "Contact Us | Mowglai",
-    description: "Get in touch with Mowglai's digital artisans. We're ready to collaborate on your next extraordinary project.",
+    title: "Contact Us | Mowglai - Start Your Project Today",
+    description: "Get in touch with Mowglai's expert development team. Request a custom web development quote, discuss your project vision, or schedule a consultation. We're ready to build your extraordinary digital experience.",
+    keywords: ["contact Mowglai", "web development quote", "request project quote", "hire web developers", "custom web development", "digital agency contact", "start web project", "web development consultation"],
+    alternates: {
+        canonical: "https://mowglai.in/contact",
+    },
+    openGraph: {
+        title: "Contact Us | Mowglai - Start Your Project Today",
+        description: "Get in touch with Mowglai's expert development team. Request a custom web development quote or schedule a consultation.",
+        url: "https://mowglai.in/contact",
+        images: [
+            {
+                url: "https://mowglai.in/mowglai-logo-new.jpg",
+                width: 1200,
+                height: 1200,
+                alt: "Contact Mowglai Digital Agency"
+            }
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Contact Us | Mowglai - Start Your Project Today",
+        description: "Get in touch with Mowglai's expert development team. Request a custom web development quote or schedule a consultation.",
+        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
+    },
 };
 
 export default function Contact() {

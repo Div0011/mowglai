@@ -89,20 +89,53 @@ export default function RootLayout({
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify({
                             "@context": "https://schema.org",
-                            "@type": "Organization",
-                            "name": "Mowglai",
+                            "@type": "WebSite",
+                            "alternateName": "Mowglai Digital Agency",
                             "url": "https://mowglai.in",
-                            "logo": "https://mowglai.in/logo1.png",
-                            "sameAs": [
-                                "https://twitter.com/mowglai",
-                                "https://instagram.com/mowglai"
-                            ],
-                            "contactPoint": {
-                                "@type": "ContactPoint",
-                                "telephone": "",
-                                "contactType": "customer service",
-                                "email": "info@mowglai.in"
+                            "description": "Premium digital agency specializing in high-performance web development, 3D experiences, and digital transformation.",
+                            "inLanguage": "en",
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "Mowglai",
+                                "logo": "https://mowglai.in/logo1.png"
+                            },
+                            "potentialAction": {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https://mowglai.in/search?q={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
                             }
+                        }),
+                    }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "ProfessionalService",
+                            "name": "Mowglai Digital Agency",
+                            "image": "https://mowglai.in/logo1.png",
+                            "priceRange": "$$",
+                            "description": "Premium digital agency providing web development, 3D design, and digital transformation services. We create stunning, high-performance websites and web applications.",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "addressCountry": "IN"
+                            },
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": "20.5937",
+                                "longitude": "78.9629"
+                            },
+                            "openingHoursSpecification": {
+                                "@type": "OpeningHoursSpecification",
+                                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                                "opens": "09:00",
+                                "closes": "18:00"
+                            },
+                            "areaServed": "Worldwide"
                         }),
                     }}
                 />
@@ -113,10 +146,21 @@ export default function RootLayout({
                             "@context": "https://schema.org",
                             "@type": "WebSite",
                             "name": "Mowglai",
+                            "alternateName": "Mowglai Digital Agency",
                             "url": "https://mowglai.in",
+                            "description": "Premium digital agency specializing in high-performance web development, 3D experiences, and digital transformation.",
+                            "inLanguage": "en",
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "Mowglai",
+                                "logo": "https://mowglai.in/logo1.png"
+                            },
                             "potentialAction": {
                                 "@type": "SearchAction",
-                                "target": "https://mowglai.in/search?q={search_term_string}",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https://mowglai.in/search?q={search_term_string}"
+                                },
                                 "query-input": "required name=search_term_string"
                             }
                         }),
