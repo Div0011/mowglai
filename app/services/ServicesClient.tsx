@@ -2,7 +2,7 @@
 
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
-import { Palette, Shield, Rocket, Globe, BarChart } from "lucide-react";
+import { Palette, Shield, Rocket, Globe, BarChart, Bot } from "lucide-react";
 import NextPageButton from "@/components/NextPageButton";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -67,6 +67,18 @@ const services = [
         border: "border-emerald-500/20",
         text: "text-emerald-500",
         glow: "shadow-[0_0_50px_-20px_rgba(16,185,129,0.3)]"
+    },
+    {
+        id: "06",
+        category: "Artificial Intelligence",
+        title: "Intelligent Systems",
+        description: "Empower your platform with next-gen AI. From smart chatbots to predictive analytics, we integrate intelligence into your digital ecosystem.",
+        details: ["AI Chatbots", "Machine Learning", "Automation", "Integrations"],
+        icon: Bot,
+        color: "from-indigo-500/5 to-violet-500/5",
+        border: "border-indigo-500/20",
+        text: "text-indigo-500",
+        glow: "shadow-[0_0_50px_-20px_rgba(99,102,241,0.3)]"
     }
 ];
 

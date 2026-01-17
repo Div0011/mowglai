@@ -149,12 +149,7 @@ export default function TestimonialsSection({ isDark = true }: TestimonialsSecti
                     </div>
                 </div>
 
-                {/* Decorative Text - Jungle Theme */}
-                <div className="mt-8 text-center flex justify-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    <div className="w-2 h-2 rounded-full bg-primary/40" />
-                    <div className="w-2 h-2 rounded-full bg-primary/40" />
-                </div>
+
             </div>
         </section>
     );

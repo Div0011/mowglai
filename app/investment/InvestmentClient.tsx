@@ -7,8 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Download, FileText, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 export default function InvestmentClient() {
+    const { resolvedTheme } = useTheme();
     const [planType, setPlanType] = useState<"standard" | "premium">("standard");
 
     return (
@@ -18,12 +21,12 @@ export default function InvestmentClient() {
                     {/* Header - Two-line style */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16 px-4 md:px-0">
                         <div data-aos="fade-right">
-                            <h1 className="text-6xl sm:text-7xl md:text-[8vw] font-display font-black text-foreground mb-4 leading-[0.85] flex flex-col uppercase">
+                            <h1 className="text-4xl sm:text-6xl md:text-[8vw] font-display font-black text-foreground mb-4 leading-[0.85] flex flex-col uppercase">
                                 <span className="opacity-10">THE</span>
-                                <span className="text-primary -mt-2">INVESTMENT</span>
+                                <span className="text-primary -mt-2">PURCHASE</span>
                             </h1>
                             <p className="text-lg md:text-xl text-primary font-body uppercase tracking-[0.3em]">
-                                Growth In The Wild
+                                Value For Your Vision
                             </p>
                         </div>
 
@@ -76,7 +79,12 @@ export default function InvestmentClient() {
                                     e.preventDefault();
                                     downloadAsHtml(`/mowglai-brochure.html`, 'Mowglai_Brochure.html');
                                 }}
-                                className="w-full py-6 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500 text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center cursor-pointer"
+                                className={cn(
+                                    "relative z-20 w-full py-6 rounded-full text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center cursor-pointer transition-all duration-500",
+                                    resolvedTheme === "light"
+                                        ? "bg-primary text-primary-foreground hover:bg-primary-foreground hover:!text-primary"
+                                        : "border border-primary/40 text-primary hover:bg-primary hover:!text-primary-foreground"
+                                )}
                             >
                                 Download Brochure
                             </button>
@@ -93,7 +101,12 @@ export default function InvestmentClient() {
                                     e.preventDefault();
                                     downloadAsHtml(`/mowglai-quotation.html`, 'Mowglai_Quotation.html');
                                 }}
-                                className="w-full py-6 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-500 text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center"
+                                className={cn(
+                                    "relative z-20 w-full py-6 rounded-full text-lg sm:text-xl font-display font-bold uppercase flex items-center justify-center transition-all duration-500",
+                                    resolvedTheme === "light"
+                                        ? "bg-primary text-primary-foreground hover:bg-primary-foreground hover:!text-primary"
+                                        : "border border-primary/40 text-primary hover:bg-primary hover:!text-primary-foreground"
+                                )}
                             >
                                 Download Quotation
                             </button>

@@ -2,6 +2,7 @@ import PageLayout from "@/components/PageLayout";
 import HeroSection from "@/components/HeroSection";
 import NextPageButton from "@/components/NextPageButton";
 import { AestheticShowcase } from "@/components/AestheticShowcase";
+import SelectedWork from "@/components/SelectedWork";
 
 export const metadata = {
     title: "Premium Digital Agency - Web Development & Design",
@@ -85,6 +86,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            <SelectedWork />
 
             <section className="relative py-24 overflow-hidden">
                 <div className="container mx-auto px-6 text-center">

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import Magnetic from "@/components/Magnetic";
 import MowglaiLogo from "@/components/MowglaiLogo";
+import { useTheme } from "next-themes";
 
 interface NavItem {
     icon: React.ElementType;
@@ -31,6 +32,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     const router = useRouter();
     const pathname = usePathname();
 
+    const { resolvedTheme } = useTheme();
+
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -48,13 +51,18 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                 <Magnetic>
                     <button
                         onClick={toggleMenu}
-                        className="w-16 h-16 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 group border border-transparent hover:border-primary/20 bg-background/5 backdrop-blur-sm"
+                        className={cn(
+                            "w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 group border border-transparent backdrop-blur-sm",
+                            resolvedTheme === "light"
+                                ? "bg-primary/20 text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary"
+                                : "bg-background/5 text-primary hover:bg-primary/10 hover:border-primary/20"
+                        )}
                         aria-label="Toggle Menu"
                     >
                         {isOpen ? (
-                            <X className="w-6 h-6 text-primary group-hover:rotate-90 transition-transform duration-300" />
+                            <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
                         ) : (
-                            <Menu className="w-6 h-6 text-primary" />
+                            <Menu className="w-6 h-6" />
                         )}
                     </button>
                 </Magnetic>
@@ -121,7 +129,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                     >
                                         <item.icon className={cn(
                                             "w-10 h-10 mb-6 transition-all duration-500 transform -translate-y-4 group-hover/col:translate-y-0 opacity-0 group-hover/col:opacity-100",
-                                            isHovered ? "text-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "text-primary/40"
+                                            isHovered
+                                                ? (resolvedTheme === 'light' ? "text-primary-foreground drop-shadow-[0_0_8px_rgba(20,83,45,0.4)]" : "text-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]")
+                                                : "text-primary/40"
                                         )} />
 
                                         <Magnetic amount={0.3}>
@@ -130,7 +140,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                                     ? "text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
                                                     : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
                                                 "font-display font-bold uppercase tracking-tight break-words max-w-full [writing-mode:vertical-rl] rotate-180 inline-block",
-                                                isHovered ? "text-transparent bg-clip-text bg-gradient-to-b from-primary via-accent to-primary drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]" : "text-primary/30"
+                                                isHovered
+                                                    ? (resolvedTheme === 'light' ? "text-primary-foreground drop-shadow-[0_0_10px_rgba(20,83,45,0.3)]" : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-accent to-primary drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]")
+                                                    : "text-primary/30"
                                             )}>
                                                 {item.label}
                                             </span>
@@ -144,9 +156,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     {/* Mobile Social Icons (Bottom Row) */}
                     <div className="absolute bottom-10 left-0 w-full flex md:hidden justify-center gap-6 z-50">
                         {[
-                            { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+                            { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
                             { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
-                            { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
+                            { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
                         ].map((item, i) => (
                             <Magnetic key={i} amount={0.5}>
                                 <a
@@ -168,9 +180,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                         <div className="flex flex-col gap-8 items-center">
                             {/* Magnetic Social Icons */}
                             {[
-                                { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+                                { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
                                 { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
-                                { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
+                                { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
                             ].map((item, i) => (
                                 <Magnetic key={i} amount={0.5}>
                                     <a

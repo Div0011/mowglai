@@ -1,5 +1,6 @@
 import { Home, Users, Mail, DollarSign, Layers, Menu, X, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,9 +14,9 @@ const navItems = [
 ];
 
 const socialItems = [
-    { icon: Instagram, href: "https://www.instagram.com/mowglai_", label: "Instagram" },
+    { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
     { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
-    { icon: Linkedin, href: "https://linkedin.com/company/mowglai", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
 ];
 
 const glassStyle = {
@@ -28,6 +29,7 @@ const glassStyle = {
 const MobileNav = () => {
     const router = useRouter();
     const pathname = usePathname();
+    const { resolvedTheme } = useTheme();
     const [activeItem, setActiveItem] = useState("Home");
     const [isOpen, setIsOpen] = useState(false);
 
@@ -74,7 +76,9 @@ const MobileNav = () => {
                                         onClick={(e) => handleClick(e, item.label, item.href)}
                                         className={cn(
                                             "flex flex-col items-center justify-center w-9 h-10 rounded-full transition-all duration-300 relative",
-                                            isActive ? "text-primary bg-primary/10" : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
+                                            isActive
+                                                ? (resolvedTheme === 'light' ? "text-primary-foreground bg-primary/20" : "text-primary bg-primary/10")
+                                                : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
                                         )}
                                         aria-label={item.label}
                                     >
@@ -95,8 +99,13 @@ const MobileNav = () => {
                 <motion.button
                     layout
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-14 h-14 rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors duration-300 text-primary z-50 flex-shrink-0"
-                    style={glassStyle}
+                    className={cn(
+                        "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 z-50 flex-shrink-0 backdrop-blur-md border border-primary/20",
+                        resolvedTheme === 'light'
+                            ? "bg-primary/20 text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary"
+                            : "bg-background/70 text-primary hover:bg-primary/10"
+                    )}
+                    // Removed style={glassStyle} to allow color overrides
                     aria-label={isOpen ? "Close menu" : "Open menu"}
                     whileTap={{ scale: 0.95 }}
                 >

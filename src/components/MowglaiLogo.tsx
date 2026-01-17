@@ -1,12 +1,22 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
 interface MowglaiLogoProps {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl" | "full";
 }
 
 const MowglaiLogo = ({ className, size = "md" }: MowglaiLogoProps) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const sizeClasses = {
     sm: "w-10 h-10",
     md: "w-14 h-14",
@@ -23,6 +33,12 @@ const MowglaiLogo = ({ className, size = "md" }: MowglaiLogoProps) => {
     full: 500,
   };
 
+  // Default to logo1-light (Dark Green/General) if not mounted or if dark theme
+  // Use logo2 (Golden) only if mounted and theme is explicitly light
+  const logoSrc = mounted && resolvedTheme === "light"
+    ? "/logo2.png"
+    : "/logo1-light.png";
+
   return (
     <div
       className={cn(
@@ -33,31 +49,15 @@ const MowglaiLogo = ({ className, size = "md" }: MowglaiLogoProps) => {
         className
       )}
     >
-      {/* Mowglai Logo */}
       <div className="relative w-full h-full">
-        {/* Mobile: New Logo */}
-        <div className="md:hidden w-full h-full">
-          <Image
-            src="/logo1.png"
-            alt="Mowglai"
-            width={dimensions[size]}
-            height={dimensions[size]}
-            className="w-full h-full object-cover"
-            priority={size === "lg" || size === "xl"}
-          />
-        </div>
-
-        {/* Laptop: Original Logo */}
-        <div className="hidden md:block w-full h-full">
-          <Image
-            src="/mowglai-logo-new.jpg"
-            alt="Mowglai"
-            width={dimensions[size]}
-            height={dimensions[size]}
-            className="w-full h-full object-cover"
-            priority={size === "lg" || size === "xl"}
-          />
-        </div>
+        <Image
+          src={logoSrc}
+          alt="Mowglai"
+          width={dimensions[size]}
+          height={dimensions[size]}
+          className="w-full h-full object-cover"
+          priority={size === "lg" || size === "xl"}
+        />
       </div>
     </div>
   );

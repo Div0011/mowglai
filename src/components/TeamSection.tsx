@@ -9,8 +9,8 @@ const teamMembers = [
     {
         id: 1,
         name: "Ajay Ahlawat",
-        role: "Chief Executive Officer, Manager",
-        image: "/team/aa.jpeg", // Placeholder
+        role: "Chief Executive Officer",
+        image: "/team/aa.jpeg",
         socials: {
             linkedin: "#",
             twitter: "#",
@@ -20,8 +20,8 @@ const teamMembers = [
     {
         id: 3,
         name: "Aryan Singh",
-        role: "Chief Technology Officer",
-        image: "/team/aj.jpeg", // Placeholder
+        role: "Chief Technical Officer",
+        image: "/team/aj.jpeg",
         socials: {
             twitter: "https://twitter.com/aryan_447",
             github: "https://github.com/aryan447",
@@ -31,8 +31,8 @@ const teamMembers = [
     {
         id: 2,
         name: "Ankit Baghel",
-        role: "Web Developer",
-        image: "/team/ab.jpeg", // Placeholder
+        role: "Chief Marketing Officer",
+        image: "/team/ab.jpeg",
         socials: {
             linkedin: "#",
             github: "#",
@@ -42,8 +42,8 @@ const teamMembers = [
     {
         id: 4,
         name: "Divyansh Awasthi",
-        role: "Chief Financial Officer, Superviser",
-        image: "/team/da.jpeg", // Placeholder
+        role: "Chief Financial Officer",
+        image: "/team/da.jpeg",
         socials: {
             github: "https://github.com/div0011",
             linkedin: "#",
@@ -54,7 +54,9 @@ const teamMembers = [
 
 const TeamSection = () => {
     return (
-        <section className="relative w-full py-24 z-20 overflow-hidden bg-background/50">
+        <section className="relative w-full py-24 z-20 overflow-hidden bg-transparent">
+            {/* Gradient blending for top and bottom */}
+            {/* Gradient blending removed for seamless look */}
             <div className="container mx-auto px-6">
                 <div className="flex flex-col items-center mb-16 space-y-4 text-center" data-aos="fade-up">
                     <h2 className="text-[10vw] md:text-6xl font-display font-black tracking-tighter text-foreground relative z-10 drop-shadow-sm flex flex-col md:block">
@@ -77,7 +79,13 @@ const TeamSection = () => {
                             className="group relative flex flex-col items-center"
                         >
                             {/* Image Container */}
-                            <div className="relative w-full aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                            <div
+                                className="relative w-full aspect-[4/5] overflow-hidden rounded-[50%] mb-6"
+                                style={{
+                                    maskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)",
+                                    WebkitMaskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)"
+                                }}
+                            >
                                 <div className="absolute inset-0 flex items-center justify-center text-primary/20 text-4xl font-black uppercase tracking-widest">
                                     {/* Fallback initials if image missing */}
                                     {member.name.split(" ").map((n) => n[0]).join("")}
