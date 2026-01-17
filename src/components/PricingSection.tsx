@@ -68,12 +68,7 @@ const PricingSection = () => {
     <section id="pricing" className="relative w-full py-16 z-20">
       <div className="container mx-auto px-6">
 
-        {/* Header - Two-line style with faded word */}
-        <div className="mb-24 text-center">
-          <h2 className="text-xl sm:text-6xl md:text-8xl lg:text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground mb-8 relative z-10 flex flex-col items-center">
-            <span className="opacity-10">THE</span>
-            <span className="text-primary -mt-2 sm:-mt-4 uppercase leading-none">Investment</span>
-          </h2>
+        <div className="mb-16 text-center">
           <p className="text-xl text-primary font-body tracking-[0.3em] uppercase opacity-60">
             Value Beyond Measurement
           </p>

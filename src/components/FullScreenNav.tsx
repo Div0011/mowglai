@@ -16,7 +16,7 @@ const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
     { icon: Users, label: "ABOUT", href: "/about" },
     { icon: Layers, label: "SERVICES", href: "/services" },
-    { icon: DollarSign, label: "INVESTMENT", href: "/investment" },
+    { icon: DollarSign, label: "PURCHASE", href: "/investment" },
     { icon: Mail, label: "CONTACT", href: "/contact" },
 ];
 

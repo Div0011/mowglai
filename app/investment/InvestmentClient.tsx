@@ -25,9 +25,6 @@ export default function InvestmentClient() {
                                 <span className="opacity-10">THE</span>
                                 <span className="text-primary -mt-2">PURCHASE</span>
                             </h1>
-                            <p className="text-lg md:text-xl text-primary font-body uppercase tracking-[0.3em]">
-                                Value For Your Vision
-                            </p>
                         </div>
 
                         {/* Plan Toggle Tabs */}

@@ -112,7 +112,7 @@ export default function ServicesClient() {
                 </div>
             </section>
 
-            <NextPageButton label="Investment Plans" href="/investment" />
+            <NextPageButton label="Purchase Plans" href="/investment" />
         </PageLayout>
     );
 }
