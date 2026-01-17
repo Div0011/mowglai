@@ -25,16 +25,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
     const pathname = usePathname();
     const [isChatOpen, setIsChatOpen] = useState(false);
 
-    useEffect(() => {
-        // Initialize AOS
-        import("aos").then((AOS) => {
-            AOS.init({
-                duration: 1000,
-                once: false,
-                mirror: true,
-            });
-        });
-    }, []);
+    // AOS is now initialized globally in AOSInit component linked in RootLayout
 
     return (
         <div className="min-h-screen relative text-foreground transition-colors duration-500">
