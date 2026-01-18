@@ -107,7 +107,7 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 --text-dark: #2c2c2c;
                 --white: #ffffff;
             }
-    
+
             body {
                 background-color: #f0f0f0;
                 margin: 0;
@@ -116,13 +116,13 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 color: #2c2c2c;
                 width: 850px; /* Fixed width for A4 PDF scaling */
             }
-    
+
             .quotation-wrapper {
                 width: 100%;
                 background: #ffffff;
                 box-shadow: 0 0 20px rgba(0,0,0,0.1);
             }
-    
+
             /* Header Section */
             header {
                 background-color: #1B3022;
@@ -133,7 +133,7 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 align-items: center;
                 border-bottom: 5px solid #C5A059;
             }
-            
+
             .brand-container {
                 display: flex;
                 align-items: center;
@@ -145,13 +145,13 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 height: 60px;
                 object-fit: contain;
             }
-    
+
             .brand-h1 { margin: 0; letter-spacing: 5px; color: #C5A059; font-size: 32px; }
             .quote-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
-    
+
             /* Document Body */
             .page-content { background-color: #F4F1EA; padding: 50px; }
-    
+
             .section-title {
                 border-left: 4px solid #C5A059;
                 padding-left: 15px;
@@ -161,13 +161,13 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 font-size: 18px;
                 letter-spacing: 1px;
             }
-    
+
             /* Pricing Breakthrough Table */
             table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
             th { background: #1B3022; color: #C5A059; text-align: left; padding: 15px; }
             td { padding: 15px; border-bottom: 1px solid #ddd; }
             .total-row { background: #eee; font-weight: bold; font-size: 20px; }
-    
+
             /* Logic/Justification Boxes */
             .justification-box {
                 background: white;
@@ -177,9 +177,9 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 margin-top: 20px;
                 line-height: 1.6;
             }
-    
+
             .accent-text { color: #C5A059; font-weight: bold; }
-    
+
             /* Footer/Legal */
             .legal-footer {
                 background: #e9e6df;
@@ -191,7 +191,7 @@ export const generateQuotationPDF = async (plan: Plan) => {
         </style>
     </head>
     <body>
-    
+
     <div class="quotation-wrapper">
         <header>
             <div class="brand-container">
@@ -207,17 +207,17 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 <p style="margin: 0;">Ref: ${refStr}</p>
             </div>
         </header>
-    
+
         <div class="page-content">
             <div class="section-title">01. About Us</div>
-            <p>Founded in 2025, Mowglai Digital Solutions specializes in performance-driven web architecture. With a footprint in Noida and active partnerships in the UK and Singapore, we deliver international standards of digital excellence to every project.</p>
-    
+            <p>Founded in 2025, Mowglai specializes in performance-driven web architecture. With a footprint in Noida and active partnerships in the UK and Singapore, we deliver international standards of digital excellence to every project.</p>
+
             <div class="section-title">02. Plan Justification</div>
             <div class="justification-box">
                 ${justification}
                 ${upgradeOption}
             </div>
-    
+
             <div class="section-title">03. Price Breakthrough</div>
             <table>
                 <tr>
@@ -232,7 +232,7 @@ export const generateQuotationPDF = async (plan: Plan) => {
                 </tr>
             </table>
         </div>
-    
+
         <div class="legal-footer">
             <div style="margin-bottom: 20px;">
                 <strong>Privacy & Security Terms:</strong><br>
@@ -247,7 +247,7 @@ export const generateQuotationPDF = async (plan: Plan) => {
             </div>
         </div>
     </div>
-    
+
     </body>
     </html>
   `;

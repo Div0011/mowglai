@@ -89,7 +89,7 @@ export default function NotFound() {
 
                 {/* Footer Link */}
                 <p className="font-body text-sm text-muted-foreground/50 tracking-widest uppercase">
-                    Mowglai Digital Solutions • Evolving Since 2025
+                    Mowglai • Evolving Since 2025
                 </p>
             </div>
 

@@ -73,7 +73,7 @@ export const BrochurePDF: FC<BrochurePDFProps> = ({
         pdf.setTextColor(...colors.gold);
         pdf.setFontSize(10);
         pdf.setFont(fonts.header, 'bold');
-        pdf.text("MOWGLAI DIGITAL // 2025", margin, 35);
+        pdf.text("MOWGLAI // 2025", margin, 35);
 
         pdf.setTextColor(...colors.ivory);
         pdf.setFontSize(42);
@@ -220,7 +220,7 @@ export const BrochurePDF: FC<BrochurePDFProps> = ({
         pdf.setDrawColor(...colors.gold);
         pdf.rect(margin, 130, width - 2 * margin, 60, 'S');
         pdf.setTextColor(...colors.gold);
-        pdf.text("MOWGLAI DIGITAL SOLUTIONS", margin + 10, 150);
+        pdf.text("MOWGLAI", margin + 10, 150);
         pdf.text("info@mowglai.in", margin + 10, 165);
 
         pdf.save(clientName ? `Proposal_${clientName.replace(/\s+/g, '_')}_${planName}.pdf` : `Mowglai_Proposal_${planName}.pdf`);
