@@ -84,10 +84,59 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${boldonse.variable} ${josefinSans.variable}`}>
             <body className="antialiased">
-                <Providers>
-                    <AOSInit />
-                    {children}
-                </Providers>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            document.documentElement.classList.add('js-enabled');
+                        `
+                    }}
+                />
+                <noscript>
+                    <div style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: '#0a0a0a',
+                        color: '#ffffff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        zIndex: 999999,
+                        textAlign: 'center',
+                        padding: '20px'
+                    }}>
+                        <h1 style={{
+                            fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
+                            fontWeight: 'bold',
+                            marginBottom: '1rem'
+                        }}>
+                            JavaScript Required
+                        </h1>
+                        <p style={{
+                            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+                            maxWidth: '600px',
+                            lineHeight: 1.6
+                        }}>
+                            To continue exploring our website, please enable JavaScript in your browser settings.
+                        </p>
+                    </div>
+                </noscript>
+                <div id="main-content" style={{ display: 'none' }}>
+                    <Providers>
+                        <AOSInit />
+                        {children}
+                    </Providers>
+                </div>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            document.getElementById('main-content').style.display = 'block';
+                        `
+                    }}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
