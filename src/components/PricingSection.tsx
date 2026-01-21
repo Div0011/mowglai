@@ -82,12 +82,12 @@ const PricingSection = () => {
               data-aos="fade-up"
               data-aos-delay={i * 200}
               className={cn(
-                "relative p-10 md:p-12 glass-card border border-primary/20 transition-all duration-700 hover:-translate-y-4 hover:border-primary group flex flex-col h-full",
+                "relative p-10 md:p-12 glass-card border border-primary/20 transition-all duration-400 hover:-translate-y-4 hover:border-primary group flex flex-col h-full",
                 plan.popular ? "bg-primary/5 border-primary/40 shadow-[0_0_50px_rgba(var(--primary-rgb),0.1)]" : "bg-background/40"
               )}
             >
               {/* Hover Golden Glow */}
-              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 blur-[80px] transition-opacity duration-700 rounded-full -z-10" />
+              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 blur-[80px] transition-opacity duration-500 rounded-full -z-10" />
 
               <div className="mb-8 shrink-0">
                 {plan.popular && (

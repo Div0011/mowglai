@@ -1,9 +1,119 @@
+import Link from "next/link";
+import { Instagram, Twitter, Linkedin, ArrowUpRight } from "lucide-react";
+import MowglaiLogo from "@/components/MowglaiLogo";
+
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = [
+    {
+      title: "Explore",
+      links: [
+        { label: "Home", href: "/" },
+        { label: "Services", href: "/services" },
+        { label: "Our DNA", href: "/our-dna" },
+        { label: "Purchase Plans", href: "/investment" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About", href: "/#about" }, // Assuming section id
+        { label: "Mission", href: "/#mission" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
+  ];
+
+  const socialLinks = [
+    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
+  ];
+
   return (
-    <footer id="footer" className="w-full py-16 flex flex-col items-center justify-center bg-background/5 relative z-10 overflow-hidden">
-      {/* Copyright - Subtle at bottom */}
-      <div className="text-xs text-muted-foreground/30 font-display tracking-widest uppercase">
-        © {new Date().getFullYear()} Mowglai Galaxy
+    <footer id="footer" className="w-full bg-background border-t border-primary/10 relative z-10 overflow-hidden">
+      <div className="container mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+
+          {/* Brand Column */}
+          <div className="md:col-span-5 space-y-8">
+            <Link href="/" className="inline-block">
+              <div className="flex items-center gap-3">
+                <MowglaiLogo size="sm" />
+                <span className="font-display font-black text-2xl tracking-tight text-foreground">MOWGLAI</span>
+              </div>
+            </Link>
+            <p className="text-muted-foreground text-lg max-w-sm leading-relaxed">
+              Crafting digital experiences that transcend boundaries. Global standards, local heart.
+            </p>
+            <div className="flex gap-4">
+              {socialLinks.map((social, idx) => (
+                <a
+                  key={idx}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-primary transition-all duration-300 hover:bg-primary hover:text-background hover:scale-110"
+                  aria-label={social.label}
+                >
+                  <social.icon size={18} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Links Columns */}
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+            {footerLinks.map((group, idx) => (
+              <div key={idx} className="space-y-6">
+                <h4 className="font-display font-bold text-lg text-foreground tracking-wide uppercase">{group.title}</h4>
+                <ul className="space-y-4">
+                  {group.links.map((link, lIdx) => (
+                    <li key={lIdx}>
+                      <Link
+                        href={link.href}
+                        className="text-muted-foreground hover:text-primary transition-colors duration-300 flex items-center group w-fit"
+                      >
+                        <span className="relative overflow-hidden">
+                          {link.label}
+                          <span className="absolute bottom-0 left-0 w-full h-px bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            {/* Contact Column */}
+            <div className="space-y-6">
+              <h4 className="font-display font-bold text-lg text-foreground tracking-wide uppercase">Say Hello</h4>
+              <ul className="space-y-4">
+                <li>
+                  <a href="mailto:info@mowglai.in" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group">
+                    info@mowglai.in
+                    <ArrowUpRight size={14} className="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
+                  </a>
+                </li>
+                <li className="text-muted-foreground">
+                  Noida, India
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-20 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-sm text-muted-foreground/40 font-display tracking-widest uppercase">
+            © {currentYear} Mowglai Galaxy. All rights reserved.
+          </div>
+          <div className="flex gap-8 text-sm text-muted-foreground/40">
+            <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Send, Mail, MapPin, Phone } from "lucide-react";
+import TextReveal from "./TextReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -58,9 +59,9 @@ ${formData.message}
 
         {/* Huge Header */}
         <div className="mb-24 relative">
-          <h2 className="text-7xl sm:text-8xl md:text-[10vw] leading-[0.8] font-display font-black tracking-tighter text-foreground select-none relative z-10">
-            GET IN <br />
-            <span className="text-primary ml-0 md:ml-[38vw]">TOUCH</span>
+          <h2 className="text-[13vw] sm:text-[12vw] md:text-[10vw] font-display font-black text-foreground select-none relative z-10 py-4 leading-[0.85]">
+            <TextReveal text="GET IN" />
+            <span className="text-primary ml-0 md:ml-[38vw] block -mt-[1vw] md:-mt-[2vw]"><TextReveal text="TOUCH" delay={2} /></span>
           </h2>
         </div>
 

@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { Fingerprint } from "lucide-react";
+import TextReveal from "./TextReveal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -72,7 +73,7 @@ const MissionSection = () => {
                         <div>
                             <p className="text-primary font-display tracking-[0.4em] uppercase text-sm mb-4">International Standard</p>
                             <h3 className="text-5xl md:text-7xl font-display font-bold text-foreground leading-tight">
-                                BUILT FOR <br /> <span className="text-primary/50">THE WORLD</span>
+                                <TextReveal text="BUILT FOR" /> <span className="text-primary/50"><TextReveal text="THE WORLD" delay={2} /></span>
                             </h3>
                         </div>
                         <div className="h-0.5 w-32 bg-primary" />

@@ -139,7 +139,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                                 item.label === "TESTIMONIALS"
                                                     ? "text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
                                                     : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
-                                                "font-display font-bold uppercase tracking-tight break-words max-w-full [writing-mode:vertical-rl] rotate-180 inline-block",
+                                                "font-display font-bold uppercase break-words max-w-full [writing-mode:vertical-rl] rotate-180 inline-block leading-loose py-4 px-4",
                                                 isHovered
                                                     ? (resolvedTheme === 'light' ? "text-primary-foreground drop-shadow-[0_0_10px_rgba(20,83,45,0.3)]" : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-accent to-primary drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]")
                                                     : "text-primary/30"

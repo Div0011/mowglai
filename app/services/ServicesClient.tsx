@@ -4,6 +4,7 @@ import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Palette, Shield, Rocket, Globe, BarChart, Bot } from "lucide-react";
 import NextPageButton from "@/components/NextPageButton";
+import TextReveal from "@/components/TextReveal";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -92,9 +93,9 @@ export default function ServicesClient() {
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-[150px]" />
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <h1 className="text-5xl sm:text-7xl md:text-[10vw] font-display font-black text-foreground mb-6 leading-[0.85] uppercase" data-aos="fade-up">
-                        <span className="block opacity-10">Our</span>
-                        <span className="block text-primary -mt-4 uppercase">Services</span>
+                    <h1 className="text-5xl sm:text-7xl md:text-[10vw] font-display font-black text-foreground mb-6 leading-[0.85] uppercase">
+                        <span className="block opacity-10"><TextReveal text="Our" /></span>
+                        <span className="block text-primary -mt-4 uppercase"><TextReveal text="Services" delay={2} /></span>
                     </h1>
 
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
@@ -128,6 +129,7 @@ const ServicePanel = ({ service, index }: { service: any, index: number }) => {
             <motion.div
                 initial={{ scaleX: 0, opacity: 0 }}
                 whileInView={{ scaleX: 1, opacity: 1 }}
+                whileHover={{ scale: 1.02, y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.8, ease: "circOut" }}
                 style={{ originX: isEven ? 1 : 0 }}

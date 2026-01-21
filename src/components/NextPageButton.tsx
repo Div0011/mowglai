@@ -42,7 +42,7 @@ const NextPageButton = ({ label, href }: NextPageButtonProps) => {
             {/* Main Big Button - Now in Foreground */}
             <Link
                 href={href}
-                className="group relative z-10 px-6 sm:px-12 py-4 sm:py-6 rounded-full border-2 border-primary/20 bg-background/40 hover:bg-primary/20 hover:border-primary/50 transition-all duration-700 overflow-hidden backdrop-blur-xl scale-100 sm:scale-110 md:scale-125"
+                className="group relative z-10 px-6 sm:px-12 py-4 sm:py-6 rounded-full border-2 border-primary/20 bg-background/40 hover:bg-primary/20 hover:border-primary/50 transition-all duration-400 overflow-hidden backdrop-blur-xl scale-100 sm:scale-110 md:scale-125"
             >
                 <div className="flex items-center gap-3 sm:gap-4 text-xl sm:text-4xl md:text-5xl font-display font-medium text-foreground tracking-tight uppercase leading-none">
                     <span>{label}</span>

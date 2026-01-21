@@ -56,7 +56,7 @@ const AboutSection = () => {
               <MowglaiLogo size="full" className="shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)] group-hover/logo-container:shadow-[0_0_60px_hsl(var(--primary))]" />
 
               {/* Fog Layer - Disappears on hover */}
-              <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/20 via-primary/5 to-transparent backdrop-blur-sm opacity-100 group-hover/logo-container:opacity-0 transition-opacity duration-1000 pointer-events-none rounded-full" />
+              <div className="absolute inset-0 z-20 bg-gradient-to-tr from-background/20 via-primary/5 to-transparent backdrop-blur-sm opacity-100 group-hover/logo-container:opacity-0 transition-opacity duration-500 pointer-events-none rounded-full" />
             </div>
           </div>
 
@@ -101,7 +101,7 @@ const AboutSection = () => {
                   }}
                 >
                   {/* Golden Backdrop Glow on Hover */}
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover/card:opacity-100 blur-[40px] transition-opacity duration-700 pointer-events-none" />
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover/card:opacity-100 blur-[40px] transition-opacity duration-500 pointer-events-none" />
 
                   <div className="relative z-10 flex flex-col items-center justify-center w-full h-full text-center transition-all duration-500">
                     <div className="flex flex-col items-center gap-4 group-hover/card:-translate-y-4 transition-transform duration-500">

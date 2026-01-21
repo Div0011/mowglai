@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Testimonial {
@@ -83,6 +85,55 @@ interface TestimonialsSectionProps {
 }
 
 export default function TestimonialsSection({ isDark = true }: TestimonialsSectionProps) {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    // Keyboard Navigation
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!scrollContainerRef.current) return;
+            // Only scroll if the section is in view or user interaction is expected
+            // For simplicity, we'll allow it if the user is focused on the page, 
+            // but in a real app you might check if element is in viewport.
+            // Let's add a simple check if the element is roughly in view could be expensive,
+            // so we stick to simple arrow keys if the user has interacted.
+
+            if (e.key === "ArrowLeft") {
+                scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+            } else if (e.key === "ArrowRight") {
+                scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (!scrollContainerRef.current) return;
+        setIsDragging(true);
+        setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+        setScrollLeft(scrollContainerRef.current.scrollLeft);
+    };
+
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !scrollContainerRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainerRef.current.offsetLeft;
+        const walk = (x - startX) * 2; // Scroll-fast
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
     return (
         <section id="testimonials" className="w-full relative py-24 overflow-hidden">
             <div className="container mx-auto px-6">
@@ -104,7 +155,17 @@ export default function TestimonialsSection({ isDark = true }: TestimonialsSecti
                     {/* Background Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
-                    <div className="flex overflow-x-auto gap-8 pb-12 pt-4 px-4 snap-x snap-mandatory hide-scrollbar">
+                    <div
+                        ref={scrollContainerRef}
+                        className={cn(
+                            "flex overflow-x-auto gap-8 pb-12 pt-4 px-4 snap-x snap-mandatory hide-scrollbar cursor-grab active:cursor-grabbing",
+                            isDragging ? "cursor-grabbing snap-none" : ""
+                        )}
+                        onMouseDown={handleMouseDown}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseUp={handleMouseUp}
+                        onMouseMove={handleMouseMove}
+                    >
                         {testimonials.map((t, i) => (
                             <div
                                 key={t.id}
@@ -149,7 +210,18 @@ export default function TestimonialsSection({ isDark = true }: TestimonialsSecti
                     </div>
                 </div>
 
+            </div>
 
+            {/* Drag/Swipe Indicator - Fades out on interaction */}
+            <div
+                className={cn(
+                    "mt-8 flex justify-center items-center gap-3 text-primary/60 font-display tracking-widest uppercase text-sm transition-opacity duration-500",
+                    isDragging || scrollLeft > 0 ? "opacity-0" : "opacity-100 animate-pulse"
+                )}
+            >
+                <span className="hidden md:inline">Drag to Explore</span>
+                <span className="md:hidden">Swipe to Explore</span>
+                <MoveRight className="w-4 h-4 animate-float-horizontal" />
             </div>
         </section>
     );

@@ -19,6 +19,13 @@
 @tailwind utilities;
 
 @layer base {
+  ::selection {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+}
+
+@layer base {
   :root {
     /* Dark Mode - Forest & Gold */
     --background: 150 60% 15%;
@@ -85,7 +92,6 @@
     overflow-x: hidden;
     width: 100%;
     zoom: 1.0;
-    scroll-behavior: smooth;
   }
 
   body {
@@ -117,7 +123,7 @@
   h4,
   h5,
   h6 {
-    @apply font-display text-primary uppercase;
+    @apply font-display text-primary uppercase leading-normal py-1 tracking-wide;
     /* Uppercase matches Cyrene style usually */
   }
 

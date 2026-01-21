@@ -1,9 +1,10 @@
 import { Home, Users, Mail, DollarSign, Layers, Menu, X, Instagram, Twitter, Linkedin } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Magnetic from "@/components/Magnetic";
 
 const navItems = [
     { icon: Home, label: "Home", href: "/" },
@@ -18,13 +19,6 @@ const socialItems = [
     { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
 ];
-
-const glassStyle = {
-    background: 'hsl(var(--background) / 0.7)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid hsl(var(--border) / 0.2)',
-    boxShadow: '0 0 20px hsl(var(--primary) / 0.15)',
-};
 
 const MobileNav = () => {
     const router = useRouter();
@@ -47,94 +41,130 @@ const MobileNav = () => {
         router.push(href);
     };
 
+    // Close on Click Outside & Escape Key
+    const navRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape" && isOpen) setIsOpen(false);
+        };
+
+        const handleClickOutside = (e: MouseEvent) => {
+            // Note: This logic changes slightly with full screen overlay.
+            // But if we have a transparent part or if user clicks the button...
+            // Actually, for full screen, usually the content covers everything.
+            // We'll rely on the close button and link clicks primarily.
+        };
+
+        if (isOpen) {
+            document.body.style.overflow = "hidden"; // Lock scroll
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = "";
+        };
+    }, [isOpen]);
+
     return (
         <nav
-            className="fixed right-[calc(0.875rem+env(safe-area-inset-right))] top-[calc(1rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] z-50 flex flex-col items-end gap-0.5 md:hidden"
+            ref={navRef}
+            className="md:hidden z-50 block"
             aria-label="Mobile Navigation"
         >
-            {/* Top Row: Nav Items (Left) + Toggle (Right) */}
-            <div className="flex items-center gap-0.5">
-
-                {/* Regular Nav Items - Expands to the left (Horizontal) */}
-                <AnimatePresence>
-                    {isOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, x: 20, scale: 0.8 }}
-                            animate={{ opacity: 1, x: 0, scale: 1 }}
-                            exit={{ opacity: 0, x: 20, scale: 0.8 }}
-                            className="h-14 rounded-full px-0.5 flex items-center justify-center gap-0 overflow-hidden"
-                            style={glassStyle}
-                        >
-                            {navItems.map((item) => {
-                                const Icon = item.icon;
-                                const isActive = activeItem === item.label;
-
-                                return (
-                                    <a
-                                        key={item.label}
-                                        href={item.href}
-                                        onClick={(e) => handleClick(e, item.label, item.href)}
-                                        className={cn(
-                                            "flex flex-col items-center justify-center w-9 h-10 rounded-full transition-all duration-300 relative",
-                                            isActive
-                                                ? (resolvedTheme === 'light' ? "text-primary-foreground bg-primary/20" : "text-primary bg-primary/10")
-                                                : "text-muted-foreground opacity-70 hover:opacity-100 hover:bg-primary/5"
-                                        )}
-                                        aria-label={item.label}
-                                    >
-                                        <Icon className="w-5 h-5" />
-
-                                        {/* Active Indicator - Dot at bottom */}
-                                        {isActive && (
-                                            <div className="absolute bottom-1.5 w-1 h-1 bg-primary rounded-full shadow-[0_0_5px_var(--primary)]" />
-                                        )}
-                                    </a>
-                                );
-                            })}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {/* Toggle Button */}
-                <motion.button
-                    layout
-                    onClick={() => setIsOpen(!isOpen)}
-                    className={cn(
-                        "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 z-50 flex-shrink-0 backdrop-blur-md border border-primary/20",
-                        resolvedTheme === 'light'
-                            ? "bg-primary/20 text-primary-foreground hover:bg-primary-foreground/20 hover:text-primary"
-                            : "bg-background/70 text-primary hover:bg-primary/10"
-                    )}
-                    // Removed style={glassStyle} to allow color overrides
-                    aria-label={isOpen ? "Close menu" : "Open menu"}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                </motion.button>
+            {/* Toggle Button - Fixed Top Right */}
+            <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] right-[calc(0.875rem+env(safe-area-inset-right))] z-[60]">
+                <Magnetic>
+                    <motion.button
+                        layout
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={cn(
+                            "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md border border-primary/20 shadow-lg",
+                            isOpen
+                                ? "bg-primary text-primary-foreground border-transparent"
+                                : (resolvedTheme === 'light'
+                                    ? "bg-primary/10 text-primary hover:bg-primary/20"
+                                    : "bg-background/40 text-primary hover:bg-primary/10")
+                        )}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </motion.button>
+                </Magnetic>
             </div>
 
-            {/* Vertical Social Links - Drops down */}
+            {/* Full Screen Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20, height: 0 }}
-                        animate={{ opacity: 1, y: 0, height: 'auto' }}
-                        exit={{ opacity: 0, y: -20, height: 0 }}
-                        className="w-14 rounded-full py-4 flex flex-col items-center gap-4 overflow-hidden"
-                        style={glassStyle}
+                        initial={{ opacity: 0, y: "-100%" }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: "-100%" }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 z-[55] bg-background/95 backdrop-blur-2xl flex flex-col items-center justify-center"
                     >
-                        {socialItems.map((item) => (
-                            <a
-                                key={item.label}
-                                href={item.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-3 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
-                                aria-label={item.label}
-                            >
-                                <item.icon className="w-5 h-5" />
-                            </a>
-                        ))}
+                        {/* Background Decoration */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <div className="absolute top-[-20%] right-[-20%] w-[80vw] h-[80vw] bg-primary/10 rounded-full blur-[100px]" />
+                            <div className="absolute bottom-[-20%] left-[-20%] w-[80vw] h-[80vw] bg-primary/5 rounded-full blur-[100px]" />
+                        </div>
+
+                        {/* Navigation Links */}
+                        <div className="relative z-10 flex flex-col items-center gap-8 w-full px-6">
+                            {navItems.map((item, i) => {
+                                const isActive = activeItem === item.label;
+                                return (
+                                    <motion.a
+                                        key={item.label}
+                                        href={item.href}
+                                        onClick={(e) => handleClick(e, item.label, item.href)}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 20 }}
+                                        transition={{ delay: 0.1 + (i * 0.05), duration: 0.5, ease: "easeOut" }}
+                                        className={cn(
+                                            "flex items-center gap-4 group w-full max-w-xs",
+                                            isActive ? "text-primary" : "text-foreground/60"
+                                        )}
+                                    >
+                                        <div className={cn(
+                                            "p-3 rounded-full transition-all duration-300",
+                                            isActive ? "bg-primary text-primary-foreground" : "bg-primary/5 text-primary/40 group-hover:bg-primary/10 group-hover:text-primary"
+                                        )}>
+                                            <item.icon className="w-6 h-6" />
+                                        </div>
+                                        <span className={cn(
+                                            "text-3xl font-display font-bold uppercase transition-all duration-300 leading-relaxed py-1",
+                                            isActive ? "translate-x-2" : "group-hover:translate-x-2 group-hover:text-primary"
+                                        )}>
+                                            {item.label}
+                                        </span>
+                                    </motion.a>
+                                );
+                            })}
+                        </div>
+
+                        {/* Social Links - Bottom */}
+                        <div className="absolute bottom-12 w-full flex justify-center gap-6 z-10">
+                            {socialItems.map((item, i) => (
+                                <motion.a
+                                    key={item.label}
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.5 + (i * 0.1), type: "spring", stiffness: 200 }}
+                                    className="p-3 rounded-full bg-primary/5 text-primary/60 border border-primary/10 hover:bg-primaryhover:text-primary-foreground hover:scale-110 active:scale-95 transition-all duration-300"
+                                >
+                                    <item.icon className="w-5 h-5" />
+                                </motion.a>
+                            ))}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -9,7 +9,8 @@ export const AOSInit = () => {
         // Initialize AOS with a slight delay to avoid hydration mismatches
         setTimeout(() => {
             AOS.init({
-                duration: 1000,
+                duration: 700, // Speed up from 1000ms
+                easing: 'ease-out-cubic', // Snappier easing
                 once: false,
                 mirror: true,
                 // offset: 50, // Optional: offset (in px) from the original trigger point

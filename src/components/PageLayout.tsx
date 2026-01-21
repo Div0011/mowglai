@@ -9,6 +9,7 @@ import { Bot } from "lucide-react";
 
 import Footer from "@/components/Footer";
 import ScrollToTop from "./ScrollToTop";
+import SmoothScroll from "./SmoothScroll";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -18,6 +19,7 @@ const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: f
 const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: false });
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
 const GalaxyBackground = dynamic(() => import("@/components/GalaxyBackground"), { ssr: false });
+const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -33,7 +35,9 @@ const PageLayout = ({ children }: PageLayoutProps) => {
 
     return (
         <div className="min-h-screen relative text-foreground transition-colors duration-500">
+            <SmoothScroll />
             <ScrollToTop />
+            <BackToTopButton />
             <CustomCursor />
             <ThemeToggle />
 
@@ -71,7 +75,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     >
                         <Suspense fallback={<div className="w-full h-screen flex items-center justify-center text-primary font-display animate-pulse">Loading Content...</div>}>
                             {children}

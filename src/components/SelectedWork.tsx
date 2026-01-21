@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import NextImage from "next/image";
 
@@ -75,6 +75,31 @@ export default function SelectedWork() {
         };
     }, []);
 
+    // Keyboard Navigation
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft") {
+                prevSlide();
+                resetAutoplay();
+            } else if (e.key === "ArrowRight") {
+                nextSlide();
+                resetAutoplay();
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
+    const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        if (info.offset.x < -50) {
+            nextSlide();
+            resetAutoplay();
+        } else if (info.offset.x > 50) {
+            prevSlide();
+            resetAutoplay();
+        }
+    };
+
     const variants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 1000 : -1000,
@@ -116,6 +141,11 @@ export default function SelectedWork() {
                         maskImage: "radial-gradient(ellipse at center, black 85%, transparent 100%)",
                         WebkitMaskImage: "radial-gradient(ellipse at center, black 85%, transparent 100%)"
                     }}
+                    onMouseEnter={() => {
+                        if (autoplayRef.current) clearInterval(autoplayRef.current);
+                        autoplayRef.current = null;
+                    }}
+                    onMouseLeave={resetAutoplay}
                 >
                     <AnimatePresence initial={false} custom={direction}>
                         <motion.div
@@ -125,6 +155,10 @@ export default function SelectedWork() {
                             initial="enter"
                             animate="center"
                             exit="exit"
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={1}
+                            onDragEnd={handleDragEnd}
                             transition={{
                                 x: { type: "spring", stiffness: 300, damping: 30 },
                                 opacity: { duration: 0.2 },

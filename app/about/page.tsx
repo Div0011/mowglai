@@ -74,7 +74,7 @@ export default function About() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAbout) }} />
             <AboutSection />
             <MissionSection />
-            <TeamSection />
+            {/* <TeamSection /> */}
             <TestimonialsSection />
             <NextPageButton label="Our Services" href="/services" />
         </PageLayout>

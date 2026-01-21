@@ -1,4 +1,6 @@
 import Link from "next/link";
+import TextReveal from "./TextReveal";
+import Magnetic from "./Magnetic";
 
 const HeroSection = () => {
     return (
@@ -11,22 +13,26 @@ const HeroSection = () => {
             <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
 
                 {/* Pre-title */}
-                <p className="text-primary font-display tracking-[0.5em] text-sm md:text-lg uppercase mb-6" data-aos="fade-down" data-aos-delay="100">
-                    Est. 2025
-                </p>
+                <div className="text-primary font-display tracking-[0.5em] text-sm md:text-lg uppercase mb-6">
+                    <TextReveal text="Est. 2025" />
+                </div>
 
                 {/* Massive Title Block */}
                 <div className="flex flex-col items-center leading-none">
-                    <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-wide transition-all duration-700 cursor-default select-none" data-aos="zoom-out" data-aos-duration="1200">
+                    <h1
+                        className="text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-widest transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default select-none transform-gpu hover:scale-105"
+                        data-aos="zoom-out"
+                        data-aos-duration="1000"
+                    >
                         MOWGLAI
                     </h1>
                 </div>
 
                 {/* Subtitle / Value Prop */}
                 <div className="mt-8 md:mt-12 max-w-3xl" data-aos="fade-up" data-aos-delay="300">
-                    <p className="text-xl md:text-3xl text-foreground/80 font-body font-light leading-relaxed">
-                        We craft <span className="text-primary font-semibold">modern, stylish websites</span> for visionary brands. Delivering digital elegance that transcends borders.
-                    </p>
+                    <div className="text-xl md:text-3xl text-foreground/80 font-body font-light leading-relaxed">
+                        <TextReveal text="We craft modern, stylish websites for visionary brands. Delivering digital elegance that transcends borders." />
+                    </div>
                 </div>
 
                 {/* CTA Buttons */}
@@ -34,18 +40,22 @@ const HeroSection = () => {
                     className="mt-12 flex flex-wrap justify-center gap-4 md:gap-6 opacity-0 animate-fade-in px-4"
                     style={{ animationDelay: "1s", animationFillMode: "forwards" }}
                 >
-                    <Link
-                        href="/contact"
-                        className="w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center"
-                    >
-                        Start a Project
-                    </Link>
-                    <Link
-                        href="/investment"
-                        className="w-full sm:w-auto px-8 sm:px-10 py-4 border border-foreground/30 text-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
-                    >
-                        Learn More
-                    </Link>
+                    <Magnetic>
+                        <Link
+                            href="/contact"
+                            className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center"
+                        >
+                            Start a Project
+                        </Link>
+                    </Magnetic>
+                    <Magnetic>
+                        <Link
+                            href="/investment"
+                            className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 border border-foreground/30 text-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
+                        >
+                            Learn More
+                        </Link>
+                    </Magnetic>
                 </div>
 
             </div>

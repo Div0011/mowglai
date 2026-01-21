@@ -94,7 +94,7 @@ const TeamSection = () => {
                                     src={member.image}
                                     alt={member.name}
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
 
                                 {/* Overlay with Socials */}
