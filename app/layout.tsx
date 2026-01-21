@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         description: "Mowglai creates stunning, high-performance websites and web applications.",
         siteName: "Mowglai",
         images: [{
-            url: "/mowglai-logo-new.jpg",
+            url: "https://mowglai.in/mowglai-logo-new.jpg",
             width: 1200,
             height: 1200,
             alt: "Mowglai Digital Excellence"
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Mowglai | Premium Digital Agency & Web Development",
         description: "Mowglai creates stunning, high-performance websites and web applications.",
-        images: ["/mowglai-logo-new.jpg"],
+        images: ["https://mowglai.in/mowglai-logo-new.jpg"],
         creator: "@mowglai",
     },
     icons: {
@@ -63,6 +63,11 @@ export const metadata: Metadata = {
     alternates: {
         canonical: "https://mowglai.in",
     },
+    verification: {
+        google: "google-site-verification-code", // Replace with actual code if available
+    },
+    category: "technology",
+    classification: "Digital Agency",
     robots: {
         index: true,
         follow: true,
