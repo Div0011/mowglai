@@ -29,3 +29,4 @@ out/
 build/
 *.tsbuildinfo
 next-env.d.ts
+*.zip
