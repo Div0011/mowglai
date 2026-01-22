@@ -1,108 +1,350 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Life [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Mowglai Fit Life | Gym & Wellness</title>
+    <meta name="description" content="Mowglai Fit - A fresh approach to fitness.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #334155;
-            --bg: #ffffff;
-            --text: #0f172a;
-            --font-head: 'Outfit', serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mint': '#10b981',
+                        'mint-dark': '#047857',
+                        'mint-light': '#ecfdf5',
+                        'gray-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/059669/ffffff?text=Fit+Life') center/cover; }
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $459</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-white font-sans text-gray-700">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#"
+                class="flex items-center gap-2 text-2xl font-display font-bold text-gray-dark uppercase tracking-wide">
+                <span class="text-mint">Fit</span>Life
+            </a>
+
+            <div
+                class="hidden md:flex gap-8 items-center font-display font-medium text-sm text-gray-500 uppercase tracking-widest">
+                <a href="#classes" class="hover:text-mint transition-colors">Classes</a>
+                <a href="#trainers" class="hover:text-mint transition-colors">Trainers</a>
+                <a href="#membership" class="hover:text-mint transition-colors">Membership</a>
+                <a href="#contact"
+                    class="px-6 py-2 border border-mint text-mint rounded hover:bg-mint hover:text-white transition-all">
+                    Free Trial
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-dark">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Fit Life</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Clean layout for lifestyle gyms.</p>
-                    <a href="#" class="btn animate">Explore</a>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-8 font-display text-2xl uppercase tracking-widest text-gray-dark"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-gray-400">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#classes" @click="mobileMenuOpen = false" class="hover:text-mint">Classes</a>
+        <a href="#trainers" @click="mobileMenuOpen = false" class="hover:text-mint">Trainers</a>
+        <a href="#membership" @click="mobileMenuOpen = false" class="hover:text-mint">Membership</a>
+        <a href="#contact" @click="mobileMenuOpen = false" class="text-mint font-bold">Get Started</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-24 px-6 md:pt-48 md:pb-40 overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-2/3 h-full bg-mint-light/50 skew-x-12 origin-top transform translate-x-1/4 -z-10">
+        </div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <h1 class="text-5xl md:text-7xl font-display font-bold text-gray-dark mb-8 leading-tight">
+                    Sweat. Smile. <br> <span class="text-mint">Repeat.</span>
+                </h1>
+                <p class="text-xl text-gray-500 mb-10 max-w-lg leading-relaxed">
+                    Join a community that celebrates movement. From high-energy cycle classes to restorative yoga, find
+                    your balance at FitLife.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#contact"
+                        class="px-10 py-4 bg-mint text-white rounded font-display font-bold uppercase tracking-widest hover:bg-mint-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                        Join Now
+                    </a>
+                    <a href="#classes"
+                        class="px-10 py-4 border border-gray-200 text-gray-600 rounded font-display font-bold uppercase tracking-widest hover:border-mint hover:text-mint transition-all">
+                        View Schedule
+                    </a>
                 </div>
-                <div class="split-r"></div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <div class="md:w-1/2 relative">
+                <div class="relative z-10">
+                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=2670&auto=format&fit=crop"
+                        class="rounded-lg shadow-2xl w-full h-auto object-cover aspect-[4/5]">
+                </div>
+                <!-- Graphic Elements -->
+                <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-mint rounded-full -z-0"></div>
+                <div class="absolute top-8 -right-8 w-24 h-24 border-4 border-gray-200 rounded-full -z-0"></div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$459</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Classes -->
+    <section id="classes" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+                <div>
+                    <h2 class="text-4xl font-display font-bold text-gray-dark mb-4">Our Classes</h2>
+                    <p class="text-gray-500 max-w-xl">Designed for all fitness levels. First class is always on us.</p>
+                </div>
+                <a href="#"
+                    class="text-mint font-bold uppercase tracking-widest hover:text-mint-dark underline decoration-2 underline-offset-4">Full
+                    Schedule &rarr;</a>
             </div>
-         </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Class 1 -->
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2669&auto=format&fit=crop"
+                        class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                        <h3 class="text-2xl font-display font-bold mb-2">Power Cycle</h3>
+                        <p class="opacity-80 mb-4 font-light">High intensity cardio intervals.</p>
+                        <span
+                            class="text-mint font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Book
+                            Now</span>
+                    </div>
+                </div>
+
+                <!-- Class 2 -->
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=2669&auto=format&fit=crop"
+                        class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                        <h3 class="text-2xl font-display font-bold mb-2">Vinyasa Flow</h3>
+                        <p class="opacity-80 mb-4 font-light">Connect breath with movement.</p>
+                        <span
+                            class="text-mint font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Book
+                            Now</span>
+                    </div>
+                </div>
+
+                <!-- Class 3 -->
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1534258936925-c48947387603?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                        <h3 class="text-2xl font-display font-bold mb-2">HIIT Strength</h3>
+                        <p class="opacity-80 mb-4 font-light">Full body functional training.</p>
+                        <span
+                            class="text-mint font-bold text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Book
+                            Now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Fit Life</h2>
+    <!-- App Promo -->
+    <section class="py-24 px-6 bg-mint-light overflow-hidden">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2 order-2 md:order-1 flex justify-center">
+                <div
+                    class="relative w-64 h-[500px] bg-gray-900 rounded-[3rem] shadow-2xl border-[8px] border-gray-900 overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-6 bg-gray-900 z-10 rounded-t-[2rem]"></div>
+                    <div class="w-full h-full bg-white pt-10 px-4">
+                        <!-- Fake App UI -->
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="font-display font-bold text-gray-800">FitLife App</div>
+                            <div class="w-8 h-8 bg-gray-100 rounded-full"></div>
+                        </div>
+                        <div class="bg-mint rounded-xl p-4 mb-4 text-white shadow-lg">
+                            <div class="text-xs opacity-80 uppercase tracking-wide">Next Class</div>
+                            <div class="font-bold text-lg">Yoga Flow</div>
+                            <div class="text-sm">Today, 5:00 PM</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-gray-50 p-3 rounded-xl">
+                                <div class="text-2xl text-mint font-bold">12</div>
+                                <div class="text-xs text-gray-400">Workouts</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-xl">
+                                <div class="text-2xl text-mint font-bold">4.5</div>
+                                <div class="text-xs text-gray-400">Hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 order-1 md:order-2">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-gray-dark mb-6">Fitness in Your Pocket</h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Book classes, track your progress, and access on-demand workouts from anywhere. Our app keeps you
+                    connected to your goals.
+                </p>
+                <div class="flex gap-4">
+                    <button
+                        class="bg-black text-white px-6 py-3 rounded-lg flex items-center gap-3 hover:bg-gray-800 transition-colors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <div class="text-left leading-none">
+                            <div class="text-[10px] uppercase tracking-wide">Download on the</div>
+                            <div class="font-bold text-sm">App Store</div>
+                        </div>
+                    </button>
+                    <button
+                        class="bg-black text-white px-6 py-3 rounded-lg flex items-center gap-3 hover:bg-gray-800 transition-colors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M5.22 1.37A.62.62 0 0 0 5 1.9v20.2a.63.63 0 0 0 .22.53l10.36-10.4-1.58-1.56L5.22 1.37zm11.4 8.78l3.96 2.27c1.1.63 1.1 1.67 0 2.3L16.63 17l-3.37-3.4 3.36-3.44zm-9.84-9.3l9.47 9.5-1.56 1.55-8.8-8.82L5.8 2.07c.06-.41.4-.73.83-.87.05-.02.1-.03.15-.05zM5.9 21.93l-.86-1-8.82-8.85 1.56 1.58 9.47 9.47c-.05-.02-.1-.03-.15-.05a.86.86 0 0 1-.83-.87l-.02-.12z" />
+                        </svg>
+                        <div class="text-left leading-none">
+                            <div class="text-[10px] uppercase tracking-wide">Get it on</div>
+                            <div class="font-bold text-sm">Google Play</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Membership -->
+    <section id="membership" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-gray-dark mb-4">Membership</h2>
+                <p class="text-gray-500 max-w-xl mx-auto">No hidden fees. No long-term contracts. Just fitness.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Plan 1 -->
+                <div class="border border-gray-100 p-8 rounded-lg hover:shadow-xl transition-shadow">
+                    <h3 class="font-display font-bold text-xl mb-2">Day Pass</h3>
+                    <div class="text-3xl font-bold text-gray-dark mb-6">$20</div>
+                    <ul class="space-y-4 text-sm text-gray-500 mb-8 text-left">
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> Full Gym Access</li>
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> Locker Rooms</li>
+                        <li class="flex items-center gap-3 opacity-50"><span class="text-gray-300">×</span> Guest
+                            Privileges</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 border border-gray-200 text-center font-bold uppercase text-sm tracking-widest hover:border-mint hover:text-mint transition-colors">Select</a>
+                </div>
+
+                <!-- Plan 2 -->
+                <div
+                    class="border-2 border-mint p-8 rounded-lg shadow-xl relative transform md:-translate-y-4 bg-white">
+                    <div
+                        class="absolute top-0 left-1/2 -translate-x-1/2 bg-mint text-white text-xs font-bold uppercase px-3 py-1 rounded-b">
+                        Popular</div>
+                    <h3 class="font-display font-bold text-xl mb-2">Monthly</h3>
+                    <div class="text-3xl font-bold text-gray-dark mb-6">$59<span
+                            class="text-sm font-normal text-gray-400">/mo</span></div>
+                    <ul class="space-y-4 text-sm text-gray-500 mb-8 text-left">
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> Unlimited Access</li>
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> All Group Classes</li>
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> 1 Personal Session</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 bg-mint text-white text-center font-bold uppercase text-sm tracking-widest hover:bg-mint-dark transition-colors shadow-lg">Select</a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="border border-gray-100 p-8 rounded-lg hover:shadow-xl transition-shadow">
+                    <h3 class="font-display font-bold text-xl mb-2">Yearly</h3>
+                    <div class="text-3xl font-bold text-gray-dark mb-6">$590<span
+                            class="text-sm font-normal text-gray-400">/yr</span></div>
+                    <ul class="space-y-4 text-sm text-gray-500 mb-8 text-left">
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> All Monthly Perks</li>
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> 2 Months Free</li>
+                        <li class="flex items-center gap-3"><span class="text-mint">✓</span> Guest Privileges</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 border border-gray-200 text-center font-bold uppercase text-sm tracking-widest hover:border-mint hover:text-mint transition-colors">Select</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-dark text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="md:col-span-2">
+                <a href="#"
+                    class="flex items-center gap-2 text-2xl font-display font-bold text-white uppercase tracking-wide mb-6">
+                    <span class="text-mint">Fit</span>Life
+                </a>
+                <p class="text-gray-400 max-w-sm mb-6">
+                    Empowering you to live your healthiest, happiest life. Join the movement today.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-mint transition-colors">IG</a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-mint transition-colors">FB</a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-mint transition-colors">TW</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-sm">Studio</h4>
+                <ul class="space-y-4 text-gray-400 font-light">
+                    <li><a href="#" class="hover:text-white">Classes</a></li>
+                    <li><a href="#" class="hover:text-white">Schedule</a></li>
+                    <li><a href="#" class="hover:text-white">Trainers</a></li>
+                    <li><a href="#" class="hover:text-white">Blog</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-sm">Contact</h4>
+                <p class="text-gray-400 font-light mb-2">123 Fitness Blvd,</p>
+                <p class="text-gray-400 font-light mb-6">Los Angeles, CA 90012</p>
+                <p class="text-gray-400 font-light">hello@mowglaifit.com</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+            &copy; 2025 Mowglai Fit Life. All rights reserved.
+        </div>
     </footer>
+
 </body>
+
 </html>

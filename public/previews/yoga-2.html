@@ -1,108 +1,324 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flow State [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Mowglai Motion | Pilates & Barre</title>
+    <meta name="description" content="Mowglai Motion - Boutique Pilates Studio.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Tenor+Sans&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #ea580c;
-            --bg: #fff7ed;
-            --text: #7c2d12;
-            --font-head: 'Oswald', serif;
-            --font-body: 'Manrope', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'peach': '#ffecd9',
+                        'peach-dark': '#fed7aa',
+                        'sage': '#a0b4a4',
+                        'sage-dark': '#8da593',
+                        'cream': '#fdfbf7',
+                        'text-dark': '#44403c',
+                    },
+                    fontFamily: {
+                        sans: ['Jost', 'sans-serif'],
+                        display: ['Tenor Sans', 'sans-serif'],
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/e11d48/ffffff?text=Power+Flow') center/cover; }
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $449</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-cream text-text-dark font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-cream/95 backdrop-blur-sm border-b border-peach-dark/30">
+        <div class="max-w-6xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="#" class="text-3xl font-display tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-sage"></span>
+                Mowglai <span class="text-sage">Motion</span>
+            </a>
+
+            <div class="hidden md:flex gap-10 items-center font-sans text-sm tracking-[0.2em] uppercase">
+                <a href="#classes" class="hover:text-sage transition-colors">The Method</a>
+                <a href="#studio" class="hover:text-sage transition-colors">Studio</a>
+                <a href="#pricing" class="hover:text-sage transition-colors">Pricing</a>
+                <a href="#contact"
+                    class="px-8 py-3 bg-sage text-white rounded-full hover:bg-sage-dark transition-all hover:scale-105">
+                    Book Class
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-text-dark">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Flow State</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Dynamic layout for power yoga.</p>
-                    <a href="#" class="btn animate">Explore</a>
-                </div>
-                <div class="split-r"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-peach flex flex-col items-center justify-center space-y-8 font-display text-3xl"
+        x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-full"
+        x-transition:enter-end="opacity-100 translate-y-0">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-8 right-8 text-text-dark">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <a href="#classes" @click="mobileMenuOpen = false" class="hover:text-sage hover:italic transition-all">The
+            Method</a>
+        <a href="#studio" @click="mobileMenuOpen = false" class="hover:text-sage hover:italic transition-all">Studio</a>
+        <a href="#pricing" @click="mobileMenuOpen = false"
+            class="hover:text-sage hover:italic transition-all">Pricing</a>
+        <a href="#contact" @click="mobileMenuOpen = false" class="text-sage font-bold">Book Class</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen pt-32 pb-24 px-6 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2670&auto=format&fit=crop"
+                class="w-full h-full object-cover opacity-90">
+            <div class="absolute inset-0 bg-peach/20 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-cream via-cream/50 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl mx-auto">
+            <h2 class="text-sage text-sm md:text-base font-sans tracking-[0.3em] uppercase mb-6 slide-up-1">Find your
+                flow</h2>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-display text-text-dark mb-8 leading-none slide-up-2">
+                Mindful <br><i class="font-serif">Movement</i>
+            </h1>
+            <p class="text-xl text-text-dark/70 mb-12 max-w-xl mx-auto font-light leading-relaxed slide-up-3">
+                A boutique studio blending the precision of Pilates with the fluidity of Yoga. Designed for the modern
+                body.
+            </p>
+            <div class="slide-up-4">
+                <a href="#classes"
+                    class="inline-block px-10 py-4 border border-text-dark text-text-dark rounded-full font-sans text-sm tracking-widest uppercase hover:bg-text-dark hover:text-white transition-all duration-500">
+                    Explore Classes
+                </a>
+            </div>
+        </div>
+
+        <style>
+            .slide-up-1 {
+                animation: slideUp 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(20px);
+                animation-delay: 0.1s;
+            }
+
+            .slide-up-2 {
+                animation: slideUp 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(20px);
+                animation-delay: 0.3s;
+            }
+
+            .slide-up-3 {
+                animation: slideUp 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(20px);
+                animation-delay: 0.5s;
+            }
+
+            .slide-up-4 {
+                animation: slideUp 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(20px);
+                animation-delay: 0.7s;
+            }
+
+            @keyframes slideUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </header>
+
+    <!-- The Method (Carousels) -->
+    <section id="classes" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 px-4">
+                <h2 class="text-4xl md:text-5xl font-display text-text-dark">The Method</h2>
+                <p class="text-text-dark/60 font-light max-w-sm text-right mt-4 md:mt-0">Low impact. High intensity.
+                    Designed to sculpt, lengthen, and tone.</p>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 hide-scrollbar">
+                <!-- Card 1 -->
+                <div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+                    <div class="h-[500px] rounded-[2rem] overflow-hidden relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1522898467493-49726bf28798?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-2xl font-display mb-2 flex justify-between items-center">
+                            Reformer Sculpt
+                            <span
+                                class="text-xs font-sans tracking-widest border border-text-dark/20 px-3 py-1 rounded-full text-text-dark/60">50
+                                MIN</span>
+                        </h3>
+                        <p class="text-text-dark/60 font-light text-sm leading-relaxed">Combine resistance training with
+                            fluid movement on our state-of-the-art reformers.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+                    <div class="h-[500px] rounded-[2rem] overflow-hidden relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=2626&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-2xl font-display mb-2 flex justify-between items-center">
+                            Modern Barre
+                            <span
+                                class="text-xs font-sans tracking-widest border border-text-dark/20 px-3 py-1 rounded-full text-text-dark/60">45
+                                MIN</span>
+                        </h3>
+                        <p class="text-text-dark/60 font-light text-sm leading-relaxed">A rhythmic, full-body workout
+                            fusing ballet, pilates, and functional training.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+                    <div class="h-[500px] rounded-[2rem] overflow-hidden relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=2680&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-2xl font-display mb-2 flex justify-between items-center">
+                            Mat Flow
+                            <span
+                                class="text-xs font-sans tracking-widest border border-text-dark/20 px-3 py-1 rounded-full text-text-dark/60">60
+                                MIN</span>
+                        </h3>
+                        <p class="text-text-dark/60 font-light text-sm leading-relaxed">Return to your roots with a
+                            grounded practice focusing on core stability and breath.</p>
+                    </div>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$449</div>
-                 <div style="opacity: 0.5;">One-time license</div>
-            </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Flow State</h2>
+    <!-- Studio / Vibe -->
+    <section id="studio" class="py-24 px-6 bg-peach/30 rounded-t-[3rem]">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 relative">
+                <div class="absolute -top-10 -left-10 w-full h-full border border-text-dark/10 rounded-[2rem]"></div>
+                <img src="https://images.unsplash.com/photo-1599447421405-0c307e4d9d40?q=80&w=2670&auto=format&fit=crop"
+                    class="rounded-[2rem] shadow-xl relative z-10 w-full h-auto">
+            </div>
+
+            <div class="order-1 md:order-2">
+                <h2 class="text-4xl md:text-5xl font-display text-text-dark mb-8">A Sanctuary for <i
+                        class="text-sage font-serif">Self-Care</i></h2>
+                <div class="w-16 h-[1px] bg-text-dark/20 mb-8"></div>
+                <p class="text-xl text-text-dark/70 font-light leading-relaxed mb-6">
+                    Our studio is more than just a place to sweat. It's a space to reset. Bathed in natural light and
+                    filled with lush greenery, every corner is designed to bring you back to center.
+                </p>
+                <div class="grid grid-cols-2 gap-6 mt-10">
+                    <div>
+                        <div class="text-3xl font-display text-sage mb-2">12</div>
+                        <div class="text-xs uppercase tracking-widest text-text-dark/60">Reformers</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-display text-sage mb-2">08</div>
+                        <div class="text-xs uppercase tracking-widest text-text-dark/60">Daily Classes</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-display text-text-dark mb-12">Invest in <i
+                    class="text-sage-dark font-serif">You</i></h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div
+                    class="p-8 rounded-[2rem] bg-white border border-text-dark/5 hover:border-sage transition-colors hover:shadow-lg group">
+                    <h3 class="font-sans text-sm tracking-widest uppercase mb-4 text-text-dark/50">Drop In</h3>
+                    <div class="text-4xl font-display text-text-dark mb-6">$35</div>
+                    <p class="text-sm font-light text-text-dark/60 mb-8">Single class credit. Valid for 14 days.</p>
+                    <button
+                        class="w-full py-3 bg-cream text-text-dark rounded-full font-sans text-xs uppercase tracking-widest hover:bg-sage hover:text-white transition-colors">Select</button>
+                </div>
+
+                <div
+                    class="p-8 rounded-[2rem] bg-sage/10 border border-sage/20 hover:shadow-xl transition-shadow relative">
+                    <div
+                        class="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-widest text-sage bg-white px-2 py-1 rounded-full">
+                        Best Value</div>
+                    <h3 class="font-sans text-sm tracking-widest uppercase mb-4 text-text-dark/50">Monthly</h3>
+                    <div class="text-4xl font-display text-text-dark mb-6">$220</div>
+                    <p class="text-sm font-light text-text-dark/60 mb-8">Unlimited classes. Priority booking. 10% off
+                        retail.</p>
+                    <button
+                        class="w-full py-3 bg-sage text-white rounded-full font-sans text-xs uppercase tracking-widest hover:bg-sage-dark transition-colors shadow-lg">Select</button>
+                </div>
+
+                <div
+                    class="p-8 rounded-[2rem] bg-white border border-text-dark/5 hover:border-sage transition-colors hover:shadow-lg group">
+                    <h3 class="font-sans text-sm tracking-widest uppercase mb-4 text-text-dark/50">10 Pack</h3>
+                    <div class="text-4xl font-display text-text-dark mb-6">$300</div>
+                    <p class="text-sm font-light text-text-dark/60 mb-8">Shareable credits. Valid for 3 months.</p>
+                    <button
+                        class="w-full py-3 bg-cream text-text-dark rounded-full font-sans text-xs uppercase tracking-widest hover:bg-sage hover:text-white transition-colors">Select</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-text-dark text-cream py-16">
+        <div
+            class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <a href="#"
+                    class="text-3xl font-display tracking-widest flex items-center justify-center md:justify-start gap-2 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-sage"></span>
+                    Mowglai <span class="text-sage">Motion</span>
+                </a>
+                <p class="font-light text-white/60 max-w-xs">
+                    Pilates & Barre Studio located in the heart of the arts district.
+                </p>
+            </div>
+
+            <div class="flex gap-8 font-sans text-xs uppercase tracking-widest text-white/80">
+                <a href="#" class="hover:text-sage transition-colors">Instagram</a>
+                <a href="#" class="hover:text-sage transition-colors">Spotify</a>
+                <a href="#" class="hover:text-sage transition-colors">Email</a>
+            </div>
+
+            <div class="text-xs font-light text-white/40 uppercase tracking-widest">
+                &copy; 2025 Mowglai Motion.
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

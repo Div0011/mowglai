@@ -1,126 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Gadgets [Tier 3]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Tech | Future Gadgets</title>
+    <meta name="description" content="Mowglai Tech - Premium electronics for the modern era.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-            const cursor = document.createElement('div');
-            cursor.classList.add('cursor');
-            document.body.appendChild(cursor);
-            document.addEventListener('mousemove', e => { 
-                cursor.style.left = e.clientX + 'px'; 
-                cursor.style.top = e.clientY + 'px'; 
-            });
-            document.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
-        
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tech-black': '#0f172a',
+                        'tech-blue': '#0ea5e9',
+                        'tech-gray': '#e2e8f0',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(14, 165, 233, 0.3)',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #60a5fa;
-            --bg: #030712;
-            --text: #f1f5f9;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        .clip-angle {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 60px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: var(--text); mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            body { cursor: none; }
-            .cursor { position: fixed; width: 20px; height: 20px; border: 1px solid var(--text); border-radius: 50%; pointer-events: none; z-index: 99999; transition: transform 0.1s; transform: translate(-50%, -50%); mix-blend-mode: difference; }
-            .cursor.hovered { transform: translate(-50%, -50%) scale(2.5); background: var(--text); }
-            
-            .loader { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 5rem; animation: slideUp 1s 1.5s forwards; }
-            @keyframes slideUp { to { transform: translateY(-100%); } }
-            
-            h1 { font-size: 8rem; line-height: 0.9; }
-            .reveal-text span { display: inline-block; transform: translateY(100%); animation: reveal 0.8s forwards; }
-            @keyframes reveal { to { transform: translateY(0); } }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-             .hero { align-items: flex-end; padding-bottom: 100px; }
-             .asym-img { position: absolute; top:0; right:0; width: 60%; height: 80%; object-fit: cover; z-index: -1; }
-         
-    
     </style>
 </head>
-<body>
-    <div class="loader">MOWGLAI</div>
-    <div class="tier-badge">TIER 3 • $899</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-white text-tech-black font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-3xl font-display font-bold uppercase tracking-wider flex items-center gap-1">
+                MOWGLAI<span class="text-tech-blue">TECH</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-display font-medium text-lg uppercase tracking-wide">
+                <a href="#new" class="hover:text-tech-blue transition-colors">New Arrivals</a>
+                <a href="#categories" class="hover:text-tech-blue transition-colors">Audio</a>
+                <a href="#featured" class="hover:text-tech-blue transition-colors">Wearables</a>
+                <a href="#support" class="hover:text-tech-blue transition-colors">Support</a>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button class="hover:text-tech-blue transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </button>
+                <button class="hover:text-tech-blue transition-colors relative">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    <span
+                        class="absolute -top-2 -right-2 w-4 h-4 bg-tech-blue text-white text-[10px] flex items-center justify-center rounded-full font-bold">2</span>
+                </button>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                 <img src="https://placehold.co/1200x800/db2777/ffffff?text=Tech+Store" class="asym-img">
-                 <h1 class="animate reveal-text" style="mix-blend-mode: difference; color: white;"><span style="display:inline-block">Tech&nbsp;</span><span style="display:inline-block">Gadgets&nbsp;</span></h1>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-tech-black flex flex-col items-center justify-center space-y-8 font-display text-2xl uppercase tracking-widest text-white"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-full"
+        x-transition:enter-end="opacity-100 translate-x-0">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-gray-400">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <a href="#new" @click="mobileMenuOpen = false" class="hover:text-tech-blue">New Arrivals</a>
+        <a href="#categories" @click="mobileMenuOpen = false" class="hover:text-tech-blue">Audio</a>
+        <a href="#featured" @click="mobileMenuOpen = false" class="hover:text-tech-blue">Wearables</a>
+        <a href="#support" @click="mobileMenuOpen = false" class="text-tech-blue font-bold">Support</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header id="new" class="relative pt-32 pb-24 px-6 md:pt-48 md:pb-32 bg-gray-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <div
+                    class="inline-block px-3 py-1 bg-tech-black text-white text-xs font-bold uppercase tracking-widest mb-6">
+                    New Release</div>
+                <h1 class="text-5xl md:text-8xl font-display font-bold text-tech-black mb-6 leading-none uppercase">
+                    Sonic <br><span class="text-tech-blue">Pro X</span>
+                </h1>
+                <p class="text-xl text-gray-500 mb-10 max-w-md font-light">
+                    Experience sound like never before with 40-hour battery life and industry-leading noise
+                    cancellation.
+                </p>
+
+                <div class="flex gap-6 mb-12">
+                    <div class="border-l-2 border-tech-blue pl-4">
+                        <div class="font-bold text-xl">40h</div>
+                        <div class="text-xs uppercase text-gray-500 font-bold">Battery</div>
+                    </div>
+                    <div class="border-l-2 border-tech-blue pl-4">
+                        <div class="font-bold text-xl">ANC</div>
+                        <div class="text-xs uppercase text-gray-500 font-bold">Active Noise</div>
+                    </div>
+                    <div class="border-l-2 border-tech-blue pl-4">
+                        <div class="font-bold text-xl">5.2</div>
+                        <div class="text-xs uppercase text-gray-500 font-bold">Bluetooth</div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="px-8 py-4 bg-tech-black text-white font-display font-bold text-lg uppercase tracking-widest hover:bg-tech-blue transition-colors clip-angle">
+                        Buy Now - $299
+                    </a>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 3 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is an Ultra-Luxury template designed for industry leaders. It features experimental interactions, custom cursors, and immersive typography.</p>
+            <div class="relative flex justify-center">
+                <div class="absolute inset-0 bg-tech-blue/5 rounded-full filter blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2670&auto=format&fit=crop"
+                    class="relative z-10 w-full max-w-md h-auto object-contain transform hover:scale-105 transition-transform duration-500 drop-shadow-2xl grayscale hover:grayscale-0">
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$899</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Categories -->
+    <section id="categories" class="py-24 px-6 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#" class="group block p-8 bg-gray-50 hover:bg-tech-black transition-colors duration-300">
+                    <div class="text-tech-blue mb-4 group-hover:text-white transition-colors">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                            <path
+                                d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wider group-hover:text-white">
+                        Headphones</h3>
+                    <div
+                        class="mt-2 w-8 h-1 bg-tech-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left">
+                    </div>
+                </a>
+
+                <a href="#" class="group block p-8 bg-gray-50 hover:bg-tech-black transition-colors duration-300">
+                    <div class="text-tech-blue mb-4 group-hover:text-white transition-colors">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                            <line x1="6" y1="6" x2="6.01" y2="6" />
+                            <line x1="6" y1="18" x2="6.01" y2="18" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wider group-hover:text-white">Speakers
+                    </h3>
+                    <div
+                        class="mt-2 w-8 h-1 bg-tech-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left">
+                    </div>
+                </a>
+
+                <a href="#" class="group block p-8 bg-gray-50 hover:bg-tech-black transition-colors duration-300">
+                    <div class="text-tech-blue mb-4 group-hover:text-white transition-colors">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                            <rect x="9" y="9" width="6" height="6" />
+                            <line x1="9" y1="1" x2="9" y2="4" />
+                            <line x1="15" y1="1" x2="15" y2="4" />
+                            <line x1="9" y1="20" x2="9" y2="23" />
+                            <line x1="15" y1="20" x2="15" y2="23" />
+                            <line x1="20" y1="9" x2="23" y2="9" />
+                            <line x1="20" y1="14" x2="23" y2="14" />
+                            <line x1="1" y1="9" x2="4" y2="9" />
+                            <line x1="1" y1="14" x2="4" y2="14" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wider group-hover:text-white">Watches
+                    </h3>
+                    <div
+                        class="mt-2 w-8 h-1 bg-tech-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left">
+                    </div>
+                </a>
+
+                <a href="#" class="group block p-8 bg-gray-50 hover:bg-tech-black transition-colors duration-300">
+                    <div class="text-tech-blue mb-4 group-hover:text-white transition-colors">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                            <line x1="12" y1="18" x2="12.01" y2="18" />
+                        </svg>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wider group-hover:text-white">
+                        Accessories</h3>
+                    <div
+                        class="mt-2 w-8 h-1 bg-tech-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left">
+                    </div>
+                </a>
             </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 6rem; margin-bottom: 20px;">Tech Gadgets</h2>
+    <!-- Featured Products -->
+    <section id="featured" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-tech-black uppercase">Trending Now</h2>
+                <a href="#"
+                    class="font-display font-bold uppercase tracking-widest text-sm hover:text-tech-blue transition-colors border-b border-gray-300 hover:border-tech-blue pb-1">View
+                    All</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="group">
+                    <div class="bg-gray-50 p-8 rounded-sm mb-4 relative overflow-hidden">
+                        <span
+                            class="absolute top-4 left-4 bg-tech-blue text-white text-[10px] uppercase font-bold px-2 py-1">New</span>
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2664&auto=format&fit=crop"
+                            class="w-full h-64 object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+
+                        <!-- Quick Add -->
+                        <button
+                            class="absolute bottom-4 right-4 bg-white p-3 shadow-md hover:bg-tech-black hover:text-white transition-colors rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 duration-300">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <path d="M16 10a4 4 0 0 1-8 0" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wide">Smart Watch Series 5</h3>
+                    <p class="text-gray-500 text-sm mb-2">Fitness & Health Tracker</p>
+                    <div class="font-bold text-lg">$399.00</div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group">
+                    <div class="bg-gray-50 p-8 rounded-sm mb-4 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1572569028738-411a0977d4da?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-64 object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <button
+                            class="absolute bottom-4 right-4 bg-white p-3 shadow-md hover:bg-tech-black hover:text-white transition-colors rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 duration-300">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <path d="M16 10a4 4 0 0 1-8 0" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wide">Bass Pods Pro</h3>
+                    <p class="text-gray-500 text-sm mb-2">Wireless Earbuds</p>
+                    <div class="font-bold text-lg">$149.00</div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group">
+                    <div class="bg-gray-50 p-8 rounded-sm mb-4 relative overflow-hidden">
+                        <span
+                            class="absolute top-4 left-4 bg-red-500 text-white text-[10px] uppercase font-bold px-2 py-1">Sale</span>
+                        <img src="https://images.unsplash.com/photo-1587829741301-379327542d97?q=80&w=2675&auto=format&fit=crop"
+                            class="w-full h-64 object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300">
+                        <button
+                            class="absolute bottom-4 right-4 bg-white p-3 shadow-md hover:bg-tech-black hover:text-white transition-colors rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 duration-300">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <path d="M16 10a4 4 0 0 1-8 0" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="font-display font-bold text-xl uppercase tracking-wide">VR Headset Elite</h3>
+                    <p class="text-gray-500 text-sm mb-2">Virtual Reality System</p>
+                    <div class="flex gap-2 items-center">
+                        <div class="font-bold text-lg text-red-500">$599.00</div>
+                        <div class="text-sm text-gray-400 line-through">$699.00</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Tech Specs / Feature -->
+    <section class="py-24 px-6 bg-tech-black text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-tech-blue/10 skew-x-12"></div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
+            <div class="md:w-1/2">
+                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?q=80&w=2670&auto=format&fit=crop"
+                    class="w-full h-auto rounded-lg shadow-glow grayscale opacity-80 hover:opacity-100 transition-opacity duration-300">
+            </div>
+
+            <div class="md:w-1/2">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-8 uppercase">Engineered for <br> <span
+                        class="text-tech-blue">Performance</span></h2>
+
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="font-display font-bold text-xl mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-tech-blue rounded-full"></span>
+                            Precision Sound
+                        </h4>
+                        <p class="text-gray-400 font-light">Custom drivers delivering dynamic range and deep bass.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-bold text-xl mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-tech-blue rounded-full"></span>
+                            Ultra-Low Latency
+                        </h4>
+                        <p class="text-gray-400 font-light">Seamless connectivity for gaming and streaming.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-bold text-xl mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-tech-blue rounded-full"></span>
+                            Ergonomic Design
+                        </h4>
+                        <p class="text-gray-400 font-light">Lightweight materials built for all-day comfort.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-24 px-6 bg-white border-t border-gray-100">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-display font-bold uppercase mb-4">Stay Ahead of the Curve</h2>
+            <p class="text-gray-500 mb-8">Join the Mowglai Tech newsletter for exclusive drops and early access.</p>
+            <form class="flex flex-col md:flex-row gap-4">
+                <input type="email" placeholder="ENTER YOUR EMAIL"
+                    class="flex-1 bg-gray-50 border border-gray-200 px-6 py-4 outline-none focus:border-tech-blue transition-colors font-display font-bold placeholder-gray-400">
+                <button
+                    class="px-8 py-4 bg-tech-black text-white font-display font-bold uppercase tracking-widest hover:bg-tech-blue transition-colors">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-tech-black text-white pt-16 pb-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="md:col-span-1">
+                <a href="#"
+                    class="text-2xl font-display font-bold uppercase tracking-wider flex items-center gap-1 mb-6">
+                    MOWGLAI<span class="text-tech-blue">TECH</span>
+                </a>
+            </div>
+            <div class="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8 text-sm text-gray-400 font-medium">
+                <ul class="space-y-3">
+                    <li class="uppercase text-white font-bold tracking-widest mb-2">Shop</li>
+                    <li><a href="#" class="hover:text-tech-blue">All Products</a></li>
+                    <li><a href="#" class="hover:text-tech-blue">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-tech-blue">Sale</a></li>
+                </ul>
+                <ul class="space-y-3">
+                    <li class="uppercase text-white font-bold tracking-widest mb-2">Support</li>
+                    <li><a href="#" class="hover:text-tech-blue">FAQ</a></li>
+                    <li><a href="#" class="hover:text-tech-blue">Shipping</a></li>
+                    <li><a href="#" class="hover:text-tech-blue">Returns</a></li>
+                </ul>
+                <ul class="space-y-3">
+                    <li class="uppercase text-white font-bold tracking-widest mb-2">Legal</li>
+                    <li><a href="#" class="hover:text-tech-blue">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-tech-blue">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-widest">
+            <div>&copy; 2025 Mowglai Tech.</div>
+            <div class="flex gap-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white">Twitter</a>
+                <a href="#" class="hover:text-white">Instagram</a>
+                <a href="#" class="hover:text-white">YouTube</a>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

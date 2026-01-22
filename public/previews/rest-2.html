@@ -1,108 +1,286 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urban Cafe [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Mowglai Brews | Urban Coffee House</title>
+    <meta name="description" content="Mowglai Brews - Crafted coffee for the urban soul.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Oswald:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coffee': '#3e2723',
+                        'coffee-light': '#5d4037',
+                        'orange-accent': '#ea580c',
+                        'paper': '#f5f5dc',
+                    },
+                    fontFamily: {
+                        sans: ['Oswald', 'sans-serif'],
+                        hand: ['Amatic SC', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'chalkboard': "url('https://www.transparenttextures.com/patterns/black-chalk.png')",
+                        'kraft': "url('https://www.transparenttextures.com/patterns/cardboard-flat.png')",
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #57534e;
-            --bg: #fafaf9;
-            --text: #292524;
-            --font-head: 'Oswald', serif;
-            --font-body: 'Manrope', sans-serif;
+        .rough-edge {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 95%, 95% 100%, 5% 95%, 0% 100%);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/ea580c/ffffff?text=Cafe+Vibe') center/cover; }
-         
-         
-         
-    
+        .tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(2px);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $399</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-paper font-sans text-coffee">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-coffee text-paper shadow-lg">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-3xl font-hand font-bold tracking-widest flex items-center gap-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                    <line x1="6" y1="1" x2="6" y2="4" />
+                    <line x1="10" y1="1" x2="10" y2="4" />
+                    <line x1="14" y1="1" x2="14" y2="4" />
+                </svg>
+                Mowglai <span class="text-orange-accent">Brews</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center text-lg tracking-wider uppercase">
+                <a href="#menu" class="hover:text-orange-accent transition-colors">Menu</a>
+                <a href="#story" class="hover:text-orange-accent transition-colors">Story</a>
+                <a href="#location" class="hover:text-orange-accent transition-colors">Find Us</a>
+                <a href="#order"
+                    class="px-6 py-2 border-2 border-orange-accent text-orange-accent hover:bg-orange-accent hover:text-white transition-colors">Order
+                    Online</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-paper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Urban Cafe</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Trendy cafe design.</p>
-                    <a href="#" class="btn animate">Explore</a>
-                </div>
-                <div class="split-r"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-coffee flex flex-col items-center justify-center space-y-8 font-hand text-4xl text-paper"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-paper">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#menu" @click="mobileMenuOpen = false" class="hover:text-orange-accent">Menu</a>
+        <a href="#story" @click="mobileMenuOpen = false" class="hover:text-orange-accent">Our Story</a>
+        <a href="#location" @click="mobileMenuOpen = false" class="hover:text-orange-accent">Location</a>
+        <a href="#order" @click="mobileMenuOpen = false" class="text-orange-accent">Order Now</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black">
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <source src="https://videos.pexels.com/video-files/3874935/3874935-hd_1920_1080_25fps.mp4" type="video/mp4">
+        </video>
+
+        <div class="relative z-10 text-center px-4">
+            <h2 class="text-orange-accent font-hand text-4xl md:text-5xl mb-2 rotate-2">Est. 2024</h2>
+            <h1
+                class="text-7xl md:text-9xl font-sans font-bold text-white uppercase tracking-tight leading-none mb-8 drop-shadow-lg">
+                Wake Up <br> <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Recharged</span>
+            </h1>
+            <a href="#menu"
+                class="inline-block px-8 py-4 bg-orange-accent text-white font-bold text-xl uppercase tracking-widest hover:bg-white hover:text-black transition-colors rough-edge transform hover:-rotate-1">
+                View Today's Roast
+            </a>
+        </div>
+    </header>
+
+    <!-- Chalkboard Menu -->
+    <section id="menu" class="py-24 px-6 bg-gray-900 bg-chalkboard text-white relative">
+        <div
+            class="max-w-4xl mx-auto border-8 border-yellow-900/50 p-8 md:p-12 rounded-lg shadow-2xl relative bg-gray-800/50 backdrop-blur-sm">
+            <!-- Dust effect -->
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dust.png')] opacity-20 pointer-events-none">
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <h2
+                class="text-6xl font-hand text-center mb-12 text-white/90 underline decoration-wavy decoration-orange-accent/50">
+                Daily Brews</h2>
+
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- Coffee -->
+                <div>
+                    <h3 class="text-3xl font-sans uppercase font-bold text-orange-accent mb-6 flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                            <line x1="6" y1="1" x2="6" y2="4" />
+                            <line x1="10" y1="1" x2="10" y2="4" />
+                            <line x1="14" y1="1" x2="14" y2="4" />
+                        </svg>
+                        Espresso Bar
+                    </h3>
+                    <ul class="space-y-4 font-hand text-2xl tracking-wide">
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Americano</span>
+                            <span>$3.50</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Cappuccino</span>
+                            <span>$4.50</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Flat White</span>
+                            <span>$4.50</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Latte</span>
+                            <span>$5.00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1 text-orange-accent">
+                            <span>Nitro Cold Brew</span>
+                            <span>$5.50</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Food -->
+                <div>
+                    <h3 class="text-3xl font-sans uppercase font-bold text-orange-accent mb-6 flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.771-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+                        </svg>
+                        Bakery
+                    </h3>
+                    <ul class="space-y-4 font-hand text-2xl tracking-wide">
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Croissant</span>
+                            <span>$3.00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Avocado Toast</span>
+                            <span>$8.50</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Bagel & CC</span>
+                            <span>$4.00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/20 border-dashed pb-1">
+                            <span>Muffin</span>
+                            <span>$3.50</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$399</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="mt-12 text-center">
+                <p class="font-hand text-xl text-gray-400 rotate-1">Oat, Almond, and Soy milk available (+ $0.50)</p>
             </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Urban Cafe</h2>
+    <!-- Our Story (Polaroids) -->
+    <section id="story" class="py-24 px-6 bg-kraft overflow-hidden">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2 relative">
+                <!-- Polaroid 1 -->
+                <div
+                    class="bg-white p-3 pb-12 shadow-xl transform -rotate-6 max-w-sm absolute top-0 left-0 z-10 hidden md:block">
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=2537&auto=format&fit=crop"
+                        class="w-full h-64 object-cover filter sepia-[.3]">
+                    <div class="absolute -top-4 left-1/2 w-32 h-8 tape -translate-x-1/2 rotate-2"></div>
+                </div>
+                <!-- Polaroid 2 (Main) -->
+                <div class="bg-white p-3 pb-12 shadow-2xl transform rotate-3 max-w-md relative z-20 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1629896736208-8e6dfd74a77e?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-80 object-cover filter contrast-125">
+                    <div class="absolute -top-4 left-1/2 w-32 h-8 tape -translate-x-1/2 -rotate-1"></div>
+                    <p class="font-hand text-3xl text-center mt-4 text-gray-600">Making Magic daily</p>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h2 class="text-6xl font-hand font-bold text-coffee mb-6">Crafted with Soul</h2>
+                <div class="h-1 w-24 bg-orange-accent mb-8 transform -skew-x-12"></div>
+                <p class="text-xl font-sans font-light leading-relaxed mb-6">
+                    Mowglai Brews started in a small garage with one roaster and a dream: to bring high-quality,
+                    ethically sourced coffee to the neighborhood without the pretension.
+                </p>
+                <p class="text-xl font-sans font-light leading-relaxed mb-8">
+                    We believe coffee is more than caffeine—it's a ritual, a break, a conversation. Every bean tells a
+                    story, and we're here to pour it for you.
+                </p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg"
+                    class="h-12 opacity-50 -rotate-2">
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Map / Find Us -->
+    <section id="location" class="relative h-96 bg-gray-200">
+        <!-- Static Map Image Placeholder - In real usage would be Google Maps Embed -->
+        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2674&auto=format&fit=crop"
+            class="w-full h-full object-cover filter grayscale opacity-50 font-sans">
+
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div
+                class="bg-white p-8 shadow-2xl max-w-md text-center pointer-events-auto transform rotate-1 border-4 border-coffee">
+                <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-orange-accent"></div>
+
+                <h3 class="text-4xl font-hand font-bold mb-4">Visit Us</h3>
+                <p class="font-sans text-xl mb-1">123 Hipster Alley</p>
+                <p class="font-sans text-xl mb-6">Brooklyn, NY 11211</p>
+
+                <p class="font-sans text-sm font-bold text-orange-accent uppercase tracking-widest mb-1">Hours</p>
+                <p class="font-sans opacity-70">Mon - Fri: 7am - 8pm</p>
+                <p class="font-sans opacity-70">Sat - Sun: 8am - 9pm</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-coffee text-paper py-12 text-center border-t-8 border-orange-accent">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-5xl font-hand mb-6">Mowglai <span class="text-orange-accent">Brews</span></h2>
+            <div class="flex justify-center gap-8 mb-8 text-2xl font-hand">
+                <a href="#" class="hover:text-orange-accent hover:-translate-y-1 transition-transform">Instagram</a>
+                <a href="#" class="hover:text-orange-accent hover:-translate-y-1 transition-transform">Facebook</a>
+                <a href="#" class="hover:text-orange-accent hover:-translate-y-1 transition-transform">TikTok</a>
+            </div>
+            <p class="font-sans text-sm opacity-50 uppercase tracking-widest">
+                &copy; 2025 Mowglai Brews. All rights reserved.
+            </p>
+        </div>
     </footer>
+
 </body>
+
 </html>

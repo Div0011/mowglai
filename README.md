@@ -38,6 +38,7 @@ To run this project locally:
 - **Animations**: GSAP
 - **3D Visuals**: Three.js (@react-three/fiber, @react-three/drei)
 - **Deployment**: Optimized for Vercel/Cloudflare
+- **Bespoke Templates**: Custom HTML/Tailwind templates for various sectors (Healthcare, Education, Real Estate, etc.) available in `public/previews`.
 
 ## Project Structure
 

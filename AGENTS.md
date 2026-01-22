@@ -18,7 +18,9 @@ This project uses **Next.js 15 (App Router)** with a split structure:
   - **`hooks/`**: Custom React hooks.
   - **`types/`**: TypeScript type definitions.
   - **`animations/`**: GSAP/Framer Motion animation configurations.
+  - **`data/`**: Static data files (e.g., `templates.ts` for the template registry).
 - **`public/`**: Static assets (images, fonts, 3D models).
+  - **`previews/`**: Contains bespoke HTML template previews (e.g., `health-1.html`, `school-2.html`).
 
 ### Best Practices
 - **Colocation**: Keep related logic together, but prefer the `src/` directory for reusable code.
@@ -180,7 +182,16 @@ export function AnimatedSection() {
 }
 ```
 
-## 8. Component Composition Rules
+## 8. Template System & Bespoke Previews
+We are creating bespoke, hand-coded HTML templates for the template marketplace to ensure high quality and variety.
+- **Location**: `public/previews/[id].html`
+- **Registry**: `src/data/templates.ts`
+- **Process**:
+    1.  Create a single-file HTML/Tailwind template in `public/previews`.
+    2.  Update the template registry in `templates.ts` with metadata (ID, title, features).
+    3.  Verify the preview works in the browser.
+
+## 9. Component Composition Rules
 
 ### Server vs Client Component Placement
 - **Pages in `app/`**: Server Components by default (no "use client")
@@ -200,7 +211,7 @@ const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: f
 - **Global Context**: TanStack Query, theme providers, toast providers
 - **Feature Context**: Keep context providers specific to feature sections
 
-## 9. Formatting & Linting
+## 10. Formatting & Linting
 
 ### Code Formatting
 - **Indentation**: 4 spaces (tabs converted to spaces)
@@ -216,7 +227,7 @@ const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: f
 - **React Hooks**: Enforces rules of hooks
 - **React Refresh**: Warns on non-component exports
 
-## 10. Deployment
+## 11. Deployment
 
 ### Automated Deployment
 - **GitHub Actions**: Push to `main` branch triggers automatic deployment
@@ -234,7 +245,7 @@ Set these in GitHub repository settings:
 
 See `DEPLOYMENT.md` for detailed setup instructions.
 
-## 11. Common Issues & Fixes
+## 12. Common Issues & Fixes
 
 ### Hydration Errors
 - **Cause**: Invalid HTML nesting or random values during render

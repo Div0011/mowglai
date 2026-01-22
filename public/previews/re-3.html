@@ -1,101 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Home [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Mowglai Family Home | Real Estate</title>
+    <meta name="description" content="Mowglai Real Estate - Finding your perfect home.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #57534e;
-            --bg: #fafaf9;
-            --text: #292524;
-            --font-head: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': '#4f46e5',
+                        'brand-dark': '#3730a3',
+                        'warm-bg': '#fdfbf7',
+                        'text-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $799</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-warm-bg text-text-dark font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 text-xl font-bold text-brand-dark">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                Mowglai <span class="text-gray-400 font-normal">Homes</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-medium text-gray-600">
+                <a href="#listings" class="hover:text-brand transition-colors">Buy</a>
+                <a href="#" class="hover:text-brand transition-colors">Rent</a>
+                <a href="#neighborhoods" class="hover:text-brand transition-colors">Neighborhoods</a>
+                <a href="#agents" class="hover:text-brand transition-colors">Our Team</a>
+                <a href="#contact"
+                    class="px-6 py-2.5 bg-brand text-white rounded-full font-bold hover:bg-brand-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                    List Your Home
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-600">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Family Home</h1><img src="https://placehold.co/1200x800/4f46e5/ffffff?text=Agency+Site" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-8 font-serif text-2xl text-brand-dark"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0">
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-gray-500">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#listings" @click="mobileMenuOpen = false" class="hover:text-brand">Buy a Home</a>
+        <a href="#" @click="mobileMenuOpen = false" class="hover:text-brand">Rent a Home</a>
+        <a href="#neighborhoods" @click="mobileMenuOpen = false" class="hover:text-brand">Neighborhoods</a>
+        <a href="#contact" @click="mobileMenuOpen = false" class="text-brand font-bold">List With Us</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-40 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <span
+                    class="inline-block px-4 py-1.5 bg-blue-100 text-brand font-bold text-xs rounded-full uppercase tracking-wider mb-6">
+                    Mowglai Family Homes
+                </span>
+                <h1 class="text-5xl md:text-7xl font-serif font-black text-brand-dark mb-8 leading-tight">
+                    Find a place where <span class="text-brand italic">memories</span> are made.
+                </h1>
+                <p class="text-xl text-gray-600 mb-10 max-w-lg leading-relaxed">
+                    We specialize in finding the perfect family homes in the most welcoming neighborhoods. Your next
+                    chapter starts here.
+                </p>
+
+                <!-- Search Box -->
+                <div
+                    class="bg-white p-2 rounded-[2rem] shadow-soft border border-gray-100 flex flex-col md:flex-row gap-2 max-w-xl">
+                    <div class="flex-1 px-6 py-3 border-b md:border-b-0 md:border-r border-gray-100">
+                        <label class="block text-xs font-bold text-gray-400 uppercase">Location</label>
+                        <input type="text" placeholder="City, Zip, or Neighborhood"
+                            class="w-full outline-none text-gray-700 font-semibold placeholder-gray-300">
+                    </div>
+                    <div class="flex-1 px-6 py-3">
+                        <label class="block text-xs font-bold text-gray-400 uppercase">Type</label>
+                        <select class="w-full outline-none text-gray-700 font-semibold bg-transparent cursor-pointer">
+                            <option>Single Family</option>
+                            <option>Condo</option>
+                            <option>Townhouse</option>
+                        </select>
+                    </div>
+                    <button
+                        class="bg-brand text-white rounded-full w-14 h-14 flex items-center justify-center hover:bg-brand-dark transition-colors shrink-0 self-end md:self-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$799</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="md:w-1/2 relative">
+                <div class="absolute inset-0 bg-brand/5 rounded-[3rem] -rotate-3 transform scale-105"></div>
+                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2670&auto=format&fit=crop"
+                    class="relative rounded-[3rem] shadow-2xl w-full h-auto object-cover aspect-[4/3] z-10">
+
+                <!-- Floating Badge -->
+                <div class="absolute -bottom-6 -left-6 z-20 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce"
+                    style="animation-duration: 4s;">
+                    <div class="bg-yellow-100 p-3 rounded-full text-yellow-600">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="font-bold text-brand-dark">Top Rated Agency</div>
+                        <div class="text-xs text-gray-500">2023 - 2025</div>
+                    </div>
+                </div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Listings Section -->
+    <section id="listings" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-brand font-bold uppercase tracking-widest text-xs mb-2 block">Available Now</span>
+                    <h2 class="text-4xl font-serif font-bold text-gray-900">Featured Homes</h2>
+                </div>
+                <a href="#" class="hidden md:inline-flex items-center gap-2 text-brand font-bold hover:underline">
+                    View All Properties <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14" />
+                        <path d="M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Listing 1 -->
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-soft border border-gray-100 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-brand-dark">
+                            For Sale</div>
+                        <button
+                            class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-gray-900 mb-1">Willow Creek Cottage</h3>
+                                <p class="text-sm text-gray-500">123 Maple Dr, Sunnyvale</p>
+                            </div>
+                            <div class="text-brand font-bold text-xl">$850k</div>
+                        </div>
+                        <div class="flex gap-4 border-t border-gray-100 pt-4 text-sm text-gray-600 font-medium">
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3h18v18H3zM3 9h18M9 21V9" />
+                                </svg> 4 Beds</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 10l8-8 8 8M4 22h16" />
+                                </svg> 3 Baths</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                </svg> 2,400 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Listing 2 -->
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-soft border border-gray-100 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600596542815-60c37c6525fa?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-brand-dark">
+                            For Sale</div>
+                        <button
+                            class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-gray-900 mb-1">Modern Family Villa</h3>
+                                <p class="text-sm text-gray-500">45 Oak Lane, Riverdale</p>
+                            </div>
+                            <div class="text-brand font-bold text-xl">$1.2M</div>
+                        </div>
+                        <div class="flex gap-4 border-t border-gray-100 pt-4 text-sm text-gray-600 font-medium">
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3h18v18H3zM3 9h18M9 21V9" />
+                                </svg> 5 Beds</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 10l8-8 8 8M4 22h16" />
+                                </svg> 4 Baths</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                </svg> 3,200 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Listing 3 -->
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-soft border border-gray-100 group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-brand-dark">
+                            For Sale</div>
+                        <button
+                            class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-serif font-bold text-xl text-gray-900 mb-1">Suburban Oasis</h3>
+                                <p class="text-sm text-gray-500">88 Pine St, Westview</p>
+                            </div>
+                            <div class="text-brand font-bold text-xl">$920k</div>
+                        </div>
+                        <div class="flex gap-4 border-t border-gray-100 pt-4 text-sm text-gray-600 font-medium">
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3h18v18H3zM3 9h18M9 21V9" />
+                                </svg> 3 Beds</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 10l8-8 8 8M4 22h16" />
+                                </svg> 2 Baths</span>
+                            <span class="flex items-center gap-1"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                </svg> 1,800 sqft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Family Home</h2>
+    <!-- Neighborhoods -->
+    <section id="neighborhoods" class="py-24 px-6 bg-brand-dark text-white overflow-hidden relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5">
         </div>
-        <div>&copy; 2025</div>
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-16">Explore Popular Areas</h2>
+
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+                <div class="group cursor-pointer">
+                    <div
+                        class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white transition-all duration-300 mb-6 mx-auto">
+                        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-2xl font-bold">Downtown</h3>
+                    <p class="text-white/60 text-sm mt-2">Vibrant & Connected</p>
+                </div>
+
+                <div class="group cursor-pointer mt-0 md:mt-12">
+                    <div
+                        class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white transition-all duration-300 mb-6 mx-auto">
+                        <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=2674&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-2xl font-bold">Suburbs</h3>
+                    <p class="text-white/60 text-sm mt-2">Peaceful & Green</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div
+                        class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white transition-all duration-300 mb-6 mx-auto">
+                        <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-2xl font-bold">Waterfront</h3>
+                    <p class="text-white/60 text-sm mt-2">Luxury & Views</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 px-6 bg-warm-bg">
+        <div class="max-w-4xl mx-auto text-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="text-brand/30 mx-auto mb-8">
+                <path
+                    d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H11.983C10.8784 16 9.983 16.8954 9.983 18L9.983 21H2V11L12 3L22 11V21H14.017ZM12.063 13C12.063 13 12.063 13 12.063 13C12.5714 13 13.064 12.8225 13.4687 12.4925C13.8734 12.1625 14.1678 11.6979 14.3093 11.1685C14.4508 10.6391 14.4318 10.074 14.2552 9.55621C14.0786 9.03844 13.7538 8.59604 13.3283 8.29415C12.9029 7.99226 12.4001 7.84687 11.894 7.87955C11.388 7.91223 10.9061 8.12123 10.5199 8.47547C10.1337 8.82971 9.86419 9.31016 9.75081 9.84627C9.63743 10.3824 9.68625 10.9455 9.88989 11.4519C10.027 11.7924 10.2373 12.0991 10.5065 12.3498L10.5065 12.3498L10.5186 12.3606C10.932 12.7719 11.488 13.001 12.063 13Z" />
+            </svg>
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-gray-900 mb-8 leading-tight">
+                "We found our forever home thanks to Mowglai Homes. The process was stress-free and truly personal."
+            </h2>
+            <div class="flex items-center justify-center gap-4">
+                <img src="https://randomuser.me/api/portraits/women/66.jpg"
+                    class="w-14 h-14 rounded-full border-2 border-white shadow-md">
+                <div class="text-left">
+                    <div class="font-bold text-gray-900 text-lg">The Johnson Family</div>
+                    <div class="text-brand font-medium text-sm">Bought in Sunnyvale</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-2">
+                <a href="#" class="flex items-center gap-2 text-xl font-bold text-brand-dark mb-6">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    Mowglai <span class="text-gray-400 font-normal">Homes</span>
+                </a>
+                <p class="text-gray-500 max-w-sm leading-relaxed">
+                    Trusted by over 5,000 families to find the perfect property. We build communities, not just houses.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase tracking-wider text-xs">Real Estate</h4>
+                <ul class="space-y-4 text-gray-600 font-medium">
+                    <li><a href="#" class="hover:text-brand">Buy a Home</a></li>
+                    <li><a href="#" class="hover:text-brand">Sell a Home</a></li>
+                    <li><a href="#" class="hover:text-brand">Search</a></li>
+                    <li><a href="#" class="hover:text-brand">Mortgage Calculator</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase tracking-wider text-xs">Company</h4>
+                <ul class="space-y-4 text-gray-600 font-medium">
+                    <li><a href="#" class="hover:text-brand">About Us</a></li>
+                    <li><a href="#" class="hover:text-brand">Our Agents</a></li>
+                    <li><a href="#" class="hover:text-brand">Careers</a></li>
+                    <li><a href="#" class="hover:text-brand">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-6 border-t border-gray-50 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+            <div>&copy; 2025 Mowglai Homes. All rights reserved.</div>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-brand">Privacy Policy</a>
+                <a href="#" class="hover:text-brand">Terms of Use</a>
+            </div>
+        </div>
     </footer>
 </body>
+
 </html>
