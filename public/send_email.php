@@ -49,10 +49,42 @@ $headers = "From: no-reply@mowglai.in\r\n"; // Sending from the domain to avoid 
 $headers .= "Reply-To: {$from}\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
-if (mail($to, $subject, $body, $headers)) {
-    echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
-} else {
-    http_response_code(500);
-    echo json_encode(["status" => "error", "message" => "Failed to send email server-side."]);
-}
+    // Send Admin Email
+    if (mail($to, $subject, $body, $headers)) {
+        
+        // --- Send Confirmation Email to User ---
+        $user_email = $from;
+        $user_subject = "We received your message - Mowglai";
+        
+        // Read the HTML template
+        // Assuming email_mowglai.html is in the same directory or accessible via path
+        // Since this script is likely in public/, and email_mowglai.html is in root in dev, 
+        // during build/deploy we need to ensure the HTML file is available.
+        // For now, we'll try to read it from the same directory or one level up if needed.
+        // In a typical Next.js static export / PHP serve setup, assets might be in root.
+        
+        $template_path = 'email_mowglai.html'; 
+        if (!file_exists($template_path)) {
+             $template_path = '../email_mowglai.html';
+        }
+
+        if (file_exists($template_path)) {
+            $user_body = file_get_contents($template_path);
+            
+            // Set headers for HTML email
+            $user_headers = "MIME-Version: 1.0" . "\r\n";
+            $user_headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $user_headers .= "From: Mowglai <no-reply@mowglai.in>" . "\r\n";
+            $user_headers .= "Reply-To: info@mowglai.in" . "\r\n";
+            $user_headers .= "X-Mailer: PHP/" . phpversion();
+
+            // Send user email
+            mail($user_email, $user_subject, $user_body, $user_headers);
+        }
+
+        echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Failed to send email server-side."]);
+    }
 ?>

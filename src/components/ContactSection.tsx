@@ -10,6 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { sendEmail } from "@/utils/emailSender";
 
 
+const CONTACT_EMAIL = "info@mowglai.in"; // REPLACE THIS WITH YOUR PERSONAL EMAIL FOR TESTING
+
 const ContactSection = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -43,7 +45,7 @@ Email: ${formData.email}
 Message:
 ${formData.message}
         `;
-      window.location.href = `mailto:info@mowglai.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       toast({
         title: "Opening Email Client",
         description: "Server unreachable. Please check your email client.",
@@ -75,7 +77,7 @@ ${formData.message}
             <div className="space-y-8">
               <div className="group cursor-pointer">
                 <p className="text-sm text-foreground/50 uppercase tracking-widest mb-1">Email</p>
-                <p className="text-2xl sm:text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">info@mowglai.in</p>
+                <p className="text-2xl sm:text-3xl font-display font-bold text-foreground group-hover:text-primary transition-colors">{CONTACT_EMAIL}</p>
               </div>
 
               <div className="group cursor-pointer">
