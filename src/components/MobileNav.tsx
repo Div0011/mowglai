@@ -1,4 +1,4 @@
-import { Home, Users, Mail, DollarSign, Layers, Menu, X, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Home, Users, Mail, DollarSign, Layers, Menu, X, Instagram, Twitter, Linkedin, LayoutTemplate } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ const navItems = [
     { icon: Home, label: "Home", href: "/" },
     { icon: Users, label: "About", href: "/about" },
     { icon: Layers, label: "Services", href: "/services" },
+    { icon: LayoutTemplate, label: "Templates", href: "/explore" },
     { icon: DollarSign, label: "Purchase", href: "/investment" },
     { icon: Mail, label: "Contact", href: "/contact" },
 ];

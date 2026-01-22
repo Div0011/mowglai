@@ -1,0 +1,14 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect x="0" y="50" width="800" height="100" fill="#d97706" opacity="0.8"/>
+  <text x="400" y="120" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">REALTY XPERTS</text>
+  <text x="400" y="300" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="#f59e0b" text-anchor="middle">Discover Your</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="#f59e0b" text-anchor="middle">Perfect Reality</text>
+  <text x="400" y="500" font-family="Arial, sans-serif" font-size="24" fill="#a3a3a3" text-anchor="middle">UNDER PROGRESS</text>
+</svg>

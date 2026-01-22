@@ -87,7 +87,24 @@ export default function Home() {
                 </div>
             </section>
 
+
             <SelectedWork />
+
+            {/* Explore Templates CTA */}
+            <section className="relative py-24 overflow-hidden bg-secondary/5">
+                <div className="container mx-auto px-6 text-center">
+                    <h3 className="text-4xl md:text-6xl font-display font-black mb-8 uppercase" data-aos="fade-up">
+                        Purchase <span className="text-primary italic">Templates</span>
+                    </h3>
+                    <p className="max-w-2xl mx-auto text-xl text-muted-foreground mb-12" data-aos="fade-up" data-aos-delay="100">
+                        Accelerate your launch with our premium, industry-specific website templates. Handcrafted for performance and designed to convert.
+                    </p>
+                    <div data-aos="fade-up" data-aos-delay="200">
+                        <NextPageButton label="EXPLORE TEMPLATES" href="/explore" />
+                    </div>
+                </div>
+            </section>
+
 
             <section className="relative py-24 overflow-hidden">
                 <div className="container mx-auto px-6 text-center">

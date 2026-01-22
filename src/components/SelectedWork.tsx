@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 import NextImage from "next/image";
 
 const projects = [
@@ -12,7 +13,7 @@ const projects = [
         category: "Strategic Business Consultancy",
         image: "/assets/projects/clarity-cartel.png",
         description: "A professional consultancy platform delivering actionable business strategies. We designed a clean, corporate interface that establishes authority and streamlines client engagement.",
-        link: "#"
+        link: "https://clarity-cartel.vercel.app/"
     },
     {
         id: 2,
@@ -20,7 +21,7 @@ const projects = [
         category: "Business Growth & Coaching",
         image: "/assets/projects/ielevate.png",
         description: "A comprehensive platform for professional development and business scaling. We built a dynamic learning hub empowering entrepreneurs with tools, courses, and mentorship.",
-        link: "#"
+        link: "https://www.ielevate.in/"
     },
     {
         id: 3,
@@ -28,7 +29,7 @@ const projects = [
         category: "Healthcare Services",
         image: "/assets/projects/jayhawk.png",
         description: "A modern healthcare portal prioritizing patient accessibility and care. Features include secure appointment scheduling, medical record access, and virtual doctor consultations.",
-        link: "#"
+        link: "https://div0011.github.io/jayhawkk"
     },
     {
         id: 4,
@@ -36,7 +37,7 @@ const projects = [
         category: "Interior Design Studio",
         image: "/assets/projects/more-interior.png",
         description: "An immersive portfolio showcasing exquisite living spaces. The design emphasizes visual storytelling, allowing users to explore bespoke furniture and architectural elegance.",
-        link: "#"
+        link: "https://moreinterior.in/"
     },
     {
         id: 5,
@@ -44,7 +45,15 @@ const projects = [
         category: "Movie & TV Ratings Platform",
         image: "/assets/projects/true-ratings.png",
         description: "A comprehensive database for tracking movie and TV show ratings, similar to IMDb. We built a data-driven platform for entertainment discovery and detailed content analysis.",
-        link: "#"
+        link: "https://true-ratings.vercel.app/"
+    },
+    {
+        id: 6,
+        title: "Realty Xperts",
+        category: "Real Estate & Property Management",
+        image: "/assets/projects/realty-xperts.svg",
+        description: "A premier real estate platform connecting buyers with their dream properties. (UNDER PROGRESS)",
+        link: "https://div0011.github.io/REALTY-XPERTS/"
     }
 ];
 
@@ -209,10 +218,25 @@ export default function SelectedWork() {
 
                                     {/* Actions Row: Anchored to bottom on mobile */}
                                     <div className="flex items-center justify-between w-full mt-2 md:mt-4 relative z-10">
-                                        <button className="flex items-center gap-2 px-5 py-2.5 md:px-8 md:py-3 bg-primary text-primary-foreground font-bold rounded-full transition-all hover:brightness-110 hover:scale-105 active:scale-95 shadow-md hover:shadow-primary/20">
+                                        <a
+                                            href={projects[currentIndex].link}
+                                            target={projects[currentIndex].link === "#" ? "_self" : "_blank"}
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 px-5 py-2.5 md:px-8 md:py-3 bg-primary text-primary-foreground font-bold rounded-full transition-all hover:brightness-110 hover:scale-105 active:scale-95 shadow-md hover:shadow-primary/20 cursor-pointer"
+                                            onClick={(e) => {
+                                                if (projects[currentIndex].link === "#") {
+                                                    e.preventDefault();
+                                                    toast({
+                                                        title: "Case Study Coming Soon",
+                                                        description: `The case study for ${projects[currentIndex].title} is currently being finalized. Check back shortly!`,
+                                                    });
+                                                }
+                                                e.stopPropagation();
+                                            }}
+                                        >
                                             <span className="text-xs md:text-base">EXPLORE CASE</span>
                                             <ExternalLink size={14} className="md:w-5 md:h-5" />
-                                        </button>
+                                        </a>
 
                                         {/* Mobile Navigation Controls */}
                                         <div className="flex md:hidden items-center gap-2">

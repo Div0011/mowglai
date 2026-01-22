@@ -1,6 +1,6 @@
 # Mowglai Galaxy Landing
 
-This is the Mowglai Galaxy Landing page project, built with **Next.js 15 (App Router)**, **React**, **TypeScript**, and **Tailwind CSS**.
+This is the Mowglai Galaxy Landing page project, built with **Next.js 16 (App Router)**, **React**, **TypeScript**, and **Tailwind CSS**.
 
 ## Project Info
 
@@ -38,3 +38,41 @@ To run this project locally:
 - **Animations**: GSAP
 - **3D Visuals**: Three.js (@react-three/fiber, @react-three/drei)
 - **Deployment**: Optimized for Vercel/Cloudflare
+
+## Project Structure
+
+A quick look at the top-level files and directories you'll see in this project.
+
+```
+.
+├── app/                  # Next.js App Router pages and API routes
+│   ├── explore/          # Explore Templates page
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Landing page
+├── src/
+│   ├── components/       # React components
+│   │   ├── ui/           # Reusable UI components (shadcn/ui)
+│   │   └── ...           # Feature-specific components
+│   └── lib/              # Utility functions and shared logic
+├── public/               # Static assets (images, fonts, etc.)
+├── .github/              # GitHub Actions workflows (CI/CD)
+├── next.config.mjs       # Next.js configuration
+├── tailwind.config.ts    # Tailwind CSS configuration
+└── tsconfig.json         # TypeScript configuration
+```
+
+## Docker Deployment
+
+This project can be containerized using Docker.
+
+1.  **Build the image**:
+    ```bash
+    docker build -t mowglai-app .
+    ```
+
+2.  **Run the container**:
+    ```bash
+    docker run -p 3000:3000 mowglai-app
+    ```
+
+> Note: Make sure you have a `Dockerfile` in the root directory configured for Next.js.

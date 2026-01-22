@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Twitter, Linkedin, Layers, Bot } from "lucide-react";
+import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Twitter, Linkedin, Layers, Bot, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import Magnetic from "@/components/Magnetic";
@@ -16,6 +16,7 @@ const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
     { icon: Users, label: "ABOUT", href: "/about" },
     { icon: Layers, label: "SERVICES", href: "/services" },
+    { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
     { icon: DollarSign, label: "PURCHASE", href: "/investment" },
     { icon: Mail, label: "CONTACT", href: "/contact" },
 ];
