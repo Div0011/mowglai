@@ -1,108 +1,441 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dental Pro [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Proza+Libre:wght@400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Dental Pro | Advanced Dental Care</title>
+    <meta name="description" content="Mowglai Dental - Your smile, our passion.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dental-blue': '#2563eb',
+                        'dental-light': '#eff6ff',
+                        'dental-dark': '#1e3a8a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Dosis', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #334155;
-            --bg: #ffffff;
-            --text: #0f172a;
-            --font-head: 'Cormorant Garamond', serif;
-            --font-body: 'Proza Libre', sans-serif;
+        .blob-shape {
+            border-radius: 68% 32% 43% 57% / 54% 39% 61% 46%;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/2563eb/ffffff?text=Dental+Hero') center/cover; }
-         
-         
-         
-    
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $499</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }">
+
+    <!-- Top Bar -->
+    <div class="bg-dental-dark text-white py-2 px-6 text-sm font-medium hidden md:block">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex gap-6">
+                <span class="flex items-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    (555) 123-4567
+                </span>
+                <span class="flex items-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    Mon-Sat: 9am - 6pm
+                </span>
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-dental-light">Patient Portal</a>
+                <span>|</span>
+                <a href="#" class="hover:text-dental-light">Pay Online</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-dental-dark">
+                <div class="w-8 h-8 bg-dental-blue rounded-full flex items-center justify-center text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 2C7.5 2 4 6.5 4 10.5C4 15 8 19 12 22C16 19 20 15 20 10.5C20 6.5 16.5 2 12 2Z" />
+                    </svg>
+                </div>
+                Mowglai Dental
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-sans font-medium text-gray-600">
+                <a href="#services" class="hover:text-dental-blue transition-colors">Services</a>
+                <a href="#about" class="hover:text-dental-blue transition-colors">Dr. Smith</a>
+                <a href="#reviews" class="hover:text-dental-blue transition-colors">Reviews</a>
+                <a href="#faq" class="hover:text-dental-blue transition-colors">FAQ</a>
+                <a href="#contact"
+                    class="px-6 py-2.5 bg-dental-blue text-white rounded-full font-bold hover:bg-dental-dark transition-all shadow-lg shadow-dental-blue/30 hover:shadow-dental-blue/50 transform hover:-translate-y-0.5">
+                    Book Visit
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-600">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Dental Pro</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Clean and bright template specifically for dental clinics.</p>
-                    <a href="#" class="btn animate">Explore</a>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-6 font-display text-2xl text-gray-800"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translateY(-10px)"
+        x-transition:enter-end="opacity-100 translateY(0)">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-gray-600">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#services" @click="mobileMenuOpen = false" class="hover:text-dental-blue">Services</a>
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:text-dental-blue">About Us</a>
+        <a href="#reviews" @click="mobileMenuOpen = false" class="hover:text-dental-blue">Reviews</a>
+        <a href="#contact" @click="mobileMenuOpen = false" class="text-dental-blue font-bold">Book Appointment</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-20 pb-32 overflow-hidden bg-dental-light">
+        <!-- Background Blob -->
+        <div
+            class="absolute top-0 right-0 w-[800px] h-[800px] bg-white rounded-full translate-x-1/3 -translate-y-1/4 blur-3xl opacity-60">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-dental-blue/5 rounded-full -translate-x-1/3 translate-y-1/4 blur-3xl">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div
+                    class="inline-block px-4 py-1.5 bg-white rounded-full text-dental-blue font-bold text-sm shadow-sm mb-6 border border-dental-blue/10">
+                    ✨ Accepting New Patients
                 </div>
-                <div class="split-r"></div>
+                <h1 class="text-6xl md:text-7xl font-display font-bold text-gray-900 mb-6 leading-[1.1]">
+                    Smile With <br> <span class="text-dental-blue">Confidence.</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-10 leading-relaxed max-w-lg">
+                    Advanced dentistry in a calm, comforting environment. From routine cleanings to complete smile
+                    makeovers, we are your partners in oral health.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contact"
+                        class="px-8 py-4 bg-dental-blue text-white rounded-full font-bold text-center hover:bg-dental-dark transition-all shadow-xl shadow-dental-blue/20">
+                        Schedule Appointment
+                    </a>
+                    <a href="#services"
+                        class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-full font-bold text-center hover:border-dental-blue hover:text-dental-blue transition-all">
+                        View Our Services
+                    </a>
+                </div>
+
+                <div class="mt-12 flex items-center gap-4 text-sm font-medium text-gray-500">
+                    <div class="flex -space-x-2">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                            class="w-10 h-10 rounded-full border-2 border-white">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                            class="w-10 h-10 rounded-full border-2 border-white">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg"
+                            class="w-10 h-10 rounded-full border-2 border-white">
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs">
+                            +2k</div>
+                    </div>
+                    <div>Happy Patients in 2024</div>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <div class="relative">
+                <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl blob-shape bg-white p-2">
+                    <img src="https://images.unsplash.com/photo-1588776814546-1ffcf4722e12?q=80&w=2670&auto=format&fit=crop"
+                        alt="Happy Patient" class="rounded-3xl w-full h-auto object-cover blob-shape">
+                </div>
+                <!-- Floating Card -->
+                <div class="absolute bottom-10 left-0 bg-white p-4 rounded-xl shadow-xl flex items-center gap-3 animate-bounce"
+                    style="animation-duration: 3s;">
+                    <div class="bg-green-100 text-green-600 p-2 rounded-full">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-gray-800">5-Star Rated</div>
+                        <div class="text-xs text-gray-500">On Google Reviews</div>
+                    </div>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$499</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Features / Services -->
+    <section id="services" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">Comprehensive Care</h2>
+                <p class="text-gray-500 text-lg">We use the latest technology to ensure your visit is comfortable,
+                    quick, and effective.</p>
             </div>
-         </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div
+                    class="bg-gray-50 rounded-3xl p-8 hover:bg-dental-light transition-colors group cursor-pointer border border-transparent hover:border-dental-blue/20">
+                    <div
+                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-dental-blue shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M2 12h5" />
+                            <path d="M17 12h5" />
+                            <path d="M7 12a5 5 0 0 1 5-5 5 5 0 0 1 5 5" />
+                            <path d="M7 12a5 5 0 0 0 5 5 5 5 0 0 0 5-5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-900 mb-3">General Dentistry</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Routine cleanings, x-rays, and cavity prevention to
+                        keep your smile healthy year-round.</p>
+                    <a href="#"
+                        class="font-bold text-dental-blue flex items-center gap-2 group-hover:gap-3 transition-all">Learn
+                        More <span class="text-lg">&rarr;</span></a>
+                </div>
+
+                <!-- Service 2 -->
+                <div
+                    class="bg-gray-50 rounded-3xl p-8 hover:bg-dental-light transition-colors group cursor-pointer border border-transparent hover:border-dental-blue/20">
+                    <div
+                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-dental-blue shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                            <line x1="9" y1="9" x2="9.01" y2="9" />
+                            <line x1="15" y1="9" x2="15.01" y2="9" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-900 mb-3">Cosmetic Whitening</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Professional whitening treatments that brighten your
+                        smile up to 8 shades in one visit.</p>
+                    <a href="#"
+                        class="font-bold text-dental-blue flex items-center gap-2 group-hover:gap-3 transition-all">Learn
+                        More <span class="text-lg">&rarr;</span></a>
+                </div>
+
+                <!-- Service 3 -->
+                <div
+                    class="bg-gray-50 rounded-3xl p-8 hover:bg-dental-light transition-colors group cursor-pointer border border-transparent hover:border-dental-blue/20">
+                    <div
+                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-dental-blue shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-900 mb-3">Orthodontics</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Invisalign and clear aligners for adults and teens.
+                        Straighten your teeth discreetly.</p>
+                    <a href="#"
+                        class="font-bold text-dental-blue flex items-center gap-2 group-hover:gap-3 transition-all">Learn
+                        More <span class="text-lg">&rarr;</span></a>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Dental Pro</h2>
+    <!-- Meet Dr. Smith -->
+    <section id="about" class="py-24 px-6 bg-dental-light/30">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+            <div class="md:w-1/2 relative">
+                <div
+                    class="rounded-3xl overflow-hidden bg-white p-2 shadow-xl rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2564&auto=format&fit=crop"
+                        alt="Doctor" class="rounded-2xl w-full h-auto object-cover">
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-lg max-w-xs hidden md:block">
+                    <p class="font-serif italic text-gray-600 text-lg">"My goal is to make every patient feel like
+                        family."</p>
+                    <div class="font-bold text-dental-blue mt-2">- Dr. Emily</div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">Meet Dr. Emily Smith</h2>
+                <div class="h-1.5 w-20 bg-dental-blue rounded-full mb-8"></div>
+                <p class="text-gray-600 leading-relaxed mb-6 font-medium">
+                    Dr. Smith is a board-certified dentist with over 15 years of experience creating beautiful smiles.
+                    She values a conservative approach to dentistry, prioritizing the preservation of natural tooth
+                    structure.
+                </p>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center gap-3 text-gray-700">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        Graduate of Columbia Dental School
+                    </li>
+                    <li class="flex items-center gap-3 text-gray-700">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        Member of the American Dental Association
+                    </li>
+                    <li class="flex items-center gap-3 text-gray-700">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        Specialized in Cosmetic Restorations
+                    </li>
+                </ul>
+                <a href="#"
+                    class="inline-block px-8 py-3 border-2 border-dental-blue text-dental-blue rounded-full font-bold hover:bg-dental-blue hover:text-white transition-all">
+                    Read Full Bio
+                </a>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Appointment Section -->
+    <section id="contact" class="py-24 px-6 bg-dental-blue text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-dental-dark/10 pattern-grid"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10 text-center">
+            <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">Ready to Smile?</h2>
+            <p class="text-blue-100 text-lg mb-12 max-w-xl mx-auto">Book your appointment online today. New patients
+                receive a complimentary consultation.</p>
+
+            <div class="bg-white text-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl text-left">
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
+                        <input type="text"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-dental-blue focus:ring-2 focus:ring-dental-blue/20 focus:outline-none transition-all"
+                            placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-dental-blue focus:ring-2 focus:ring-dental-blue/20 focus:outline-none transition-all"
+                            placeholder="(555) 555-5555">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+                        <input type="email"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-dental-blue focus:ring-2 focus:ring-dental-blue/20 focus:outline-none transition-all"
+                            placeholder="john@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Service Needed</label>
+                        <select
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-dental-blue focus:ring-2 focus:ring-dental-blue/20 focus:outline-none transition-all">
+                            <option>General Checkup</option>
+                            <option>Teeth Whitening</option>
+                            <option>Emergency Pain</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Preferred Date</label>
+                        <input type="date"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:border-dental-blue focus:ring-2 focus:ring-dental-blue/20 focus:outline-none transition-all">
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="button"
+                            class="w-full py-4 bg-dental-blue text-white rounded-xl font-bold text-lg hover:bg-dental-dark transition-colors shadow-lg shadow-dental-blue/30">
+                            Request Appointment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-gray-600">
+            <div class="md:col-span-2">
+                <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-dental-dark mb-4">
+                    <div class="w-8 h-8 bg-dental-blue rounded-full flex items-center justify-center text-white">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path
+                                d="M12 2C7.5 2 4 6.5 4 10.5C4 15 8 19 12 22C16 19 20 15 20 10.5C20 6.5 16.5 2 12 2Z" />
+                        </svg>
+                    </div>
+                    Mowglai Dental
+                </a>
+                <p class="max-w-xs mb-6">Providing exceptional dental care to the community since 2010. We look forward
+                    to seeing you smile.</p>
+                <div class="flex gap-4 text-dental-blue">
+                    <a href="#" class="hover:text-dental-dark"><svg width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg></a>
+                    <a href="#" class="hover:text-dental-dark"><svg width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase tracking-wider text-sm">Location</h4>
+                <p>123 Healthy Teeth Blvd,</p>
+                <p>Suite 100</p>
+                <p>New York, NY 10012</p>
+                <p class="mt-4"><a href="#" class="text-dental-blue hover:underline">Get Directions</a></p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 mb-6 uppercase tracking-wider text-sm">Contact</h4>
+                <p>(555) 123-4567</p>
+                <p>hello@mowglaidental.com</p>
+                <p class="mt-4">
+                    <span class="block font-bold text-gray-900">Emergency?</span>
+                    <a href="#" class="text-dental-blue hover:underline">Call (555) 911-DENT</a>
+                </p>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+            <div>&copy; 2025 Mowglai Dental Pro. All rights reserved.</div>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-gray-600">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-600">Terms of Service</a>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

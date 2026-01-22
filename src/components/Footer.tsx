@@ -105,14 +105,19 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-20 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-muted-foreground/40 font-display tracking-widest uppercase">
-            © {currentYear} Mowglai Galaxy. All rights reserved.
+        <div className="mt-20 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+            <div className="text-sm text-muted-foreground/40 font-display tracking-widest uppercase">
+              © {currentYear} Mowglai Galaxy. All rights reserved.
+            </div>
+            <div className="hidden md:block w-px h-4 bg-primary/10"></div>
+            <div className="flex gap-6 text-sm text-muted-foreground/40">
+              <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            </div>
           </div>
-          <div className="flex gap-8 text-sm text-muted-foreground/40">
-            <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
-          </div>
+          {/* Right side left empty for FABs */}
+          <div className="md:w-24"></div>
         </div>
       </div>
     </footer>
