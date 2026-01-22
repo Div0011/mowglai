@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Urban Loft - Modern Living</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Oswald:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        header: ['"Oswald"', 'sans-serif'],
+                    },
+                    colors: {
+                        concrete: '#f3f4f6',
+                        dark: '#111111',
+                        brick: '#aa4a44',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-header {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .ken-burns {
+            animation: kenBurns 20s infinite alternate;
+        }
+
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center mix-blend-exclusion">
+        <div class="font-header text-3xl font-bold tracking-tighter uppercase">Mowglai<span
+                class="text-brick">.Loft</span></div>
+        <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-white/50">
+            <a href="#" class="hover:text-white transition">Residences</a>
+            <a href="#" class="hover:text-white transition">Amenities</a>
+            <a href="#" class="hover:text-white transition">Neighborhood</a>
+            <a href="#" class="hover:text-white transition">Inquire</a>
+        </div>
+        <button
+            class="border border-white/20 px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-dark transition">
+            Book Viewing
+        </button>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative h-screen overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2400&auto=format&fit=crop"
+                class="w-full h-full object-cover ken-burns brightness-50">
+        </div>
+        <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-20 max-w-7xl mx-auto">
+            <div class="text-xs font-bold uppercase tracking-[0.5em] text-brick mb-6">Mowglai Urban Loft Collection
+            </div>
+            <h1 class="text-7xl md:text-9xl font-header font-bold uppercase leading-[0.85] mb-8">
+                Industrial <br>
+                <span class="stroke-text">Elegance</span>
+            </h1>
+            <p class="max-w-md text-white/60 leading-relaxed mb-12 border-l-2 border-brick pl-6">
+                Reimagined warehouse living in the heart of the city. Featuring 14ft ceilings, exposed brick, and
+                floor-to-ceiling steel windows.
+            </p>
+            <div class="flex gap-4">
+                <button
+                    class="bg-brick px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition">View
+                    Floorplans</button>
+            </div>
+        </div>
+
+        <!-- Bottom Info -->
+        <div
+            class="absolute bottom-0 left-0 w-full border-t border-white/10 bg-dark/80 backdrop-blur-sm py-6 px-8 md:px-20 flex justify-between items-center text-xs uppercase tracking-widest text-white/50">
+            <div class="hidden md:block">Union St, Seattle</div>
+            <div class="flex gap-12">
+                <div><span class="text-white block text-lg font-header">45</span> Units</div>
+                <div><span class="text-white block text-lg font-header">14ft</span> Ceilings</div>
+                <div><span class="text-white block text-lg font-header">2025</span> Completion</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery Grid -->
+    <section class="py-32 px-6 bg-neutral-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-16">
+                <h2 class="text-5xl font-header uppercase">The Spaces</h2>
+                <a href="#" class="text-xs uppercase tracking-widest text-brick hover:text-white transition">View All
+                    -></a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="relative group h-[500px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=1200&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="translate-y-full group-hover:translate-y-0 transition duration-500">
+                            <h3 class="text-3xl font-header uppercase mb-1">The Penthouse</h3>
+                            <p class="text-xs uppercase tracking-widest text-white/60">3 Bed • 3.5 Bath • 3,200 Sq Ft
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-[500px] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1545620864-773a43b2f0a8?q=80&w=1200&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="translate-y-full group-hover:translate-y-0 transition duration-500">
+                            <h3 class="text-3xl font-header uppercase mb-1">Artist Loft</h3>
+                            <p class="text-xs uppercase tracking-widest text-white/60">1 Bed • 1.5 Bath • 1,100 Sq Ft
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-[500px] overflow-hidden md:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=2400&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                        <div class="translate-y-full group-hover:translate-y-0 transition duration-500">
+                            <h3 class="text-3xl font-header uppercase mb-1">Communal Roof Deck</h3>
+                            <p class="text-xs uppercase tracking-widest text-white/60">Firepits • BBQ • City Views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floorplans -->
+    <section class="py-32 bg-white text-dark">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="text-5xl font-header uppercase mb-8">Layouts designed for <br> <span
+                        class="text-brick">Function & Flow</span></h2>
+                <p class="text-gray-500 leading-relaxed mb-12">
+                    Open concept living meets privacy. Our floorplans are optimized for natural light and versatile
+                    furniture arrangements.
+                </p>
+                <div class="space-y-6">
+                    <div
+                        class="border-b border-gray-200 pb-6 flex justify-between items-center group cursor-pointer hover:pl-4 transition-all">
+                        <div>
+                            <div class="font-header text-2xl">Unit A - The Studio</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-widest">750 Sq Ft</div>
+                        </div>
+                        <div class="text-brick group-hover:scale-150 transition">+</div>
+                    </div>
+                    <div
+                        class="border-b border-gray-200 pb-6 flex justify-between items-center group cursor-pointer hover:pl-4 transition-all">
+                        <div>
+                            <div class="font-header text-2xl">Unit B - Two Bedroom</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-widest">1250 Sq Ft</div>
+                        </div>
+                        <div class="text-brick group-hover:scale-150 transition">+</div>
+                    </div>
+                    <div
+                        class="border-b border-gray-200 pb-6 flex justify-between items-center group cursor-pointer hover:pl-4 transition-all">
+                        <div>
+                            <div class="font-header text-2xl">Unit C - Corner Loft</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-widest">1600 Sq Ft</div>
+                        </div>
+                        <div class="text-brick group-hover:scale-150 transition">+</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-100 p-12 flex items-center justify-center">
+                <!-- Simple SVG Floorplan -->
+                <svg viewBox="0 0 100 100" class="w-full h-auto text-dark stroke-current stroke-[0.5] fill-none">
+                    <path d="M10 10 H90 V90 H10 Z" />
+                    <path d="M10 40 H40 V10" /> <!-- Bedroom -->
+                    <path d="M60 10 V40 H90" /> <!-- Bedroom 2 -->
+                    <path d="M10 65 H30" /> <!-- Kitchen -->
+                    <text x="50" y="55" text-anchor="middle" font-size="4" font-family="sans-serif" fill="currentColor"
+                        stroke="none">LIVING / DINING</text>
+                    <text x="25" y="25" text-anchor="middle" font-size="4" font-family="sans-serif" fill="currentColor"
+                        stroke="none">BED 1</text>
+                    <text x="75" y="25" text-anchor="middle" font-size="4" font-family="sans-serif" fill="currentColor"
+                        stroke="none">BED 2</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-24 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <div class="font-header text-4xl font-bold uppercase tracking-tighter mb-2">Mowglai<span
+                        class="text-brick">.Loft</span></div>
+                <div class="text-xs uppercase tracking-widest text-white/40">Union St, Seattle, WA</div>
+            </div>
+            <div class="flex gap-8 text-xs font-bold uppercase tracking-widest">
+                <a href="#" class="hover:text-brick transition">Instagram</a>
+                <a href="#" class="hover:text-brick transition">Facebook</a>
+                <a href="#" class="hover:text-brick transition">Email</a>
+            </div>
+        </div>
+        <div class="text-center text-[10px] uppercase tracking-widest text-white/20 mt-16">
+            &copy; 2025 Mowglai Urban Loft. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+
+</html>

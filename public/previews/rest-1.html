@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Fine Dining | Culinary Excellence</title>
+    <meta name="description" content="Mowglai Fine Dining - Experience the art of gastronomy.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'charcoal': '#1C1917',
+                        'gold': '#D4AF37',
+                        'gold-dim': '#AA8C2C',
+                        'cream': '#F5F5F4',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1C1917;
+            color: #F5F5F4;
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body x-data="{ mobileMenuOpen: false, reservationOpen: false }">
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-charcoal/90 backdrop-blur-md border-b border-gold/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="#" class="flex flex-col items-center group">
+                <span
+                    class="text-2xl font-serif font-bold tracking-widest text-gold group-hover:text-white transition-colors">MOWGLAI</span>
+                <span
+                    class="text-[0.6rem] tracking-[0.3em] uppercase text-gray-400 group-hover:text-gold transition-colors">Fine
+                    Dining</span>
+            </a>
+
+            <div class="hidden md:flex gap-12 items-center font-sans text-sm uppercase tracking-widest text-gray-300">
+                <a href="#menu" class="hover:text-gold transition-colors">Menu</a>
+                <a href="#about" class="hover:text-gold transition-colors">Story</a>
+                <a href="#chef" class="hover:text-gold transition-colors">The Chef</a>
+                <a href="#reviews" class="hover:text-gold transition-colors">Reviews</a>
+                <button @click="reservationOpen = true"
+                    class="px-8 py-3 bg-gold text-charcoal font-bold hover:bg-white transition-colors duration-300">
+                    Book a Table
+                </button>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gold">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-charcoal flex flex-col items-center justify-center space-y-8 font-serif text-3xl text-gold"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-8 right-6 text-white">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#menu" @click="mobileMenuOpen = false" class="hover:text-white transition-colors">Menu</a>
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:text-white transition-colors">Our Story</a>
+        <a href="#chef" @click="mobileMenuOpen = false" class="hover:text-white transition-colors">The Chef</a>
+        <a href="#reviews" @click="mobileMenuOpen = false" class="hover:text-white transition-colors">Reviews</a>
+        <button @click="mobileMenuOpen = false; reservationOpen = true" class="text-white border-b border-gold">Reserve
+            Now</button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden parallax"
+        style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2574&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <div
+            class="relative z-10 text-center px-6 max-w-4xl border-y border-gold/30 py-12 bg-charcoal/20 backdrop-blur-sm">
+            <span class="block text-gold font-sans text-sm tracking-[0.3em] uppercase mb-4 animate-pulse">Est.
+                2024</span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 leading-tight">
+                Taste the <span class="italic text-gold">Extraordinary</span>
+            </h1>
+            <p class="text-gray-200 text-lg md:text-xl font-light max-w-xl mx-auto mb-10 font-sans">
+                A symphony of flavors tailored for the sophisticated palate. Experience dining reimagined at Mowglai.
+            </p>
+            <div class="flex flex-col md:flex-row gap-6 justify-center">
+                <button @click="reservationOpen = true"
+                    class="px-10 py-4 bg-gold text-charcoal font-bold tracking-widest uppercase hover:bg-white transition-all duration-300">
+                    Reserve Table
+                </button>
+                <a href="#menu"
+                    class="px-10 py-4 border border-white text-white font-bold tracking-widest uppercase hover:bg-white hover:text-charcoal transition-all duration-300">
+                    View Menu
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 bg-charcoal">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-sm transform translate-y-12 shadow-lg opacity-80 hover:opacity-100 transition-opacity">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-sm shadow-lg opacity-80 hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+            <div class="md:w-1/2 text-center md:text-left">
+                <h2 class="text-gold text-sm font-sans uppercase tracking-[0.2em] mb-4">Our Philosophy</h2>
+                <h3 class="text-4xl md:text-6xl font-serif text-white mb-8">Culinary <span
+                        class="italic text-gold">Artistry</span></h3>
+                <p class="text-gray-400 leading-relaxed mb-6 font-light">
+                    Mowglai Fine Dining is not just a restaurant; it is a destination. Born from a passion for
+                    perfection, we source the finest ingredients from around the globe to create dishes that tell a
+                    story.
+                </p>
+                <p class="text-gray-400 leading-relaxed mb-10 font-light">
+                    Every plate is a canvas, and every flavor is a brushstroke. Join us for an evening of unforgettable
+                    elegance.
+                </p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" alt="Chef Signature"
+                    class="h-16 opacity-50 mx-auto md:mx-0 invert">
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-32 bg-[#161412] px-6">
+        <div class="max-w-5xl mx-auto" x-data="{ tab: 'starters' }">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-serif text-white mb-4">The Menu</h2>
+                <div class="w-24 h-1 bg-gold mx-auto mb-8"></div>
+
+                <div
+                    class="flex justify-center gap-8 md:gap-16 font-sans text-sm tracking-widest uppercase border-b border-white/10 pb-4">
+                    <button @click="tab = 'starters'"
+                        :class="{ 'text-gold border-b border-gold pb-4 -mb-4.5': tab === 'starters', 'text-gray-500 hover:text-white': tab !== 'starters' }"
+                        class="transition-all">Starters</button>
+                    <button @click="tab = 'mains'"
+                        :class="{ 'text-gold border-b border-gold pb-4 -mb-4.5': tab === 'mains', 'text-gray-500 hover:text-white': tab !== 'mains' }"
+                        class="transition-all">Mains</button>
+                    <button @click="tab = 'desserts'"
+                        :class="{ 'text-gold border-b border-gold pb-4 -mb-4.5': tab === 'desserts', 'text-gray-500 hover:text-white': tab !== 'desserts' }"
+                        class="transition-all">Desserts</button>
+                </div>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+                <!-- Starters -->
+                <template x-if="tab === 'starters'">
+                    <div class="contents">
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">
+                                    Truffle Scallops</h4>
+                                <span class="text-gold font-bold">$28</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Pan-seared scallops, black truffle purée,
+                                parsnip crisps.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Wagyu
+                                    Carpaccio</h4>
+                                <span class="text-gold font-bold">$32</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">A5 Wagyu beef, parmesan shavings, capers,
+                                truffle oil.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">
+                                    Lobster Bisque</h4>
+                                <span class="text-gold font-bold">$24</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Creamy lobster soup, cognac, fresh herbs,
+                                croutons.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Foie
+                                    Gras Terrine</h4>
+                                <span class="text-gold font-bold">$36</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Fig jam, toasted brioche, balsamic
+                                reduction.</p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Mains -->
+                <template x-if="tab === 'mains'">
+                    <div class="contents">
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">
+                                    Herb-Crusted Lamb Rack</h4>
+                                <span class="text-gold font-bold">$58</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Served pink, fondant potato, minted pea
+                                purée, red wine jus.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Miso
+                                    Black Cod</h4>
+                                <span class="text-gold font-bold">$62</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Sustainably sourced cod, miso glaze, bok
+                                choy, ginger.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Wild
+                                    Mushroom Risotto</h4>
+                                <span class="text-gold font-bold">$42</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Arborio rice, porcini mushrooms, parmesan
+                                crisp, truffle oil.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Duck
+                                    Confit</h4>
+                                <span class="text-gold font-bold">$48</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Crispy skin duck leg, braised red
+                                cabbage, orange glaze.</p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Desserts -->
+                <template x-if="tab === 'desserts'">
+                    <div class="contents">
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">
+                                    Chocolate Lava Cake</h4>
+                                <span class="text-gold font-bold">$18</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Warm molten center, vanilla bean ice
+                                cream.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Lemon
+                                    Basil Tart</h4>
+                                <span class="text-gold font-bold">$16</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Zesty lemon curd, basil infused cream,
+                                flaky pastry.</p>
+                        </div>
+                        <div class="group">
+                            <div
+                                class="flex justify-between items-baseline mb-2 border-b border-white/10 pb-2 border-dotted group-hover:border-gold/50 transition-colors">
+                                <h4 class="text-xl font-serif text-white group-hover:text-gold transition-colors">Gold
+                                    Leaf Tiramisu</h4>
+                                <span class="text-gold font-bold">$20</span>
+                            </div>
+                            <p class="text-gray-500 text-sm italic font-serif">Mascarpone, espresso soaked savoiardi,
+                                24k gold leaf.</p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chef Section -->
+    <section id="chef" class="py-32 px-6 bg-charcoal">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row-reverse gap-16 items-center">
+            <div class="md:w-1/2 relative">
+                <div class="relative z-10 border border-gold/30 p-4">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=2568&auto=format&fit=crop"
+                        alt="Chef"
+                        class="w-full h-auto object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <div class="absolute -top-4 -right-4 w-32 h-32 border-t-2 border-r-2 border-gold z-0"></div>
+                <div class="absolute -bottom-4 -left-4 w-32 h-32 border-b-2 border-l-2 border-gold z-0"></div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h3 class="text-gold text-sm font-sans uppercase tracking-[0.2em] mb-4">The Mastermind</h3>
+                <h2 class="text-5xl font-serif text-white mb-6">Chef <span class="text-gold">Antoine</span></h2>
+                <div class="h-px w-20 bg-gray-700 mb-8"></div>
+                <p class="text-gray-400 leading-relaxed mb-6 font-light">
+                    With over 20 years of experience in Michelin-starred kitchens across Paris and Tokyo, Chef Antoine
+                    brings a unique fusion of classic French technique and modern innovation to Mowglai.
+                </p>
+                <p class="text-gray-400 leading-relaxed mb-10 font-light">
+                    "Cooking is an emotional process. I simply want my guests to feel the love and dedication we put
+                    into every single ingredient."
+                </p>
+                <div class="px-8 py-3 border border-white inline-block text-white font-serif italic text-lg">
+                    Michelin Star 2024
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Modal -->
+    <div x-show="reservationOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" style="display: none;">
+
+        <div class="bg-charcoal border border-gold/30 p-8 md:p-12 max-w-lg w-full relative"
+            @click.away="reservationOpen = false">
+            <button @click="reservationOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <h3 class="text-3xl font-serif text-white text-center mb-2">Book a Table</h3>
+            <p class="text-center text-gray-500 font-serif italic mb-8">Reserve your culinary journey</p>
+
+            <form class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gold text-xs uppercase tracking-widest mb-2">Date</label>
+                        <input type="date"
+                            class="w-full bg-white/5 border border-white/10 text-white px-4 py-3 focus:border-gold focus:outline-none transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-gold text-xs uppercase tracking-widest mb-2">Time</label>
+                        <select
+                            class="w-full bg-white/5 border border-white/10 text-white px-4 py-3 focus:border-gold focus:outline-none transition-colors">
+                            <option>18:00</option>
+                            <option>19:00</option>
+                            <option>20:00</option>
+                            <option>21:00</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gold text-xs uppercase tracking-widest mb-2">Guests</label>
+                    <select
+                        class="w-full bg-white/5 border border-white/10 text-white px-4 py-3 focus:border-gold focus:outline-none transition-colors">
+                        <option>2 People</option>
+                        <option>3 People</option>
+                        <option>4 People</option>
+                        <option>5+ (Call us)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gold text-xs uppercase tracking-widest mb-2">Name</label>
+                    <input type="text"
+                        class="w-full bg-white/5 border border-white/10 text-white px-4 py-3 focus:border-gold focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-gold text-xs uppercase tracking-widest mb-2">Email</label>
+                    <input type="email"
+                        class="w-full bg-white/5 border border-white/10 text-white px-4 py-3 focus:border-gold focus:outline-none transition-colors">
+                </div>
+                <button type="button" @click="reservationOpen = false"
+                    class="w-full bg-gold text-charcoal font-bold uppercase tracking-widest py-4 hover:bg-white transition-colors mt-4">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#111] py-16 border-t border-gold/10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-serif text-gold mb-8">MOWGLAI</h2>
+            <div class="flex justify-center gap-8 mb-12 text-gray-500 font-sans text-xs tracking-widest uppercase">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                <a href="#" class="hover:text-white transition-colors">TripAdvisor</a>
+            </div>
+            <p class="text-gray-600 font-serif italic text-sm">
+                &copy; 2025 Mowglai Fine Dining. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>

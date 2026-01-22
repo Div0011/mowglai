@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: 📂 Sync files to Hostinger via SSH
+      - name: Sync files to Hostinger via SSH
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --exclude '.next' --exclude 'node_modules' --exclude '.git'

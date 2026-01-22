@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Ivy League - Excellence in Education</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cinzel"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            DEFAULT: '#1e3a8a', // Blue 900
+                            light: '#2563eb',
+                            gold: '#d97706', // Amber 600
+                            cream: '#fefce8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-serif.cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom underlined link effect */
+        .hover-underline {
+            display: inline-block;
+            position: relative;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        .hover-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-cream text-slate-800 antialiased">
+
+    <!-- Top Bar -->
+    <div
+        class="bg-brand text-brand-cream py-3 px-8 text-xs font-medium tracking-wider uppercase border-b border-white/10 flex justify-between items-center">
+        <div class="hidden md:flex gap-6">
+            <a href="#" class="hover:text-brand-gold transition">Alumni</a>
+            <a href="#" class="hover:text-brand-gold transition">Faculty</a>
+            <a href="#" class="hover:text-brand-gold transition">Portal</a>
+        </div>
+        <div class="flex gap-6">
+            <span>Est. 1824</span>
+            <span class="text-white/50">|</span>
+            <a href="#" class="hover:text-brand-gold transition">Give to Mowglai</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-brand/5 shadow-sm">
+        <div class="max-w-7xl mx-auto px-8 h-24 flex justify-between items-center">
+
+            <!-- Brand -->
+            <div class="flex items-center gap-4 group cursor-pointer">
+                <div class="relative w-12 h-12 bg-brand text-brand-gold flex items-center justify-center rounded-sm">
+                    <span class="font-serif font-bold text-2xl">C</span>
+                    <div class="absolute inset-0 border border-brand-gold top-1 left-1"></div>
+                </div>
+                <div>
+                    <div
+                        class="font-serif font-bold text-xl text-brand leading-none tracking-wide group-hover:text-brand-light transition">
+                        MOWGLAI</div>
+                    <div class="text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 mt-1">IVY LEAGUE</div>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="hidden lg:flex items-center gap-10 font-bold text-sm tracking-wide text-brand">
+                <a href="#" class="hover-underline">Admissions</a>
+                <a href="#" class="hover-underline">Academics</a>
+                <a href="#" class="hover-underline">Research</a>
+                <a href="#" class="hover-underline">Campus Life</a>
+                <a href="#" class="hover-underline">Athletics</a>
+            </div>
+
+            <!-- Search/Menu -->
+            <div class="flex items-center gap-6">
+                <button class="text-brand hover:text-brand-gold transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </button>
+                <button
+                    class="bg-brand hover:bg-brand-light text-white px-6 py-3 text-xs font-bold uppercase tracking-widest transition duration-300">
+                    Apply Now
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative h-[90vh] overflow-hidden flex items-center">
+        <!-- Background Video/Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2400&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-brand/40 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand/90 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+            <div class="max-w-3xl fade-up">
+                <div
+                    class="inline-block py-2 px-4 border border-brand-gold/50 text-brand-gold uppercase tracking-[0.2em] text-xs font-bold mb-6 bg-brand/30 backdrop-blur-sm">
+                    Educating Leaders Since 1824
+                </div>
+                <h1 class="text-6xl md:text-8xl text-white font-bold leading-none mb-8 drop-shadow-lg">
+                    Knowledge <br>
+                    <span class="italic font-serif text-brand-gold">Illuminates</span> the World.
+                </h1>
+                <p class="text-xl text-white/80 leading-relaxed mb-12 max-w-2xl font-light">
+                    Join a community dedicated to the relentless pursuit of truth, innovation, and service to humanity.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <button
+                        class="bg-brand-gold text-brand-cream px-10 py-5 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-brand transition duration-300 border border-transparent hover:border-white">
+                        Explore Programs
+                    </button>
+                    <button
+                        class="px-10 py-5 text-sm font-bold uppercase tracking-widest text-white border border-white/30 hover:bg-white hover:text-brand transition duration-300">
+                        Virtual Tour
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1">
+                <path d="M12 5v14" />
+                <path d="m19 12-7 7-7-7" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- Stat Bar -->
+    <section class="bg-brand text-white py-20 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-12 text-center divide-x divide-white/10">
+            <div class="fade-up">
+                <div class="text-5xl font-serif font-bold text-brand-gold mb-2">#3</div>
+                <div class="text-xs uppercase tracking-widest opacity-60">National Ranking</div>
+            </div>
+            <div class="fade-up delay-100">
+                <div class="text-5xl font-serif font-bold text-brand-gold mb-2">6:1</div>
+                <div class="text-xs uppercase tracking-widest opacity-60">Student-Faculty Ratio</div>
+            </div>
+            <div class="fade-up delay-200">
+                <div class="text-5xl font-serif font-bold text-brand-gold mb-2">92%</div>
+                <div class="text-xs uppercase tracking-widest opacity-60">Graduation Rate</div>
+            </div>
+            <div class="fade-up delay-300">
+                <div class="text-5xl font-serif font-bold text-brand-gold mb-2">350+</div>
+                <div class="text-xs uppercase tracking-widest opacity-60">Student Orgnaizations</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Grid -->
+    <section class="py-32 bg-brand-cream">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="flex justify-between items-end mb-16 fade-up">
+                <div>
+                    <h2 class="text-4xl font-bold text-brand mb-4">Latest from Mowglai</h2>
+                    <p class="text-slate-500 font-light max-w-xl">Discover groundbreaking research and campus stories.
+                    </p>
+                </div>
+                <a href="#"
+                    class="hidden md:inline-block border-b border-brand text-brand pb-1 text-sm font-bold uppercase tracking-widest hover:text-brand-gold hover:border-brand-gold transition">View
+                    All News</a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Article 1 -->
+                <article class="group cursor-pointer fade-up">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+                            class="w-full h-80 object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <div
+                            class="absolute top-4 left-4 bg-brand text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                            Research</div>
+                    </div>
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-3">Oct 12, 2025</div>
+                    <h3
+                        class="text-2xl font-serif font-bold text-brand mb-3 leading-snug group-hover:text-brand-gold transition duration-300">
+                        New Quantum Computing Lab Opens featuring State-of-the-Art Facilities
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed line-clamp-3">
+                        The university unveils a dedicated center for quantum research, promising to accelerate
+                        breakthroughs in computing power and security protocols...
+                    </p>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="group cursor-pointer fade-up delay-100">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop"
+                            class="w-full h-80 object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <div
+                            class="absolute top-4 left-4 bg-brand-gold text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                            Campus</div>
+                    </div>
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-3">Oct 10, 2025</div>
+                    <h3
+                        class="text-2xl font-serif font-bold text-brand mb-3 leading-snug group-hover:text-brand-gold transition duration-300">
+                        Annual Arts Festival Celebrates Student Creativity and Global Culture
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed line-clamp-3">
+                        Students from over 50 countries showcased their artistic talents in a weekend-long celebration
+                        of music, dance, and visual arts...
+                    </p>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="group cursor-pointer fade-up delay-200">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1596496356938-a22e165543c8?q=80&w=800&auto=format&fit=crop"
+                            class="w-full h-80 object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                        <div
+                            class="absolute top-4 left-4 bg-slate-800 text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                            Athletics</div>
+                    </div>
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-3">Oct 08, 2025</div>
+                    <h3
+                        class="text-2xl font-serif font-bold text-brand mb-3 leading-snug group-hover:text-brand-gold transition duration-300">
+                        Rowing Team Secures National Championship Title for Third Consecutive Year
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed line-clamp-3">
+                        In a stunning display of teamwork and endurance, the varsity rowing team outpaced rivals to
+                        bring home the championship trophy once again...
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs (Split) -->
+    <section class="grid md:grid-cols-2">
+        <div class="bg-brand text-white p-20 flex flex-col justify-center items-start">
+            <h2 class="text-xs font-bold text-brand-gold uppercase tracking-[0.2em] mb-6">Academics</h2>
+            <h3 class="text-5xl font-serif font-bold mb-8">Rigorous Programs. <br>World-Class Faculty.</h3>
+            <p class="text-white/70 leading-relaxed mb-10 max-w-md">Choose from over 100 undergraduate majors and
+                graduate programs designed to challenge you and prepare you for a lifetime of leadership.</p>
+            <div class="space-y-4 w-full max-w-sm">
+                <a href="#"
+                    class="flex justify-between items-center py-4 border-b border-white/20 hover:text-brand-gold hover:pl-2 transition-all">
+                    <span>Undergraduate Studies</span>
+                    <span>→</span>
+                </a>
+                <a href="#"
+                    class="flex justify-between items-center py-4 border-b border-white/20 hover:text-brand-gold hover:pl-2 transition-all">
+                    <span>Graduate & Professional</span>
+                    <span>→</span>
+                </a>
+                <a href="#"
+                    class="flex justify-between items-center py-4 border-b border-white/20 hover:text-brand-gold hover:pl-2 transition-all">
+                    <span>Online Learning</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+        <div class="relative h-[600px] md:h-auto">
+            <img src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=2400&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-brand/20"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0f172a] text-white pt-24 pb-12 border-t-4 border-brand-gold">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-16 mb-20 fade-up">
+            <div class="col-span-1 md:col-span-1">
+                <div class="font-serif text-3xl font-bold mb-6">MOWGLAI</div>
+                <address class="not-italic text-slate-400 leading-loose mb-8">
+                    100 University Drive<br>
+                    Cambridge, UK 02138<br>
+                    +44 123 456 7890
+                </address>
+                <div class="flex gap-4">
+                    <div
+                        class="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand transition cursor-pointer">
+                        IG</div>
+                    <div
+                        class="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand transition cursor-pointer">
+                        XM</div>
+                    <div
+                        class="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand transition cursor-pointer">
+                        YT</div>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold uppercase tracking-widest text-xs mb-8 text-brand-gold">Admissions</h4>
+                <ul class="space-y-4 text-sm text-slate-300">
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Apply
+                            Now</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Request
+                            Info</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Tuition &
+                            Aid</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Visit
+                            Campus</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold uppercase tracking-widest text-xs mb-8 text-brand-gold">Academics</h4>
+                <ul class="space-y-4 text-sm text-slate-300">
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Colleges &
+                            Schools</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Research
+                            Centers</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Libraries</a>
+                    </li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Course
+                            Catalog</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold uppercase tracking-widest text-xs mb-8 text-brand-gold">Resources</h4>
+                <ul class="space-y-4 text-sm text-slate-300">
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">For
+                            Students</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">For
+                            Faculty</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">For
+                            Alumni</a></li>
+                    <li><a href="#"
+                            class="hover:text-white hover:underline decoration-brand-gold underline-offset-4">Accessibility</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto px-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 uppercase tracking-wider">
+            <div>&copy; 1824-2025 Mowglai University</div>
+            <div class="flex gap-8 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white">Privacy</a>
+                <a href="#" class="hover:text-white">Legal</a>
+                <a href="#" class="hover:text-white">Copyright</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

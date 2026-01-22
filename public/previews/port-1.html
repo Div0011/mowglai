@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Creative Agency | Premium Digital Experience</title>
+    <meta name="description" content="Mowglai Creative Agency - We build digital products that matter.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 80px;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: none;
+            background-color: #050505;
+            color: #ffffff;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline.hovered {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            mix-blend-mode: difference;
+            border-color: transparent;
+        }
+
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Text Reveal */
+        .reveal-text {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .reveal-text.active {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Hover Reveal */
+        .service-item:hover .service-image {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-purple': '#7e22ce',
+                        'brand-dark': '#050505',
+                        'brand-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body x-data="{ 
+    cursorHover: false,
+    mobileMenuOpen: false,
+    initCursor() {
+        const dot = this.$refs.cursorDot;
+        const outline = this.$refs.cursorOutline;
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+            
+            outline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: 'forwards' });
+        });
+    }
+}" x-init="initCursor()">
+
+    <!-- Custom Cursor -->
+    <div x-ref="cursorDot" class="cursor-dot hidden md:block"></div>
+    <div x-ref="cursorOutline" class="cursor-outline hidden md:block" :class="{ 'hovered': cursorHover }"></div>
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 px-6 py-6 md:px-12 flex justify-between items-center mix-blend-difference text-white">
+        <a href="#" class="text-2xl font-display font-bold tracking-tight uppercase" @mouseenter="cursorHover = true"
+            @mouseleave="cursorHover = false">
+            Mowglai<span class="text-brand-purple">.</span>
+        </a>
+
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="#work"
+                class="text-sm font-medium hover:text-brand-purple transition-colors uppercase tracking-widest"
+                @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">Work</a>
+            <a href="#about"
+                class="text-sm font-medium hover:text-brand-purple transition-colors uppercase tracking-widest"
+                @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">About</a>
+            <a href="#services"
+                class="text-sm font-medium hover:text-brand-purple transition-colors uppercase tracking-widest"
+                @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">Services</a>
+            <a href="#contact"
+                class="px-6 py-2 border border-white rounded-full hover:bg-white hover:text-brand-dark transition-all uppercase text-xs tracking-widest font-bold"
+                @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">
+                Let's Talk
+            </a>
+        </div>
+
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden z-50 relative group">
+            <div class="space-y-2">
+                <span class="block w-8 h-0.5 bg-white transition-transform duration-300"
+                    :class="{ 'rotate-45 translate-y-2.5': mobileMenuOpen }"></span>
+                <span class="block w-8 h-0.5 bg-white transition-opacity duration-300"
+                    :class="{ 'opacity-0': mobileMenuOpen }"></span>
+                <span class="block w-8 h-0.5 bg-white transition-transform duration-300"
+                    :class="{ '-rotate-45 -translate-y-2.5': mobileMenuOpen }"></span>
+            </div>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-500"
+        x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
+        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-x-0"
+        x-transition:leave-end="opacity-0 translate-x-full"
+        class="fixed inset-0 bg-brand-dark z-40 flex flex-col justify-center items-center h-screen w-screen">
+        <div class="flex flex-col gap-8 text-center">
+            <a href="#work" @click="mobileMenuOpen = false"
+                class="text-4xl font-display font-bold hover:text-brand-purple">Work</a>
+            <a href="#about" @click="mobileMenuOpen = false"
+                class="text-4xl font-display font-bold hover:text-brand-purple">About</a>
+            <a href="#services" @click="mobileMenuOpen = false"
+                class="text-4xl font-display font-bold hover:text-brand-purple">Services</a>
+            <a href="#contact" @click="mobileMenuOpen = false"
+                class="text-4xl font-display font-bold hover:text-brand-purple">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center px-6 md:px-12 pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/30 via-brand-dark/70 to-brand-dark z-10">
+            </div>
+            <!-- Background Image/Video Placeholder -->
+            <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2727&auto=format&fit=crop"
+                alt="Abstract Creative Background" class="w-full h-full object-cover opacity-60">
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto w-full">
+            <h1
+                class="text-6xl md:text-[10rem] font-bold font-display leading-[0.85] tracking-tighter mix-blend-difference mb-12">
+                WE ARE <br>
+                <span class="text-transparent stroke-text"
+                    style="-webkit-text-stroke: 1px rgba(255,255,255,0.8);">MOWGLAI</span> <br>
+                CREATIVE
+            </h1>
+
+            <div class="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-white/20 pt-8 mt-12">
+                <p class="text-xl md:text-2xl text-gray-300 max-w-lg leading-relaxed">
+                    A digital design consultancy tailored for the bold. We craft brands that disrupt markets and define
+                    culture.
+                </p>
+                <a href="#work"
+                    class="group relative inline-flex items-center gap-4 text-lg font-medium tracking-widest uppercase"
+                    @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">
+                    <span
+                        class="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-brand-purple group-hover:border-brand-purple transition-all duration-300">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" class="group-hover:rotate-45 transition-transform duration-300">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                    </span>
+                    See Our Work
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee -->
+    <div class="py-12 bg-white text-black overflow-hidden border-y border-black">
+        <div class="marquee-container">
+            <div
+                class="marquee-content font-display font-extrabold text-8xl md:text-9xl uppercase tracking-tighter flex gap-12">
+                <span>Strategy</span><span class="text-brand-purple">*</span>
+                <span>Branding</span><span class="text-brand-purple">*</span>
+                <span>Development</span><span class="text-brand-purple">*</span>
+                <span>Content</span><span class="text-brand-purple">*</span>
+                <span>Strategy</span><span class="text-brand-purple">*</span>
+                <span>Branding</span><span class="text-brand-purple">*</span>
+                <span>Development</span><span class="text-brand-purple">*</span>
+                <span>Content</span><span class="text-brand-purple">*</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selected Works (Masonry Grid) -->
+    <section id="work" class="py-32 px-6 md:px-12 bg-brand-dark">
+        <div class="max-w-[1800px] mx-auto">
+            <div class="flex justify-between items-end mb-24">
+                <h2 class="text-5xl md:text-7xl font-display font-bold">SELECTED <span
+                        class="text-brand-purple">WORKS</span></h2>
+                <div class="hidden md:block text-right">
+                    <p class="text-gray-400 text-lg">2023 — 2025</p>
+                    <p class="text-gray-400 text-lg">Global Portfolio</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24">
+                <!-- Project 1 -->
+                <div class="group cursor-pointer pt-24" @mouseenter="cursorHover = true"
+                    @mouseleave="cursorHover = false">
+                    <div class="aspect-[4/5] relative overflow-hidden mb-6">
+                        <img src="https://images.unsplash.com/photo-1600508774662-60912df41aa6?q=80&w=2670&auto=format&fit=crop"
+                            alt="Project 1"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/20 pb-4">
+                        <h3 class="text-3xl font-display font-bold">Mowglai Fashion</h3>
+                        <span class="text-brand-purple">E-Commerce</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="group cursor-pointer" @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">
+                    <div class="aspect-[4/5] relative overflow-hidden mb-6">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop"
+                            alt="Project 2"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/20 pb-4">
+                        <h3 class="text-3xl font-display font-bold">Urban Loft</h3>
+                        <span class="text-brand-purple">Real Estate</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="group cursor-pointer md:-mt-32" @mouseenter="cursorHover = true"
+                    @mouseleave="cursorHover = false">
+                    <div class="aspect-square relative overflow-hidden mb-6">
+                        <img src="https://images.unsplash.com/photo-1590529683973-4564345bb3e7?q=80&w=2670&auto=format&fit=crop"
+                            alt="Project 3"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/20 pb-4">
+                        <h3 class="text-3xl font-display font-bold">TeleHealth Connect</h3>
+                        <span class="text-brand-purple">App Design</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="group cursor-pointer" @mouseenter="cursorHover = true" @mouseleave="cursorHover = false">
+                    <div class="aspect-[16/9] relative overflow-hidden mb-6">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2669&auto=format&fit=crop"
+                            alt="Project 4"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/20 pb-4">
+                        <h3 class="text-3xl font-display font-bold">Ivy League</h3>
+                        <span class="text-brand-purple">Educational</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services List -->
+    <section id="services" class="py-32 px-6 md:px-12 bg-white text-black">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-brand-purple mb-16">Our Expertise</h2>
+
+            <div class="divide-y divide-gray-200 border-t border-gray-200">
+                <!-- item 1 -->
+                <div class="service-item group relative py-12 cursor-none" @mouseenter="cursorHover = true"
+                    @mouseleave="cursorHover = false">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
+                        <h3 class="text-4xl md:text-6xl font-display font-bold group-hover:italic transition-all">
+                            Digital Strategy</h3>
+                        <p class="mt-4 md:mt-0 max-w-sm text-gray-500">Unearthing truth to build brands that matter in a
+                            crowded digital landscape.</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop"
+                        class="service-image absolute top-1/2 left-1/2 w-64 h-40 md:w-96 md:h-60 object-cover opacity-0 pointer-events-none transition-all duration-300 -translate-x-1/2 -translate-y-1/2 rotate-[-5deg] rounded-lg shadow-xl z-20"
+                        alt="Strategy">
+                </div>
+
+                <!-- item 2 -->
+                <div class="service-item group relative py-12 cursor-none" @mouseenter="cursorHover = true"
+                    @mouseleave="cursorHover = false">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
+                        <h3 class="text-4xl md:text-6xl font-display font-bold group-hover:italic transition-all">Visual
+                            Identity</h3>
+                        <p class="mt-4 md:mt-0 max-w-sm text-gray-500">Creating distinct visual languages that speak
+                            louder than words.</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=2670&auto=format&fit=crop"
+                        class="service-image absolute top-1/2 left-1/2 w-64 h-40 md:w-96 md:h-60 object-cover opacity-0 pointer-events-none transition-all duration-300 -translate-x-1/2 -translate-y-1/2 rotate-[5deg] rounded-lg shadow-xl z-20"
+                        alt="Identity">
+                </div>
+
+                <!-- item 3 -->
+                <div class="service-item group relative py-12 cursor-none" @mouseenter="cursorHover = true"
+                    @mouseleave="cursorHover = false">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
+                        <h3 class="text-4xl md:text-6xl font-display font-bold group-hover:italic transition-all">Web
+                            Development</h3>
+                        <p class="mt-4 md:mt-0 max-w-sm text-gray-500">Cutting-edge performance meets award-winning
+                            aesthetics.</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2669&auto=format&fit=crop"
+                        class="service-image absolute top-1/2 left-1/2 w-64 h-40 md:w-96 md:h-60 object-cover opacity-0 pointer-events-none transition-all duration-300 -translate-x-1/2 -translate-y-1/2 rotate-[-3deg] rounded-lg shadow-xl z-20"
+                        alt="Dev">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact"
+        class="bg-brand-purple text-white pt-32 pb-12 px-6 md:px-12 rounded-t-[3rem] -mt-12 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-32">
+                <div>
+                    <h2 class="text-6xl md:text-8xl font-display font-bold mb-8 leading-none">LET'S START A <br> PROJECT
+                    </h2>
+                    <a href="mailto:hello@mowglai.agency"
+                        class="text-2xl md:text-4xl underline decoration-2 underline-offset-8 hover:text-black transition-colors">hello@mowglai.agency</a>
+                </div>
+                <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm">
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold uppercase tracking-widest mb-2">Name</label>
+                            <input type="text"
+                                class="w-full bg-transparent border-b border-white/30 py-4 focus:outline-none focus:border-white transition-colors text-xl"
+                                placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold uppercase tracking-widest mb-2">Email</label>
+                            <input type="email"
+                                class="w-full bg-transparent border-b border-white/30 py-4 focus:outline-none focus:border-white transition-colors text-xl"
+                                placeholder="john@company.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold uppercase tracking-widest mb-2">Message</label>
+                            <textarea rows="4"
+                                class="w-full bg-transparent border-b border-white/30 py-4 focus:outline-none focus:border-white transition-colors text-xl"
+                                placeholder="Tell us about your project..."></textarea>
+                        </div>
+                        <button
+                            class="w-full bg-white text-brand-purple font-bold py-4 rounded-full text-lg hover:bg-black hover:text-white transition-colors mt-4">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center border-t border-white/20 pt-8 gap-6">
+                <p class="font-display font-bold text-2xl uppercase">Mowglai.</p>
+                <div class="flex gap-8 text-sm uppercase tracking-widest">
+                    <a href="#" class="hover:underline">Instagram</a>
+                    <a href="#" class="hover:underline">LinkedIn</a>
+                    <a href="#" class="hover:underline">Twitter</a>
+                </div>
+                <p class="text-sm opacity-60">&copy; 2025 Mowglai Creative Agency. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for Scroll Reveal -->
+    <script>
+        // Simple Intersection Observer for scroll reveals
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

@@ -45,16 +45,18 @@ $body .= "----------------------------------------\n";
 $body .= "Sent from mowglai.in";
 
 // Headers
-$headers = "From: no-reply@mowglai.in\r\n"; // Sending from the domain to avoid spam filters
+$headers = "From: Mowglai <no-reply@mowglai.in>\r\n"; // Sending from the domain to avoid spam filters
 $headers .= "Reply-To: {$from}\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
     // Send Admin Email
     if (mail($to, $subject, $body, $headers)) {
         
         // --- Send Confirmation Email to User ---
         $user_email = $from;
-        $user_subject = "We received your message - Mowglai";
+        $user_subject = "Welcome to Mowglai - We've received your message";
         
         // Read the HTML template
         // Assuming email_mowglai.html is in the same directory or accessible via path
@@ -77,6 +79,8 @@ $headers .= "X-Mailer: PHP/" . phpversion();
             $user_headers .= "From: Mowglai <no-reply@mowglai.in>" . "\r\n";
             $user_headers .= "Reply-To: info@mowglai.in" . "\r\n";
             $user_headers .= "X-Mailer: PHP/" . phpversion();
+            $user_headers .= "X-Priority: 3\r\n"; // Normal priority
+            $user_headers .= "X-MSMail-Priority: Normal\r\n";
 
             // Send user email
             mail($user_email, $user_subject, $user_body, $user_headers);

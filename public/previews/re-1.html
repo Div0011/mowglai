@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Luxury Living - Real Estate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        charcoal: '#1c1c1c',
+                        beige: '#d2b48c',
+                        cream: '#f9f9f7',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #1c1c1c;
+            background-color: #f9f9f7;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .image-reveal {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .image-reveal.visible {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .line-reveal {
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .line-reveal.visible {
+            width: 100%;
+        }
+
+        /* Smooth Parallax */
+        .parallax {
+            transition: transform 0.1s linear;
+        }
+    </style>
+</head>
+
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Navigation (Minimalist) -->
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-12 py-8 mix-blend-difference text-white">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase">Mowglai Luxury Living</div>
+        <div class="hidden md:flex gap-12 text-xs font-medium tracking-widest uppercase">
+            <a href="#" class="hover:text-beige transition">Properties</a>
+            <a href="#" class="hover:text-beige transition">Architects</a>
+            <a href="#" class="hover:text-beige transition">Journal</a>
+        </div>
+        <div class="text-xs font-bold tracking-[0.3em] uppercase cursor-pointer hover:text-beige transition">Menu</div>
+    </nav>
+
+    <!-- Side Lines -->
+    <div class="fixed top-0 bottom-0 left-8 w-px bg-charcoal/10 z-40 hidden lg:block"></div>
+    <div class="fixed top-0 bottom-0 right-8 w-px bg-charcoal/10 z-40 hidden lg:block"></div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600596542815-6ad4c727dd31?q=80&w=2400&auto=format&fit=crop"
+                class="w-full h-full object-cover grayscale-[20%] brightness-[0.8] image-reveal visible">
+        </div>
+
+        <div class="relative z-10 text-center text-white mix-blend-difference px-6">
+            <div
+                class="text-xs font-medium tracking-[0.5em] uppercase mb-6 opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
+                Est. 1994</div>
+            <h1
+                class="text-6xl md:text-8xl lg:text-9xl italic leading-none opacity-0 animate-[fadeInUp_1s_ease-out_0.5s_forwards]">
+                Timeless <br> Living
+            </h1>
+            <div class="mt-12 opacity-0 animate-[fadeIn_1s_ease-out_1.5s_forwards]">
+                <a href="#featured"
+                    class="inline-block border border-white/30 px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-charcoal hover:border-white transition duration-500">
+                    Explore Collection
+                </a>
+            </div>
+        </div>
+
+        <div
+            class="absolute bottom-12 left-12 right-12 flex justify-between text-white/50 text-[0.6rem] uppercase tracking-widest font-medium z-20">
+            <div>Global Real Estate</div>
+            <div class="animate-pulse">Scroll to Discover</div>
+            <div>New York • London • Dubai</div>
+        </div>
+    </header>
+
+    <!-- Intro Text -->
+    <section class="py-40 px-6 md:px-24 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-end">
+        <div class="reveal">
+            <div class="w-20 h-px bg-charcoal mb-8 line-reveal"></div>
+            <h2 class="text-4xl md:text-5xl leading-tight">
+                Curating the world’s most <span class="italic text-beige">exceptional</span> properties for the
+                discerning few.
+            </h2>
+        </div>
+        <div class="text-slate-500 leading-relaxed font-light reveal delay-100">
+            <p>
+                Mowglai Estates is more than a brokerage; it is an arbiter of taste.
+                We specialize in architectural masterpieces, historic estates, and penthouses that define skylines.
+                Our portfolio is strictly private, available only to vetted clientele.
+            </p>
+            <a href="#"
+                class="inline-block mt-8 text-xs font-bold uppercase tracking-widest border-b border-charcoal pb-2 hover:text-beige hover:border-beige transition">Read
+                Our Philosophy</a>
+        </div>
+    </section>
+
+    <!-- Featured Properties (Parallax Grid) -->
+    <section id="featured" class="py-20 px-6 md:px-12">
+        <div class="grid md:grid-cols-2 gap-24">
+
+            <!-- Property 1 -->
+            <div class="group cursor-pointer">
+                <div class="overflow-hidden relative mb-8">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop"
+                        class="w-full h-[600px] object-cover transition duration-[1.5s] ease-in-out group-hover:scale-110 image-reveal">
+                    <div
+                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                        <span class="text-white text-xs uppercase tracking-widest border border-white px-6 py-3">View
+                            Residence</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-end border-t border-charcoal/10 pt-6">
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-2">Beverly Hills, CA
+                        </div>
+                        <h3 class="text-3xl italic">The Glass Pavilion</h3>
+                    </div>
+                    <div class="text-xl font-serif">$45,000,000</div>
+                </div>
+            </div>
+
+            <!-- Property 2 (Offset) -->
+            <div class="group cursor-pointer md:mt-40">
+                <div class="overflow-hidden relative mb-8">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
+                        class="w-full h-[600px] object-cover transition duration-[1.5s] ease-in-out group-hover:scale-110 image-reveal">
+                    <div
+                        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                        <span class="text-white text-xs uppercase tracking-widest border border-white px-6 py-3">View
+                            Residence</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-end border-t border-charcoal/10 pt-6">
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-2">Manhattan, NY</div>
+                        <h3 class="text-3xl italic">Tribeca Penthouse</h3>
+                    </div>
+                    <div class="text-xl font-serif">$22,500,000</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Full Screen Feature -->
+    <section class="relative h-screen w-full flex items-center">
+        <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?q=80&w=2400&auto=format&fit=crop"
+            class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full text-white grid md:grid-cols-2">
+            <div>
+                <div class="text-xs font-bold uppercase tracking-[0.3em] mb-4 border-l-2 border-beige pl-4">Architecture
+                </div>
+                <h2 class="text-6xl font-serif italic mb-8">Designed for <br>Legacy</h2>
+                <p class="text-lg font-light leading-relaxed max-w-md opacity-90">
+                    We partner with the world's most renowned Pritzker Prize-winning architects to create homes that
+                    stand as monuments to design.
+                </p>
+                <a href="#"
+                    class="inline-block mt-12 bg-white text-charcoal px-10 py-4 text-xs font-bold uppercase tracking-widest hover:bg-beige hover:text-white transition duration-300">
+                    Meet the Architects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Concierge -->
+    <section class="py-40 bg-charcoal text-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-24">
+                <div class="col-span-1 border-r border-white/10 pr-12">
+                    <h2 class="text-4xl italic mb-12">Private <br>Brokerage</h2>
+                    <p class="font-light opacity-60 leading-relaxed mb-12">
+                        For those who value discretion above all else. Our off-market listings are never published,
+                        shared only within our closed network.
+                    </p>
+                    <div
+                        class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-xl font-serif italic opacity-50">
+                        S</div>
+                </div>
+
+                <div class="col-span-2 grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <div class="text-xs font-bold uppercase tracking-widest text-beige">01. Acquisition</div>
+                        <h3 class="text-2xl font-serif">Global Search</h3>
+                        <p class="text-sm opacity-50 leading-relaxed">We scour the globe to find specific assets that
+                            match your exact investment criteria, from vineyards in Tuscany to islands in the Caribbean.
+                        </p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="text-xs font-bold uppercase tracking-widest text-beige">02. Design</div>
+                        <h3 class="text-2xl font-serif">Interior Consultation</h3>
+                        <p class="text-sm opacity-50 leading-relaxed">Our in-house design team works with you to
+                            visualize potential renovations or bespoke interior styling before purchase.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="text-xs font-bold uppercase tracking-widest text-beige">03. Legal</div>
+                        <h3 class="text-2xl font-serif">Complex Structuring</h3>
+                        <p class="text-sm opacity-50 leading-relaxed">Expertise in navigating complex international
+                            property laws, trusts, and tax-efficient ownership structures.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="text-xs font-bold uppercase tracking-widest text-beige">04. Lifestyle</div>
+                        <h3 class="text-2xl font-serif">Concierge Service</h3>
+                        <p class="text-sm opacity-50 leading-relaxed">From private aviation to staffing your new estate,
+                            our concierge team handles every detail of your transition.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-cream pt-32 pb-12 px-6">
+        <div
+            class="max-w-7xl mx-auto border-t border-charcoal/10 pt-12 flex flex-col md:flex-row justify-between items-start gap-20">
+            <div>
+                <div class="text-2xl font-serif italic font-bold mb-8">Mowglai.</div>
+                <div class="space-y-2 text-sm text-slate-500 font-medium">
+                    <p>+1 (212) 555-0199</p>
+                    <p>membership@mowglai.com</p>
+                    <p>57th Street, New York, NY</p>
+                </div>
+            </div>
+
+            <div class="flex gap-20">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest mb-6">Collections</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-charcoal transition">Penthouses</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Estates</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Waterfront</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Historic</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest mb-6">Company</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-charcoal transition">The Journal</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Our Team</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Press</a></li>
+                        <li><a href="#" class="hover:text-charcoal transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="md:w-1/3">
+                <h4 class="text-xs font-bold uppercase tracking-widest mb-6">Newsletter</h4>
+                <p class="text-sm text-slate-500 font-light mb-6">Join our private list for off-market alerts.</p>
+                <form class="border-b border-charcoal flex justify-between pb-2">
+                    <input type="email" placeholder="Email Address"
+                        class="bg-transparent text-charcoal placeholder-slate-400 focus:outline-none w-full">
+                    <button class="text-xs font-bold uppercase tracking-widest">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto mt-24 text-[0.6rem] uppercase tracking-widest text-slate-400 flex justify-between">
+            <div>&copy; 2025 Mowglai Estates</div>
+            <div class="flex gap-6">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Add subtle fade up for text
+                    if (entry.target.classList.contains('reveal')) {
+                        entry.target.animate([
+                            { opacity: 0, transform: 'translateY(30px)' },
+                            { opacity: 1, transform: 'translateY(0)' }
+                        ], {
+                            duration: 1000,
+                            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                            fill: 'forwards'
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.image-reveal, .line-reveal, .reveal').forEach(el => observer.observe(el));
+
+        // Custom Tailwind Anims
+        tailwind.config.theme.extend.keyframes = {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+        };
+    </script>
+</body>
+
+</html>

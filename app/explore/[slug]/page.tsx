@@ -1,11 +1,11 @@
-
-import { use } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Check, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import { getTemplateById, allTemplates } from "@/data/templates";
+import TemplateActions from "./TemplateActions";
+import TemplateGallery from "./TemplateGallery";
 
 // Required for static export
 export function generateStaticParams() {
@@ -18,12 +18,12 @@ export function generateStaticParams() {
     return params;
 }
 
-export default function TemplateDetailsPage({
+export default async function TemplateDetailsPage({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) {
-    const { slug } = use(params);
+    const { slug } = await params;
     const template = getTemplateById(slug);
 
     if (!template) {
@@ -50,15 +50,10 @@ export default function TemplateDetailsPage({
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
                         {/* Image Section */}
-                        <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl border border-border/50">
-                            <Image
-                                src={template.image}
-                                alt={template.title}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
-                        </div>
+                        <TemplateGallery
+                            images={[template.image, ...(template.gallery || [])]}
+                            title={template.title}
+                        />
 
                         {/* Content Section */}
                         <div className="flex flex-col justify-center">
@@ -107,24 +102,8 @@ export default function TemplateDetailsPage({
                                     </div>
                                 )}
 
-                                {/* Purchase Actions */}
-                                <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-                                    <div className="w-full sm:w-auto">
-                                        <span className="block text-sm text-muted-foreground mb-1">
-                                            Price
-                                        </span>
-                                        <span className="text-4xl font-bold text-foreground">
-                                            {template.price || "$49"}
-                                        </span>
-                                    </div>
-                                    <button className="w-full sm:flex-1 py-4 px-8 bg-primary text-primary-foreground font-bold rounded-2xl flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-primary/25">
-                                        <ShoppingCart className="w-5 h-5" />
-                                        Buy Template
-                                    </button>
-                                    <button className="w-full sm:w-auto py-4 px-8 bg-secondary text-secondary-foreground font-bold rounded-2xl hover:bg-secondary/80 transition-colors">
-                                        Live Preview
-                                    </button>
-                                </div>
+                                {/* Purchase Actions (Client Component) */}
+                                <TemplateActions templateId={template.id} price={template.price} />
                             </div>
                         </div>
                     </div>

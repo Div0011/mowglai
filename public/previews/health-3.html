@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai TeleHealth Connect - Virtual Care Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4f46e5', // Indigo 600
+                        secondary: '#0f172a', // Slate 900
+                        surface: '#f8fafc',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 40px -10px rgba(79, 70, 229, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .dashboard-mockup {
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) rotateZ(1deg);
+            transition: transform 0.5s ease-out;
+        }
+
+        .dashboard-mockup:hover {
+            transform: perspective(1000px) rotateX(0) rotateY(0) rotateZ(0);
+        }
+
+        /* Magnetic Button Effect */
+        .btn-magnetic {
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn-magnetic:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
+                        <path d="M8 15v6" />
+                        <path d="M22 19a2 2 0 1 0-4 0a2 2 0 0 0 4 0Z" />
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight text-slate-900">Mowglai<span
+                        class="text-primary">TeleHealth Connect</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-primary transition">Features</a>
+                <a href="#" class="hover:text-primary transition">Providers</a>
+                <a href="#" class="hover:text-primary transition">Patients</a>
+                <a href="#" class="hover:text-primary transition">Enterprise</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="hidden md:block text-sm font-medium text-slate-600 hover:text-primary transition">Log
+                    in</a>
+                <button
+                    class="bg-primary hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-5 rounded-lg shadow-lg shadow-indigo-500/20 transition btn-magnetic">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Blobs -->
+        <div class="blob w-96 h-96 bg-indigo-300 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+        <div
+            class="blob w-[30rem] h-[30rem] bg-pink-200 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 animation-delay-2000">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+
+            <div class="relative z-10">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[11px] font-bold uppercase tracking-wider mb-8">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    Now HIPAA Compliant v2.0
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-bold text-slate-900 leading-tight mb-6 tracking-tight">
+                    Healthcare, <br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Reimagined.</span>
+                </h1>
+                <p class="text-lg text-slate-600 mb-10 leading-relaxed max-w-lg">
+                    The complete operating system for modern medical practices. Video consults, patient records, and
+                    billing in one unified platform.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button
+                        class="bg-secondary text-white px-8 py-4 rounded-xl font-semibold hover:scale-105 transition shadow-xl shadow-slate-900/10 btn-magnetic">
+                        Book a Demo
+                    </button>
+                    <button
+                        class="px-8 py-4 rounded-xl font-semibold text-slate-600 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition btn-magnetic">
+                        View Pricing
+                    </button>
+                </div>
+                <div class="mt-12 flex items-center gap-4 text-sm text-slate-500 font-medium">
+                    <span>Trusted by 4,000+ clinics:</span>
+                    <div class="flex items-center gap-4 opacity-50 grayscale">
+                        <span class="font-display font-bold text-lg">Cleveland</span>
+                        <span class="font-display font-bold text-lg">Mayo</span>
+                        <span class="font-display font-bold text-lg">Kaiser</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Mockup -->
+            <div class="relative z-10 dashboard-mockup pointer-events-none lg:pointer-events-auto">
+                <div
+                    class="relative bg-white rounded-2xl shadow-2xl shadow-indigo-900/10 border border-slate-200/60 overflow-hidden">
+                    <!-- Fake UI Header -->
+                    <div class="h-12 bg-slate-50 border-b border-slate-100 flex items-center px-4 gap-2">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        </div>
+                        <div class="mx-auto w-1/3 h-6 bg-white rounded-md border border-slate-100"></div>
+                    </div>
+                    <!-- Fake UI Body -->
+                    <div class="p-6 grid grid-cols-3 gap-6">
+                        <div class="col-span-2 space-y-4">
+                            <div class="p-4 rounded-xl border border-slate-100 bg-indigo-50/50 flex gap-4 items-center">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900">Dr. Sarah Jenkin</div>
+                                    <div class="text-xs text-slate-500">Upcoming • 10:00 AM</div>
+                                </div>
+                                <button
+                                    class="ml-auto bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-md">Join</button>
+                            </div>
+                            <div class="h-40 bg-slate-50 rounded-xl border border-slate-100 p-4">
+                                <div class="h-4 w-1/3 bg-slate-200 rounded mb-4"></div>
+                                <div class="h-2 w-full bg-slate-100 rounded mb-2"></div>
+                                <div class="h-2 w-full bg-slate-100 rounded mb-2"></div>
+                                <div class="h-2 w-2/3 bg-slate-100 rounded mb-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-span-1 space-y-4">
+                            <div
+                                class="h-24 bg-blue-50 rounded-xl border border-blue-100 p-3 flex flex-col justify-between">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                                    ?</div>
+                                <div class="text-xs font-bold text-blue-900">Patient Queue</div>
+                            </div>
+                            <div
+                                class="h-24 bg-emerald-50 rounded-xl border border-emerald-100 p-3 flex flex-col justify-between">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                    $</div>
+                                <div class="text-xs font-bold text-emerald-900">Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements -->
+                <div
+                    class="absolute -right-8 -bottom-8 bg-white p-4 rounded-xl shadow-xl border border-slate-100 animate-bounce">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <div class="text-sm font-bold text-slate-700">System Operational</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Features Grid -->
+    <section class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <h2 class="text-4xl font-bold text-slate-900 mb-4 tracking-tight">Everything a modern clinic needs</h2>
+                <p class="text-slate-500 text-lg">Replace your fragmented stack with one cohesive platform designed for
+                    the future of care.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div
+                    class="group p-8 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-500/10 transition duration-300">
+                    <div
+                        class="w-12 h-12 bg-white rounded-lg border border-slate-200 flex items-center justify-center text-primary mb-6 shadow-sm group-hover:scale-110 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Smart Scheduling</h3>
+                    <p class="text-slate-500 leading-relaxed">Automated booking, reminders, and cancellations. Reduce
+                        no-shows by up to 40%.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div
+                    class="group p-8 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-500/10 transition duration-300">
+                    <div
+                        class="w-12 h-12 bg-white rounded-lg border border-slate-200 flex items-center justify-center text-primary mb-6 shadow-sm group-hover:scale-110 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Secure Messaging</h3>
+                    <p class="text-slate-500 leading-relaxed">End-to-end encrypted chat for care teams and patients.
+                        HIPAA compliant out of the box.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div
+                    class="group p-8 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-500/10 transition duration-300">
+                    <div
+                        class="w-12 h-12 bg-white rounded-lg border border-slate-200 flex items-center justify-center text-primary mb-6 shadow-sm group-hover:scale-110 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Integrated Billing</h3>
+                    <p class="text-slate-500 leading-relaxed">Accept payments, process insurance claims, and manage
+                        payroll in one simple dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-20 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-12">
+            <div class="col-span-2">
+                <div class="flex items-center gap-2 mb-6 text-white">
+                    <span class="font-display font-bold text-2xl tracking-tight">Mowglai<span
+                            class="text-primary">Health</span></span>
+                </div>
+                <p class="text-sm opacity-60 max-w-xs mb-8">
+                    Simplifying healthcare delivery for providers and patients worldwide.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center hover:bg-primary text-white transition">𝕏</a>
+                    <a href="#"
+                        class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center hover:bg-primary text-white transition">in</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-6">Product</h4>
+                <ul class="space-y-3 text-sm opacity-70">
+                    <li><a href="#" class="hover:text-primary transition">Features</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Integrations</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Pricing</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Changelog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Company</h4>
+                <ul class="space-y-3 text-sm opacity-70">
+                    <li><a href="#" class="hover:text-primary transition">About</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Careers</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Blog</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Legal</h4>
+                <ul class="space-y-3 text-sm opacity-70">
+                    <li><a href="#" class="hover:text-primary transition">Privacy</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Terms</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Security</a></li>
+                    <li><a href="#" class="hover:text-primary transition">Status</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 text-xs opacity-40 text-center">
+            &copy; 2025 Mowglai TeleHealth Connect Inc. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Fashion Forward - Editorial Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400&family=Jost:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Bodoni Moda"', 'serif'],
+                        sans: ['"Jost"', 'sans-serif'],
+                    },
+                    colors: {
+                        black: '#000000',
+                        offwhite: '#f5f5f5',
+                        accent: '#ff3333', // Editorial Red
+                    },
+                    height: {
+                        'screen-90': '90vh',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Jost', sans-serif;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: black;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Hover Effect for Links */
+        a:hover~.cursor-outline,
+        button:hover~.cursor-outline,
+        .hover-target:hover~.cursor-outline {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-color: transparent;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Smooth Fade In */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-black antialiased selection:bg-black selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block" id="cursor-dot"></div>
+    <div class="cursor-outline hidden md:block" id="cursor-outline"></div>
+
+    <!-- Announcement Bar -->
+    <div
+        class="bg-black text-white text-[10px] items-center justify-center p-2 uppercase tracking-widest font-bold hidden md:flex">
+        Free Worldwide Shipping on Orders Over $500
+    </div>
+
+    <!-- Nav -->
+    <nav class="fixed top-8 left-0 right-0 z-50 px-8 flex justify-between items-start mix-blend-exclusion text-white">
+        <div class="text-4xl font-serif font-bold tracking-tighter leading-none hover-target cursor-pointer">
+            Mowglai<br><span class="italic text-2xl">Fashion Forward</span>
+        </div>
+
+        <div class="hidden md:flex flex-col items-center gap-1 text-xs font-bold uppercase tracking-widest">
+            <a href="#" class="hover:line-through">New Arrivals</a>
+            <a href="#" class="hover:line-through">Designers</a>
+            <a href="#" class="hover:line-through">Accessories</a>
+            <a href="#" class="hover:line-through text-accent">Sale</a>
+        </div>
+
+        <div class="flex gap-6 text-xs font-bold uppercase tracking-widest">
+            <a href="#" class="hover:underline">Search</a>
+            <a href="#" class="hover:underline">Cart (0)</a>
+        </div>
+    </nav>
+
+    <!-- Hero Gallery (Parallax / Asymmetric) -->
+    <header class="relative w-full h-[120vh]">
+        <div class="absolute inset-0 grid grid-cols-12 gap-0 h-full">
+            <div class="col-span-12 md:col-span-7 h-full relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=2400&auto=format&fit=crop"
+                    class="w-full h-full object-cover">
+                <div class="absolute bottom-10 left-10 text-white mix-blend-difference z-10 fade-in">
+                    <h1 class="text-8xl md:text-9xl font-serif leading-none mb-4">Fall <br><span
+                            class="italic">Winter</span></h1>
+                    <button
+                        class="border border-white px-8 py-3 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition">Explore
+                        Collection</button>
+                </div>
+            </div>
+            <div
+                class="hidden md:block col-span-5 h-full relative overflow-hidden pt-40 px-10 flex flex-col justify-between pb-20">
+                <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4 text-right">Mowglai Editorial
+                </div>
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop"
+                    class="w-full h-[60%] object-cover grayscale hover:grayscale-0 transition duration-700">
+                <div class="mt-8 fade-in delay-100">
+                    <h2 class="text-4xl font-serif italic mb-4">The Art of Subtlety</h2>
+                    <p class="text-sm text-gray-600 leading-relaxed max-w-xs">
+                        An exploration of texture and form. Our latest campaign highlights the intricate details that
+                        define modern luxury.
+                    </p>
+                    <a href="#"
+                        class="inline-block mt-6 border-b border-black text-xs uppercase tracking-widest pb-1 hover:text-accent hover:border-accent transition">Read
+                        Article</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Infinite Marquee -->
+    <section class="py-6 border-y border-black/10 marquee-container bg-offwhite">
+        <div class="marquee-content text-6xl md:text-8xl font-serif italic font-thin opacity-20">
+            Mowglai Fashion • Paris • Milan • New York • Tokyo • Mowglai Fashion • Paris • Milan • New York • Tokyo •
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16 fade-in">
+                <h2 class="text-5xl font-serif">Curated Looks</h2>
+                <a href="#" class="text-xs font-bold uppercase tracking-widest hover:line-through">View All</a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-x-8 gap-y-16">
+                <!-- Product 1 -->
+                <div class="group cursor-pointer fade-in">
+                    <div class="relative overflow-hidden mb-4 h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <button
+                                class="bg-white text-black px-6 py-3 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">Quick
+                                View</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">Silk Trench Coat</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Outerwear</p>
+                        </div>
+                        <span class="font-serif italic text-xl">$1,200</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group cursor-pointer fade-in delay-100 mt-16">
+                    <div class="relative overflow-hidden mb-4 h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1550614000-4b9519e09eb3?q=80&w=1200&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute top-2 left-2 bg-accent text-white px-2 py-1 text-[10px] uppercase font-bold tracking-widest">
+                            New</div>
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <button
+                                class="bg-white text-black px-6 py-3 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">Quick
+                                View</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">Structured Blaze</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Tailoring</p>
+                        </div>
+                        <span class="font-serif italic text-xl">$890</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group cursor-pointer fade-in delay-200">
+                    <div class="relative overflow-hidden mb-4 h-[500px]">
+                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1200&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <button
+                                class="bg-white text-black px-6 py-3 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">Quick
+                                View</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">Velvet Evening Gown</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Evening</p>
+                        </div>
+                        <span class="font-serif italic text-xl">$2,450</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Large CTA -->
+    <section class="relative py-40 bg-black text-white text-center px-6">
+        <div class="max-w-3xl mx-auto fade-in">
+            <div class="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-8">Limited Edition</div>
+            <h2 class="text-6xl md:text-8xl font-serif italic mb-10">The Minimalist <br> Collection</h2>
+            <p class="text-gray-400 mb-12 max-w-md mx-auto leading-relaxed">Defining a new era of simplicity and
+                elegance. Discover pieces that transcend trends.</p>
+            <a href="#"
+                class="inline-block bg-white text-black px-12 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition duration-500">Shop
+                Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white text-black pt-24 pb-12 border-t border-black/10">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-2">
+                <div class="text-4xl font-serif font-bold tracking-tighter mb-8">Mowglai.</div>
+                <p class="text-gray-500 max-w-sm">
+                    A curated destination for the modern aesthete. We bridge the gap between fashion and art.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs uppercase tracking-widest mb-6">Shop</h4>
+                <ul class="space-y-4 text-sm text-gray-600">
+                    <li><a href="#" class="hover:text-black hover:underline">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Clothing</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Shoes</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Accessories</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-xs uppercase tracking-widest mb-6">Client Services</h4>
+                <ul class="space-y-4 text-sm text-gray-600">
+                    <li><a href="#" class="hover:text-black hover:underline">Shipping & Returns</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">FAQ</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Book Appointment</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 border-t border-black/5 pt-8 flex justify-between items-center text-[10px] uppercase font-bold tracking-widest text-gray-400">
+            <div>&copy; 2025 Mowglai Fashion</div>
+            <div class="flex gap-4">
+                <a href="#">Instagram</a>
+                <a href="#">Pinterest</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Scroll Fade In
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    </script>
+</body>
+
+</html>

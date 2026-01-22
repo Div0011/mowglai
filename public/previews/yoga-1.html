@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowglai Zen Sanctuary | Wellness & Yoga</title>
+    <meta name="description" content="Mowglai Zen Sanctuary - Find your inner peace.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sage': '#8DA399',
+                        'sage-light': '#E8EFEC',
+                        'sand': '#F5F5F0',
+                        'earth': '#4A4A4A',
+                        'accent': '#D4A373',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F0;
+            color: #4A4A4A;
+        }
+
+        .text-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+        }
+
+        .text-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body x-data="{ mobileMenuOpen: false }">
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 transition-all duration-300 bg-sand/80 backdrop-blur-md border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <!-- Logo Icon -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="text-sage">
+                    <path
+                        d="M12 2C8 6 4 10 4 14C4 18.4183 7.58172 22 12 22C16.4183 22 20 18.4183 20 14C20 10 16 6 12 2Z"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M12 16C10.8954 16 10 15.1046 10 14C10 12.8954 10.8954 12 12 12C13.1046 12 14 12.8954 14 14C14 15.1046 13.1046 16 12 16Z"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <a href="#" class="text-2xl font-serif font-semibold tracking-wider text-earth">
+                    Mowglai <span class="italic text-sage">Zen</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex gap-10 items-center font-sans font-light tracking-wide text-sm uppercase">
+                <a href="#about" class="hover:text-sage transition-colors">Our Story</a>
+                <a href="#classes" class="hover:text-sage transition-colors">Classes</a>
+                <a href="#instructors" class="hover:text-sage transition-colors">Teachers</a>
+                <a href="#retreats" class="hover:text-sage transition-colors">Retreats</a>
+                <a href="#"
+                    class="px-8 py-3 bg-sage text-white rounded-full hover:bg-earth transition-colors duration-300">
+                    Book Class
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen"
+                class="md:hidden text-earth hover:text-sage transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6H20M4 12H20M4 18H20" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-sand flex flex-col items-center justify-center space-y-8 font-serif text-3xl"
+        x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+
+        <button @click="mobileMenuOpen = false" class="absolute top-8 right-6 text-earth">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:text-sage hover:italic transition-all">Our
+            Story</a>
+        <a href="#classes" @click="mobileMenuOpen = false"
+            class="hover:text-sage hover:italic transition-all">Classes</a>
+        <a href="#instructors" @click="mobileMenuOpen = false"
+            class="hover:text-sage hover:italic transition-all">Teachers</a>
+        <a href="#retreats" @click="mobileMenuOpen = false"
+            class="hover:text-sage hover:italic transition-all">Retreats</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Video Background Placeholder -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=2670&auto=format&fit=crop"
+                alt="Yoga Background" class="w-full h-full object-cover opacity-90 animate-subtle-zoom">
+            <div class="absolute inset-0 bg-sage/20 mix-blend-multiply"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-4xl">
+            <span
+                class="block text-white font-sans text-sm md:text-base tracking-[0.3em] uppercase mb-6 animate-fade-in-up">
+                Find Your Center
+            </span>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif text-white mb-8 leading-none opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.2s;">
+                Zen Sanctuary
+            </h1>
+            <p class="text-white/90 text-lg md:text-xl font-light max-w-lg mx-auto mb-12 opacity-0 animate-fade-in-up"
+                style="animation-delay: 0.4s;">
+                A space to breathe, move, and connect. Mowglai invites you to journey inward.
+            </p>
+            <div class="opacity-0 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <a href="#classes"
+                    class="inline-block border border-white text-white px-10 py-4 rounded-full hover:bg-white hover:text-sage transition-all duration-300 font-sans tracking-wide uppercase text-sm">
+                    View Schedule
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-white animate-bounce">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- Intro / About -->
+    <section id="about" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center">
+            <div class="md:w-1/2 relative">
+                <div class="aspect-[3/4] rounded-t-[10rem] overflow-hidden relative z-10">
+                    <img src="https://images.unsplash.com/photo-1599447421405-0c174ac25688?q=80&w=2529&auto=format&fit=crop"
+                        alt="Meditation" class="w-full h-full object-cover">
+                </div>
+                <!-- Decorative Elements -->
+                <div class="absolute -bottom-10 -left-10 w-full h-full border border-sage/30 rounded-t-[10rem] -z-0">
+                </div>
+                <div class="absolute top-20 -right-20 w-40 h-40 bg-sage/10 rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="md:w-1/2">
+                <h2 class="text-5xl md:text-6xl font-serif text-earth mb-8 text-reveal">
+                    Breathe. Move. <br> <span class="italic text-sage">Be.</span>
+                </h2>
+                <p class="text-lg text-gray-600 font-light leading-relaxed mb-8 text-reveal">
+                    At Mowglai Zen Sanctuary, we believe yoga is more than just physical exercise—it is a path to
+                    clarity and inner peace. Our studio is designed as a refuge from the noise of the modern world,
+                    incorporating natural materials, soft light, and living plants.
+                </p>
+                <div class="grid grid-cols-2 gap-8 mb-12 text-reveal">
+                    <div>
+                        <h3 class="font-serif text-2xl text-earth mb-2">Mindfulness</h3>
+                        <p class="text-sm text-gray-500 font-light">Guided meditation in every class.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl text-earth mb-2">Community</h3>
+                        <p class="text-sm text-gray-500 font-light">Tea and conversation after practice.</p>
+                    </div>
+                </div>
+                <a href="#"
+                    class="text-sage border-b border-sage/50 pb-1 hover:text-earth hover:border-earth transition-colors font-serif italic text-xl text-reveal">
+                    Read our philosophy &rarr;
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes / Timetable -->
+    <section id="classes" class="py-32 bg-sage-light px-6 relative overflow-hidden">
+        <!-- Floating Leaves/Decor -->
+        <div
+            class="absolute top-0 left-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2">
+        </div>
+        <div
+            class="absolute bottom-0 right-0 w-96 h-96 bg-sage/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3">
+        </div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-20">
+                <span class="text-sage font-sans text-xs tracking-[0.2em] uppercase block mb-4">Weekly Rhythm</span>
+                <h2 class="text-5xl md:text-6xl font-serif text-earth">Class Schedule</h2>
+            </div>
+
+            <div class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-sm border border-white">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr
+                                class="border-b border-sage/20 text-earth/60 font-sans text-xs uppercase tracking-wider">
+                                <th class="py-6 font-medium">Time</th>
+                                <th class="py-6 font-medium">Monday</th>
+                                <th class="py-6 font-medium">Wednesday</th>
+                                <th class="py-6 font-medium">Friday</th>
+                                <th class="py-6 font-medium">Sunday</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-earth font-light">
+                            <tr class="group hover:bg-white/50 transition-colors">
+                                <td class="py-8 border-b border-sage/10 font-serif italic text-lg">07:00 AM</td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Morning Flow</div>
+                                    <div class="text-xs text-sage mt-1">with Sarah</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Power Vinyasa</div>
+                                    <div class="text-xs text-sage mt-1">with Michael</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Sunrise Yoga</div>
+                                    <div class="text-xs text-sage mt-1">with Sarah</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <span class="text-gray-300">-</span>
+                                </td>
+                            </tr>
+                            <tr class="group hover:bg-white/50 transition-colors">
+                                <td class="py-8 border-b border-sage/10 font-serif italic text-lg">12:00 PM</td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <span class="text-gray-300">-</span>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Lunch Express</div>
+                                    <div class="text-xs text-sage mt-1">with Emma</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <span class="text-gray-300">-</span>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Community Class</div>
+                                    <div class="text-xs text-sage mt-1">Donation Based</div>
+                                </td>
+                            </tr>
+                            <tr class="group hover:bg-white/50 transition-colors">
+                                <td class="py-8 border-b border-sage/10 font-serif italic text-lg">06:00 PM</td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Yin & Restore</div>
+                                    <div class="text-xs text-sage mt-1">with David</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Hatha Align</div>
+                                    <div class="text-xs text-sage mt-1">with Emma</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Candlelight Flow</div>
+                                    <div class="text-xs text-sage mt-1">with Sarah</div>
+                                </td>
+                                <td class="py-8 border-b border-sage/10">
+                                    <div class="font-serif text-xl">Sound Bath</div>
+                                    <div class="text-xs text-sage mt-1">Workshop</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors -->
+    <section id="instructors" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                <div>
+                    <span class="text-sage font-sans text-xs tracking-[0.2em] uppercase block mb-4">Guidance</span>
+                    <h2 class="text-5xl md:text-6xl font-serif text-earth">Our Teachers</h2>
+                </div>
+                <p class="text-gray-500 font-light max-w-md">
+                    Experienced practitioners dedicated to helping you deepen your practice safely and joyfully.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Teacher 1 -->
+                <div class="text-center group cursor-pointer">
+                    <div
+                        class="w-64 h-64 mx-auto rounded-full overflow-hidden mb-8 border border-sage/20 group-hover:border-sage transition-all duration-500 relative">
+                        <img src="https://images.unsplash.com/photo-1544367563-12123d8966cd?q=80&w=1000&auto=format&fit=crop"
+                            alt="Sarah"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-3xl font-serif text-earth mb-2">Sarah Jenkins</h3>
+                    <p class="text-sage font-sans text-xs tracking-widest uppercase mb-4">Vinyasa & Flow</p>
+                    <p
+                        class="text-gray-500 font-light text-sm italic opacity-0 group-hover:opacity-100 transition-opacity">
+                        "Movement is the song of the body."
+                    </p>
+                </div>
+
+                <!-- Teacher 2 -->
+                <div class="text-center group cursor-pointer mt-12 md:mt-0">
+                    <div
+                        class="w-64 h-64 mx-auto rounded-full overflow-hidden mb-8 border border-sage/20 group-hover:border-sage transition-all duration-500 relative">
+                        <img src="https://images.unsplash.com/photo-1542596594-649edbc13630?q=80&w=1000&auto=format&fit=crop"
+                            alt="Emma"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-3xl font-serif text-earth mb-2">Emma Sol</h3>
+                    <p class="text-sage font-sans text-xs tracking-widest uppercase mb-4">Hatha & Anatomy</p>
+                    <p
+                        class="text-gray-500 font-light text-sm italic opacity-0 group-hover:opacity-100 transition-opacity">
+                        "Alignment brings freedom."
+                    </p>
+                </div>
+
+                <!-- Teacher 3 -->
+                <div class="text-center group cursor-pointer">
+                    <div
+                        class="w-64 h-64 mx-auto rounded-full overflow-hidden mb-8 border border-sage/20 group-hover:border-sage transition-all duration-500 relative">
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000&auto=format&fit=crop"
+                            alt="David"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <h3 class="text-3xl font-serif text-earth mb-2">David Stone</h3>
+                    <p class="text-sage font-sans text-xs tracking-widest uppercase mb-4">Meditation & Yin</p>
+                    <p
+                        class="text-gray-500 font-light text-sm italic opacity-0 group-hover:opacity-100 transition-opacity">
+                        "Silence speaks when we listen."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retreats / CTA -->
+    <section id="retreats" class="relative py-40 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1512413914633-b5043f4041ea?q=80&w=2695&auto=format&fit=crop"
+                alt="Retreat" class="w-full h-full object-cover opacity-80 fixed-bg">
+            <div class="absolute inset-0 bg-earth/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center text-white px-6 max-w-3xl">
+            <h2 class="text-5xl md:text-7xl font-serif mb-8 text-shadow">Bali Retreat 2025</h2>
+            <p class="text-xl md:text-2xl font-light mb-12 text-white/90">
+                Join us for 7 days of practice, nature, and nourishment in the heart of Ubud.
+            </p>
+            <a href="#"
+                class="inline-block bg-white text-earth px-12 py-4 rounded-full font-sans tracking-widest uppercase text-sm hover:bg-sage hover:text-white transition-all duration-300">
+                Reserve Your Spot
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-sand pt-24 pb-12 px-6 border-t border-sage/20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+            <div>
+                <a href="#" class="text-3xl font-serif font-bold tracking-wider text-earth block mb-6">
+                    Mowglai <span class="italic text-sage">Zen</span>
+                </a>
+                <p class="text-gray-500 font-light max-w-xs leading-relaxed">
+                    123 Serenity Lane, <br>
+                    Conscious City, CA 90210 <br>
+                    <br>
+                    hello@mowglaizen.com
+                </p>
+            </div>
+
+            <div class="flex gap-16 md:gap-24">
+                <div>
+                    <h4 class="font-sans text-xs tracking-[0.2em] uppercase text-earth mb-6">Studio</h4>
+                    <ul class="space-y-4 font-serif text-gray-500">
+                        <li><a href="#" class="hover:text-sage transition-colors">Class Schedule</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Instructors</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Philosophy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-sans text-xs tracking-[0.2em] uppercase text-earth mb-6">Connect</h4>
+                    <ul class="space-y-4 font-serif text-gray-500">
+                        <li><a href="#" class="hover:text-sage transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Facebook</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto mt-20 pt-8 border-t border-sage/10 text-center md:text-left text-xs text-gray-400 font-sans tracking-wide uppercase">
+            &copy; 2025 Mowglai Zen Sanctuary. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.text-reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
