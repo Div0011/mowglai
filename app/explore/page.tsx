@@ -3,13 +3,14 @@
 import { useState, useMemo, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, Filter, X } from 'lucide-react'
+import { ArrowRight, Filter, X, Search, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import PageLayout from '@/components/PageLayout'
 import AnimatedSection from '@/components/AnimatedSection'
 import Link from 'next/link'
 import { sectors, allTemplates, Template, Sector } from '@/data/templates'
-
+import PremiumTemplateCard from '@/components/PremiumTemplateCard'
+import CustomSelect from '@/components/ui/CustomSelect'
 // Filter Constants
 const pageRanges = [
     { label: 'Single Page (1)', value: '1' },
@@ -28,6 +29,8 @@ const toggleFilter = (state: string[], setState: (val: string[]) => void, value:
 
 export default function ExplorePage() {
     // Filter States
+    const [searchQuery, setSearchQuery] = useState('')
+    const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'newest'>('featured')
     const [selectedSector, setSelectedSector] = useState<string>('all')
     const [pageRange, setPageRange] = useState<string[]>([])
     const [websiteTypes, setWebsiteTypes] = useState<string[]>([])
@@ -53,6 +56,17 @@ export default function ExplorePage() {
     // Filter Logic
     const filteredTemplates = useMemo(() => {
         return allTemplatesFlat.filter(template => {
+            // Search Filter
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase()
+                const matchesSearch =
+                    template.title.toLowerCase().includes(query) ||
+                    template.description.toLowerCase().includes(query) ||
+                    template.tags.some(tag => tag.toLowerCase().includes(query))
+
+                if (!matchesSearch) return false
+            }
+
             // Sector Filter
             if (selectedSector !== 'all') {
                 // Find which sector array contains this template
@@ -84,8 +98,18 @@ export default function ExplorePage() {
             if (cmsTypes.length > 0 && !cmsTypes.includes(template.cms)) return false
 
             return true
+            return true
+        }).sort((a, b) => {
+            if (sortBy === 'price-asc') {
+                return parseInt(a.price.replace('$', '')) - parseInt(b.price.replace('$', ''))
+            }
+            if (sortBy === 'price-desc') {
+                return parseInt(b.price.replace('$', '')) - parseInt(a.price.replace('$', ''))
+            }
+            // For featured/newest we just use default order for now as we don't have date
+            return 0
         })
-    }, [selectedSector, pageRange, websiteTypes, structures, cmsTypes, allTemplatesFlat])
+    }, [selectedSector, pageRange, websiteTypes, structures, cmsTypes, allTemplatesFlat, searchQuery, sortBy])
 
     const filterProps = {
         selectedSector, setSelectedSector,
@@ -99,59 +123,130 @@ export default function ExplorePage() {
 
     return (
         <PageLayout>
-            <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 lg:px-12 bg-background relative">
+            <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 lg:px-12 bg-background relative overflow-hidden">
 
-                {/* Background Decorative Elements */}
-                <div className="absolute top-0 left-0 w-full h-[40vh] bg-primary/5 blur-3xl -z-10 rounded-b-[50%]" />
+                {/* Enhanced Ambient Background - Deeper & Richer */}
+                <div className="fixed top-0 left-0 w-full h-full bg-[#050a08] -z-20" /> {/* Dark base */}
+                <div className="fixed top-[-10%] left-[-10%] w-[70vw] h-[70vw] bg-primary/5 rounded-full blur-[150px] pointer-events-none -z-10 mix-blend-screen animate-pulse-glow" />
+                <div className="fixed bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-accent/5 rounded-full blur-[150px] pointer-events-none -z-10 mix-blend-screen animate-pulse-glow" style={{ animationDelay: '2s' }} />
+                <div className="fixed top-[20%] right-[10%] w-[30vw] h-[30vw] bg-secondary/10 rounded-full blur-[100px] pointer-events-none -z-10 mix-blend-screen opacity-50" />
 
-                <div className="max-w-[1400px] mx-auto">
+                {/* Noise overlay for texture */}
+                <div className="fixed inset-0 bg-[url('/noise.svg')] opacity-[0.03] mix-blend-overlay pointer-events-none -z-10" />
+
+                <div className="max-w-[1500px] mx-auto relative z-10">
                     {/* Header */}
-                    <div className="mb-12">
-                        <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">
-                            Explore <span className="text-primary">Templates</span>
-                        </h1>
-                        <p className="text-xl text-muted-foreground font-light">
-                            {filteredTemplates.length} templates found matching your criteria.
-                        </p>
-                    </div>
-
-                    {/* Mobile Filter Toggle */}
-                    <div className="lg:hidden mb-8">
-                        <button
-                            onClick={() => setIsMobileFiltersOpen(true)}
-                            className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg font-medium"
+                    <div className="mb-20 text-center md:text-left">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="max-w-4xl"
                         >
-                            <Filter className="w-4 h-4" /> Filters
-                        </button>
+                            <span className="inline-block px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-[0.2em] mb-6 backdrop-blur-md">
+                                Premium Collection
+                            </span>
+                            <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold mb-8 tracking-tight leading-[1.1] md:leading-[0.9]">
+                                Explore <br className="hidden md:block" />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">World Class</span> <span className="text-primary italic">Templates</span>
+                            </h1>
+                            <p className="text-xl md:text-2xl text-muted-foreground font-light max-w-2xl leading-relaxed">
+                                A curated selection of {filteredTemplates.length} hand-crafted, high-performance websites designed to convert visitors into customers.
+                            </p>
+                        </motion.div>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row gap-8 relative">
+                    {/* Search & Sort Bar Container */}
+                    <div className="mb-12 sticky top-24 z-30">
+                        <div className="absolute inset-0 bg-background/80 backdrop-blur-xl -z-10 -mx-4 md:-mx-8 lg:-mx-12 h-full opacity-0 pointer-events-none transition-opacity duration-300" id="sticky-blur" />
 
-                        {/* Templates Grid (Left Side) */}
+                        <div className="flex flex-col lg:flex-row gap-4 lg:gap-12 items-start relative">
+                            {/* Search Column - Aligns with Templates Grid */}
+                            <div className="w-full flex-1">
+                                <div className="relative w-full group">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 rounded-2xl" />
+                                    <div className="relative flex items-center">
+                                        <Search className="absolute left-6 text-muted-foreground w-6 h-6 group-focus-within:text-primary transition-colors duration-300" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search templates..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full pl-16 pr-6 py-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all outline-none shadow-xl text-lg text-foreground placeholder:text-muted-foreground"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Sort Column - Aligns with Filter Sidebar */}
+                            <div className="w-full lg:w-[320px] shrink-0 flex gap-4">
+                                <CustomSelect
+                                    value={sortBy}
+                                    onChange={(val) => setSortBy(val as any)}
+                                    options={[
+                                        { label: "Featured", value: "featured", icon: "✨" },
+                                        { label: "Newest", value: "newest", icon: "🔥" },
+                                        { label: "Price: Low to High", value: "price-asc", icon: "💰" },
+                                        { label: "Price: High to Low", value: "price-desc", icon: "💎" },
+                                    ]}
+                                    className="w-full"
+                                />
+
+                                {/* Mobile Filter Toggle */}
+                                <button
+                                    onClick={() => setIsMobileFiltersOpen(true)}
+                                    className="lg:hidden flex items-center justify-center gap-2 px-6 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl font-bold transition-all whitespace-nowrap shadow-lg active:scale-95"
+                                >
+                                    <Filter className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col lg:flex-row gap-12 relative">
+
+                        {/* Templates Grid (Left Side) - Adjusted for larger cards */}
                         <div className="flex-1 min-h-[600px]">
                             <AnimatePresence mode="popLayout">
                                 <motion.div
                                     layout
-                                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
                                 >
                                     {filteredTemplates.length > 0 ? (
-                                        filteredTemplates.map((template) => (
-                                            <TemplateCard key={template.id} template={template} />
-                                        ))
+                                        <motion.div
+                                            variants={{
+                                                hidden: { opacity: 0 },
+                                                show: {
+                                                    opacity: 1,
+                                                    transition: {
+                                                        staggerChildren: 0.08
+                                                    }
+                                                }
+                                            }}
+                                            initial="hidden"
+                                            animate="show"
+                                            className="contents"
+                                        >
+                                            {filteredTemplates.map((template) => (
+                                                <PremiumTemplateCard key={template.id} template={template} />
+                                            ))}
+                                        </motion.div>
                                     ) : (
-                                        <div className="col-span-full text-center py-20 bg-secondary/20 rounded-3xl">
-                                            <p className="text-xl text-muted-foreground">No templates found matching filters.</p>
+                                        <div className="col-span-full text-center py-32 bg-secondary/5 rounded-[3rem] border border-dashed border-border/50">
+                                            <p className="text-2xl text-muted-foreground mb-4 font-light">No templates found matching your criteria.</p>
                                             <button
                                                 onClick={() => {
+                                                    setSearchQuery('')
+                                                    setSortBy('featured')
                                                     setSelectedSector('all')
                                                     setPageRange([])
                                                     setWebsiteTypes([])
                                                     setStructures([])
                                                     setCmsTypes([])
                                                 }}
-                                                className="mt-4 text-primary hover:underline"
+                                                className="px-8 py-3 bg-primary text-primary-foreground rounded-full hover:scale-105 transition-transform font-bold"
                                             >
-                                                Clear all filters
+                                                Reset Filters
                                             </button>
                                         </div>
                                     )}
@@ -160,9 +255,11 @@ export default function ExplorePage() {
                         </div>
 
                         {/* Sidebar Filters (Desktop) */}
-                        <div className="hidden lg:block w-[300px] shrink-0">
-                            <div className="sticky top-32 space-y-8">
-                                <h2 className="text-2xl font-bold mb-6">Filters</h2>
+                        <div className="hidden lg:block w-[320px] shrink-0">
+                            <div className="sticky top-32 space-y-10 p-2">
+                                <h2 className="text-2xl font-bold mb-6 font-display flex items-center gap-2">
+                                    <Filter className="w-5 h-5 text-primary" /> Filter Results
+                                </h2>
                                 <FilterContent {...filterProps} />
                             </div>
                         </div>
@@ -175,7 +272,7 @@ export default function ExplorePage() {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                                    className="absolute inset-0 bg-black/80 backdrop-blur-md"
                                     onClick={() => setIsMobileFiltersOpen(false)}
                                 />
 
@@ -185,18 +282,18 @@ export default function ExplorePage() {
                                     animate={{ x: 0 }}
                                     exit={{ x: '100%' }}
                                     transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                                    className="relative w-[85vw] max-w-[320px] ml-auto h-full bg-background shadow-2xl p-6 overflow-y-auto"
+                                    className="relative w-[90vw] max-w-[400px] ml-auto h-full bg-background/95 backdrop-blur-xl shadow-2xl p-8 overflow-y-auto border-l border-white/10"
                                 >
-                                    <div className="flex items-center justify-between mb-8 pb-4 border-b border-border sticky top-0 bg-background z-20 pt-2">
-                                        <h2 className="text-2xl font-bold">Filters</h2>
+                                    <div className="flex items-center justify-between mb-8 pb-6 border-b border-border sticky top-0 md:static z-20 pt-2">
+                                        <h2 className="text-3xl font-bold font-display">Filters</h2>
                                         <button
                                             onClick={() => setIsMobileFiltersOpen(false)}
-                                            className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-full transition-colors text-sm font-medium"
+                                            className="p-2 bg-secondary/50 rounded-full hover:bg-secondary transition-colors"
                                         >
-                                            <X className="w-4 h-4" /> Close
+                                            <X className="w-6 h-6" />
                                         </button>
                                     </div>
-                                    <div className="space-y-8">
+                                    <div className="space-y-10">
                                         <FilterContent {...filterProps} />
                                     </div>
                                 </motion.div>
@@ -220,31 +317,37 @@ function FilterContent({
     cmsTypes, setCmsTypes, uniqueCmsTypes
 }: any) {
     return (
-        <>
+        <div className="space-y-8">
             {/* Filter Group: Category */}
             <div className="space-y-4">
-                <h3 className="font-bold text-lg border-b border-border pb-2">Category</h3>
-                <div className="space-y-2">
-                    <label className="flex items-center gap-3 cursor-pointer group">
+                <h3 className="font-display font-medium text-sm uppercase tracking-widest text-muted-foreground/80">Category</h3>
+                <div className="space-y-1">
+                    <label className="flex items-center gap-3 cursor-pointer group py-2 px-3 -mx-3 rounded-lg hover:bg-white/5 transition-all">
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${selectedSector === 'all' ? 'border-primary bg-primary' : 'border-muted-foreground/50 group-hover:border-primary/50'}`}>
+                            {selectedSector === 'all' && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
+                        </div>
                         <input
                             type="radio"
                             name="sector"
                             checked={selectedSector === 'all'}
                             onChange={() => setSelectedSector('all')}
-                            className="w-4 h-4 accent-primary"
+                            className="hidden"
                         />
-                        <span className="group-hover:text-primary transition-colors">All Categories</span>
+                        <span className={`text-sm transition-colors ${selectedSector === 'all' ? 'text-foreground font-semibold' : 'text-muted-foreground group-hover:text-foreground'}`}>All Categories</span>
                     </label>
                     {sectors.map((sector: Sector) => (
-                        <label key={sector.id} className="flex items-center gap-3 cursor-pointer group">
+                        <label key={sector.id} className="flex items-center gap-3 cursor-pointer group py-2 px-3 -mx-3 rounded-lg hover:bg-white/5 transition-all">
+                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${selectedSector === sector.id ? 'border-primary bg-primary' : 'border-muted-foreground/50 group-hover:border-primary/50'}`}>
+                                {selectedSector === sector.id && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
+                            </div>
                             <input
                                 type="radio"
                                 name="sector"
                                 checked={selectedSector === sector.id}
                                 onChange={() => setSelectedSector(sector.id)}
-                                className="w-4 h-4 accent-primary"
+                                className="hidden"
                             />
-                            <span className="group-hover:text-primary transition-colors">{sector.label}</span>
+                            <span className={`text-sm transition-colors ${selectedSector === sector.id ? 'text-foreground font-semibold' : 'text-muted-foreground group-hover:text-foreground'}`}>{sector.label}</span>
                         </label>
                     ))}
                 </div>
@@ -252,185 +355,79 @@ function FilterContent({
 
             {/* Filter Group: No. of Pages */}
             <div className="space-y-4">
-                <h3 className="font-bold text-lg border-b border-border pb-2">No. of Pages</h3>
-                <div className="space-y-2">
+                <h3 className="font-display font-medium text-sm uppercase tracking-widest text-muted-foreground/80">No. of Pages</h3>
+                <div className="space-y-1">
                     {pageRanges.map(range => (
-                        <label key={range.value} className="flex items-center gap-3 cursor-pointer group">
+                        <label key={range.value} className="flex items-center gap-3 cursor-pointer group py-2 px-3 -mx-3 rounded-lg hover:bg-white/5 transition-all">
+                            <div className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-all ${pageRange.includes(range.value) ? 'border-primary bg-primary text-black' : 'border-muted-foreground/50 group-hover:border-primary/50'}`}>
+                                {pageRange.includes(range.value) && <Check className="w-3 h-3" />}
+                            </div>
                             <input
                                 type="checkbox"
                                 checked={pageRange.includes(range.value)}
                                 onChange={() => toggleFilter(pageRange, setPageRange, range.value)}
-                                className="w-4 h-4 accent-primary rounded"
+                                className="hidden"
                             />
-                            <span className="group-hover:text-primary transition-colors">{range.label}</span>
+                            <span className={`text-sm transition-colors ${pageRange.includes(range.value) ? 'text-foreground font-semibold' : 'text-muted-foreground group-hover:text-foreground'}`}>{range.label}</span>
                         </label>
                     ))}
                 </div>
             </div>
 
-            {/* Filter Group: Type of Website */}
+            {/* Filter Group: Website Type */}
             <div className="space-y-4">
-                <h3 className="font-bold text-lg border-b border-border pb-2">Website Type</h3>
-                <div className="space-y-2">
+                <h3 className="font-display font-medium text-sm uppercase tracking-widest text-muted-foreground/80">Website Type</h3>
+                <div className="flex flex-wrap gap-2">
                     {uniqueWebsiteTypes.map((type: string) => (
-                        <label key={type} className="flex items-center gap-3 cursor-pointer group">
+                        <label key={type} className={`cursor-pointer px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${websiteTypes.includes(type) ? 'bg-primary text-primary-foreground border-primary' : 'bg-transparent border-muted-foreground/30 text-muted-foreground hover:border-primary/50 hover:text-foreground'}`}>
                             <input
                                 type="checkbox"
                                 checked={websiteTypes.includes(type)}
                                 onChange={() => toggleFilter(websiteTypes, setWebsiteTypes, type)}
-                                className="w-4 h-4 accent-primary rounded"
+                                className="hidden"
                             />
-                            <span className="group-hover:text-primary transition-colors">{type}</span>
+                            {type}
                         </label>
                     ))}
                 </div>
             </div>
 
-            {/* Filter Group: Structure */}
+            {/* Filter Group: Tech Stack & Structure Combined/Cleaned */}
             <div className="space-y-4">
-                <h3 className="font-bold text-lg border-b border-border pb-2">Structure</h3>
-                <div className="space-y-2">
-                    {uniqueStructures.map((structure: string) => (
-                        <label key={structure} className="flex items-center gap-3 cursor-pointer group">
+                <h3 className="font-display font-medium text-sm uppercase tracking-widest text-muted-foreground/80">Tech & CMS</h3>
+                <div className="space-y-1">
+                    {[...uniqueCmsTypes, ...uniqueStructures].map((item: string) => (
+                        <label key={item} className="flex items-center gap-3 cursor-pointer group py-2 px-3 -mx-3 rounded-lg hover:bg-white/5 transition-all">
+                            <div className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-all ${cmsTypes.includes(item) || structures.includes(item) ? 'border-primary bg-primary text-black' : 'border-muted-foreground/50 group-hover:border-primary/50'}`}>
+                                {(cmsTypes.includes(item) || structures.includes(item)) && <Check className="w-3 h-3" />}
+                            </div>
                             <input
                                 type="checkbox"
-                                checked={structures.includes(structure)}
-                                onChange={() => toggleFilter(structures, setStructures, structure)}
-                                className="w-4 h-4 accent-primary rounded"
+                                checked={cmsTypes.includes(item) || structures.includes(item)}
+                                onChange={() => {
+                                    // Dirty check to see which list it belongs to
+                                    if (uniqueCmsTypes.includes(item)) toggleFilter(cmsTypes, setCmsTypes, item)
+                                    else toggleFilter(structures, setStructures, item)
+                                }}
+                                className="hidden"
                             />
-                            <span className="group-hover:text-primary transition-colors">{structure}</span>
+                            <span className={`text-sm transition-colors ${cmsTypes.includes(item) || structures.includes(item) ? 'text-foreground font-semibold' : 'text-muted-foreground group-hover:text-foreground'}`}>{item}</span>
                         </label>
                     ))}
                 </div>
             </div>
-
-            {/* Filter Group: CMS / Tech */}
-            <div className="space-y-4">
-                <h3 className="font-bold text-lg border-b border-border pb-2">Tech Stack</h3>
-                <div className="space-y-2">
-                    {uniqueCmsTypes.map((cms: string) => (
-                        <label key={cms} className="flex items-center gap-3 cursor-pointer group">
-                            <input
-                                type="checkbox"
-                                checked={cmsTypes.includes(cms)}
-                                onChange={() => toggleFilter(cmsTypes, setCmsTypes, cms)}
-                                className="w-4 h-4 accent-primary rounded"
-                            />
-                            <span className="group-hover:text-primary transition-colors">{cms}</span>
-                        </label>
-                    ))}
-                </div>
-            </div>
-        </>
+        </div>
     )
 }
 
-function TemplateCard({ template }: { template: Template }) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    const [isHovered, setIsHovered] = useState(false)
-
-    // Use gallery images if available, otherwise fallback to generating mocks
-    const images = template.gallery && template.gallery.length > 0
-        ? template.gallery
-        : [
-            template.image, // Main Home
-            template.image.replace('text=', 'text=Services+%26+Features+'),
-            template.image.replace('text=', 'text=Portfolio+%26+Contact+')
-        ]
-
-    // Auto-play slider on hover
-    useEffect(() => {
-        let interval: NodeJS.Timeout
-        if (isHovered) {
-            interval = setInterval(() => {
-                setCurrentImageIndex((prev) => (prev + 1) % images.length)
-            }, 2000)
-        } else {
-            setCurrentImageIndex(0)
-        }
-        return () => clearInterval(interval)
-    }, [isHovered, images.length])
-
+function Check({ className }: { className?: string }) {
     return (
-        <motion.div
-            layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="group bg-card rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all hover:shadow-xl flex flex-col"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            {/* Image Slider */}
-            <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center">
-                    <Link
-                        href={`/explore/${template.id}`}
-                        className="px-6 py-3 bg-white text-black font-bold rounded-full flex items-center gap-2 hover:scale-105 transition-transform"
-                    >
-                        View Details <ArrowRight className="w-4 h-4" />
-                    </Link>
-                </div>
-
-                <AnimatePresence mode="wait">
-                    <motion.img
-                        key={currentImageIndex}
-                        src={images[currentImageIndex]}
-                        alt={`${template.title} view ${currentImageIndex + 1}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                    />
-                </AnimatePresence>
-
-                {/* Slider Indicators */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
-                    {images.map((_, idx) => (
-                        <div
-                            key={idx}
-                            className={cn(
-                                "w-1.5 h-1.5 rounded-full transition-all",
-                                idx === currentImageIndex ? "bg-white w-3" : "bg-white/50"
-                            )}
-                        />
-                    ))}
-                </div>
-
-                <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full backdrop-blur-md z-10">
-                    {template.pages} Page{template.pages > 1 ? 's' : ''}
-                </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-5 flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                        {template.type}
-                    </span>
-                    <span className="text-sm font-bold text-foreground">
-                        {template.price}
-                    </span>
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                    {template.title}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    {template.description}
-                </p>
-                <div className="mt-auto flex flex-wrap gap-2">
-                    {template.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="text-[10px] px-2 py-1 rounded-md bg-secondary text-secondary-foreground">
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-            </div>
-        </motion.div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
     )
 }
+
+
 
 
