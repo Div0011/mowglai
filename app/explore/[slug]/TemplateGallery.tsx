@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
     Carousel,
@@ -8,7 +9,6 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
 
 interface TemplateGalleryProps {
     images: string[];
@@ -16,11 +16,29 @@ interface TemplateGalleryProps {
 }
 
 export default function TemplateGallery({ images, title }: TemplateGalleryProps) {
+    const [api, setApi] = useState<any>()
+    const [current, setCurrent] = useState(0)
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        if (!api) {
+            return
+        }
+
+        setCount(api.scrollSnapList().length)
+        setCurrent(api.selectedScrollSnap())
+
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap())
+        })
+    }, [api])
+
     if (!images || images.length === 0) return null;
 
     return (
         <div className="space-y-4">
             <Carousel
+                setApi={setApi}
                 opts={{
                     align: "start",
                     loop: true,
@@ -49,16 +67,22 @@ export default function TemplateGallery({ images, title }: TemplateGalleryProps)
                 {/* Navigation Arrows - Inside on Desktop */}
                 {images.length > 1 && (
                     <>
-                        <CarouselPrevious className="left-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all" />
-                        <CarouselNext className="right-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all" />
+                        <CarouselPrevious className="left-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all z-20" />
+                        <CarouselNext className="right-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all z-20" />
                     </>
                 )}
 
                 {/* Dots Indicator - Integrated Overlay */}
                 {images.length > 1 && (
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                         {images.map((_, idx) => (
-                            <div key={idx} className="w-1.5 h-1.5 rounded-full bg-white/50 data-[active=true]:bg-white data-[active=true]:scale-125 transition-all" />
+                            <button
+                                key={idx}
+                                onClick={() => api?.scrollTo(idx)}
+                                data-active={current === idx}
+                                className="w-1.5 h-1.5 rounded-full bg-white/50 data-[active=true]:bg-white data-[active=true]:scale-125 transition-all outline-none"
+                                aria-label={`Go to slide ${idx + 1}`}
+                            />
                         ))}
                     </div>
                 )}
