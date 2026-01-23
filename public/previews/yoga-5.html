@@ -1,96 +1,276 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogi Personal [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <title>Mowglai Sound | Resonance</title>
+    <meta name="description" content="Mowglai Sound Healing - Vibrational medicine and audio-visual meditation.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Work+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sound-dark': '#0f0b1a',
+                        'sound-purple': '#7c3aed',
+                        'sound-teal': '#2dd4bf',
+                        'sound-pink': '#f472b6',
+                    },
+                    fontFamily: {
+                        sans: ['Work Sans', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    },
+                    animation: {
+                        'wave': 'wave 4s ease-in-out infinite',
+                        'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        wave: {
+                            '0%, 100%': { transform: 'scaleY(0.5)' },
+                            '50%': { transform: 'scaleY(1.5)' },
+                        }
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #a855f7;
-            --bg: #050505;
-            --text: #ffffff;
-            --font-head: 'Montserrat', serif;
-            --font-body: 'Lora', sans-serif;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        .gradient-text {
+            background: linear-gradient(to right, #2dd4bf, #f472b6, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .spectrum-bar {
+            width: 4px;
+            background: linear-gradient(to top, #7c3aed, #f472b6);
+            border-radius: 999px;
+            animation: wave 1s ease-in-out infinite;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $299</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-sound-dark text-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Ambient Glow -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 bg-sound-dark">
+        <div
+            class="absolute top-[20%] left-[20%] w-[40vw] h-[40vw] bg-sound-purple/20 rounded-full blur-[120px] animate-pulse-slow">
+        </div>
+        <div class="absolute bottom-[20%] right-[20%] w-[40vw] h-[40vw] bg-sound-teal/20 rounded-full blur-[120px] animate-pulse-slow"
+            style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="#" class="text-xl font-display font-bold tracking-widest relative z-50">
+                Mowglai <span class="font-sans text-xs align-top opacity-50">freq</span>
+            </a>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="hidden md:flex gap-4 items-center group">
+                <span
+                    class="text-xs uppercase tracking-[0.2em] group-hover:text-sound-teal transition-colors">Menu</span>
+                <div class="space-y-1.5">
+                    <div class="w-8 h-px bg-white group-hover:w-6 transition-all"></div>
+                    <div class="w-8 h-px bg-white"></div>
+                    <div class="w-8 h-px bg-white group-hover:w-6 transition-all ml-auto"></div>
+                </div>
+            </button>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 8h16M4 16h16" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Yogi Personal</h1><img src="https://placehold.co/1200x800/fda4af/ffffff?text=Influencer" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu / Overlay -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-sound-dark/95 backdrop-blur-xl flex flex-col items-center justify-center space-y-12 font-display text-3xl"
+        x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-90"
+        x-transition:enter-end="opacity-100 scale-100">
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-8 right-8 text-xs font-sans uppercase tracking-[0.3em]">Close</button>
+
+        <a href="#sessions" @click="mobileMenuOpen = false" class="hover:text-sound-pink transition-colors">Sessions</a>
+        <a href="#frequencies" @click="mobileMenuOpen = false"
+            class="hover:text-sound-teal transition-colors">Frequencies</a>
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:text-sound-purple transition-colors">About</a>
+        <a href="#book" @click="mobileMenuOpen = false"
+            class="text-xs font-sans border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-sound-dark transition-colors">Book
+            Experience</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="h-screen flex items-center justify-center relative px-6">
+        <div class="text-center z-10">
+            <div class="font-mono text-xs text-sound-teal mb-8 tracking-[0.5em] uppercase">Vibrational Medicine</div>
+
+            <h1 class="text-5xl md:text-8xl font-display font-bold leading-tight mb-12 mix-blend-overlay">
+                TUNE YOUR <br> REALITY
+            </h1>
+
+            <!-- Audio Spectrogram Representation -->
+            <div class="h-24 flex items-center justify-center gap-1 mb-12">
+                <div class="spectrum-bar h-12" style="animation-delay: 0.1s"></div>
+                <div class="spectrum-bar h-16" style="animation-delay: 0.2s"></div>
+                <div class="spectrum-bar h-8" style="animation-delay: 0.3s"></div>
+                <div class="spectrum-bar h-20" style="animation-delay: 0.5s"></div>
+                <div class="spectrum-bar h-10" style="animation-delay: 0.1s"></div>
+                <div class="spectrum-bar h-24" style="animation-delay: 0.4s"></div>
+                <div class="spectrum-bar h-14" style="animation-delay: 0.2s"></div>
+                <div class="spectrum-bar h-6" style="animation-delay: 0.6s"></div>
+                <div class="spectrum-bar h-18" style="animation-delay: 0.3s"></div>
+                <div class="spectrum-bar h-12" style="animation-delay: 0.1s"></div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$299</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="flex justify-center gap-8">
+                <button
+                    class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-sound-dark transition-all group">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="ml-1">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+                <span class="flex items-center text-xs uppercase tracking-widest text-white/50">Listen to Preview</span>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Frequencies / Services -->
+    <section id="frequencies" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 432Hz -->
+                <div class="glass-panel p-10 rounded-3xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <div class="font-display text-4xl gradient-text mb-4">432 Hz</div>
+                    <h3 class="text-xl font-light mb-4">Nature's Balance</h3>
+                    <p class="text-white/40 text-sm leading-relaxed mb-8">
+                        Resonates with the frequency of the universe. Promotes deep relaxation and release of tension.
+                    </p>
+                    <div
+                        class="w-full h-px bg-white/10 group-hover:bg-gradient-to-r from-sound-teal to-sound-purple transition-all">
+                    </div>
+                </div>
+
+                <!-- 528Hz -->
+                <div
+                    class="glass-panel p-10 rounded-3xl hover:bg-white/5 transition-colors group cursor-pointer transform md:-translate-y-12">
+                    <div class="font-display text-4xl gradient-text mb-4">528 Hz</div>
+                    <h3 class="text-xl font-light mb-4">DNA Repair</h3>
+                    <p class="text-white/40 text-sm leading-relaxed mb-8">
+                        The miracle tone. Used to return human DNA to its original, perfect state. Increases energy.
+                    </p>
+                    <div
+                        class="w-full h-px bg-white/10 group-hover:bg-gradient-to-r from-sound-purple to-sound-pink transition-all">
+                    </div>
+                </div>
+
+                <!-- 639Hz -->
+                <div class="glass-panel p-10 rounded-3xl hover:bg-white/5 transition-colors group cursor-pointer">
+                    <div class="font-display text-4xl gradient-text mb-4">639 Hz</div>
+                    <h3 class="text-xl font-light mb-4">Connection</h3>
+                    <p class="text-white/40 text-sm leading-relaxed mb-8">
+                        Enhances communication, understanding, and tolerance. Reconnects relationships.
+                    </p>
+                    <div
+                        class="w-full h-px bg-white/10 group-hover:bg-gradient-to-r from-sound-pink to-sound-teal transition-all">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Yogi Personal</h2>
+    <!-- Experience / Visuals -->
+    <section id="sessions" class="py-32 bg-black relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+            <div class="order-2 md:order-1">
+                <div
+                    class="aspect-square relative rounded-full overflow-hidden border border-white/10 animate-[spin_60s_linear_infinite]">
+                    <img src="https://images.unsplash.com/photo-1533552084771-007f35bbf32d?q=80&w=2672&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-80 mix-blend-screen">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-sound-purple/40 to-sound-teal/40 mix-blend-color">
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-1 md:order-2">
+                <h2 class="text-4xl md:text-6xl font-display mb-8">IMMERSIVE <br> SESSIONS</h2>
+                <p class="text-white/60 mb-12 text-lg font-light leading-relaxed">
+                    Our studio combines high-fidelity spatial audio with generative visual projections.
+                    The result is a synesthetic experience that bypasses the thinking mind.
+                </p>
+
+                <div class="space-y-6">
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-sound-teal">
+                            01</div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-sm">Gong Bath</h4>
+                            <p class="text-xs text-white/40 mt-1">Saturdays 10 AM</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-sound-pink">
+                            02</div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-sm">Binaural Beats</h4>
+                            <p class="text-xs text-white/40 mt-1">Private Booking</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-sound-purple">
+                            03</div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-sm">Vocal Toning</h4>
+                            <p class="text-xs text-white/40 mt-1">Wednesdays 7 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="book" class="py-24 px-6 text-center">
+        <h2 class="font-display text-2xl mb-8">FIND YOUR FREQUENCY</h2>
+        <a href="#"
+            class="inline-block bg-gradient-to-r from-sound-teal via-sound-purple to-sound-pink text-white font-bold uppercase tracking-widest px-12 py-5 rounded-full hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all">
+            Book a Session
+        </a>
+
+        <div
+            class="mt-24 flex flex-col md:flex-row justify-center items-center gap-8 text-[10px] uppercase tracking-widest text-white/30">
+            <a href="#" class="hover:text-white transition-colors">Spotify</a>
+            <span>•</span>
+            <a href="#" class="hover:text-white transition-colors">Soundcloud</a>
+            <span>•</span>
+            <a href="#" class="hover:text-white transition-colors">Apple Music</a>
+        </div>
+
+        <div class="mt-8 text-[10px] text-white/20">
+            © 2025 Mowglai Sound. All rights reserved.
+        </div>
     </footer>
+
 </body>
+
 </html>

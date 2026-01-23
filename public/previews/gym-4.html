@@ -1,96 +1,340 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Trainer [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Training | Transform Your Life</title>
+    <meta name="description" content="Mowglai Training - Elite personal coaching and transformation experts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Teko:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-yellow': '#facc15',
+                        'brand-black': '#0a0a0a',
+                        'brand-gray': '#1f1f1f',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        display: ['Teko', 'sans-serif'],
+                    },
+                    skew: {
+                        '15': '15deg',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #a855f7;
-            --bg: #050505;
-            --text: #ffffff;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        .clip-polygon {
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .text-outline-yellow {
+            -webkit-text-stroke: 1px #facc15;
+            color: transparent;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $299</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-brand-black text-white font-sans antialiased selection:bg-brand-yellow selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-black/95 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-3xl font-display font-bold uppercase italic tracking-wide text-white">
+                Mowglai <span class="text-brand-yellow">Coach</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-bold uppercase text-sm tracking-wider">
+                <a href="#about" class="hover:text-brand-yellow transition-colors">About</a>
+                <a href="#programs" class="hover:text-brand-yellow transition-colors">Programs</a>
+                <a href="#results" class="hover:text-brand-yellow transition-colors">Results</a>
+                <a href="#start"
+                    class="bg-brand-yellow text-black px-6 py-2 skew-x-[-15deg] hover:bg-white transition-colors font-display text-xl tracking-wide">
+                    <span class="inline-block skew-x-[15deg]">Start Now</span>
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Personal Trainer</h1><img src="https://placehold.co/1200x800/34d399/ffffff?text=Trainer" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-brand-black flex flex-col items-center justify-center space-y-8 font-display text-4xl uppercase font-bold italic"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-full"
+        x-transition:enter-end="opacity-100 translate-x-0">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-6 right-6 text-brand-yellow text-xl font-sans not-italic">CLOSE</button>
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:text-brand-yellow">About</a>
+        <a href="#programs" @click="mobileMenuOpen = false" class="hover:text-brand-yellow">Programs</a>
+        <a href="#results" @click="mobileMenuOpen = false" class="hover:text-brand-yellow">Results</a>
+        <a href="#start" @click="mobileMenuOpen = false" class="text-brand-yellow">Start Now</a>
+    </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+    <!-- Hero -->
+    <header class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/80 to-transparent z-10 md:w-3/4">
+            </div>
+            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2669&auto=format&fit=crop"
+                class="w-full h-full object-cover object-center transform scale-110">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 w-full relative z-20 grid grid-cols-1 md:grid-cols-2">
+            <div>
+                <div
+                    class="inline-block border border-brand-yellow text-brand-yellow px-4 py-1 font-bold uppercase text-xs tracking-widest mb-6">
+                    Accepting New Clients
+                </div>
+                <h1 class="text-7xl md:text-9xl font-display font-bold uppercase italic leading-[0.85] mb-8">
+                    Build <br> <span class="text-brand-yellow">Muscle.</span> <br> <span class="text-outline">Burn
+                        Fat.</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-md mb-10 border-l-4 border-brand-yellow pl-6">
+                    Stop guessing. Start training with a science-based approach designed for your body type.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#start"
+                        class="bg-brand-yellow text-black px-10 py-5 font-display text-3xl font-bold uppercase italic skew-x-[-15deg] hover:bg-white transition-colors text-center shadow-[5px_5px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+                        <span class="inline-block skew-x-[15deg]">Apply for Coaching</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flying stats -->
+        <div class="absolute bottom-12 right-6 md:right-12 z-20 flex gap-8 md:gap-16">
+            <div>
+                <div class="text-5xl font-display font-bold text-white">500+</div>
+                <div class="text-xs text-brand-yellow uppercase tracking-widest font-bold">Lives Changed</div>
             </div>
             <div>
-                 <div style="font-size: 4rem;">$299</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+                <div class="text-5xl font-display font-bold text-white">100%</div>
+                <div class="text-xs text-brand-yellow uppercase tracking-widest font-bold">Results Guaranteed</div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Problems / Solutions -->
+    <section id="about" class="py-24 px-6 bg-brand-gray relative clip-polygon">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-brand-yellow"></div>
+                <img src="https://images.unsplash.com/photo-1596350553020-cefdd3a50bc7?q=80&w=2671&auto=format&fit=crop"
+                    class="w-full grayscale contrast-125">
+                <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-brand-yellow"></div>
+            </div>
+            <div>
+                <h2 class="text-5xl md:text-7xl font-display font-bold uppercase italic leading-none mb-8">
+                    You Don't Need <br> <span class="text-brand-yellow">Motivation.</span>
+                </h2>
+                <h3 class="text-2xl font-bold mb-6">You Need a System.</h3>
+                <p class="text-gray-400 leading-relaxed mb-8">
+                    Most people fail because they rely on willpower. My coaching builds discipline into your daily
+                    routine. We focus on sustainable habits, precision nutrition, and progressive overload.
+                </p>
+                <ul class="space-y-4 font-display text-xl uppercase tracking-wide">
+                    <li class="flex items-center gap-3">
+                        <span class="text-brand-yellow text-2xl">✓</span> Customized Training Blocks
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-brand-yellow text-2xl">✓</span> Macro-Based Nutrition
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-brand-yellow text-2xl">✓</span> 24/7 Form Support
+                    </li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Personal Trainer</h2>
+    <!-- Services / Programs -->
+    <section id="programs" class="py-32 px-6 bg-brand-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-brand-yellow font-bold uppercase tracking-widest mb-2">How We Work</h2>
+                <h3 class="text-5xl md:text-7xl font-display font-bold uppercase italic text-white">Choose Your Path
+                </h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Program 1 -->
+                <div
+                    class="border border-white/10 bg-brand-gray p-8 hover:border-brand-yellow transition-colors group relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 p-4 opacity-10 font-display font-bold text-9xl leading-none text-white group-hover:text-brand-yellow transition-colors">
+                        01</div>
+                    <div class="relative z-10">
+                        <h4 class="text-4xl font-display font-bold uppercase italic mb-4 text-white">1-on-1<br>Online
+                        </h4>
+                        <p class="text-gray-400 mb-8 h-20">Full individualized programming. Weekly check-ins. Daily
+                            accountability.</p>
+                        <div class="text-brand-yellow font-display text-3xl font-bold mb-6">$250<span
+                                class="text-sm text-gray-500 font-sans font-normal ml-1">/mo</span></div>
+                        <a href="#"
+                            class="inline-block border-b-2 border-brand-yellow text-white hover:text-brand-yellow uppercase font-bold tracking-widest text-xs pb-1">Apply
+                            Now</a>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div
+                    class="border-2 border-brand-yellow bg-brand-gray p-8 transform md:-translate-y-8 shadow-[0_0_30px_rgba(250,204,21,0.1)] relative overflow-hidden">
+                    <div
+                        class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-brand-yellow text-black font-bold uppercase text-[10px] px-3 py-1">
+                        Best Value</div>
+                    <div
+                        class="absolute top-0 right-0 p-4 opacity-10 font-display font-bold text-9xl leading-none text-brand-yellow">
+                        02</div>
+                    <div class="relative z-10">
+                        <h4 class="text-4xl font-display font-bold uppercase italic mb-4 text-brand-yellow">
+                            Hybrid<br>Coaching</h4>
+                        <p class="text-gray-400 mb-8 h-20">The perfect mix. Custom app programming + 1 monthly in-person
+                            session.</p>
+                        <div class="text-brand-yellow font-display text-3xl font-bold mb-6">$400<span
+                                class="text-sm text-gray-500 font-sans font-normal ml-1">/mo</span></div>
+                        <a href="#"
+                            class="inline-block bg-brand-yellow text-black px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors">Apply
+                            Now</a>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div
+                    class="border border-white/10 bg-brand-gray p-8 hover:border-brand-yellow transition-colors group relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 p-4 opacity-10 font-display font-bold text-9xl leading-none text-white group-hover:text-brand-yellow transition-colors">
+                        03</div>
+                    <div class="relative z-10">
+                        <h4 class="text-4xl font-display font-bold uppercase italic mb-4 text-white">Contest<br>Prep
+                        </h4>
+                        <p class="text-gray-400 mb-8 h-20">Extreme detail. Peaking protocols. Posing practice. Win the
+                            show.</p>
+                        <div class="text-brand-yellow font-display text-3xl font-bold mb-6">$600<span
+                                class="text-sm text-gray-500 font-sans font-normal ml-1">/mo</span></div>
+                        <a href="#"
+                            class="inline-block border-b-2 border-brand-yellow text-white hover:text-brand-yellow uppercase font-bold tracking-widest text-xs pb-1">Apply
+                            Now</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Results / Transformations -->
+    <section id="results" class="py-24 px-6 bg-brand-black border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl md:text-8xl font-display font-bold uppercase italic text-center mb-16">
+                Real <span class="text-outline-yellow">Results</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Result 1 -->
+                <div class="group relative overflow-hidden">
+                    <div class="grid grid-cols-2 gap-1">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full grayscale">
+                            <div
+                                class="absolute bottom-2 left-2 bg-black/50 text-white text-xs font-bold px-2 py-1 uppercase">
+                                Before</div>
+                        </div>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div
+                                class="absolute bottom-2 left-2 bg-brand-yellow text-black text-xs font-bold px-2 py-1 uppercase">
+                                After</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-display text-3xl font-bold uppercase italic">David S.</h3>
+                        <p class="text-brand-yellow font-bold text-sm mb-2">-30lbs Fat / +10lbs Muscle</p>
+                        <p class="text-gray-400 text-sm">"The system works. I never thought I could see my abs at 40."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Result 2 -->
+                <div class="group relative overflow-hidden mt-8 md:mt-0">
+                    <div class="grid grid-cols-2 gap-1">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full grayscale">
+                            <div
+                                class="absolute bottom-2 left-2 bg-black/50 text-white text-xs font-bold px-2 py-1 uppercase">
+                                Before</div>
+                        </div>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1549476464-62777227d899?q=80&w=2601&auto=format&fit=crop"
+                                class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div
+                                class="absolute bottom-2 left-2 bg-brand-yellow text-black text-xs font-bold px-2 py-1 uppercase">
+                                After</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-display text-3xl font-bold uppercase italic">Sarah J.</h3>
+                        <p class="text-brand-yellow font-bold text-sm mb-2">First Powerlifting Meet</p>
+                        <p class="text-gray-400 text-sm">"I added 100lbs to my total in 12 weeks. The programming was
+                            precise."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="start" class="py-24 px-6 bg-brand-gray border-t border-brand-yellow">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <a href="#"
+                    class="text-4xl font-display font-bold uppercase italic tracking-wide text-white block mb-4">
+                    Mowglai <span class="text-brand-yellow">Coach</span>
+                </a>
+                <p class="text-gray-500 text-sm max-w-md">
+                    Elite coaching for those who refuse to settle for average. <br>
+                    Application only. Limited spots available.
+                </p>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#"
+                    class="w-12 h-12 bg-black flex items-center justify-center text-gray-500 hover:bg-brand-yellow hover:text-black transition-colors font-display text-xl font-bold">IG</a>
+                <a href="#"
+                    class="w-12 h-12 bg-black flex items-center justify-center text-gray-500 hover:bg-brand-yellow hover:text-black transition-colors font-display text-xl font-bold">YT</a>
+                <a href="#"
+                    class="w-12 h-12 bg-black flex items-center justify-center text-gray-500 hover:bg-brand-yellow hover:text-black transition-colors font-display text-xl font-bold">TT</a>
+            </div>
+        </div>
+        <div class="text-center mt-16 text-gray-600 text-xs font-bold uppercase tracking-widest">
+            &copy; 2025 Mowglai Personal Training.
+        </div>
     </footer>
+
 </body>
+
 </html>

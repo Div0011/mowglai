@@ -1,101 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Architect [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Proza+Libre:wght@400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Arch | Structural Design</title>
+    <meta name="description" content="Mowglai Arch - Minimalist architecture and structural design.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Oswald:wght@200;300;400;500;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'arch-black': '#121212',
+                        'arch-gray': '#e5e5e5',
+                        'blueprint': '#0055ff',
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #334155;
-            --bg: #ffffff;
-            --text: #0f172a;
-            --font-head: 'Cormorant Garamond', serif;
-            --font-body: 'Proza Libre', sans-serif;
+        .blueprint-grid {
+            background-size: 40px 40px;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .text-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $699</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-white text-arch-black font-sans antialiased selection:bg-arch-black selection:text-white">
+
+    <!-- Grid Layout Lines (fixed) -->
+    <div
+        class="fixed inset-0 pointer-events-none z-0 flex justify-between px-6 md:px-12 max-w-[1600px] mx-auto opacity-20">
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
+        <div class="h-20 flex justify-between items-center px-6 md:px-12 max-w-[1600px] mx-auto">
+            <a href="#" class="text-2xl font-display font-medium tracking-tighter uppercase flex items-center gap-2">
+                <div class="w-4 h-4 bg-arch-black"></div>
+                Mowglai Arch
+            </a>
+
+            <div class="hidden md:flex gap-12 font-display text-sm tracking-widest uppercase font-medium">
+                <a href="#projects" class="hover:underline decoration-2 underline-offset-4">Projects</a>
+                <a href="#studio" class="hover:underline decoration-2 underline-offset-4">Studio</a>
+                <a href="#process" class="hover:underline decoration-2 underline-offset-4">Process</a>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <a href="#contact"
+                    class="hidden md:block border border-black px-6 py-2 font-display text-sm uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
+                    Inquire
+                </a>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M4 8h16M4 16h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Modern Architect</h1><img src="https://placehold.co/1200x800/6366f1/ffffff?text=Arch+Portfolio" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-white flex flex-col items-center justify-center space-y-8 font-display text-4xl uppercase tracking-tighter"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-6 right-6 text-sm font-sans tracking-widest">CLOSE</button>
+        <a href="#projects" @click="mobileMenuOpen = false">Projects</a>
+        <a href="#studio" @click="mobileMenuOpen = false">Studio</a>
+        <a href="#process" @click="mobileMenuOpen = false">Process</a>
+        <a href="#contact" @click="mobileMenuOpen = false">Contact</a>
+    </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+    <!-- Hero -->
+    <header class="pt-20 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen flex flex-col justify-end pb-24 relative">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-arch-gray/20 -z-10 hidden md:block"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+            <div class="md:col-span-8">
+                <h1 class="text-6xl md:text-9xl font-display font-bold uppercase leading-[0.85] tracking-tighter mb-8">
+                    Form Follows <br> <span class="text-transparent stroke-black"
+                        style="-webkit-text-stroke: 2px black;">Function.</span>
+                </h1>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$699</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+            <div class="md:col-span-4 flex flex-col justify-end">
+                <p class="text-sm md:text-base font-light leading-relaxed mb-8 max-w-xs ml-auto">
+                    We design spaces that breathe. Merging structural integrity with minimalist aesthetics to create
+                    timeless environments.
+                </p>
+                <div class="flex justify-end gap-2">
+                    <button
+                        class="w-12 h-12 border border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors">↓</button>
+                </div>
             </div>
-         </div>
+        </div>
+
+        <!-- Hero Image Overlay -->
+        <div
+            class="mt-12 w-full h-[50vh] md:h-[60vh] overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-1000">
+            <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=2670&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+
+            <!-- Technical Drawing Overlay -->
+            <div
+                class="absolute bottom-6 left-6 bg-white/90 p-4 border border-black font-mono text-[10px] uppercase tracking-widest">
+                <div>Project: brutal_01</div>
+                <div>Loc: Tokyo, JP</div>
+                <div>Status: Completed</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Projects Grid -->
+    <section id="projects" class="py-24 px-6 md:px-12 max-w-[1600px] mx-auto border-t border-black">
+        <div class="flex justify-between items-end mb-16">
+            <h2 class="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-1">Selected Works</h2>
+            <div class="text-4xl font-display font-light">2023 / 24</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+            <!-- Project 1 -->
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1511818966892-d55d52e1f653?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full aspect-[4/3] object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 border border-transparent group-hover:border-white/50 transition-colors p-4 flex justify-between items-start opacity-0 group-hover:opacity-100">
+                        <span class="bg-black text-white px-2 py-1 text-xs font-mono uppercase">Residential</span>
+                    </div>
+                </div>
+                <h3
+                    class="text-2xl font-display uppercase font-bold mb-1 group-hover:underline decoration-1 underline-offset-4">
+                    Concrete House</h3>
+                <p class="text-sm font-light text-gray-500">Berlin, Germany</p>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="group cursor-pointer md:mt-24">
+                <div class="relative overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop"
+                        class="w-full aspect-[4/3] object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 border border-transparent group-hover:border-white/50 transition-colors p-4 flex justify-between items-start opacity-0 group-hover:opacity-100">
+                        <span class="bg-black text-white px-2 py-1 text-xs font-mono uppercase">Corporate</span>
+                    </div>
+                </div>
+                <h3
+                    class="text-2xl font-display uppercase font-bold mb-1 group-hover:underline decoration-1 underline-offset-4">
+                    Vertex Tower</h3>
+                <p class="text-sm font-light text-gray-500">Seattle, USA</p>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="group cursor-pointer">
+                <div class="relative overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?q=80&w=2564&auto=format&fit=crop"
+                        class="w-full aspect-[4/3] object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 border border-transparent group-hover:border-white/50 transition-colors p-4 flex justify-between items-start opacity-0 group-hover:opacity-100">
+                        <span class="bg-black text-white px-2 py-1 text-xs font-mono uppercase">Public</span>
+                    </div>
+                </div>
+                <h3
+                    class="text-2xl font-display uppercase font-bold mb-1 group-hover:underline decoration-1 underline-offset-4">
+                    City Library</h3>
+                <p class="text-sm font-light text-gray-500">Oslo, Norway</p>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="group cursor-pointer md:mt-24">
+                <div class="relative overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full aspect-[4/3] object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 border border-transparent group-hover:border-white/50 transition-colors p-4 flex justify-between items-start opacity-0 group-hover:opacity-100">
+                        <span class="bg-black text-white px-2 py-1 text-xs font-mono uppercase">Interior</span>
+                    </div>
+                </div>
+                <h3
+                    class="text-2xl font-display uppercase font-bold mb-1 group-hover:underline decoration-1 underline-offset-4">
+                    Loft 94</h3>
+                <p class="text-sm font-light text-gray-500">New York, USA</p>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Modern Architect</h2>
+    <!-- Studio / Process -->
+    <section id="process" class="py-24 bg-arch-black text-white">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-4">
+                <h2 class="text-xs font-bold uppercase tracking-widest border border-white inline-block px-2 py-1 mb-8">
+                    The Process</h2>
+                <h3 class="text-4xl md:text-5xl font-display uppercase leading-tight mb-8">
+                    From Concept <br> to Concrete.
+                </h3>
+                <p class="text-gray-400 font-light leading-relaxed max-w-sm">
+                    Our approach is collaborative and rigorous. We believe that constraints drive creativity, and that
+                    every line drawn must have a purpose.
+                </p>
+            </div>
+
+            <div
+                class="md:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/20 pt-12 md:pt-0 md:border-t-0">
+                <!-- Step 1 -->
+                <div class="border-l border-white/20 pl-6 relative">
+                    <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div class="text-6xl font-display font-bold text-white/10 mb-4">01</div>
+                    <h4 class="text-xl font-display uppercase mb-2">Discovery</h4>
+                    <p class="text-sm text-gray-400">Site analysis, zoning research, and client vision workshops.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="border-l border-white/20 pl-6 relative">
+                    <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div class="text-6xl font-display font-bold text-white/10 mb-4">02</div>
+                    <h4 class="text-xl font-display uppercase mb-2">Schematic</h4>
+                    <p class="text-sm text-gray-400">Iterative sketching, 3D modeling, and material selection.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="border-l border-white/20 pl-6 relative">
+                    <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 bg-white rounded-full"></div>
+                    <div class="text-6xl font-display font-bold text-white/10 mb-4">03</div>
+                    <h4 class="text-xl font-display uppercase mb-2">Build</h4>
+                    <p class="text-sm text-gray-400">Construction documentation and on-site administration.</p>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Awards / Clients -->
+    <section class="py-24 px-6 md:px-12 max-w-[1600px] mx-auto border-b border-black">
+        <div
+            class="flex flex-col md:flex-row gap-12 items-center justify-between opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="font-display text-2xl font-bold uppercase">ArchDaily</div>
+            <div class="font-display text-2xl font-bold uppercase">Dezeen</div>
+            <div class="font-display text-2xl font-bold uppercase">Wallpaper*</div>
+            <div class="font-display text-2xl font-bold uppercase">Dwell</div>
+            <div class="font-display text-2xl font-bold uppercase">Frame</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="py-24 px-6 md:px-12 max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-7xl font-display font-bold uppercase leading-none mb-8 tracking-tighter">
+                    Let's Build <br> Something.
+                </h2>
+                <a href="mailto:studio@mowglai.com"
+                    class="text-xl hover:underline decoration-1 underline-offset-4">studio@mowglai.com</a>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 text-sm md:text-right font-display tracking-widest uppercase items-end">
+                <div>
+                    <p class="mb-2 text-gray-500">Address</p>
+                    <p>101 Grid Street<br>Unit 4B<br>London, UK</p>
+                </div>
+                <div>
+                    <p class="mb-2 text-gray-500">Social</p>
+                    <a href="#" class="block hover:underline">Instagram</a>
+                    <a href="#" class="block hover:underline">LinkedIn</a>
+                    <a href="#" class="block hover:underline">Pinterest</a>
+                </div>
+            </div>
+        </div>
+        <div
+            class="mt-24 pt-8 border-t border-black flex justify-between text-xs uppercase tracking-widest text-gray-500">
+            <p>© 2025 Mowglai Arch.</p>
+            <p>Structure &void.</p>
+        </div>
     </footer>
+
 </body>
+
 </html>

@@ -1,126 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rental Hub [Tier 3]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Eco | Sustainable Living</title>
+    <meta name="description" content="Mowglai Eco-Living - Carbon neutral homes for the modern minimalist.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-            const cursor = document.createElement('div');
-            cursor.classList.add('cursor');
-            document.body.appendChild(cursor);
-            document.addEventListener('mousemove', e => { 
-                cursor.style.left = e.clientX + 'px'; 
-                cursor.style.top = e.clientY + 'px'; 
-            });
-            document.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
-        
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #eff6ff;
-            --text: #1e3a8a;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-moss': '#3f5938',
+                        'eco-sage': '#9caf88',
+                        'eco-clay': '#d9ccc1',
+                        'eco-cream': '#f2efe9',
+                        'eco-bark': '#2c2520',
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Fraunces', 'serif'],
+                    },
+                    borderRadius: {
+                        'organic': '40% 60% 70% 30% / 40% 50% 60% 50%',
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 60px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: var(--text); mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            body { cursor: none; }
-            .cursor { position: fixed; width: 20px; height: 20px; border: 1px solid var(--text); border-radius: 50%; pointer-events: none; z-index: 99999; transition: transform 0.1s; transform: translate(-50%, -50%); mix-blend-mode: difference; }
-            .cursor.hovered { transform: translate(-50%, -50%) scale(2.5); background: var(--text); }
-            
-            .loader { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 5rem; animation: slideUp 1s 1.5s forwards; }
-            @keyframes slideUp { to { transform: translateY(-100%); } }
-            
-            h1 { font-size: 8rem; line-height: 0.9; }
-            .reveal-text span { display: inline-block; transform: translateY(100%); animation: reveal 0.8s forwards; }
-            @keyframes reveal { to { transform: translateY(0); } }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-             .hero { align-items: flex-end; padding-bottom: 100px; }
-             .asym-img { position: absolute; top:0; right:0; width: 60%; height: 80%; object-fit: cover; z-index: -1; }
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    <div class="loader">MOWGLAI</div>
-    <div class="tier-badge">TIER 3 • $999</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-eco-cream text-eco-bark font-sans antialiased selection:bg-eco-moss selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-eco-cream/80 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <a href="#" class="text-xl font-serif italic font-light tracking-wide flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-eco-moss"></span>
+                mowglaieco
+            </a>
+
+            <div class="hidden md:flex gap-8 text-sm font-medium tracking-wide">
+                <a href="#projects" class="hover:text-eco-moss transition-colors">Residences</a>
+                <a href="#philosophy" class="hover:text-eco-moss transition-colors">Philosophy</a>
+                <a href="#impact" class="hover:text-eco-moss transition-colors">Environmental Impact</a>
+                <a href="#contact" class="hover:text-eco-moss transition-colors">Inquire</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 8h16M4 16h16" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                 <img src="https://placehold.co/1200x800/818cf8/ffffff?text=Rental+App" class="asym-img">
-                 <h1 class="animate reveal-text" style="mix-blend-mode: difference; color: white;"><span style="display:inline-block">Rental&nbsp;</span><span style="display:inline-block">Hub&nbsp;</span></h1>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-eco-bark text-eco-cream flex flex-col items-center justify-center space-y-8 font-serif text-3xl italic"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-8 right-8 text-sm font-sans not-italic uppercase tracking-widest">Close</button>
+        <a href="#projects" @click="mobileMenuOpen = false">Residences</a>
+        <a href="#philosophy" @click="mobileMenuOpen = false">Philosophy</a>
+        <a href="#impact" @click="mobileMenuOpen = false">Impact</a>
+        <a href="#contact" @click="mobileMenuOpen = false">Inquire</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="pt-32 pb-20 px-6 min-h-screen flex items-center relative overflow-hidden">
+        <!-- Organic Shapes -->
+        <div class="absolute top-0 right-0 w-[50vh] h-[50vh] bg-eco-sage/20 rounded-full blur-[100px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-[60vh] h-[60vh] bg-eco-clay/30 rounded-full blur-[100px] -z-10"></div>
+
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1">
+                <h1 class="text-6xl md:text-8xl font-serif font-light leading-[0.9] text-eco-bark mb-8">
+                    Living <br>
+                    <span class="italic text-eco-moss">In Harmony</span> <br>
+                    With Nature.
+                </h1>
+                <p class="text-gray-600 text-lg md:text-xl font-light leading-relaxed mb-10 max-w-md">
+                    Carbon-neutral sanctuaries designed for disconnection.
+                    Built with rammed earth, reclaimed timber, and honest light.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#projects"
+                        class="bg-eco-bark text-eco-cream px-8 py-4 rounded-full font-medium hover:bg-eco-moss transition-all hover:scale-105">
+                        Explore Properties
+                    </a>
+                    <a href="#philosophy"
+                        class="group flex items-center gap-2 px-6 py-4 rounded-full hover:bg-white transition-all">
+                        <div
+                            class="w-8 h-8 rounded-full border border-eco-bark flex items-center justify-center group-hover:bg-eco-bark group-hover:border-transparent group-hover:text-eco-cream transition-all">
+                            ↓</div>
+                        <span class="text-sm font-medium">Read Manifesto</span>
+                    </a>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 3 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is an Ultra-Luxury template designed for industry leaders. It features experimental interactions, custom cursors, and immersive typography.</p>
+            <div class="order-1 lg:order-2 relative">
+                <div class="aspect-[3/4] rounded-[100px_0_100px_0] overflow-hidden shadow-2xl relative z-10">
+                    <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover">
+                </div>
+                <!-- Floating elements -->
+                <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-[30px] shadow-xl z-20 max-w-xs">
+                    <p class="font-serif italic text-xl mb-2">"The Forest House"</p>
+                    <div class="flex gap-4 text-xs font-bold uppercase tracking-widest text-gray-400">
+                        <span>3 Bed</span>
+                        <span>Solar</span>
+                        <span>Rainwater</span>
+                    </div>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$999</div>
-                 <div style="opacity: 0.5;">One-time license</div>
-            </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Philosophy -->
+    <section id="philosophy" class="py-32 px-6 bg-eco-bark text-eco-cream">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-px h-24 bg-eco-cream/20 mx-auto mb-12"></div>
+            <h2 class="font-serif text-3xl md:text-5xl font-light italic mb-8 leading-snug">
+                "We believe that architecture should be a bridge between oneself and the land. Not a box that separates,
+                but a lens that focuses."
+            </h2>
+            <p class="text-eco-cream/60 font-mono text-xs uppercase tracking-widest">
+                MOWGLAI ARCHITECTS, EST. 2024
+            </p>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 6rem; margin-bottom: 20px;">Rental Hub</h2>
+    <!-- Projects -->
+    <section id="projects" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-20">
+                <h2 class="text-4xl md:text-6xl font-serif font-light text-eco-bark">Available <span
+                        class="italic text-eco-moss">Sanctuaries</span></h2>
+                <a href="#"
+                    class="hidden md:block underline underline-offset-4 decoration-1 text-sm font-bold uppercase tracking-widest hover:text-eco-moss transition-colors">View
+                    Map</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+
+                <!-- Project 1 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden mb-8 rounded-[40px] aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2565&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute top-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-eco-bark">
+                            Sold Out</div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-3xl font-serif font-light mb-2">The Dune Retreat</h3>
+                            <p class="text-gray-500 font-light">Mojave Desert, California</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xl font-serif">$2.4m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="group cursor-pointer md:mt-32">
+                    <div class="relative overflow-hidden mb-8 rounded-[40px] aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=2680&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute top-6 left-6 bg-eco-moss text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest">
+                            Available</div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-3xl font-serif font-light mb-2">Rainforest Cabin</h3>
+                            <p class="text-gray-500 font-light">Olympic Peninsula, Washington</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xl font-serif">$1.8m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden mb-8 rounded-[40px] aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute top-6 left-6 bg-eco-moss text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest">
+                            Available</div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-3xl font-serif font-light mb-2">Alpine A-Frame</h3>
+                            <p class="text-gray-500 font-light">Zermatt, Switzerland</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xl font-serif">$3.1m</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Impact -->
+    <section id="impact" class="py-32 px-6 bg-eco-sage/10 relative overflow-hidden">
+        <!-- decorative leaves -->
+        <div class="absolute -top-12 -left-12 w-64 h-64 bg-eco-moss/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-eco-sage/20 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2">
+                <span class="text-eco-moss font-bold text-xs uppercase tracking-widest mb-4 block">Sustainable by
+                    Design</span>
+                <h2 class="text-5xl md:text-6xl font-serif italic mb-8 text-eco-bark">Zero Footprint. <br> Full Impact.
+                </h2>
+                <div class="accordion space-y-4">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h4 class="font-bold text-lg mb-2 text-eco-bark">Material Honest</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">We strictly use non-toxic, locally sourced, and
+                            renewable materials. No plastics, no VOCs.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h4 class="font-bold text-lg mb-2 text-eco-bark">Energy Positive</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Every home generates more power than it
+                            consumes through passive solar design and advanced photovoltaics.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                <img src="https://images.unsplash.com/photo-1582234551720-30238e83b1a2?q=80&w=2574&auto=format&fit=crop"
+                    class="rounded-[40px_10px_40px_10px] w-full h-64 object-cover">
+                <img src="https://images.unsplash.com/photo-1595837340623-1463e27a93a5?q=80&w=2574&auto=format&fit=crop"
+                    class="rounded-[10px_40px_10px_40px] w-full h-64 object-cover mt-8">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <footer id="contact" class="pt-32 pb-12 px-6 bg-eco-clay text-eco-bark">
+        <div class="max-w-5xl mx-auto text-center mb-24">
+            <h2 class="text-5xl md:text-8xl font-serif font-light mb-12">Return to <span
+                    class="italic text-white">Earth.</span></h2>
+            <a href="#"
+                class="inline-block bg-eco-bark text-eco-cream px-10 py-5 rounded-full text-lg font-medium hover:bg-white hover:text-eco-bark transition-all shadow-xl hover:shadow-2xl">
+                Schedule a Private Viewing
+            </a>
+        </div>
+
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm font-medium border-t border-black/5 pt-8">
+            <p>&copy; 2025 Mowglai Eco-Living.</p>
+            <div class="flex gap-8 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Pinterest</a>
+                <a href="#" class="hover:text-white transition-colors">Email</a>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

@@ -1,104 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <title>Mowglai Minimalist</title>
+    <meta name="description" content="Mowglai Minimalist - Less is more.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'min-black': '#050505',
+                        'min-gray': '#e5e5e5',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #334155;
-            --bg: #ffffff;
-            --text: #0f172a;
-            --font-head: 'Montserrat', serif;
-            --font-body: 'Lora', sans-serif;
+        .hover-reveal {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transition: clip-path 0.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        .hover-reveal-hidden {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-             .hero { justify-content: center; text-align: center; flex-direction: column; }
-             .hero-img-wrap { width: 70%; height: 60vh; overflow: hidden; margin-top: 40px; }
-             .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .group:hover .hover-reveal-hidden {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $299</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body class="bg-white text-min-black font-sans antialiased selection:bg-min-black selection:text-white">
+
+    <!-- Grid Lines (Decorative) -->
+    <div class="fixed inset-0 pointer-events-none z-0 flex justify-between px-6 md:px-12 opacity-5">
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+        <div class="w-px h-full bg-black"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-sm border-b border-black/5">
+        <div class="h-20 flex justify-between items-center px-6 md:px-12 max-w-[1920px] mx-auto">
+            <a href="#" class="text-xl font-display font-bold tracking-widest uppercase">
+                Mowglai<span class="text-xs align-top">®</span>
+            </a>
+
+            <div class="hidden md:flex gap-12 font-medium text-xs tracking-[0.2em] uppercase">
+                <a href="#work"
+                    class="hover:line-through decoration-1 text-black/50 hover:text-black transition-all">Work</a>
+                <a href="#about"
+                    class="hover:line-through decoration-1 text-black/50 hover:text-black transition-all">Studio</a>
+                <a href="#contact"
+                    class="hover:line-through decoration-1 text-black/50 hover:text-black transition-all">Contact</a>
+            </div>
+
+            <button class="md:hidden">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-             <div class="hero">
-                <h1 class="animate ">Minimalist</h1>
-                <div class="hero-img-wrap animate"><img src="https://placehold.co/1200x800/a855f7/ffffff?text=Minimal+Port"></div>
-            </div>
+    <!-- Hero -->
+    <header class="relative pt-40 pb-24 px-6 md:px-12 max-w-[1920px] mx-auto min-h-[80vh] flex flex-col justify-center">
+        <div class="max-w-6xl">
+            <h1
+                class="text-5xl md:text-8xl lg:text-9xl font-display font-bold uppercase leading-[0.9] tracking-tighter mb-12">
+                Digital <br> <span class="text-transparent stroke-black"
+                    style="-webkit-text-stroke: 2px black; color: transparent;">Architects</span> <br> of the Future
+            </h1>
+            <p class="text-lg text-black/60 max-w-xl leading-relaxed font-light">
+                We strip away the non-essential to reveal the core truth of your brand. Minimalism is not a style, it is
+                an attitude.
+            </p>
+        </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+        <div class="absolute bottom-12 right-12 hidden md:block animate-spin-slow">
+            <svg viewBox="0 0 100 100" width="120" height="120">
+                <path id="curve" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
+                <text class="text-[10px] font-bold uppercase tracking-widest">
+                    <textPath xlink:href="#curve">
+                        Scroll to Explore • Scroll to Explore •
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Selected Work -->
+    <section id="work" class="py-24 px-6 md:px-12 border-t border-black">
+        <div class="flex flex-col md:flex-row justify-between mb-16 items-start md:items-end">
+            <h2 class="text-xs font-bold uppercase tracking-[0.2em] mb-4 md:mb-0">(01) Selected Work</h2>
+            <div class="text-right hidden md:block">
+                <p class="text-4xl font-display">2023 — 2025</p>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$299</div>
-                 <div style="opacity: 0.5;">One-time license</div>
-            </div>
-         </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+            <!-- Project 1 -->
+            <a href="#" class="group block relative">
+                <div
+                    class="w-full aspect-[4/5] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-gray-100 mb-6">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="flex justify-between items-baseline border-b border-black pb-4">
+                    <h3 class="text-3xl font-display uppercase group-hover:italic transition-all">Aesop</h3>
+                    <span class="text-xs uppercase tracking-widest">E-Commerce</span>
+                </div>
+            </a>
+
+            <!-- Project 2 (Offset) -->
+            <a href="#" class="group block relative md:mt-32">
+                <div
+                    class="w-full aspect-[4/5] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-gray-100 mb-6">
+                    <img src="https://images.unsplash.com/photo-1545231027-637d2f6210f8?q=80&w=2710&auto=format&fit=crop"
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="flex justify-between items-baseline border-b border-black pb-4">
+                    <h3 class="text-3xl font-display uppercase group-hover:italic transition-all">Olo</h3>
+                    <span class="text-xs uppercase tracking-widest">Branding</span>
+                </div>
+            </a>
+
+            <!-- Project 3 -->
+            <a href="#" class="group block relative">
+                <div
+                    class="w-full aspect-square overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-gray-100 mb-6">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2600&auto=format&fit=crop"
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="flex justify-between items-baseline border-b border-black pb-4">
+                    <h3 class="text-3xl font-display uppercase group-hover:italic transition-all">Mono</h3>
+                    <span class="text-xs uppercase tracking-widest">Architecture</span>
+                </div>
+            </a>
+
+            <!-- Project 4 -->
+            <a href="#" class="group block relative md:mt-32">
+                <div
+                    class="w-full aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-gray-100 mb-6">
+                    <img src="https://images.unsplash.com/photo-1620619767323-b95a89183081?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="flex justify-between items-baseline border-b border-black pb-4">
+                    <h3 class="text-3xl font-display uppercase group-hover:italic transition-all">Type</h3>
+                    <span class="text-xs uppercase tracking-widest">Type Design</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="mt-24 text-center">
+            <a href="#"
+                class="inline-block border border-black px-12 py-4 text-xs font-bold uppercase tracking-[0.3em] hover:bg-black hover:text-white transition-colors">View
+                All Projects</a>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Minimalist</h2>
+    <!-- Services / List -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-min-black text-white">
+        <div class="max-w-[1920px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div class="md:col-span-1">
+                <h2 class="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-white/50">(02) What We Do</h2>
+                <p class="text-2xl font-light leading-relaxed max-w-sm">
+                    We are a multidisciplinary design studio focused on creating timeless digital experiences.
+                </p>
+            </div>
+
+            <div class="md:col-span-2">
+                <ul class="border-t border-white/20">
+                    <li
+                        class="group border-b border-white/20 py-8 flex justify-between items-center cursor-pointer hover:bg-white hover:text-black transition-colors px-4 -mx-4">
+                        <span class="text-4xl md:text-5xl font-display uppercase">Strategy</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </li>
+                    <li
+                        class="group border-b border-white/20 py-8 flex justify-between items-center cursor-pointer hover:bg-white hover:text-black transition-colors px-4 -mx-4">
+                        <span class="text-4xl md:text-5xl font-display uppercase">Branding</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </li>
+                    <li
+                        class="group border-b border-white/20 py-8 flex justify-between items-center cursor-pointer hover:bg-white hover:text-black transition-colors px-4 -mx-4">
+                        <span class="text-4xl md:text-5xl font-display uppercase">Development</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </li>
+                    <li
+                        class="group border-b border-white/20 py-8 flex justify-between items-center cursor-pointer hover:bg-white hover:text-black transition-colors px-4 -mx-4">
+                        <span class="text-4xl md:text-5xl font-display uppercase">Art Direction</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="py-24 px-6 md:px-12 border-t border-black flex flex-col justify-between min-h-[50vh]">
+        <div>
+            <h2 class="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-black/50">(03) Contact</h2>
+            <a href="mailto:hello@mowglai.com"
+                class="text-5xl md:text-7xl lg:text-9xl font-display font-bold uppercase hover:text-transparent hover:stroke-black hover:italic transition-all duration-300"
+                style="word-break: break-all;">
+                hello@<br>mowglai.com
+            </a>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-end mt-24 gap-8">
+            <div class="flex gap-8 text-xs font-bold uppercase tracking-[0.2em]">
+                <a href="#" class="hover:line-through">Instagram</a>
+                <a href="#" class="hover:line-through">LinkedIn</a>
+                <a href="#" class="hover:line-through">Twitter</a>
+            </div>
+
+            <div class="text-xs text-black/40 uppercase tracking-widest text-right">
+                <p>&copy; 2025 Mowglai Minimalist.</p>
+                <p>Designed in Zurich.</p>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

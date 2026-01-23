@@ -1,108 +1,296 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Dev | Terminal</title>
+    <meta name="description" content="Mowglai Developer Portfolio - A retro terminal themed portfolio for engineers.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=VT323&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'term-bg': '#1e1e1e',
+                        'term-fg': '#d4d4d4',
+                        'term-blue': '#569cd6',
+                        'term-orange': '#ce9178',
+                        'term-green': '#6a9955',
+                        'term-yellow': '#dcdcaa',
+                        'term-purple': '#c586c0',
+                        'term-cursor': '#cccccc',
+                    },
+                    fontFamily: {
+                        mono: ['Fira Code', 'mnonospace'],
+                        retro: ['VT323', 'monospace'],
+                    },
+                    boxShadow: {
+                        'window': '0 0 20px rgba(0,0,0,0.5)',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #eff6ff;
-            --text: #1e3a8a;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        .blink {
+            animation: blink 1s step-end infinite;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        @keyframes blink {
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+            0%,
+            100% {
+                opacity: 1;
+            }
 
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
+            50% {
+                opacity: 0;
+            }
+        }
 
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/d8b4fe/ffffff?text=Dev+Profile') center/cover; }
-         
-         
-         
-    
+        .line-numbers {
+            counter-reset: line;
+        }
+
+        .line-numbers>div {
+            counter-increment: line;
+            display: flex;
+        }
+
+        .line-numbers>div::before {
+            content: counter(line);
+            color: #858585;
+            width: 30px;
+            text-align: right;
+            margin-right: 20px;
+            font-size: 0.8rem;
+            user-select: none;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $349</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
-    </nav>
+<body x-data="{ mobileMenuOpen: false, currentFile: 'home.tsx' }"
+    class="bg-[#121212] text-term-fg font-mono antialiased min-h-screen flex items-center justify-center p-4 md:p-8 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')]">
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Developer</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Code focused portfolio.</p>
-                    <a href="#" class="btn animate">Explore</a>
-                </div>
-                <div class="split-r"></div>
+    <!-- IDE Window -->
+    <div
+        class="w-full max-w-6xl h-[90vh] bg-term-bg rounded-lg shadow-window flex flex-col overflow-hidden border border-[#333]">
+
+        <!-- Title Bar -->
+        <div class="h-10 bg-[#2d2d2d] flex items-center px-4 justify-between select-none">
+            <div class="flex gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/80 cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-[#ffbd2e] hover:bg-[#ffbd2e]/80 cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-[#27c93f] hover:bg-[#27c93f]/80 cursor-pointer"></div>
             </div>
-
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
-            </div>
-            <div>
-                 <div style="font-size: 4rem;">$349</div>
-                 <div style="opacity: 0.5;">One-time license</div>
-            </div>
-         </div>
-    </section>
-
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Developer</h2>
+            <div class="text-sm text-[#858585] font-sans">mowglai-dev — -zsh — 80x24</div>
+            <div class="w-10"></div> <!-- spacer -->
         </div>
-        <div>&copy; 2025</div>
-    </footer>
+
+        <!-- Main Content Area -->
+        <div class="flex-grow flex flex-col md:flex-row overflow-hidden">
+
+            <!-- Sidebar (Activity Bar + Explorer) -->
+            <div class="w-full md:w-64 bg-[#252526] flex flex-col border-r border-[#1e1e1e]">
+                <div class="px-4 py-2 text-xs uppercase font-bold tracking-widest text-[#858585] mt-4">Explorer</div>
+                <div class="flex-grow overflow-y-auto py-2">
+                    <button @click="currentFile = 'home.tsx'; mobileMenuOpen = false"
+                        :class="{'bg-[#37373d] text-white': currentFile === 'home.tsx'}"
+                        class="w-full text-left px-4 py-1 flex items-center gap-2 hover:bg-[#2a2d2e] hover:text-white transition-colors">
+                        <span class="text-term-blue">TSX</span> home.tsx
+                    </button>
+                    <button @click="currentFile = 'about.md'; mobileMenuOpen = false"
+                        :class="{'bg-[#37373d] text-white': currentFile === 'about.md'}"
+                        class="w-full text-left px-4 py-1 flex items-center gap-2 hover:bg-[#2a2d2e] hover:text-white transition-colors">
+                        <span class="text-term-yellow">MD</span> about.md
+                    </button>
+                    <button @click="currentFile = 'projects.json'; mobileMenuOpen = false"
+                        :class="{'bg-[#37373d] text-white': currentFile === 'projects.json'}"
+                        class="w-full text-left px-4 py-1 flex items-center gap-2 hover:bg-[#2a2d2e] hover:text-white transition-colors">
+                        <span class="text-term-orange">JSON</span> projects.json
+                    </button>
+                    <button @click="currentFile = 'contact.css'; mobileMenuOpen = false"
+                        :class="{'bg-[#37373d] text-white': currentFile === 'contact.css'}"
+                        class="w-full text-left px-4 py-1 flex items-center gap-2 hover:bg-[#2a2d2e] hover:text-white transition-colors">
+                        <span class="text-term-blue">CSS</span> contact.css
+                    </button>
+                </div>
+
+                <!-- Git Status -->
+                <div
+                    class="px-4 py-2 text-xs flex justify-between items-center text-[#858585] border-t border-[#1e1e1e]">
+                    <div>master*</div>
+                    <div><span class="text-term-blue">↻</span></div>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="flex-grow bg-term-bg overflow-y-auto relative custom-scrollbar">
+
+                <!-- Tabs -->
+                <div class="h-9 bg-[#2d2d2d] flex overflow-x-auto no-scrollbar">
+                    <button @click="currentFile = 'home.tsx'"
+                        :class="{'bg-[#1e1e1e] border-t-2 border-term-blue': currentFile === 'home.tsx'}"
+                        class="px-4 flex items-center gap-2 text-sm border-r border-[#1e1e1e] hover:bg-[#1e1e1e] transition-colors whitespace-nowrap">
+                        <span class="text-term-blue">TSX</span> home.tsx
+                    </button>
+                    <button @click="currentFile = 'about.md'"
+                        :class="{'bg-[#1e1e1e] border-t-2 border-term-yellow': currentFile === 'about.md'}"
+                        class="px-4 flex items-center gap-2 text-sm border-r border-[#1e1e1e] hover:bg-[#1e1e1e] transition-colors whitespace-nowrap">
+                        <span class="text-term-yellow">MD</span> about.md
+                    </button>
+                    <!-- other tabs hidden for mobile aesthetics but clickable in sidebar -->
+                </div>
+
+                <!-- Code Content: Home -->
+                <div x-show="currentFile === 'home.tsx'"
+                    class="p-4 md:p-8 line-numbers font-mono text-sm md:text-base leading-relaxed">
+                    <div><span class="text-term-purple">import</span> React <span class="text-term-purple">from</span>
+                        <span class="text-term-orange">'react'</span>;</div>
+                    <div><span class="text-term-purple">import</span> { motion } <span
+                            class="text-term-purple">from</span> <span class="text-term-orange">'framer-motion'</span>;
+                    </div>
+                    <div>&nbsp;</div>
+                    <div><span class="text-term-blue">export default</span> <span class="text-term-blue">function</span>
+                        <span class="text-term-yellow">Portfolio</span>() {</div>
+                    <div>&nbsp;&nbsp;<span class="text-term-blue">return</span> (</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="text-term-blue">div</span> className=<span
+                            class="text-term-orange">"hero-container"</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="text-term-blue">h1</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hello, I'm <span
+                            class="text-term-green">Mowglai</span></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="text-term-blue">span</span>
+                        className=<span class="text-term-orange">"cursor"</span>&gt;_&lt;/<span
+                            class="text-term-blue">span</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="text-term-blue">h1</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="text-term-blue">p</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Full Stack Engineer building digital
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;experiences that matter.</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="text-term-blue">p</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="text-term-yellow">Button</span>
+                        onClick={() => <span class="text-term-yellow">scrollTo</span>(<span
+                            class="text-term-orange">'projects'</span>)}&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Work</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="text-term-yellow">Button</span>&gt;</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="text-term-blue">div</span>&gt;</div>
+                    <div>&nbsp;&nbsp;);</div>
+                    <div>}</div>
+                </div>
+
+                <!-- Code Content: About -->
+                <div x-show="currentFile === 'about.md'"
+                    class="p-4 md:p-8 line-numbers font-mono text-sm md:text-base leading-relaxed"
+                    style="display: none;">
+                    <div><span class="text-term-blue"># About Me</span></div>
+                    <div>&nbsp;</div>
+                    <div>I am a creative technologist based in <span
+                            class="text-term-orange inline-block hover:underline cursor-pointer">San Francisco</span>.
+                    </div>
+                    <div>Specializing in high-performance web applications</div>
+                    <div>and immersive 3D interfaces.</div>
+                    <div>&nbsp;</div>
+                    <div><span class="text-term-blue">## Tech Stack</span></div>
+                    <div>- TypeScript / Node.js</div>
+                    <div>- React / Next.js</div>
+                    <div>- Rust / WebAssembly</div>
+                    <div>- Postgres / Redis</div>
+                    <div>&nbsp;</div>
+                    <div><span class="text-term-blue">## Philosophy</span></div>
+                    <div><span class="text-term-green">&gt; Clean code is not just a practice,</span></div>
+                    <div><span class="text-term-green">&gt; it is a mindset.</span></div>
+                </div>
+
+                <!-- Code Content: Projects -->
+                <div x-show="currentFile === 'projects.json'"
+                    class="p-4 md:p-8 line-numbers font-mono text-sm md:text-base leading-relaxed"
+                    style="display: none;">
+                    <div>[</div>
+                    <div>&nbsp;&nbsp;{</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"id"</span>: <span
+                            class="text-term-green">1</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"name"</span>: <span
+                            class="text-term-orange">"Project Nebula"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"tech"</span>: [<span
+                            class="text-term-orange">"WebGL"</span>, <span class="text-term-orange">"Three.js"</span>],
+                    </div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"status"</span>: <span
+                            class="text-term-orange">"Live"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"link"</span>: <span
+                            class="text-term-orange">"#"</span></div>
+                    <div>&nbsp;&nbsp;},</div>
+                    <div>&nbsp;&nbsp;{</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"id"</span>: <span
+                            class="text-term-green">2</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"name"</span>: <span
+                            class="text-term-orange">"DeFi Dashboard"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"tech"</span>: [<span
+                            class="text-term-orange">"Solidity"</span>, <span class="text-term-orange">"Ethers"</span>],
+                    </div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"status"</span>: <span
+                            class="text-term-orange">"In Progress"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-term-blue">"link"</span>: <span
+                            class="text-term-orange">"#"</span></div>
+                    <div>&nbsp;&nbsp;}</div>
+                    <div>]</div>
+                </div>
+
+                <!-- Code Content: Contact -->
+                <div x-show="currentFile === 'contact.css'"
+                    class="p-4 md:p-8 line-numbers font-mono text-sm md:text-base leading-relaxed"
+                    style="display: none;">
+                    <div><span class="text-term-yellow">.social-links</span> {</div>
+                    <div>&nbsp;&nbsp;<span class="text-term-blue">display</span>: <span
+                            class="text-term-orange">flex</span>;</div>
+                    <div>&nbsp;&nbsp;<span class="text-term-blue">gap</span>: <span class="text-term-green">2rem</span>;
+                    </div>
+                    <div>}</div>
+                    <div>&nbsp;</div>
+                    <div><span class="text-term-yellow">.email</span>:<span class="text-term-yellow">hover</span> {
+                    </div>
+                    <div>&nbsp;&nbsp;<span class="text-term-blue">color</span>: <span
+                            class="text-term-orange">#ff5f56</span>;</div>
+                    <div>&nbsp;&nbsp;<span class="text-term-blue">cursor</span>: <span
+                            class="text-term-orange">pointer</span>;</div>
+                    <div>}</div>
+                    <div>&nbsp;</div>
+                    <div><span class="text-term-green">/* Send me a message */</span></div>
+                    <div><span class="text-term-green">/* hello@mowglai.dev */</span></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Status Bar -->
+        <div class="h-6 bg-[#007acc] text-white flex items-center justify-between px-4 text-xs select-none">
+            <div class="flex gap-4">
+                <div class="flex items-center gap-1"><span class="font-bold">⊗</span> 0</div>
+                <div class="flex items-center gap-1"><span class="font-bold">⚠</span> 0</div>
+            </div>
+            <div class="flex gap-4">
+                <div>Ln 12, Col 48</div>
+                <div>UTF-8</div>
+                <div>TypeScript React</div>
+                <div><span class="font-bold">Prettier</span></div>
+                <div class="cursor-pointer hover:bg-white/20 px-2 rounded">
+                    <span class="font-bold">⚡ Go Live</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Badge (Float) -->
+    <div class="fixed bottom-4 right-4 bg-term-bg border border-[#333] p-4 rounded shadow-2xl z-50 animate-bounce">
+        <div class="text-xs text-[#858585] mb-2">TRY IT</div>
+        <div class="text-sm font-bold text-white">Click sidebar files <br> to navigate.</div>
+    </div>
+
 </body>
+
 </html>

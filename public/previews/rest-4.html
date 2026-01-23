@@ -1,96 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresh Greens [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Mowglai Fresh | Eat Colorfully</title>
+    <meta name="description" content="Mowglai Fresh - Organic salads, bowls, and smoothies.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #059669;
-            --bg: #ecfdf5;
-            --text: #064e3b;
-            --font-head: 'Outfit', serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fresh-orange': '#fb923c',
+                        'fresh-green': '#65a30d',
+                        'fresh-cream': '#fffbeb',
+                        'fresh-green-light': '#ecfccb',
+                        'fresh-text': '#4b5563',
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        display: ['Quicksand', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'blob': '60% 40% 30% 70% / 60% 30% 70% 40%',
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $449</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false, cartOpen: false }" class="bg-white text-fresh-text font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-fresh-green/10">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-gray-800">
+                <span class="text-3xl">🥗</span>
+                Mowglai <span class="text-fresh-green">Fresh</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-bold text-sm text-gray-500">
+                <a href="#menu" class="hover:text-fresh-green transition-colors">Our Menu</a>
+                <a href="#build" class="hover:text-fresh-green transition-colors">Build Your Own</a>
+                <a href="#nutrition" class="hover:text-fresh-green transition-colors">Nutrition</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button @click="cartOpen = true"
+                    class="bg-fresh-orange text-white px-6 py-2 rounded-full font-bold shadow-lg shadow-orange-200 hover:bg-orange-500 hover:shadow-orange-300 transition-all transform hover:-translate-y-0.5">
+                    Order Now
+                </button>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Fresh Greens</h1><img src="https://placehold.co/1200x800/fb923c/ffffff?text=Salad+Bar" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-fresh-cream flex flex-col items-center justify-center space-y-8 font-display text-2xl font-bold text-gray-800"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100">
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-gray-500">✕</button>
+        <a href="#menu" @click="mobileMenuOpen = false" class="hover:text-fresh-green">Our Menu</a>
+        <a href="#build" @click="mobileMenuOpen = false" class="hover:text-fresh-green">Build Your Own</a>
+        <a href="#nutrition" @click="mobileMenuOpen = false" class="hover:text-fresh-green">Nutrition</a>
+    </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+    <!-- Hero -->
+    <header class="pt-32 pb-16 px-6 overflow-hidden">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10">
+                <div
+                    class="inline-block bg-fresh-green-light text-fresh-green px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+                    Now Open Downtown
+                </div>
+                <h1 class="text-5xl md:text-7xl font-display font-bold text-gray-900 mb-6 leading-tight">
+                    Eat <span class="text-fresh-green">Fresh.</span> <br>
+                    Live <span class="text-fresh-orange">Colorfully.</span>
+                </h1>
+                <p class="text-lg text-gray-500 mb-8 max-w-md leading-relaxed">
+                    Farm-to-bowl goodness prepared daily. No preservatives, no guilt, just real food that tastes
+                    amazing.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#menu"
+                        class="bg-fresh-green text-white px-8 py-4 rounded-full font-bold shadow-green-200 shadow-lg hover:bg-green-700 hover:shadow-green-300 transition-all">
+                        View Menu
+                    </a>
+                    <a href="#build"
+                        class="bg-white text-gray-800 border-2 border-gray-100 px-8 py-4 rounded-full font-bold hover:border-fresh-green hover:text-fresh-green transition-colors">
+                        Custom Bowl
+                    </a>
+                </div>
+
+                <div class="mt-12 flex gap-8">
+                    <div>
+                        <div class="text-3xl font-display font-bold text-gray-900">12+</div>
+                        <div class="text-xs text-gray-500 font-bold uppercase">Local Farms</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-display font-bold text-gray-900">100%</div>
+                        <div class="text-xs text-gray-500 font-bold uppercase">Organic Base</div>
+                    </div>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$449</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="relative">
+                <div
+                    class="absolute inset-0 bg-fresh-orange/10 rounded-blob filter blur-3xl transform rotate-12 scale-110">
+                </div>
+                <div
+                    class="absolute inset-0 bg-fresh-green/10 rounded-blob filter blur-3xl transform -rotate-12 scale-90 translate-x-12">
+                </div>
+
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2680&auto=format&fit=crop"
+                    class="relative w-full drop-shadow-2xl transform hover:scale-105 transition-transform duration-500 animate-[spin_60s_linear_infinite]">
+
+                <!-- Floating Card -->
+                <div class="absolute top-12 left-0 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce"
+                    style="animation-duration: 3s">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-xl">🥑</div>
+                    <div>
+                        <div class="text-xs text-gray-400 font-bold uppercase">Superfood</div>
+                        <div class="font-bold text-gray-800">Fresh Avocado</div>
+                    </div>
+                </div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Build Your Own Steps -->
+    <section id="build" class="py-24 px-6 bg-fresh-cream">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-16">Build Your Masterpiece</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                <!-- Line Connector (Desktop) -->
+                <div
+                    class="hidden md:block absolute top-12 left-[16%] right-[16%] h-1 border-t-2 border-dashed border-gray-300 -z-0">
+                </div>
+
+                <!-- Step 1 -->
+                <div
+                    class="relative z-10 bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group">
+                    <div
+                        class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform ring-8 ring-white">
+                        🥬
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">1. Choose Base</h3>
+                    <p class="text-gray-500 text-sm">Kale, Spinach, Romaine, or Quinoa.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div
+                    class="relative z-10 bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group">
+                    <div
+                        class="w-24 h-24 mx-auto bg-orange-100 rounded-full flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform ring-8 ring-white">
+                        🍅
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">2. Add Toppings</h3>
+                    <p class="text-gray-500 text-sm">Over 40 fresh veggies, fruits, and nuts.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div
+                    class="relative z-10 bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group">
+                    <div
+                        class="w-24 h-24 mx-auto bg-yellow-100 rounded-full flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform ring-8 ring-white">
+                        🥄
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">3. Dress It Up</h3>
+                    <p class="text-gray-500 text-sm">Homemade dressings made from scratch.</p>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <button
+                    class="bg-fresh-orange text-white px-10 py-4 rounded-full font-bold shadow-lg hover:bg-orange-600 transition-colors">
+                    Start Building &rarr;
+                </button>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Fresh Greens</h2>
+    <!-- Menu Grid -->
+    <section id="menu" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="text-3xl md:text-5xl font-display font-bold text-gray-900">Signatures</h2>
+                <a href="#" class="text-fresh-green font-bold hover:underline">View All</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer">
+                    <div
+                        class="bg-green-50 rounded-[2rem] p-8 pb-0 mb-6 relative overflow-hidden transition-colors hover:bg-green-100">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-64 object-cover transform translate-y-4 group-hover:scale-105 group-hover:rotate-2 transition-transform duration-500 shadow-xl rounded-t-xl">
+                        <button
+                            class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-fresh-green text-xl font-bold hover:bg-fresh-green hover:text-white transition-colors">+</button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-display font-bold text-gray-900">Green Glow</h3>
+                            <p class="text-sm text-gray-500 mt-1">Kale, Avocado, Edamame, Cucumber.</p>
+                        </div>
+                        <span class="font-bold text-fresh-green">$12</span>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer md:-mt-12">
+                    <div
+                        class="bg-orange-50 rounded-[2rem] p-8 pb-0 mb-6 relative overflow-hidden transition-colors hover:bg-orange-100">
+                        <div
+                            class="absolute top-4 left-4 bg-fresh-orange text-white text-[10px] font-bold uppercase px-2 py-1 rounded-full">
+                            Best Seller</div>
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=2568&auto=format&fit=crop"
+                            class="w-full h-64 object-cover transform translate-y-4 group-hover:scale-105 group-hover:-rotate-2 transition-transform duration-500 shadow-xl rounded-t-xl">
+                        <button
+                            class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-fresh-green text-xl font-bold hover:bg-fresh-orange hover:text-white transition-colors">+</button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-display font-bold text-gray-900">Sunset Crunch</h3>
+                            <p class="text-sm text-gray-500 mt-1">Romaine, Carrots, Peppers, Tortilla.</p>
+                        </div>
+                        <span class="font-bold text-fresh-green">$11</span>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer">
+                    <div
+                        class="bg-red-50 rounded-[2rem] p-8 pb-0 mb-6 relative overflow-hidden transition-colors hover:bg-red-100">
+                        <img src="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?q=80&w=2564&auto=format&fit=crop"
+                            class="w-full h-64 object-cover transform translate-y-4 group-hover:scale-105 group-hover:rotate-2 transition-transform duration-500 shadow-xl rounded-t-xl">
+                        <button
+                            class="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-fresh-green text-xl font-bold hover:bg-fresh-green hover:text-white transition-colors">+</button>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-display font-bold text-gray-900">Mediterranean</h3>
+                            <p class="text-sm text-gray-500 mt-1">Spinach, Feta, Olives, Chickpeas.</p>
+                        </div>
+                        <span class="font-bold text-fresh-green">$13</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Nutrition / Ingredients -->
+    <section id="nutrition" class="py-24 px-6 bg-fresh-green text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">
+        </div>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
+            <div class="md:w-1/2">
+                <h2 class="text-4xl md:text-6xl font-display font-bold mb-6">Transparency is Delicious.</h2>
+                <p class="text-green-100 text-lg mb-8 leading-relaxed">
+                    We believe in knowing exactly what you're eating. That's why every ingredient is listed with its
+                    source and nutritional profile.
+                </p>
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-4xl font-display font-bold mb-2">0g</div>
+                        <div class="text-sm text-green-200 font-bold uppercase tracking-widest">Added Sugar*</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-display font-bold mb-2">Non-GMO</div>
+                        <div class="text-sm text-green-200 font-bold uppercase tracking-widest">Always</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <div
+                    class="bg-white text-gray-900 p-8 rounded-3xl shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <h3 class="font-display font-bold text-lg border-b border-gray-100 pb-4 mb-4">Nutritional Facts</h3>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between"><span>Calories</span> <span class="font-bold">350-600</span>
+                        </div>
+                        <div class="flex justify-between"><span>Protein</span> <span class="font-bold">15-35g</span>
+                        </div>
+                        <div class="flex justify-between"><span>Fiber</span> <span class="font-bold">10-18g</span></div>
+                        <div class="flex justify-between"><span>Artificial Dyes</span> <span
+                                class="font-bold">0mg</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-16 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-12">
+            <div class="flex flex-col gap-6">
+                <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-gray-800">
+                    <span class="text-3xl">🥗</span>
+                    Mowglai <span class="text-fresh-green">Fresh</span>
+                </a>
+                <p class="text-gray-400 text-sm max-w-xs">
+                    Fueling your body with the power of plants. <br> Live sustainably.
+                </p>
+            </div>
+
+            <div class="flex gap-12 font-bold text-sm text-gray-500">
+                <div class="flex flex-col gap-4">
+                    <span class="text-gray-900 uppercase text-xs tracking-widest">Company</span>
+                    <a href="#" class="hover:text-fresh-green">Our Story</a>
+                    <a href="#" class="hover:text-fresh-green">Sourcing</a>
+                    <a href="#" class="hover:text-fresh-green">Careers</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <span class="text-gray-900 uppercase text-xs tracking-widest">Support</span>
+                    <a href="#" class="hover:text-fresh-green">Allergens</a>
+                    <a href="#" class="hover:text-fresh-green">Contact</a>
+                    <a href="#" class="hover:text-fresh-green">FAQs</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <span class="text-gray-900 uppercase text-xs tracking-widest">Newsletter</span>
+                <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                    <input type="email" placeholder="Email" class="bg-transparent text-sm focus:outline-none w-32">
+                    <button class="text-fresh-green font-bold text-sm hover:text-green-700">→</button>
+                </div>
+                <div class="flex gap-4 mt-2">
+                    <a href="#"
+                        class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-fresh-green hover:text-white transition-colors">ig</a>
+                    <a href="#"
+                        class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-fresh-green hover:text-white transition-colors">fb</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto mt-12 text-center text-xs text-gray-400 font-bold uppercase tracking-widest">
+            &copy; 2025 Mowglai Fresh Greens.
+        </div>
     </footer>
+
+    <!-- Cart Sidebar -->
+    <div x-show="cartOpen" class="fixed inset-0 z-50 bg-gray-900/50 backdrop-blur-sm flex justify-end"
+        x-transition:enter="transition opacity ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" style="display: none;">
+
+        <div class="w-full max-w-md bg-white h-full p-8 flex flex-col shadow-2xl" @click.away="cartOpen = false">
+            <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-100">
+                <h2 class="text-xl font-display font-bold">Your Bowl</h2>
+                <button @click="cartOpen = false" class="text-gray-400 hover:text-gray-900">Close</button>
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center text-gray-400 text-center">
+                <div class="text-6xl mb-4">🥣</div>
+                <p class="font-bold">Hungry?</p>
+                <p class="text-sm">Add some greens to get started.</p>
+            </div>
+
+            <button @click="cartOpen = false"
+                class="w-full bg-fresh-green text-white py-4 rounded-full font-bold shadow-lg hover:bg-green-700 transition-colors">
+                Start Ordering
+            </button>
+        </div>
+    </div>
+
 </body>
+
 </html>

@@ -1,101 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kids Care [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <title>Mowglai Kids Care | Pediatric Clinic</title>
+    <meta name="description" content="Mowglai Kids Care - Compassionate healthcare for your little ones.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #db2777;
-            --bg: #fdf2f8;
-            --text: #831843;
-            --font-head: 'Montserrat', serif;
-            --font-body: 'Lora', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'kids-blue': '#60a5fa',
+                        'kids-blue-light': '#eff6ff',
+                        'kids-green': '#34d399',
+                        'kids-green-light': '#ecfdf5',
+                        'kids-purple': '#a78bfa',
+                        'text-soft': '#475569',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        display: ['Nunito', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'blob': '60% 40% 30% 70% / 60% 30% 70% 40%',
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $599</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-white font-sans text-text-soft">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur shadow-sm rounded-b-[2rem]">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-gray-800">
+                <span class="text-3xl">🧸</span>
+                Mowglai <span class="text-kids-blue">Kids</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-bold text-gray-500">
+                <a href="#services"
+                    class="hover:text-kids-blue transition-colors rounded-full px-4 py-2 hover:bg-kids-blue-light">Services</a>
+                <a href="#team"
+                    class="hover:text-kids-blue transition-colors rounded-full px-4 py-2 hover:bg-kids-blue-light">Our
+                    Doctors</a>
+                <a href="#resources"
+                    class="hover:text-kids-blue transition-colors rounded-full px-4 py-2 hover:bg-kids-blue-light">Parents</a>
+                <a href="#"
+                    class="px-6 py-2 bg-kids-blue text-white rounded-full hover:bg-blue-500 transition-transform hover:scale-105 shadow-md">
+                    Patient Portal
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-kids-blue">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Kids Care</h1><img src="https://placehold.co/1200x800/60a5fa/ffffff?text=Kids+Health" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-kids-blue-light/95 backdrop-blur flex flex-col items-center justify-center space-y-8 font-display text-2xl text-kids-blue font-bold"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100">
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-kids-blue">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <a href="#services" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Services</a>
+        <a href="#team" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Our Doctors</a>
+        <a href="#resources" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Parents</a>
+        <a href="#" @click="mobileMenuOpen = false"
+            class="bg-kids-blue text-white px-8 py-3 rounded-full shadow-lg">Login</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-24 px-6 overflow-hidden bg-gradient-to-br from-blue-50 to-white">
+        <!-- Blobs -->
+        <div
+            class="absolute top-0 right-0 w-96 h-96 bg-kids-blue/10 rounded-blob filter blur-3xl transform translate-x-1/3 -translate-y-1/3">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-80 h-80 bg-kids-green/10 rounded-blob filter blur-3xl transform -translate-x-1/3 translate-y-1/3">
+        </div>
+
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
+            <div class="md:w-1/2 text-center md:text-left">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-kids-blue text-sm font-bold shadow-sm mb-6 border border-blue-100">
+                    <span class="w-2 h-2 rounded-full bg-kids-green animate-pulse"></span>
+                    Accepting New Patients
+                </div>
+                <h1 class="text-4xl md:text-6xl font-display font-bold text-gray-800 mb-6 leading-tight">
+                    Big Care for <br><span class="text-kids-blue">Little Humans</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 mb-10 leading-relaxed font-medium">
+                    We provide compassionate, expert pediatric care in a warm and welcoming environment where your child
+                    feels safe.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#contact"
+                        class="px-8 py-4 bg-kids-blue text-white font-bold rounded-full shadow-lg shadow-blue-200 hover:bg-blue-600 hover:-translate-y-1 transition-all">
+                        Book Appointment
+                    </a>
+                    <a href="#team"
+                        class="px-8 py-4 bg-white text-kids-blue font-bold rounded-full border-2 border-transparent hover:border-kids-blue hover:text-blue-600 transition-colors">
+                        Meet the Team
+                    </a>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$599</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="md:w-1/2 relative">
+                <div class="relative rounded-[2rem] overflow-hidden border-8 border-white shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1579684385180-1ea55f9f8981?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <!-- Float Info -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg flex items-center gap-4 animate-bounce"
+                    style="animation-duration: 3s">
+                    <div class="w-12 h-12 bg-kids-green-light rounded-full flex items-center justify-center text-2xl">
+                        📞
+                    </div>
+                    <div>
+                        <div class="text-xs uppercase text-gray-400 font-bold">24/7 Support</div>
+                        <div class="font-bold text-gray-800">555-KIDS-DOC</div>
+                    </div>
+                </div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 mb-4">Comprehensive Care</h2>
+                <p class="text-gray-500 text-lg">From first steps to graduation, we are here for every milestone.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Checkups -->
+                <div
+                    class="p-8 rounded-[2rem] bg-blue-50 border border-blue-100 hover:shadow-xl transition-shadow text-center group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        🩺
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-800 mb-4">Wellness Checkups</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Regular visits to monitor growth, development, and
+                        overall health to keep them thriving.</p>
+                    <a href="#" class="text-kids-blue font-bold hover:text-blue-700">Learn More &rarr;</a>
+                </div>
+
+                <!-- Vaccinations -->
+                <div
+                    class="p-8 rounded-[2rem] bg-green-50 border border-green-100 hover:shadow-xl transition-shadow text-center group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        💉
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-800 mb-4">Vaccinations</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Safe and timely immunizations to protect your child
+                        from preventable diseases.</p>
+                    <a href="#" class="text-kids-green font-bold hover:text-green-700">View Schedule &rarr;</a>
+                </div>
+
+                <!-- Urgent Care -->
+                <div
+                    class="p-8 rounded-[2rem] bg-purple-50 border border-purple-100 hover:shadow-xl transition-shadow text-center group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        🩹
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-gray-800 mb-4">Sick Visits</h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed">Same-day appointments for fevers, colds, and minor
+                        injuries when you need us most.</p>
+                    <a href="#" class="text-kids-purple font-bold hover:text-purple-700">Book Urgent &rarr;</a>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Kids Care</h2>
+    <!-- Team Section -->
+    <section id="team" class="py-24 px-6 bg-kids-blue-light/50 overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800">Meet Our Superheroes</h2>
+                <a href="#" class="text-kids-blue font-bold hover:underline mt-4 md:mt-0">View All Staff</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Doctor 1 -->
+                <div class="bg-white p-4 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden mb-4 bg-blue-100 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-gray-800">Dr. Sarah Lee</h3>
+                    <p class="text-sm text-kids-blue font-bold uppercase tracking-wide">Pediatrician</p>
+                </div>
+
+                <!-- Doctor 2 -->
+                <div class="bg-white p-4 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden mb-4 bg-green-100 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-gray-800">Dr. James Chen</h3>
+                    <p class="text-sm text-kids-blue font-bold uppercase tracking-wide">Adolescent Med</p>
+                </div>
+
+                <!-- Doctor 3 -->
+                <div class="bg-white p-4 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden mb-4 bg-purple-100 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=2574&auto=format&fit=crop"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-gray-800">Nurse Emily</h3>
+                    <p class="text-sm text-kids-blue font-bold uppercase tracking-wide">Head Nurse</p>
+                </div>
+
+                <!-- Join Us -->
+                <div
+                    class="bg-kids-blue p-4 rounded-3xl shadow-sm flex flex-col items-center justify-center text-center text-white min-h-[300px]">
+                    <div class="text-5xl mb-4">👋</div>
+                    <h3 class="text-2xl font-display font-bold mb-2">Join the Family</h3>
+                    <p class="text-blue-100 text-sm mb-6">We are always looking for caring professionals.</p>
+                    <button
+                        class="bg-white text-kids-blue px-6 py-2 rounded-full font-bold text-sm hover:bg-blue-50 transition-colors">Careers</button>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Parent Resources / CTA -->
+    <section id="resources" class="py-24 px-6 bg-white relative">
+        <div
+            class="max-w-5xl mx-auto bg-kids-purple/10 rounded-[3rem] p-8 md:p-16 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-3/5">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 mb-6">Parent Portal Access</h2>
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                    Access immunization records, request refills, message your doctor, and view lab results securely
+                    from home.
+                </p>
+                <div class="flex gap-4">
+                    <button
+                        class="px-8 py-4 bg-kids-purple text-white font-bold rounded-full shadow-lg shadow-purple-200 hover:bg-purple-600 transition-colors">
+                        Log In Now
+                    </button>
+                    <button
+                        class="px-8 py-4 bg-white text-kids-purple font-bold rounded-full border border-purple-200 hover:border-kids-purple transition-colors">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-2/5 flex justify-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png"
+                    class="w-64 opacity-80 drop-shadow-xl animate-bounce" style="animation-duration: 4s">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 pt-20 pb-10 px-6 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-2">
+                <a href="#" class="flex items-center gap-2 text-2xl font-display font-bold text-gray-800 mb-6">
+                    <span class="text-3xl">🧸</span>
+                    Mowglai <span class="text-kids-blue">Kids</span>
+                </a>
+                <p class="text-gray-500 max-w-sm mb-6">
+                    Providing excellent pediatric care with a gentle touch. Your child's health is our universe.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-800 mb-6 font-display">Quick Links</h4>
+                <ul class="space-y-3 text-gray-500">
+                    <li><a href="#" class="hover:text-kids-blue">New Patient Forms</a></li>
+                    <li><a href="#" class="hover:text-kids-blue">Insurance Info</a></li>
+                    <li><a href="#" class="hover:text-kids-blue">Symptom Checker</a></li>
+                    <li><a href="#" class="hover:text-kids-blue">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-800 mb-6 font-display">Visit Us</h4>
+                <p class="text-gray-500 mb-2">123 Sunshine Blvd, Suite 100</p>
+                <p class="text-gray-500 mb-6">Los Angeles, CA 90012</p>
+                <p class="font-bold text-kids-blue text-xl">555-KIDS-DOC</p>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto pt-8 border-t border-gray-200 text-center text-gray-400 text-sm font-bold">
+            &copy; 2025 Mowglai Kids Care. All rights reserved.
+        </div>
     </footer>
+
 </body>
+
 </html>

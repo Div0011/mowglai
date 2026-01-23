@@ -1,101 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handmade Crafts [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Proza+Libre:wght@400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Makers | Handmade Goods</title>
+    <meta name="description" content="Mowglai Makers - Authentic handmade ceramics and crafts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'clay': '#b45309',
+                        'clay-light': '#fff7ed',
+                        'sand': '#e7e5e4',
+                        'stone-dark': '#44403c',
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    backgroundImage: {
+                        'paper': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #57534e;
-            --bg: #fafaf9;
-            --text: #292524;
-            --font-head: 'Cormorant Garamond', serif;
-            --font-body: 'Proza Libre', sans-serif;
+        .image-reveal {
+            transition: clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            clip-path: inset(0 0 0 0);
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .group:hover .image-reveal {
+            clip-path: inset(10% 10% 10% 10%);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $599</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false, cartOpen: false }" class="bg-stone-50 text-stone-800 font-sans bg-paper">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-stone-50/90 backdrop-blur-sm border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <svg width="24" height="24" stroke="currentColor" fill="none">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-width="1.5" />
+                </svg>
+            </button>
+
+            <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-medium">
+                <a href="#shop" class="hover:text-clay transition-colors">Shop</a>
+                <a href="#about" class="hover:text-clay transition-colors">About</a>
+                <a href="#journal" class="hover:text-clay transition-colors">Journal</a>
+            </div>
+
+            <a href="#" class="text-3xl font-serif italic text-stone-900 absolute left-1/2 transform -translate-x-1/2">
+                Mowglai Makers
+            </a>
+
+            <div class="flex items-center gap-6">
+                <a href="#" class="hidden md:block text-sm uppercase tracking-widest hover:text-clay">Login</a>
+                <button @click="cartOpen = true" class="relative">
+                    <span class="text-sm uppercase tracking-widest">Cart (0)</span>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Handmade Crafts</h1><img src="https://placehold.co/1200x800/ec4899/ffffff?text=Craft+Shop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-stone-50 flex flex-col items-center justify-center space-y-8 font-serif italic text-4xl"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-full"
+        x-transition:enter-end="opacity-100 translate-y-0">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-8 right-8 text-sm font-sans uppercase not-italic">Close</button>
+        <a href="#shop" @click="mobileMenuOpen = false">Shop</a>
+        <a href="#about" @click="mobileMenuOpen = false">About</a>
+        <a href="#journal" @click="mobileMenuOpen = false">Journal</a>
+    </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+    <!-- Hero -->
+    <header class="pt-32 pb-16 px-6 min-h-[90vh] flex items-center">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+                <h2 class="text-clay font-sans text-xs uppercase tracking-[0.3em] mb-6">Spring Collection 2025</h2>
+                <h1 class="text-6xl md:text-8xl font-serif leading-[0.9] text-stone-900 mb-8">
+                    Focus on <br> <span class="italic text-stone-500">the essential.</span>
+                </h1>
+                <p class="text-lg text-stone-600 max-w-md mb-12 font-light leading-relaxed">
+                    Hand-thrown ceramics and ethically sourced textiles for the mindful home. Created by artisans who
+                    care.
+                </p>
+                <a href="#shop"
+                    class="inline-block border-b border-stone-900 pb-1 text-sm uppercase tracking-widest hover:text-clay hover:border-clay transition-colors">
+                    View Collection
+                </a>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$599</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div class="order-1 md:order-2 h-[600px] relative overflow-hidden bg-sand">
+                <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2574&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-[2s] hover:scale-110">
+                <div
+                    class="absolute bottom-6 right-6 bg-white/80 backdrop-blur px-4 py-2 text-xs uppercase tracking-widest">
+                    Featured: The Clay Vase
+                </div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Shop Grid -->
+    <section id="shop" class="py-24 px-6 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl text-stone-900 font-serif italic mb-4">Curated Goods</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-y-16 gap-x-8">
+                <!-- Product 1 -->
+                <div class="group cursor-pointer">
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-sand mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1596956627067-1604a1804f86?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-stone-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                                class="bg-white text-stone-900 px-6 py-3 text-xs uppercase tracking-widest hover:bg-clay hover:text-white transition-colors">Quick
+                                Add</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-serif text-stone-900 group-hover:italic transition-all">Stoneware
+                                Pitcher</h3>
+                            <p class="text-xs text-stone-500 uppercase tracking-wider mt-1">Kitchen</p>
+                        </div>
+                        <span class="font-serif italic text-lg">$85</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group cursor-pointer md:mt-12">
+                    <span
+                        class="absolute top-0 right-0 bg-clay text-white px-3 py-1 text-[10px] uppercase tracking-widest z-10">New</span>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-sand mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?q=80&w=2574&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-stone-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                                class="bg-white text-stone-900 px-6 py-3 text-xs uppercase tracking-widest hover:bg-clay hover:text-white transition-colors">Quick
+                                Add</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-serif text-stone-900 group-hover:italic transition-all">Linen Throw
+                            </h3>
+                            <p class="text-xs text-stone-500 uppercase tracking-wider mt-1">Textiles</p>
+                        </div>
+                        <span class="font-serif italic text-lg">$120</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group cursor-pointer">
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-sand mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1610701596061-2ecf2022a463?q=80&w=2574&auto=format&fit=crop"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-stone-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                                class="bg-white text-stone-900 px-6 py-3 text-xs uppercase tracking-widest hover:bg-clay hover:text-white transition-colors">Quick
+                                Add</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-serif text-stone-900 group-hover:italic transition-all">Artisan Bowl
+                                Set</h3>
+                            <p class="text-xs text-stone-500 uppercase tracking-wider mt-1">Dining</p>
+                        </div>
+                        <span class="font-serif italic text-lg">$65</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-24 text-center">
+                <a href="#"
+                    class="inline-block px-12 py-4 border border-stone-300 hover:border-clay hover:text-clay transition-colors text-xs uppercase tracking-widest">
+                    Shop All Categories
+                </a>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Handmade Crafts</h2>
+    <!-- Story Section -->
+    <section id="about" class="py-24 px-6 bg-stone-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?q=80&w=2669&auto=format&fit=crop"
+                        class="w-full h-64 object-cover transform translate-y-8">
+                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-64 object-cover">
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <h3 class="text-clay font-sans text-xs uppercase tracking-[0.3em] mb-6">The Process</h3>
+                <h2 class="text-5xl font-serif text-stone-900 italic mb-8">Slow made, <br> with purpose.</h2>
+                <p class="text-stone-600 leading-relaxed mb-8 font-light">
+                    We believe in objects that carry the mark of the maker. Imperfection is not a flaw, but a signature
+                    of humanity. Every piece in our collection tells a story of tradition, patience, and skill.
+                </p>
+                <div class="flex gap-12">
+                    <div>
+                        <div class="text-4xl font-serif italic text-clay mb-2">100%</div>
+                        <div class="text-xs uppercase tracking-widest text-stone-500">Ethical</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-serif italic text-clay mb-2">0%</div>
+                        <div class="text-xs uppercase tracking-widest text-stone-500">Plastic</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Journal / Newsletter -->
+    <section id="journal" class="py-24 px-6 border-t border-stone-200">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-4xl font-serif text-stone-900 italic mb-4">Join the Collective</h2>
+            <p class="text-stone-500 font-light mb-10">Receive stories from our artisans and early access to drops.</p>
+
+            <form class="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" placeholder="Your email address"
+                    class="flex-1 bg-transparent border-b border-stone-300 py-3 focus:outline-none focus:border-clay transition-colors placeholder-stone-400">
+                <button
+                    class="bg-stone-900 text-white px-8 py-3 text-xs uppercase tracking-widest hover:bg-clay transition-colors">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="md:col-span-1">
+                <a href="#" class="text-2xl font-serif italic text-stone-200 mb-6 block">
+                    Mowglai Makers
+                </a>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Shop</h4>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="#" class="hover:text-clay transition-colors">Ceramics</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Textiles</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Kitchen</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Decor</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Studio</h4>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="#" class="hover:text-clay transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Our Artisans</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Sustainability</a></li>
+                    <li><a href="#" class="hover:text-clay transition-colors">Contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Connect</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">Pinterest</a>
+                </div>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto mt-20 pt-8 border-t border-stone-800 flex justify-between text-xs tracking-widest font-light">
+            <p>&copy; 2025 Mowglai Makers.</p>
+            <div class="flex gap-6">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
     </footer>
+
+    <!-- Simple Cart Sidebar -->
+    <div x-show="cartOpen" class="fixed inset-0 z-50 bg-stone-900/50 backdrop-blur-sm flex justify-end"
+        x-transition:enter="transition opacity ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" style="display: none;">
+
+        <div class="w-full max-w-md bg-stone-50 h-full p-8 flex flex-col" @click.away="cartOpen = false">
+            <div class="flex justify-between items-center mb-8 pb-4 border-b border-stone-200">
+                <h2 class="text-xl font-serif italic">Your Bag</h2>
+                <button @click="cartOpen = false" class="text-stone-500 hover:text-stone-900">Close</button>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center text-stone-400">
+                <p class="font-light">Your bag is empty.</p>
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>

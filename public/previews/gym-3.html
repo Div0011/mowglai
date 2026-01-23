@@ -1,103 +1,325 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrossFit Box [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Mowglai Box | CrossFit & Performance</title>
+    <meta name="description" content="Mowglai Box - Forging elite fitness.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-green': '#10b981', // Using a slightly more teal-ish neon for "acid" look
+                        'neon-acid': '#ccf900',
+                        'concrete': '#1a1a1a',
+                        'concrete-light': '#2a2a2a',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto Condensed', 'sans-serif'],
+                        display: ['Chakra Petch', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grunge': "url('https://www.transparenttextures.com/patterns/black-felt.png')",
+                        'scratches': "url('https://www.transparenttextures.com/patterns/dark-matter.png')",
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #60a5fa;
-            --bg: #030712;
-            --text: #f1f5f9;
-            --font-head: 'Oswald', serif;
-            --font-body: 'Manrope', sans-serif;
+        .glitch-text:hover {
+            animation: glitch 0.5s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #ccf900;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        @keyframes glitch {
+            0% {
+                transform: translate(0)
+            }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+            20% {
+                transform: translate(-2px, 2px)
+            }
 
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
+            40% {
+                transform: translate(-2px, -2px)
+            }
 
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-             .hero { align-items: flex-end; padding-bottom: 100px; }
-             .asym-img { position: absolute; top:0; right:0; width: 60%; height: 80%; object-fit: cover; z-index: -1; }
-         
-    
+            60% {
+                transform: translate(2px, 2px)
+            }
+
+            80% {
+                transform: translate(2px, -2px)
+            }
+
+            100% {
+                transform: translate(0)
+            }
+        }
+
+        .clip-slant {
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $399</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-concrete text-gray-300 font-sans bg-grunge">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-concrete/95 border-b border-neon-acid/20">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-2xl font-display font-bold uppercase tracking-widest text-white italic">
+                MOWGLA<span class="text-neon-acid">I</span> BOX
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-bold uppercase tracking-wider text-sm">
+                <a href="#wod" class="hover:text-neon-acid transition-colors">WOD</a>
+                <a href="#schedule" class="hover:text-neon-acid transition-colors">Schedule</a>
+                <a href="#coaches" class="hover:text-neon-acid transition-colors">Coaches</a>
+                <a href="#membership"
+                    class="px-6 py-2 border-2 border-neon-acid text-neon-acid hover:bg-neon-acid hover:text-black transition-all font-display font-bold skew-x-[-10deg]">
+                    <span class="inline-block skew-x-[10deg]">Free Drop-In</span>
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                 <img src="https://placehold.co/1200x800/10b981/ffffff?text=CrossFit" class="asym-img">
-                 <h1 class="animate " style="mix-blend-mode: difference; color: white;">CrossFit Box</h1>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-concrete flex flex-col items-center justify-center space-y-8 font-display text-2xl uppercase tracking-widest"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100">
+        <a href="#wod" @click="mobileMenuOpen = false" class="hover:text-neon-acid">WOD</a>
+        <a href="#schedule" @click="mobileMenuOpen = false" class="hover:text-neon-acid">Schedule</a>
+        <a href="#coaches" @click="mobileMenuOpen = false" class="hover:text-neon-acid">Coaches</a>
+        <a href="#membership" @click="mobileMenuOpen = false" class="text-neon-acid">Start Now</a>
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-white">✕</button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-24 px-6 min-h-screen flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-concrete via-concrete/80 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2670&auto=format&fit=crop"
+                class="w-full h-full object-cover opacity-60">
+        </div>
+
+        <div class="max-w-7xl mx-auto w-full relative z-20">
+            <div class="border-l-4 border-neon-acid pl-6 mb-8">
+                <h2 class="text-neon-acid font-display font-bold uppercase tracking-widest text-lg mb-2">Est. 2018</h2>
+                <h1 class="text-6xl md:text-8xl font-display font-bold text-white uppercase leading-[0.9] italic">
+                    Earn Your <br> <span class="text-transparent stroke-white"
+                        style="-webkit-text-stroke: 2px white;">Fitness</span>
+                </h1>
+            </div>
+            <p class="text-xl text-gray-400 mb-10 max-w-lg font-light leading-relaxed">
+                We don't use machines. We build them. Join the most intense community in the city.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#schedule"
+                    class="bg-neon-acid text-black px-10 py-4 font-display font-bold text-xl uppercase tracking-wider hover:bg-white transition-colors skew-x-[-10deg]">
+                    <span class="inline-block skew-x-[10deg]">View Schedule</span>
+                </a>
+                <a href="#wod"
+                    class="border border-white text-white px-10 py-4 font-display font-bold text-xl uppercase tracking-wider hover:bg-white hover:text-black transition-colors skew-x-[-10deg]">
+                    <span class="inline-block skew-x-[10deg]">Today's WOD</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scrolling Text Background -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden opacity-5 pointer-events-none">
+            <div class="whitespace-nowrap text-[15rem] font-black uppercase text-white leading-none">
+                Strength Conditioning Power Endurance
+            </div>
+        </div>
+    </header>
+
+    <!-- WOD Section -->
+    <section id="wod" class="py-24 px-6 bg-concrete-light border-y border-neon-acid/10 bg-scratches relative">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-white uppercase italic">Workout of the Day
+                </h2>
+                <div class="h-1 w-24 bg-neon-acid mx-auto mt-4 transform -skew-x-12"></div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <div class="bg-black/50 border border-white/10 p-8 md:p-12 backdrop-blur-sm relative">
+                <!-- Tape effect -->
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-gray-400/20 rotate-1"></div>
+
+                <h3
+                    class="text-2xl font-bold text-neon-acid mb-6 uppercase tracking-widest border-b border-white/10 pb-4">
+                    "The Grinder"</h3>
+
+                <div class="space-y-6 font-mono text-lg md:text-xl text-white">
+                    <div class="flex justify-between items-center">
+                        <span>For Time:</span>
+                        <span class="text-gray-500 text-sm">20 Min Cap</span>
+                    </div>
+                    <ul class="space-y-2">
+                        <li><span class="text-neon-acid font-bold">100</span> Double-Unders</li>
+                        <li><span class="text-neon-acid font-bold">80</span> Wall Balls (20/14 lb)</li>
+                        <li><span class="text-neon-acid font-bold">60</span> Box Jumps (24/20 in)</li>
+                        <li><span class="text-neon-acid font-bold">40</span> Kettlebell Swings (53/35 lb)</li>
+                        <li><span class="text-neon-acid font-bold">20</span> Burpee Box Jump Overs</li>
+                    </ul>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                    <button
+                        class="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Log
+                        Score &rarr;</button>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$399</div>
-                 <div style="opacity: 0.5;">One-time license</div>
-            </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">CrossFit Box</h2>
+    <!-- Coaches -->
+    <section id="coaches" class="py-24 px-6 bg-concrete">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16 border-l-4 border-white pl-6">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-white uppercase italic leading-none">
+                    Elite <br> <span class="text-neon-acid">Coaching</span>
+                </h2>
+                <a href="#"
+                    class="hidden md:block font-bold uppercase tracking-widest text-sm hover:text-neon-acid">Meet All
+                    Staff</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Coach 1 -->
+                <div class="group relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                    <img src="https://images.unsplash.com/photo-1533681476483-3729ea16bc00?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-[500px] object-cover">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="text-3xl font-display font-bold text-white uppercase italic glitch-text">Coach Mike
+                        </h3>
+                        <p class="text-neon-acid font-bold uppercase text-sm tracking-widest">Head Coach / L3</p>
+                    </div>
+                </div>
+
+                <!-- Coach 2 -->
+                <div
+                    class="group relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-500 md:-mt-8">
+                    <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=2574&auto=format&fit=crop"
+                        class="w-full h-[500px] object-cover">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="text-3xl font-display font-bold text-white uppercase italic glitch-text">Sarah Connor
+                        </h3>
+                        <p class="text-neon-acid font-bold uppercase text-sm tracking-widest">Weightlifting</p>
+                    </div>
+                </div>
+
+                <!-- Coach 3 -->
+                <div class="group relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-[500px] object-cover">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="text-3xl font-display font-bold text-white uppercase italic glitch-text">David
+                            Goggins</h3>
+                        <p class="text-neon-acid font-bold uppercase text-sm tracking-widest">Endurance</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Membership / Pricing -->
+    <section id="membership" class="py-24 px-6 bg-concrete-light bg-scratches">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-center text-4xl md:text-6xl font-display font-bold text-white uppercase mb-16">Join the
+                <span class="text-neon-acid">Pack</span></h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Drop In -->
+                <div class="border border-white/10 p-8 hover:border-white transition-colors bg-concrete relative">
+                    <h3 class="text-xl font-bold text-white uppercase tracking-widest mb-4">Drop-In</h3>
+                    <div class="text-4xl font-display font-bold text-neon-acid mb-6">$25</div>
+                    <ul class="space-y-4 text-gray-400 text-sm mb-8 font-mono">
+                        <li>> 1 Class Pass</li>
+                        <li>> All Classes Included</li>
+                        <li>> T-Shirt +$20</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 border border-white text-center font-bold uppercase hover:bg-white hover:text-black transition-colors">Select</a>
+                </div>
+
+                <!-- Unlimited -->
+                <div
+                    class="border-2 border-neon-acid p-8 bg-black relative transform scale-105 shadow-[0_0_30px_rgba(204,249,0,0.1)]">
+                    <div class="absolute top-0 right-0 bg-neon-acid text-black font-bold uppercase text-xs px-2 py-1">
+                        Most Popular</div>
+                    <h3 class="text-xl font-bold text-white uppercase tracking-widest mb-4">Unlimited</h3>
+                    <div class="text-4xl font-display font-bold text-neon-acid mb-6">$175<span
+                            class="text-base text-gray-500">/mo</span></div>
+                    <ul class="space-y-4 text-gray-300 text-sm mb-8 font-mono">
+                        <li>> Unlimited Classes</li>
+                        <li>> Open Gym Access</li>
+                        <li>> Nutrition Guidance</li>
+                        <li>> Quarterly Goal Review</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 bg-neon-acid text-black text-center font-bold uppercase hover:bg-white transition-colors">Select</a>
+                </div>
+
+                <!-- Punch Card -->
+                <div class="border border-white/10 p-8 hover:border-white transition-colors bg-concrete relative">
+                    <h3 class="text-xl font-bold text-white uppercase tracking-widest mb-4">10 Class Pack</h3>
+                    <div class="text-4xl font-display font-bold text-neon-acid mb-6">$200</div>
+                    <ul class="space-y-4 text-gray-400 text-sm mb-8 font-mono">
+                        <li>> 10 Classes</li>
+                        <li>> Valid for 3 Months</li>
+                        <li>> Shareable</li>
+                    </ul>
+                    <a href="#"
+                        class="block w-full py-3 border border-white text-center font-bold uppercase hover:bg-white hover:text-black transition-colors">Select</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-16 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col items-center md:items-start">
+                <a href="#" class="text-2xl font-display font-bold uppercase tracking-widest text-white italic mb-2">
+                    MOWGLA<span class="text-neon-acid">I</span> BOX
+                </a>
+                <p class="text-gray-500 text-xs font-mono uppercase tracking-widest">Forging Elite Fitness Since 2018
+                </p>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#"
+                    class="w-10 h-10 border border-white/20 flex items-center justify-center text-gray-400 hover:border-neon-acid hover:text-neon-acid transition-all">FB</a>
+                <a href="#"
+                    class="w-10 h-10 border border-white/20 flex items-center justify-center text-gray-400 hover:border-neon-acid hover:text-neon-acid transition-all">IG</a>
+                <a href="#"
+                    class="w-10 h-10 border border-white/20 flex items-center justify-center text-gray-400 hover:border-neon-acid hover:text-neon-acid transition-all">YT</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 text-center text-gray-600 text-[10px] uppercase tracking-widest font-mono">
+            &copy; 2025 Mowglai Box. Independent Affiliate.
+        </div>
     </footer>
+
 </body>
+
 </html>

@@ -1,104 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bakery Love [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Mowglai Burgers | Street Eats</title>
+    <meta name="description" content="Mowglai Food Truck - The best smash burgers in the city. Find our location.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'truck-yellow': '#ffcc00',
+                        'truck-red': '#ff4d4d',
+                        'truck-blue': '#3399ff',
+                        'truck-green': '#66cc33',
+                        'truck-black': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Fredoka', 'sans-serif'],
+                        display: ['Bangers', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'checker': "repeating-linear-gradient(45deg, #1a1a1a 25%, transparent 25%, transparent 75%, #1a1a1a 75%, #1a1a1a), repeating-linear-gradient(45deg, #1a1a1a 25%, #222 25%, #222 75%, #1a1a1a 75%, #1a1a1a)",
+                    },
+                    backgroundSize: {
+                        'checker': '40px 40px',
+                    },
+                    boxShadow: {
+                        'cartoon': '4px 4px 0px 0px #000',
+                        'cartoon-hover': '2px 2px 0px 0px #000',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #db2777;
-            --bg: #fdf2f8;
-            --text: #831843;
-            --font-head: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
+        .wiggle:hover {
+            animation: wiggle 0.5s ease-in-out infinite;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        @keyframes wiggle {
+            0% {
+                transform: rotate(0deg);
+            }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+            25% {
+                transform: rotate(-3deg);
+            }
 
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
+            75% {
+                transform: rotate(3deg);
+            }
 
-        
-             .hero { justify-content: center; text-align: center; flex-direction: column; }
-             .hero-img-wrap { width: 70%; height: 60vh; overflow: hidden; margin-top: 40px; }
-             .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .drip {
+            mask-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $499</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-truck-yellow text-truck-black font-sans antialiased text-lg border-[16px] border-white min-h-screen">
+
+    <!-- Cartoon Borders -->
+    <div class="fixed inset-0 border-[16px] border-white pointer-events-none z-50"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-8 w-[calc(100%-32px)] left-4 z-40">
+        <div
+            class="bg-white mx-auto rounded-full px-8 h-20 flex justify-between items-center shadow-cartoon border-4 border-black max-w-6xl">
+            <a href="#"
+                class="text-3xl font-display tracking-wider transform -rotate-2 hover:rotate-0 transition-transform text-truck-red drop-shadow-[2px_2px_0_#000]">
+                Mowglai Eats!
+            </a>
+
+            <div class="hidden md:flex gap-8 font-bold text-xl uppercase tracking-tight">
+                <a href="#menu" class="hover:text-truck-red transition-colors transform hover:-translate-y-1">Menu</a>
+                <a href="#location" class="hover:text-truck-blue transition-colors transform hover:-translate-y-1">Find
+                    Us</a>
+                <a href="#about"
+                    class="hover:text-truck-green transition-colors transform hover:-translate-y-1">Story</a>
+                <a href="#order"
+                    class="bg-black text-white px-6 py-2 rounded-full hover:bg-truck-red transition-colors transform hover:rotate-2 shadow-[2px_2px_0_rgba(0,0,0,0.2)]">
+                    Order Pick-Up
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                    <path d="M4 8h24M4 16h24M4 24h24" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-             <div class="hero">
-                <h1 class="animate ">Bakery Love</h1>
-                <div class="hero-img-wrap animate"><img src="https://placehold.co/1200x800/fdba74/ffffff?text=Bakery"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-30 bg-truck-blue flex flex-col items-center justify-center space-y-8 font-display text-4xl text-white"
+        x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="translate-y-full"
+        x-transition:enter-end="translate-y-0">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-8 right-8 text-white font-sans text-xl border-4 border-white px-4 py-2 rounded-full font-bold shadow-cartoon">CLOSE</button>
+        <a href="#menu" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Menu</a>
+        <a href="#location" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Find Us</a>
+        <a href="#about" @click="mobileMenuOpen = false" class="hover:scale-110 transition-transform">Story</a>
+        <a href="#order" @click="mobileMenuOpen = false"
+            class="text-truck-yellow hover:scale-110 transition-transform">Order Now</a>
+    </div>
+
+    <!-- Hero -->
+    <header
+        class="pt-40 pb-20 px-6 min-h-screen flex items-center justify-center relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+        <div class="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="order-2 md:order-1 text-center md:text-left">
+                <div
+                    class="bg-white border-4 border-black inline-block px-4 py-1 rounded-full font-bold text-sm mb-6 shadow-cartoon transform -rotate-3">
+                    📍 CURRENTLY AT: DOWNTOWN PARK
+                </div>
+                <h1 class="text-7xl md:text-9xl font-display text-white drop-shadow-[6px_6px_0_#000] leading-none mb-8">
+                    SMASH <br> <span class="text-truck-red">NO PASS</span>
+                </h1>
+                <p class="font-bold text-2xl mb-12 max-w-lg leading-snug">
+                    Double patty, lacey edges, potato bun. The way a burger was meant to be.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
+                    <a href="#menu"
+                        class="bg-truck-red text-white text-3xl font-display px-10 py-5 rounded-2xl border-4 border-black shadow-cartoon hover:shadow-cartoon-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all transform -rotate-2">
+                        View Menu
+                    </a>
+                    <a href="#location"
+                        class="bg-white text-black text-3xl font-display px-10 py-5 rounded-2xl border-4 border-black shadow-cartoon hover:shadow-cartoon-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all transform rotate-2">
+                        Find Truck
+                    </a>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+            <div class="order-1 md:order-2 relative">
+                <!-- Abstract Burger Shapes -->
+                <div class="relative z-10 animate-[bounce_3s_infinite]">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=2499&auto=format&fit=crop"
+                        class="w-full h-auto rounded-[3rem] border-4 border-black shadow-cartoon transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <div
+                        class="absolute -top-12 -right-12 bg-truck-blue text-white w-32 h-32 rounded-full border-4 border-black flex items-center justify-center font-display text-4xl shadow-cartoon rotate-12 wiggle">
+                        YUM!
+                    </div>
+                </div>
+                <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white rounded-full border-4 border-black -z-10">
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$499</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Menu -->
+    <section id="menu" class="py-24 px-6 bg-white border-y-4 border-black">
+        <div class="max-w-6xl mx-auto">
+            <h2
+                class="text-6xl md:text-8xl font-display text-center mb-16 text-truck-black drop-shadow-[4px_4px_0_#ffcc00]">
+                THE GOODS</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Item 1 -->
+                <div
+                    class="bg-truck-yellow p-8 rounded-3xl border-4 border-black shadow-cartoon relative overflow-hidden group">
+                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white rounded-full"></div>
+                    <div class="relative z-10 flex justify-between items-start mb-4">
+                        <h3 class="font-display text-4xl">The Classic</h3>
+                        <span class="font-display text-4xl text-white drop-shadow-[2px_2px_0_#000]">$12</span>
+                    </div>
+                    <p class="font-bold text-lg mb-6 leading-tight">Two smashed patties, American cheese, pickles,
+                        onions, secret sauce.</p>
+                    <div
+                        class="inline-block bg-white border-2 border-black px-3 py-1 text-xs font-bold rounded-full uppercase">
+                        Best Seller</div>
+                </div>
+
+                <!-- Item 2 -->
+                <div
+                    class="bg-truck-blue p-8 rounded-3xl border-4 border-black shadow-cartoon relative overflow-hidden group text-white">
+                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full"></div>
+                    <div class="relative z-10 flex justify-between items-start mb-4">
+                        <h3 class="font-display text-4xl">The Spicy Boi</h3>
+                        <span class="font-display text-4xl drop-shadow-[2px_2px_0_#000]">$14</span>
+                    </div>
+                    <p class="font-bold text-lg mb-6 leading-tight">Pepper jack, jalapeños, spicy mayo, brioche bun,
+                        double patty.</p>
+                    <div
+                        class="inline-block bg-truck-red border-2 border-black px-3 py-1 text-xs text-white font-bold rounded-full uppercase">
+                        Hot!</div>
+                </div>
+
+                <!-- Item 3 -->
+                <div
+                    class="bg-truck-green p-8 rounded-3xl border-4 border-black shadow-cartoon relative overflow-hidden group">
+                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full"></div>
+                    <div class="relative z-10 flex justify-between items-start mb-4">
+                        <h3 class="font-display text-4xl">The Veggie</h3>
+                        <span class="font-display text-4xl text-white drop-shadow-[2px_2px_0_#000]">$13</span>
+                    </div>
+                    <p class="font-bold text-lg mb-6 leading-tight">Impossible patty, vegan cheddar, lettuce, tomato,
+                        vegan sauce.</p>
+                </div>
+
+                <!-- Side -->
+                <div
+                    class="bg-white p-8 rounded-3xl border-4 border-black shadow-cartoon relative overflow-hidden group">
+                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-truck-yellow/20 rounded-full"></div>
+                    <div class="relative z-10 flex justify-between items-start mb-4">
+                        <h3 class="font-display text-4xl">Crinkle Fries</h3>
+                        <span class="font-display text-4xl text-truck-red drop-shadow-[2px_2px_0_#000]">$5</span>
+                    </div>
+                    <p class="font-bold text-lg mb-6 leading-tight">Golden, crispy, salty. Add cheese sauce +$2.</p>
+                </div>
             </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Bakery Love</h2>
+    <!-- Location -->
+    <section id="location" class="py-24 px-6 bg-truck-red text-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-6xl md:text-8xl font-display mb-12 drop-shadow-[4px_4px_0_#000]">WHERE WE AT?</h2>
+
+            <div
+                class="bg-white text-black p-8 md:p-12 rounded-[3rem] border-4 border-black shadow-cartoon inline-block w-full max-w-3xl transform rotate-1">
+                <div class="text-2xl font-bold uppercase tracking-widest text-gray-400 mb-2">Today // 11AM - 8PM</div>
+                <div class="text-4xl md:text-6xl font-display mb-8">550 W Main St, Downtown</div>
+
+                <div class="w-full h-64 bg-gray-200 rounded-2xl border-4 border-black overflow-hidden relative mb-8">
+                    <!-- Fake Map -->
+                    <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2662&auto=format&fit=crop"
+                        class="w-full h-full object-cover opacity-50">
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl">📍</div>
+                </div>
+
+                <a href="#"
+                    class="inline-block bg-truck-blue text-white font-display text-2xl px-8 py-3 rounded-full border-4 border-black hover:bg-black transition-colors">
+                    Get Directions
+                </a>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center font-display text-2xl">
+                <div>
+                    <div class="text-truck-yellow mb-2 text-4xl">FRI</div>
+                    <div>Brewery Lot</div>
+                </div>
+                <div>
+                    <div class="text-truck-yellow mb-2 text-4xl">SAT</div>
+                    <div>Farmers Market</div>
+                </div>
+                <div>
+                    <div class="text-truck-yellow mb-2 text-4xl">SUN</div>
+                    <div>City Park</div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-black text-white text-center">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
+            <a href="#" class="text-4xl font-display text-truck-yellow">INSTAGRAM</a>
+            <a href="#" class="text-4xl font-display text-truck-blue">TIKTOK</a>
+            <a href="#" class="text-4xl font-display text-truck-red">EMAIL</a>
+        </div>
+        <p class="font-bold text-gray-500">© 2025 Mowglai Burgers. Made with love and grease.</p>
     </footer>
+
 </body>
+
 </html>

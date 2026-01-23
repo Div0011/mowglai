@@ -1,96 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photographer [Tier 1]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Proza+Libre:wght@400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Lens | Visual Storytelling</title>
+    <meta name="description" content="Mowglai Lens - Capturing moments, creating memories. photography portfolio.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f0f0f',
+                        'dark-bg-soft': '#1a1a1a',
+                        'lens-white': '#f5f5f5',
+                        'lens-gray': '#888888',
+                    },
+                    fontFamily: {
+                        sans: ['Archivo', 'sans-serif'],
+                        serif: ['Crimson Text', 'serif'],
+                    },
+                    cursor: {
+                        'zoom-in': 'zoom-in',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #d97706;
-            --bg: #0c0a09;
-            --text: #fafaf9;
-            --font-head: 'Cormorant Garamond', serif;
-            --font-body: 'Proza Libre', sans-serif;
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1.5rem;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        @media (min-width: 640px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
 
-        /* Tier Specific CSS */
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
+        .break-inside-avoid {
+            break-inside: avoid;
+        }
 
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 1 • $499</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false, lightboxOpen: false, lightboxImage: '', lightboxCaption: '' }"
+    class="bg-dark-bg text-lens-white font-serif antialiased selection:bg-white selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 mix-blend-difference text-white">
+        <div class="px-6 md:px-12 h-24 flex justify-between items-center">
+            <a href="#" class="text-xl font-sans font-bold tracking-widest uppercase z-50">
+                Mowglai <span class="font-light">Lens</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 font-sans text-xs tracking-[0.2em] uppercase z-50">
+                <a href="#gallery" class="hover:underline decoration-1 underline-offset-4">Gallery</a>
+                <a href="#albums" class="hover:underline decoration-1 underline-offset-4">Albums</a>
+                <a href="#about" class="hover:underline decoration-1 underline-offset-4">About</a>
+                <a href="#contact" class="hover:underline decoration-1 underline-offset-4">Contact</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden z-50">
+                <span class="block w-8 h-px bg-white mb-2"></span>
+                <span class="block w-8 h-px bg-white"></span>
+            </button>
+        </div>
     </nav>
 
-    <div class="hero"><h1>Photographer</h1><img src="https://placehold.co/1200x800/c084fc/ffffff?text=Photo+Gallery" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.5;"></div>
+    <!-- Mobile Menu Overlay -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-dark-bg flex flex-col items-center justify-center space-y-8"
+        x-transition:enter="transition opacity ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+        <a href="#gallery" @click="mobileMenuOpen = false"
+            class="font-sans text-3xl font-light uppercase tracking-widest hover:text-lens-gray">Gallery</a>
+        <a href="#albums" @click="mobileMenuOpen = false"
+            class="font-sans text-3xl font-light uppercase tracking-widest hover:text-lens-gray">Albums</a>
+        <a href="#about" @click="mobileMenuOpen = false"
+            class="font-sans text-3xl font-light uppercase tracking-widest hover:text-lens-gray">About</a>
+        <a href="#contact" @click="mobileMenuOpen = false"
+            class="font-sans text-3xl font-light uppercase tracking-widest hover:text-lens-gray">Contact</a>
+    </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 1 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Standard Premium template, focused on clean usability and conversion.</p>
+    <!-- Hero Horizontal Scroll -->
+    <header class="h-screen w-full relative overflow-hidden flex items-center">
+        <div class="absolute inset-0 z-10 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-50">
+        </div>
+
+        <!-- Horizontal Scroll Container -->
+        <div class="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory h-full w-full">
+            <!-- Slide 1 -->
+            <div class="min-w-full h-full relative snap-center">
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2622&auto=format&fit=crop"
+                    class="w-full h-full object-cover">
+                <div class="absolute bottom-12 left-6 md:left-12 z-20">
+                    <p class="font-sans text-xs uppercase tracking-widest mb-2">Portfolio 2024</p>
+                    <h1 class="text-6xl md:text-8xl font-sans font-bold leading-none">Natural Light</h1>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$499</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+            <!-- Slide 2 -->
+            <div class="min-w-full h-full relative snap-center">
+                <img src="https://images.unsplash.com/photo-1620406752765-bf042b4122d6?q=80&w=2574&auto=format&fit=crop"
+                    class="w-full h-full object-cover">
+                <div class="absolute bottom-12 left-6 md:left-12 z-20">
+                    <p class="font-sans text-xs uppercase tracking-widest mb-2">Series: Isolation</p>
+                    <h1 class="text-6xl md:text-8xl font-sans font-bold leading-none">Urban Solitude</h1>
+                </div>
             </div>
-         </div>
+            <!-- Slide 3 -->
+            <div class="min-w-full h-full relative snap-center">
+                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2670&auto=format&fit=crop"
+                    class="w-full h-full object-cover">
+                <div class="absolute bottom-12 left-6 md:left-12 z-20">
+                    <p class="font-sans text-xs uppercase tracking-widest mb-2">Editorial</p>
+                    <h1 class="text-6xl md:text-8xl font-sans font-bold leading-none">Film Grain</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-12 right-6 md:right-12 z-20 flex gap-4 text-xs font-sans uppercase tracking-widest">
+            <span class="animate-pulse">Scroll →</span>
+        </div>
+    </header>
+
+    <!-- Masonry Gallery -->
+    <section id="gallery" class="py-24 px-4 md:px-12">
+        <div class="masonry-grid">
+            <!-- Image 1 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Portrait Study No. 4'">
+                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">
+                    Portrait Study No. 4</p>
+            </div>
+
+            <!-- Image 2 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Abstract Curves'">
+                <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">
+                    Abstract Curves</p>
+            </div>
+
+            <!-- Image 3 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Venice Morning'">
+                <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">
+                    Venice Morning</p>
+            </div>
+
+            <!-- Image 4 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Street Light'">
+                <img src="https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">
+                    Street Light</p>
+            </div>
+
+            <!-- Image 5 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Muse'">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">Muse
+                </p>
+            </div>
+
+            <!-- Image 6 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1518599482834-3112bd012a6e?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'The Climb'">
+                <img src="https://images.unsplash.com/photo-1518599482834-3112bd012a6e?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">The
+                    Climb</p>
+            </div>
+
+            <!-- Image 7 -->
+            <div class="break-inside-avoid mb-6 group cursor-zoom-in"
+                @click="lightboxOpen = true; lightboxImage = 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2000&auto=format&fit=crop'; lightboxCaption = 'Silent Forest'">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1000&auto=format&fit=crop"
+                    class="w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out">
+                <p class="mt-2 text-sm italic text-lens-gray opacity-0 group-hover:opacity-100 transition-opacity">
+                    Silent Forest</p>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Photographer</h2>
+    <!-- Services / Info -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-dark-bg-soft flex flex-col md:flex-row gap-16 items-start">
+        <div class="md:w-1/3">
+            <h2 class="font-sans text-xs uppercase tracking-[0.3em] text-lens-gray mb-8">The Photographer</h2>
+            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=2598&auto=format&fit=crop"
+                class="w-full aspect-square object-cover grayscale mb-6">
         </div>
-        <div>&copy; 2025</div>
+        <div class="md:w-2/3 max-w-2xl">
+            <p class="text-3xl md:text-5xl leading-snug mb-12 font-light">
+                "Photography is the story I fail to put into words. It is a pause button for life, a way to hold onto
+                the fleeting beauty of the mundane."
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="font-sans text-lg font-bold uppercase mb-4">Services</h3>
+                    <ul class="space-y-2 text-lens-gray font-sans text-sm tracking-wide">
+                        <li>Editorial & Fashion</li>
+                        <li>Architectural</li>
+                        <li>Fine Art Prints</li>
+                        <li>Commercial Campaigns</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-sans text-lg font-bold uppercase mb-4">Selected Clients</h3>
+                    <ul class="space-y-2 text-lens-gray font-sans text-sm tracking-wide">
+                        <li>Vogue Italia</li>
+                        <li>Architectural Digest</li>
+                        <li>Aesop</li>
+                        <li>Kinfolk</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Albums Login Mock -->
+    <section id="albums"
+        class="py-32 px-6 flex flex-col items-center justify-center text-center border-t border-white/5">
+        <h2 class="font-sans text-xs uppercase tracking-[0.3em] mb-6">Client Area</h2>
+        <h3 class="text-3xl font-serif italic mb-8">Access Your Private Gallery</h3>
+        <div class="flex flex-col gap-4 w-full max-w-sm">
+            <input type="password" placeholder="Enter Access Code"
+                class="bg-transparent border-b border-white/20 py-3 text-center focus:outline-none focus:border-white transition-colors font-sans text-xl">
+            <button
+                class="bg-white text-dark-bg py-4 mt-4 font-sans font-bold uppercase tracking-widest hover:bg-lens-gray hover:text-white transition-colors">Enter
+                Gallery</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact"
+        class="py-24 px-6 md:px-12 border-t border-white/10 flex flex-col md:flex-row justify-between gap-12">
+        <div>
+            <a href="#" class="text-xl font-sans font-bold tracking-widest uppercase block mb-6">
+                Mowglai <span class="font-light">Lens</span>
+            </a>
+            <p class="font-serif italic text-lens-gray">Based in Berlin, available worldwide.</p>
+        </div>
+
+        <div class="flex gap-8">
+            <a href="#" class="font-sans text-xs uppercase tracking-widest hover:text-lens-gray">Instagram</a>
+            <a href="#" class="font-sans text-xs uppercase tracking-widest hover:text-lens-gray">Behance</a>
+            <a href="#" class="font-sans text-xs uppercase tracking-widest hover:text-lens-gray">Email</a>
+        </div>
+
+        <div class="font-sans text-[10px] uppercase tracking-widest text-white/20">
+            &copy; 2025 Mowglai Lens.
+        </div>
     </footer>
+
+    <!-- Lightbox Modal -->
+    <div x-show="lightboxOpen"
+        class="fixed inset-0 z-[60] bg-black/95 flex flex-col items-center justify-center p-4 md:p-12"
+        x-transition:enter="transition opacity ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" style="display: none;">
+
+        <button @click="lightboxOpen = false" class="absolute top-6 right-6 text-white hover:text-lens-gray">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M6 6l20 20M26 6l-20 20" />
+            </svg>
+        </button>
+
+        <img :src="lightboxImage" class="max-h-[85vh] max-w-full object-contain shadow-2xl">
+        <p x-text="lightboxCaption" class="mt-6 text-lens-gray font-serif italic text-xl"></p>
+    </div>
+
 </body>
+
 </html>

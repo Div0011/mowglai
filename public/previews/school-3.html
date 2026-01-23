@@ -1,126 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduTech Pro [Tier 3]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Academy | Code Your Future</title>
+    <meta name="description" content="Mowglai Academy - Master the skills of tomorrow.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-            const cursor = document.createElement('div');
-            cursor.classList.add('cursor');
-            document.body.appendChild(cursor);
-            document.addEventListener('mousemove', e => { 
-                cursor.style.left = e.clientX + 'px'; 
-                cursor.style.top = e.clientY + 'px'; 
-            });
-            document.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
-        
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #eff6ff;
-            --text: #1e3a8a;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'edutech-dark': '#0f172a',
+                        'edutech-card': '#1e293b',
+                        'edutech-accent': '#f59e0b', // Amber
+                        'edutech-purple': '#8b5cf6',
+                        'edutech-text': '#94a3b8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 60px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: var(--text); mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            body { cursor: none; }
-            .cursor { position: fixed; width: 20px; height: 20px; border: 1px solid var(--text); border-radius: 50%; pointer-events: none; z-index: 99999; transition: transform 0.1s; transform: translate(-50%, -50%); mix-blend-mode: difference; }
-            .cursor.hovered { transform: translate(-50%, -50%) scale(2.5); background: var(--text); }
-            
-            .loader { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 5rem; animation: slideUp 1s 1.5s forwards; }
-            @keyframes slideUp { to { transform: translateY(-100%); } }
-            
-            h1 { font-size: 8rem; line-height: 0.9; }
-            .reveal-text span { display: inline-block; transform: translateY(100%); animation: reveal 0.8s forwards; }
-            @keyframes reveal { to { transform: translateY(0); } }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-             .hero { align-items: flex-end; padding-bottom: 100px; }
-             .asym-img { position: absolute; top:0; right:0; width: 60%; height: 80%; object-fit: cover; z-index: -1; }
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    <div class="loader">MOWGLAI</div>
-    <div class="tier-badge">TIER 3 • $899</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }" class="bg-edutech-dark text-white font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-edutech-dark/95 backdrop-blur border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 text-xl font-display font-bold text-white">
+                <div
+                    class="w-8 h-8 bg-edutech-accent rounded-lg flex items-center justify-center text-black font-bold text-lg">
+                    M</div>
+                Mowglai Academy
+            </a>
+
+            <div class="hidden md:flex flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search for courses..."
+                        class="w-full bg-edutech-card border border-white/10 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-edutech-accent focus:ring-1 focus:ring-edutech-accent transition-all text-white placeholder-edutech-text">
+                    <svg class="absolute right-3 top-2.5 text-edutech-text w-4 h-4" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="hidden md:flex gap-6 items-center text-sm font-medium">
+                <a href="#courses" class="hover:text-edutech-accent transition-colors">Courses</a>
+                <a href="#mentors" class="hover:text-edutech-accent transition-colors">Mentors</a>
+                <a href="#pricing" class="hover:text-edutech-accent transition-colors">Pro Pricing</a>
+                <a href="#"
+                    class="px-5 py-2 bg-edutech-purple text-white rounded-lg hover:bg-purple-600 transition-colors shadow-lg shadow-purple-900/20">
+                    My Learning
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                 <img src="https://placehold.co/1200x800/f59e0b/ffffff?text=EduTech+LMS" class="asym-img">
-                 <h1 class="animate reveal-text" style="mix-blend-mode: difference; color: white;"><span style="display:inline-block">EduTech&nbsp;</span><span style="display:inline-block">Pro&nbsp;</span></h1>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen" class="fixed inset-0 z-40 bg-edutech-dark flex flex-col p-6 space-y-6"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-full"
+        x-transition:enter-end="opacity-100 translate-x-0">
+        <div class="flex justify-end">
+            <button @click="mobileMenuOpen = false" class="text-white">✕</button>
+        </div>
+        <input type="text" placeholder="Search..."
+            class="bg-edutech-card border border-white/10 rounded-lg px-4 py-3 text-white">
+        <a href="#courses" @click="mobileMenuOpen = false" class="text-xl font-display font-medium">Courses</a>
+        <a href="#mentors" @click="mobileMenuOpen = false" class="text-xl font-display font-medium">Mentors</a>
+        <a href="#pricing" @click="mobileMenuOpen = false" class="text-xl font-display font-medium">Pricing</a>
+        <a href="#" class="w-full bg-edutech-purple text-center py-3 rounded-lg font-bold">My Learning</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="pt-32 pb-24 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-edutech-accent/10 text-edutech-accent text-xs font-bold uppercase tracking-wider mb-6 border border-edutech-accent/20">
+                    <span class="w-2 h-2 rounded-full bg-edutech-accent animate-pulse"></span>
+                    New: AI Engineering Track
+                </div>
+                <h1 class="text-5xl md:text-7xl font-display font-bold mb-6 leading-tight">
+                    Master the <br> <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-edutech-accent to-edutech-purple">Code
+                        of Tomorrow</span>
+                </h1>
+                <p class="text-lg text-edutech-text mb-10 max-w-lg leading-relaxed">
+                    Interactive lessons, real-world projects, and expert mentorship. Join 50,000+ developers building
+                    the future.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#courses"
+                        class="px-8 py-4 bg-white text-edutech-dark font-bold rounded-lg hover:bg-gray-200 transition-colors">
+                        Explore Courses
+                    </a>
+                    <a href="#"
+                        class="px-8 py-4 bg-edutech-card border border-white/10 text-white font-bold rounded-lg hover:bg-edutech-card/80 transition-colors flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Watch Demo
+                    </a>
+                </div>
+
+                <div class="mt-12 flex items-center gap-4 text-sm text-edutech-text">
+                    <div class="flex -space-x-2">
+                        <img src="https://i.pravatar.cc/100?img=1"
+                            class="w-8 h-8 rounded-full border-2 border-edutech-dark">
+                        <img src="https://i.pravatar.cc/100?img=2"
+                            class="w-8 h-8 rounded-full border-2 border-edutech-dark">
+                        <img src="https://i.pravatar.cc/100?img=3"
+                            class="w-8 h-8 rounded-full border-2 border-edutech-dark">
+                    </div>
+                    <span>Trusted by developers from Google, Meta, and Amazon.</span>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 3 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is an Ultra-Luxury template designed for industry leaders. It features experimental interactions, custom cursors, and immersive typography.</p>
+            <div class="relative">
+                <!-- Code Window Mockup -->
+                <div
+                    class="bg-edutech-card border border-white/10 rounded-2xl shadow-2xl p-6 relative z-10 font-mono text-sm leading-relaxed overflow-hidden">
+                    <div class="flex gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="text-blue-400">import</div>
+                    <div class="text-white inline">React</div>
+                    <div class="text-blue-400 inline">from</div>
+                    <div class="text-green-400 inline">'react'</div>;
+                    <br><br>
+                    <div class="text-purple-400">function</div>
+                    <div class="text-yellow-400 inline">App</div>() {
+                    <br>
+                    &nbsp;&nbsp;<div class="text-purple-400 inline">return</div> (
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;<div class="text-red-400 inline">div</div>
+                    <div class="text-orange-400 inline">className</div>=<div class="text-green-400 inline">"future"
+                    </div>&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<div class="text-red-400 inline">h1</div>&gt;Hello
+                    World&lt;/<div class="text-red-400 inline">h1</div>&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<div class="text-red-400 inline">div</div>&gt;
+                    <br>
+                    &nbsp;&nbsp;);
+                    <br>
+                    }
+
+                    <!-- Floating Badge -->
+                    <div
+                        class="absolute bottom-6 right-6 bg-edutech-purple text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 animate-bounce">
+                        <span>✨</span> Component Compiled
+                    </div>
+                </div>
+
+                <!-- Glow Effect -->
+                <div class="absolute -inset-4 bg-edutech-purple/20 filter blur-3xl z-0 rounded-full"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <section class="border-y border-white/5 bg-edutech-card/30">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl font-display font-bold text-white mb-2">250+</div>
+                <div class="text-edutech-text text-sm">Active Courses</div>
             </div>
             <div>
-                 <div style="font-size: 4rem;">$899</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+                <div class="text-4xl font-display font-bold text-white mb-2">50k+</div>
+                <div class="text-edutech-text text-sm">Students</div>
             </div>
-         </div>
+            <div>
+                <div class="text-4xl font-display font-bold text-white mb-2">120+</div>
+                <div class="text-edutech-text text-sm">Expert Mentors</div>
+            </div>
+            <div>
+                <div class="text-4xl font-display font-bold text-white mb-2">4.9</div>
+                <div class="text-edutech-text text-sm">Average Rating</div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 6rem; margin-bottom: 20px;">EduTech Pro</h2>
+    <!-- Courses Grid -->
+    <section id="courses" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Popular Courses</h2>
+                    <p class="text-edutech-text">Explore our highest-rated programming tracks.</p>
+                </div>
+                <a href="#"
+                    class="hidden md:flex items-center gap-2 text-edutech-accent font-bold hover:gap-3 transition-all">View
+                    All <span class="text-xl">→</span></a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Course 1 -->
+                <div
+                    class="bg-edutech-card rounded-2xl border border-white/5 overflow-hidden hover:border-edutech-accent/50 transition-colors group cursor-pointer">
+                    <div
+                        class="h-48 bg-gradient-to-br from-blue-900 to-slate-900 relative p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-blue-500/20 text-blue-300 w-fit px-3 py-1 rounded-full text-xs font-bold border border-blue-500/30">
+                            Frontend</div>
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl shadow-xl">
+                            ⚛️</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-white group-hover:text-edutech-accent transition-colors">
+                                React 19 Masterclass</h3>
+                            <span class="text-white font-bold bg-white/10 px-2 py-1 rounded text-xs">4.9 ★</span>
+                        </div>
+                        <p class="text-edutech-text text-sm mb-6 line-clamp-2">Deep dive into Server Components,
+                            Suspense, and the new Hook era.</p>
+
+                        <div class="flex items-center gap-3 mb-6">
+                            <img src="https://i.pravatar.cc/100?img=11"
+                                class="w-8 h-8 rounded-full border border-white/10">
+                            <div class="text-xs">
+                                <div class="text-white font-bold">Alex Chen</div>
+                                <div class="text-edutech-text">Senior Eng @ Vercel</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full bg-white/5 rounded-full h-1.5 mb-2">
+                            <div class="bg-edutech-accent h-1.5 rounded-full w-[45%]"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-edutech-text">
+                            <span>Intermediate</span>
+                            <span>12h 30m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div
+                    class="bg-edutech-card rounded-2xl border border-white/5 overflow-hidden hover:border-edutech-accent/50 transition-colors group cursor-pointer">
+                    <div
+                        class="h-48 bg-gradient-to-br from-purple-900 to-slate-900 relative p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-purple-500/20 text-purple-300 w-fit px-3 py-1 rounded-full text-xs font-bold border border-purple-500/30">
+                            Backend</div>
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl shadow-xl">
+                            🐍</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-white group-hover:text-edutech-accent transition-colors">
+                                Python for AI</h3>
+                            <span class="text-white font-bold bg-white/10 px-2 py-1 rounded text-xs">4.8 ★</span>
+                        </div>
+                        <p class="text-edutech-text text-sm mb-6 line-clamp-2">Build neural networks from scratch using
+                            PyTorch and TensorFlow.</p>
+
+                        <div class="flex items-center gap-3 mb-6">
+                            <img src="https://i.pravatar.cc/100?img=5"
+                                class="w-8 h-8 rounded-full border border-white/10">
+                            <div class="text-xs">
+                                <div class="text-white font-bold">Dr. Sarah Li</div>
+                                <div class="text-edutech-text">AI Researcher</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full bg-white/5 rounded-full h-1.5 mb-2">
+                            <div class="bg-edutech-purple h-1.5 rounded-full w-[0%]"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-edutech-text">
+                            <span>Advanced</span>
+                            <span>24h 15m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div
+                    class="bg-edutech-card rounded-2xl border border-white/5 overflow-hidden hover:border-edutech-accent/50 transition-colors group cursor-pointer">
+                    <div
+                        class="h-48 bg-gradient-to-br from-orange-900 to-slate-900 relative p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-orange-500/20 text-orange-300 w-fit px-3 py-1 rounded-full text-xs font-bold border border-orange-500/30">
+                            DevOps</div>
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl shadow-xl">
+                            🐳</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-white group-hover:text-edutech-accent transition-colors">
+                                Docker & K8s</h3>
+                            <span class="text-white font-bold bg-white/10 px-2 py-1 rounded text-xs">4.7 ★</span>
+                        </div>
+                        <p class="text-edutech-text text-sm mb-6 line-clamp-2">Containerization and orchestration for
+                            scalable applications.</p>
+
+                        <div class="flex items-center gap-3 mb-6">
+                            <img src="https://i.pravatar.cc/100?img=8"
+                                class="w-8 h-8 rounded-full border border-white/10">
+                            <div class="text-xs">
+                                <div class="text-white font-bold">Mike Ross</div>
+                                <div class="text-edutech-text">System Architect</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full bg-white/5 rounded-full h-1.5 mb-2">
+                            <div class="bg-orange-500 h-1.5 rounded-full w-[20%]"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-edutech-text">
+                            <span>Beginner</span>
+                            <span>8h 45m</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 px-6 bg-edutech-card border-t border-white/5">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-6">Invest in Your Career</h2>
+            <p class="text-edutech-text text-lg">Choose a plan that fits your learning journey.</p>
+        </div>
+
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Free -->
+            <div class="p-8 rounded-2xl border border-white/5 bg-edutech-dark hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-2">Starter</h3>
+                <div class="text-3xl font-display font-bold text-white mb-6">$0<span
+                        class="text-sm text-edutech-text font-sans font-normal">/mo</span></div>
+                <ul class="space-y-4 text-edutech-text text-sm mb-8 text-left">
+                    <li class="flex gap-2"><span>✓</span> Access to free courses</li>
+                    <li class="flex gap-2"><span>✓</span> Community forums</li>
+                    <li class="flex gap-2"><span>✓</span> Basic coding sandbox</li>
+                </ul>
+                <button
+                    class="w-full py-3 border border-white/20 rounded-lg font-bold hover:bg-white hover:text-black transition-colors">Start
+                    Free</button>
+            </div>
+
+            <!-- Pro -->
+            <div
+                class="p-8 rounded-2xl border-2 border-edutech-accent bg-edutech-dark relative transform md:-translate-y-4">
+                <div
+                    class="absolute -top-4 left-1/2 -translate-x-1/2 bg-edutech-accent text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    Most Popular</div>
+                <h3 class="text-xl font-bold text-white mb-2">Pro</h3>
+                <div class="text-3xl font-display font-bold text-white mb-6">$29<span
+                        class="text-sm text-edutech-text font-sans font-normal">/mo</span></div>
+                <ul class="space-y-4 text-white text-sm mb-8 text-left">
+                    <li class="flex gap-2 text-edutech-accent"><span>✓</span> All 250+ courses</li>
+                    <li class="flex gap-2 text-edutech-accent"><span>✓</span> Certificates of completion</li>
+                    <li class="flex gap-2 text-edutech-accent"><span>✓</span> Mentor code reviews</li>
+                    <li class="flex gap-2 text-edutech-accent"><span>✓</span> Offline downloads</li>
+                </ul>
+                <button
+                    class="w-full py-3 bg-edutech-accent text-black rounded-lg font-bold hover:bg-yellow-400 transition-colors shadow-lg shadow-yellow-900/20">Go
+                    Pro</button>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="p-8 rounded-2xl border border-white/5 bg-edutech-dark hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-2">Teams</h3>
+                <div class="text-3xl font-display font-bold text-white mb-6">$99<span
+                        class="text-sm text-edutech-text font-sans font-normal">/user</span></div>
+                <ul class="space-y-4 text-edutech-text text-sm mb-8 text-left">
+                    <li class="flex gap-2"><span>✓</span> Everything in Pro</li>
+                    <li class="flex gap-2"><span>✓</span> Team analytics</li>
+                    <li class="flex gap-2"><span>✓</span> SSO Integration</li>
+                    <li class="flex gap-2"><span>✓</span> Assigned success manager</li>
+                </ul>
+                <button
+                    class="w-full py-3 border border-white/20 rounded-lg font-bold hover:bg-white hover:text-black transition-colors">Contact
+                    Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-white/5 bg-edutech-dark text-center md:text-left">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <a href="#"
+                    class="flex items-center gap-2 text-xl font-display font-bold text-white justify-center md:justify-start mb-2">
+                    <div
+                        class="w-6 h-6 bg-edutech-accent rounded-md flex items-center justify-center text-black font-bold text-xs">
+                        M</div>
+                    Mowglai Academy
+                </a>
+                <p class="text-edutech-text text-sm">© 2025 Mowglai Inc. All rights reserved.</p>
+            </div>
+
+            <div class="flex gap-6 text-sm text-edutech-text">
+                <a href="#" class="hover:text-white">Terms</a>
+                <a href="#" class="hover:text-white">Privacy</a>
+                <a href="#" class="hover:text-white">Cookies</a>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

@@ -1,113 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Science Lab [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Academy | Become Unstoppable</title>
+    <meta name="description" content="Mowglai Code Academy - Cyber security and full stack development bootcamp.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-black': '#050505',
+                        'cyber-green': '#00ff41',
+                        'cyber-dark-green': '#003b00',
+                        'cyber-pink': '#ff00ff',
+                        'cyber-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        retro: ['Press Start 2P', 'cursive'],
+                    },
+                    animation: {
+                        'blink-caret': 'blink 1s step-end infinite',
+                        'glitch': 'glitch 2s infinite',
+                    },
+                    keyframes: {
+                        blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } },
+                        glitch: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
+                            '100%': { transform: 'translate(0)' },
+                        }
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #059669;
-            --bg: #ecfdf5;
-            --text: #064e3b;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-            .hero { padding: 0; }
-            .split-l { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-            .split-r { flex: 1; height: 100vh; background: url('https://placehold.co/1200x800/fcd34d/ffffff?text=Tech+Institute') center/cover; }
-         
-         
-         
-    
+        .text-shadow-glow {
+            text-shadow: 0 0 10px #00ff41;
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $699</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false, typing: false }"
+    class="bg-cyber-black text-cyber-green font-mono selection:bg-cyber-green selection:text-black min-h-screen">
+
+    <!-- CRT Effect Overlay -->
+    <div class="fixed inset-0 crt-overlay z-50 pointer-events-none"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 bg-cyber-black/90 border-b border-cyber-green">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="#" class="text-sm md:text-lg font-bold tracking-tighter hover:text-white transition-colors">
+                <span class="text-cyber-green mr-2">></span>MOWGLAI_ACADEMY<span class="animate-blink-caret">_</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
+                <a href="#tracks" class="hover:text-white hover:underline decoration-cyber-pink underline-offset-4">[01]
+                    TRACKS</a>
+                <a href="#community"
+                    class="hover:text-white hover:underline decoration-cyber-pink underline-offset-4">[02] COMMUNITY</a>
+                <a href="#apply"
+                    class="bg-cyber-green text-black px-4 py-2 hover:bg-white hover:text-black transition-colors">APPLY_NOW()</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-cyber-green">
+                <div class="space-y-1">
+                    <span class="block w-6 h-1 bg-cyber-green"></span>
+                    <span class="block w-6 h-1 bg-cyber-green"></span>
+                    <span class="block w-6 h-1 bg-cyber-green"></span>
+                </div>
+            </button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="split-l">
-                    <h1 class="animate ">Science Lab</h1>
-                    <p class="animate" style="opacity:0.6; margin-bottom: 40px;">Design for technical institutes.</p>
-                    <a href="#" class="btn animate">Explore</a>
-                </div>
-                <div class="split-r"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-30 bg-cyber-black flex flex-col items-center justify-center space-y-8 font-retro text-xs leading-loose"
+        x-transition:enter="transition opacity ease-out duration-200" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 text-cyber-pink">EXIT</button>
+        <a href="#tracks" @click="mobileMenuOpen = false" class="hover:text-cyber-pink">TRACKS</a>
+        <a href="#community" @click="mobileMenuOpen = false" class="hover:text-cyber-pink">COMMUNITY</a>
+        <a href="#apply" @click="mobileMenuOpen = false" class="text-cyber-pink">APPLY_NOW</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="pt-32 pb-20 px-6 min-h-screen flex items-center justify-center">
+        <div class="max-w-5xl w-full">
+            <div class="text-xs md:text-sm text-cyber-dark-green mb-4">
+                root@mowglai:~/academy# ./init_sequence.sh
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+            <h1 class="text-4xl md:text-7xl font-bold mb-8 leading-tight">
+                <span class="text-white">BREAK THE</span> <br>
+                <span class="text-shadow-glow">SYSTEM.</span> <br>
+                <span class="text-cyber-pink">BUILD THE FUTURE.</span>
+            </h1>
+
+            <p class="text-gray-400 text-sm md:text-lg max-w-2xl mb-12 border-l-2 border-cyber-green pl-6 font-bold">
+                An intense 12-week bootcamp for those ready to reject the status quo.
+                Learn Full Stack, Cyber Security, or AI Engineering.
+                No degrees. Just code.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-6">
+                <a href="#apply"
+                    class="bg-cyber-green text-black px-8 py-4 font-bold hover:bg-cyber-pink hover:text-white transition-colors text-center shadow-[4px_4px_0_0_#fff]">
+                    START_APPLICATION
+                </a>
+                <a href="#curriculum"
+                    class="border border-cyber-green text-cyber-green px-8 py-4 font-bold hover:bg-cyber-green/10 transition-colors text-center">
+                    VIEW_CURRICULUM
+                </a>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$699</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <div
+                class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-gray-800 pt-8 text-xs text-gray-500">
+                <div>
+                    <span class="block text-white font-bold mb-1">> 94%</span>
+                    HIRING RATE
+                </div>
+                <div>
+                    <span class="block text-white font-bold mb-1">> $95k</span>
+                    AVG SALARY
+                </div>
+                <div>
+                    <span class="block text-white font-bold mb-1">> 1:8</span>
+                    MENTOR RATIO
+                </div>
+                <div>
+                    <span class="block text-white font-bold mb-1">> REMOTE</span>
+                    OR ON-SITE
+                </div>
             </div>
-         </div>
+        </div>
+    </header>
+
+    <!-- Tracks / Programs -->
+    <section id="tracks" class="py-24 px-6 bg-cyber-gray clip-path-polygon">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="font-retro text-xl md:text-2xl mb-16 text-white text-center">AVAILABLE_TRACKS</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Track 1 -->
+                <div
+                    class="bg-cyber-black border border-gray-700 p-8 hover:border-cyber-green transition-colors group relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 p-4 font-retro text-4xl text-gray-800 pointer-events-none group-hover:text-cyber-dark-green transition-colors">
+                        01</div>
+                    <h3 class="text-xl font-bold text-white mb-4 group-hover:text-cyber-green transition-colors">
+                        FULL_STACK_DEV</h3>
+                    <p class="text-xs text-gray-400 mb-8 leading-relaxed">
+                        Front-end mastery (React, Next.js) meets back-end architecture (Node, Go). Build scalable
+                        systems from day one.
+                    </p>
+                    <ul class="text-xs text-cyber-green space-y-2 mb-8 font-bold">
+                        <li>> JavaScript / TypeScript</li>
+                        <li>> SQL & NoSQL</li>
+                        <li>> Cloud Deployment</li>
+                    </ul>
+                    <button
+                        class="text-white text-xs hover:text-cyber-pink hover:underline uppercase decoration-wavy underline-offset-4">Details
+                        -></button>
+                </div>
+
+                <!-- Track 2 -->
+                <div
+                    class="bg-cyber-black border border-cyber-pink p-8 shadow-[0_0_15px_rgba(255,0,255,0.2)] hover:shadow-[0_0_25px_rgba(255,0,255,0.4)] transition-all group relative overflow-hidden transform md:-translate-y-4">
+                    <div
+                        class="absolute top-0 right-0 p-4 font-retro text-4xl text-gray-800 pointer-events-none group-hover:text-cyber-pink/20 transition-colors">
+                        02</div>
+                    <div class="bg-cyber-pink text-black text-[10px] font-bold px-2 py-1 inline-block mb-4">POPULAR
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4 group-hover:text-cyber-pink transition-colors">
+                        CYBER_SECURITY</h3>
+                    <p class="text-xs text-gray-400 mb-8 leading-relaxed">
+                        Red teaming, ethical hacking, and network defense. Learn to break systems to make them
+                        unbreakable.
+                    </p>
+                    <ul class="text-xs text-cyber-pink space-y-2 mb-8 font-bold">
+                        <li>> Penetration Testing</li>
+                        <li>> Network Forensics</li>
+                        <li>> Cryptography</li>
+                    </ul>
+                    <button
+                        class="text-white text-xs hover:text-cyber-green hover:underline uppercase decoration-wavy underline-offset-4">Details
+                        -></button>
+                </div>
+
+                <!-- Track 3 -->
+                <div
+                    class="bg-cyber-black border border-gray-700 p-8 hover:border-cyber-green transition-colors group relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 p-4 font-retro text-4xl text-gray-800 pointer-events-none group-hover:text-cyber-dark-green transition-colors">
+                        03</div>
+                    <h3 class="text-xl font-bold text-white mb-4 group-hover:text-cyber-green transition-colors">
+                        AI_ENGINEERING</h3>
+                    <p class="text-xs text-gray-400 mb-8 leading-relaxed">
+                        Master the matrix. Machine learning models, LLMs, and neural networks.
+                    </p>
+                    <ul class="text-xs text-cyber-green space-y-2 mb-8 font-bold">
+                        <li>> Python / PyTorch</li>
+                        <li>> RAG Architectures</li>
+                        <li>> Model Fine-tuning</li>
+                    </ul>
+                    <button
+                        class="text-white text-xs hover:text-cyber-pink hover:underline uppercase decoration-wavy underline-offset-4">Details
+                        -></button>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Science Lab</h2>
+    <!-- Terminal Output / Testimonials -->
+    <section id="community" class="py-24 px-6 font-mono text-xs md:text-sm">
+        <div class="max-w-4xl mx-auto bg-gray-900 p-6 rounded-t-lg border border-gray-700">
+            <div class="flex gap-2 mb-6">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <span class="text-cyber-green">user@mowglai:~$</span> cat testimonials.txt
+                </div>
+
+                <div class="pl-4 border-l border-gray-700 text-gray-300">
+                    "I learned more in 3 months here than 4 years at university. The pace is brutal, but the skills are
+                    real. Now working at Google." -- Alex_K
+                </div>
+
+                <div class="pl-4 border-l border-gray-700 text-gray-300">
+                    "No hand-holding. They throw you into the deep end. Best decision I ever made." -- Sarah_J (CyberSec
+                    Analyst)
+                </div>
+
+                <div>
+                    <span class="text-cyber-green">user@mowglai:~$</span> ./check_status.sh <br>
+                    <span class="text-white">STATUS:</span> <span class="text-cyber-green">OPEN FOR ENROLLMENT</span>
+                    <br>
+                    <span class="text-white">NEXT COHORT:</span> <span class="text-cyber-pink">FEB 14, 2026</span>
+                </div>
+                <div>
+                    <span class="text-cyber-green">user@mowglai:~$</span> <span class="animate-blink-caret">_</span>
+                </div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="apply" class="py-16 px-6 border-t border-cyber-green/30 bg-black text-center">
+        <h2 class="font-retro text-2xl md:text-3xl text-white mb-8">READY_TO_START?</h2>
+
+        <form class="max-w-md mx-auto space-y-4 mb-12">
+            <input type="email" placeholder="ENTER_EMAIL_ADDRESS"
+                class="w-full bg-cyber-gray border border-gray-700 p-4 text-white focus:outline-none focus:border-cyber-green font-mono text-sm placeholder-gray-600">
+            <button class="w-full bg-cyber-green text-black font-bold p-4 hover:bg-white transition-colors uppercase">
+                Initialize_Application
+            </button>
+        </form>
+
+        <div class="text-[10px] text-gray-600 uppercase tracking-widest">
+            &copy; 2025 Mowglai Code Academy. <br>
+            System.exit(0);
+        </div>
     </footer>
+
 </body>
+
 </html>

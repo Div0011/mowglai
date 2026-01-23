@@ -1,109 +1,335 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Life [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Mowglai Arts | Design Your Reality</title>
+    <meta name="description" content="Mowglai Art Institute - Where creativity meets chaos. A school for the bold.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'art-black': '#121212',
+                        'art-red': '#ff3e3e',
+                        'art-blue': '#3e54ff',
+                        'art-yellow': '#ffff3e',
+                        'art-paper': '#f0f0f0',
+                    },
+                    fontFamily: {
+                        mono: ['Roboto Mono', 'monospace'],
+                        display: ['Abril Fatface', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                    },
+                    boxShadow: {
+                        'brutal': '8px 8px 0px 0px #121212',
+                        'brutal-hover': '4px 4px 0px 0px #121212',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #db2777;
-            --bg: #fdf2f8;
-            --text: #831843;
-            --font-head: 'Oswald', serif;
-            --font-body: 'Manrope', sans-serif;
+        .mix-blend-multiply {
+            mix-blend-mode: multiply;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        .text-stroke {
+            -webkit-text-stroke: 1px #121212;
+            color: transparent;
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-
-        
-             .hero { justify-content: center; text-align: center; flex-direction: column; }
-             .hero-img-wrap { width: 70%; height: 60vh; overflow: hidden; margin-top: 40px; }
-             .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .clip-tear {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 90%, 90% 85%, 85% 95%, 80% 85%, 75% 90%, 70% 85%, 65% 95%, 60% 85%, 55% 90%, 50% 85%, 45% 95%, 40% 85%, 35% 90%, 30% 85%, 25% 95%, 20% 85%, 15% 90%, 10% 85%, 5% 95%, 0 85%);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $599</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-art-paper text-art-black font-mono selection:bg-art-black selection:text-white bg-noise">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b-2 border-art-black bg-white">
+        <div class="flex justify-between items-center h-20 px-6">
+            <a href="#" class="text-3xl font-display uppercase tracking-tighter hover:text-art-red transition-colors">
+                Mowglai <span class="bg-art-black text-white px-2 transform -skew-x-12 inline-block">Arts</span>
+            </a>
+
+            <div class="hidden md:flex gap-8 font-bold text-sm uppercase tracking-widest">
+                <a href="#programs"
+                    class="hover:underline decoration-4 decoration-art-yellow underline-offset-4">Programs</a>
+                <a href="#gallery"
+                    class="hover:underline decoration-4 decoration-art-blue underline-offset-4">Gallery</a>
+                <a href="#events" class="hover:underline decoration-4 decoration-art-red underline-offset-4">Events</a>
+                <a href="#apply"
+                    class="bg-art-black text-white px-6 py-2 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+                    Apply Now
+                </a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <div class="space-y-2">
+                    <span class="block w-8 h-1 bg-art-black"></span>
+                    <span class="block w-8 h-1 bg-art-black"></span>
+                    <span class="block w-8 h-1 bg-art-black"></span>
+                </div>
+            </button>
+        </div>
     </nav>
 
-    
-             <div class="hero">
-                <h1 class="animate ">Campus Life</h1>
-                <div class="hero-img-wrap animate"><img src="https://placehold.co/1200x800/fbbf24/ffffff?text=High+School"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-art-yellow flex flex-col items-center justify-center space-y-8 font-display text-5xl uppercase"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-full"
+        x-transition:enter-end="opacity-100 translate-y-0">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-6 right-6 font-mono text-sm font-bold bg-white text-black px-4 py-2 border-2 border-black shadow-brutal">CLOSE</button>
+        <a href="#programs" @click="mobileMenuOpen = false" class="hover:text-white">Programs</a>
+        <a href="#gallery" @click="mobileMenuOpen = false" class="hover:text-white">Gallery</a>
+        <a href="#events" @click="mobileMenuOpen = false" class="hover:text-white">Events</a>
+        <a href="#apply" @click="mobileMenuOpen = false" class="bg-black text-white px-8 py-4 -rotate-2">Apply</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="pt-20 min-h-screen flex items-center justify-center overflow-hidden relative">
+        <!-- Painted Background Elements -->
+        <div
+            class="absolute top-20 left-10 w-64 h-64 bg-art-red rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse">
+        </div>
+        <div class="absolute bottom-20 right-10 w-80 h-80 bg-art-blue rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse"
+            style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-art-yellow rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse"
+            style="animation-delay: 2s;"></div>
+
+        <div class="relative z-10 text-center max-w-5xl px-6">
+            <div class="relative inline-block mb-12">
+                <!-- Main Text -->
+                <h1 class="text-7xl md:text-9xl font-display uppercase leading-[0.85] tracking-tighter relative z-20">
+                    Create <br> Or <span class="text-stroke">Die</span> <br> Trying.
+                </h1>
+                <!-- Sticker Decorations -->
+                <div
+                    class="absolute -top-12 -right-12 bg-art-yellow text-black font-mono text-xs font-bold p-4 rounded-full rotate-12 shadow-brutal border-2 border-black z-30">
+                    FALL 2025 <br> OPEN
+                </div>
+                <div
+                    class="absolute -bottom-8 -left-8 bg-art-blue text-white font-mono text-xs font-bold px-6 py-2 -rotate-6 shadow-brutal border-2 border-black z-30">
+                    #MOWGLAI
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+            <p
+                class="font-mono text-lg md:text-xl bg-white border-2 border-black inline-block px-6 py-4 shadow-brutal max-w-2xl mx-auto rotate-1 relative z-10">
+                We are not a traditional art school. We are a collective of renegades, designers, and visionaries.
+                <strong>Break the rules.</strong>
+            </p>
+
+            <div class="mt-16 relative">
+                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2671&auto=format&fit=crop"
+                    class="w-64 h-40 object-cover border-2 border-black shadow-brutal absolute top-0 left-1/4 transform -translate-x-1/2 -rotate-12 hover:rotate-0 transition-transform duration-300 z-0">
+                <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=2670&auto=format&fit=crop"
+                    class="w-64 h-40 object-cover border-2 border-black shadow-brutal absolute top-8 left-1/2 transform -translate-x-1/2 rotate-6 hover:rotate-0 transition-transform duration-300 z-10">
+                <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2574&auto=format&fit=crop"
+                    class="w-64 h-40 object-cover border-2 border-black shadow-brutal absolute top-0 left-3/4 transform -translate-x-1/2 -rotate-6 hover:rotate-0 transition-transform duration-300 z-0">
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$599</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Programs Marquee -->
+    <div
+        class="bg-art-black text-white py-6 border-y-2 border-black overflow-hidden whitespace-nowrap font-display text-4xl uppercase relative z-20 rotate-1 -mx-4 mt-32">
+        <div class="animate-[marquee_20s_linear_infinite] inline-block">
+            Graphic Design • Fine Arts • Sculpture • Photography • New Media • Fashion • Illustration • Graphic Design •
+            Fine Arts • Sculpture • Photography • New Media • Fashion • Illustration •
+        </div>
+    </div>
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+
+    <!-- Programs Grid -->
+    <section id="programs" class="py-32 px-6 max-w-7xl mx-auto">
+        <h2 class="font-display text-6xl md:text-8xl mb-24 text-center">Disciplines</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Card 1 -->
+            <div
+                class="bg-white border-2 border-black p-8 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px] transition-all group">
+                <div class="h-64 mb-8 overflow-hidden border-2 border-black relative">
+                    <img src="https://images.unsplash.com/photo-1626785774573-4b799314346d?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 bg-art-red mix-blend-multiply opacity-0 group-hover:opacity-60 transition-opacity">
+                    </div>
+                </div>
+                <h3 class="font-display text-4xl mb-4">Visual Comm.</h3>
+                <p class="mb-6 text-sm">Design systems, typography, and brand identity for the digital age.</p>
+                <a href="#"
+                    class="font-bold underline decoration-2 decoration-art-red hover:bg-art-red hover:text-white transition-all px-1">Detailed
+                    Curriculum -></a>
             </div>
-         </div>
+
+            <!-- Card 2 -->
+            <div
+                class="bg-white border-2 border-black p-8 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px] transition-all group mt-12 md:mt-0">
+                <div class="h-64 mb-8 overflow-hidden border-2 border-black relative">
+                    <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 bg-art-blue mix-blend-multiply opacity-0 group-hover:opacity-60 transition-opacity">
+                    </div>
+                </div>
+                <h3 class="font-display text-4xl mb-4">Fine Arts</h3>
+                <p class="mb-6 text-sm">Painting, drawing, and mixed media. Exploring the human condition.</p>
+                <a href="#"
+                    class="font-bold underline decoration-2 decoration-art-blue hover:bg-art-blue hover:text-white transition-all px-1">Detailed
+                    Curriculum -></a>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+                class="bg-white border-2 border-black p-8 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px] transition-all group">
+                <div class="h-64 mb-8 overflow-hidden border-2 border-black relative">
+                    <img src="https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=2670&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 bg-art-yellow mix-blend-multiply opacity-0 group-hover:opacity-60 transition-opacity">
+                    </div>
+                </div>
+                <h3 class="font-display text-4xl mb-4">Spatial Design</h3>
+                <p class="mb-6 text-sm">Architecture, interior, and installation art. Shaping environments.</p>
+                <a href="#"
+                    class="font-bold underline decoration-2 decoration-art-yellow hover:bg-art-yellow hover:text-black transition-all px-1">Detailed
+                    Curriculum -></a>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+                class="bg-white border-2 border-black p-8 shadow-brutal hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px] transition-all group mt-12 md:mt-0">
+                <div class="h-64 mb-8 overflow-hidden border-2 border-black relative">
+                    <img src="https://images.unsplash.com/photo-1503699501188-188826727103?q=80&w=2656&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div
+                        class="absolute inset-0 bg-art-black mix-blend-multiply opacity-0 group-hover:opacity-60 transition-opacity">
+                    </div>
+                </div>
+                <h3 class="font-display text-4xl mb-4">Creative Tech</h3>
+                <p class="mb-6 text-sm">Coding, generative art, and interactive experiences.</p>
+                <a href="#"
+                    class="font-bold underline decoration-2 decoration-art-black hover:bg-art-black hover:text-white transition-all px-1">Detailed
+                    Curriculum -></a>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Campus Life</h2>
+    <!-- Events / Manifesto -->
+    <section id="events" class="py-24 bg-art-yellow border-y-2 border-black clip-tear">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="font-display text-5xl md:text-7xl mb-8 leading-none">The Manifesto</h2>
+                <p class="text-xl font-bold mb-8">"Art is not a mirror held up to reality, but a hammer with which to
+                    shape it."</p>
+                <p class="mb-8">
+                    We believe in the power of the unfinished, the raw, and the wrong. Perfection is boring. We teach
+                    you how to see, how to break, and how to rebuild.
+                </p>
+                <div class="flex gap-4">
+                    <div class="bg-black text-white px-4 py-2 text-sm font-bold rotate-2">NO GRADES</div>
+                    <div class="bg-black text-white px-4 py-2 text-sm font-bold -rotate-2">NO EXAMS</div>
+                    <div class="bg-black text-white px-4 py-2 text-sm font-bold rotate-1">JUST WORK</div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="bg-white border-2 border-black p-6 rotate-2 shadow-brutal z-10 relative">
+                    <h3 class="font-display text-3xl mb-4 bg-art-red inline-block px-2 transform -skew-x-6 text-white">
+                        Upcoming Events</h3>
+                    <ul class="space-y-4">
+                        <li class="border-b-2 border-black pb-2">
+                            <span class="font-bold text-art-red block">OCT 15</span>
+                            <span class="text-lg font-bold uppercase">Open Studio Night</span>
+                        </li>
+                        <li class="border-b-2 border-black pb-2">
+                            <span class="font-bold text-art-blue block">NOV 02</span>
+                            <span class="text-lg font-bold uppercase">Guest Lecture: Banksy</span>
+                        </li>
+                        <li class="border-b-2 border-black pb-2">
+                            <span class="font-bold text-art-black block">DEC 10</span>
+                            <span class="text-lg font-bold uppercase">Winter Exhibition</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- paper texture decoration -->
+                <div class="absolute -top-4 -right-4 w-full h-full bg-black z-0 rotate-2"></div>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Footer / Apply -->
+    <footer id="apply" class="py-32 px-6 bg-white relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-display text-6xl md:text-8xl mb-12 uppercase leading-none">Ready to <br> <span
+                    class="text-art-red">Destroy</span> <br> Your Comfort Zone?</h2>
+
+            <form
+                class="bg-art-paper border-2 border-black p-8 md:p-16 shadow-brutal text-left max-w-2xl mx-auto transform rotate-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block font-bold uppercase mb-2 text-sm">Full Name</label>
+                        <input type="text"
+                            class="w-full bg-white border-2 border-black p-3 focus:outline-none focus:shadow-[4px_4px_0px_0px_#000]">
+                    </div>
+                    <div>
+                        <label class="block font-bold uppercase mb-2 text-sm">Email</label>
+                        <input type="email"
+                            class="w-full bg-white border-2 border-black p-3 focus:outline-none focus:shadow-[4px_4px_0px_0px_#000]">
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <label class="block font-bold uppercase mb-2 text-sm">Portfolio URL</label>
+                    <input type="text"
+                        class="w-full bg-white border-2 border-black p-3 focus:outline-none focus:shadow-[4px_4px_0px_0px_#000]"
+                        placeholder="http://">
+                </div>
+
+                <button
+                    class="w-full bg-art-black text-white font-display text-3xl uppercase py-4 hover:bg-art-blue transition-colors">
+                    Submit Application
+                </button>
+            </form>
+
+            <div
+                class="mt-24 flex flex-col md:flex-row justify-between items-center border-t-2 border-black pt-8 font-bold text-xs uppercase tracking-widest">
+                <div>
+                    &copy; 2025 Mowglai Arts. <br>
+                    Designed in Chaos.
+                </div>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:underline">Instagram</a>
+                    <a href="#" class="hover:underline">Are.na</a>
+                    <a href="#" class="hover:underline">Discord</a>
+                </div>
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

@@ -1,109 +1,428 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LabTech Analytics [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Mowglai Biometrics | Decode Your DNA</title>
+    <meta name="description" content="Mowglai Biometrics - Advanced genetic testing and health data visualization.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bio-black': '#020617',
+                        'bio-blue': '#06b6d4',
+                        'bio-teal': '#2dd4bf',
+                        'bio-purple': '#8b5cf6',
+                        'bio-glass': 'rgba(6, 182, 212, 0.05)',
+                    },
+                    fontFamily: {
+                        sans: ['Rajdhani', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, #0f172a 1px, transparent 1px), linear-gradient(to bottom, #0f172a 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'scan': 'scan 4s linear infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { top: '0%' },
+                            '100%': { top: '100%' },
+                        }
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        :root {
-            --primary: #60a5fa;
-            --bg: #030712;
-            --text: #f1f5f9;
-            --font-head: 'Space Grotesk', serif;
-            --font-body: 'Inter', sans-serif;
+        .hud-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: #06b6d4;
+            border-style: solid;
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
 
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
+        .top-left {
+            border-width: 2px 0 0 2px;
+            top: 0;
+            left: 0;
+        }
 
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .top-right {
+            border-width: 2px 2px 0 0;
+            top: 0;
+            right: 0;
+        }
 
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
+        .bottom-left {
+            border-width: 0 0 2px 2px;
+            bottom: 0;
+            left: 0;
+        }
 
-        
-             .hero { justify-content: center; text-align: center; flex-direction: column; }
-             .hero-img-wrap { width: 70%; height: 60vh; overflow: hidden; margin-top: 40px; }
-             .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
+        .bottom-right {
+            border-width: 0 2px 2px 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
     </style>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $799</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Overview</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false }"
+    class="bg-bio-black text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-bio-blue selection:text-white">
+
+    <!-- Grid Background -->
+    <div class="fixed inset-0 grid-bg opacity-20 -z-10 bg-grid pointer-events-none"></div>
+
+    <!-- Navigation HUD -->
+    <nav class="fixed top-0 w-full z-50 border-b border-bio-blue/20 bg-bio-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-bio-blue rounded-full animate-pulse-fast"></div>
+                <a href="#" class="text-2xl font-bold tracking-widest text-white">MOWGLAI<span
+                        class="text-bio-blue">.BIO</span></a>
+            </div>
+
+            <div class="hidden md:flex gap-8 font-mono text-xs text-bio-blue uppercase tracking-widest">
+                <a href="#analysis"
+                    class="hover:text-white hover:shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all">[01]
+                    Analysis</a>
+                <a href="#genetic"
+                    class="hover:text-white hover:shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all">[02] Genetic
+                    Map</a>
+                <a href="#kits" class="hover:text-white hover:shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all">[03]
+                    Purchase Kit</a>
+                <a href="#login"
+                    class="text-white border border-bio-blue/50 px-4 py-1 hover:bg-bio-blue hover:text-bio-black transition-colors rounded-sm">Log
+                    In ::</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-bio-blue">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    
-             <div class="hero">
-                <h1 class="animate ">LabTech Analytics</h1>
-                <div class="hero-img-wrap animate"><img src="https://placehold.co/1200x800/93c5fd/ffffff?text=Lab+Science"></div>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-bio-black/95 backdrop-blur-md flex flex-col items-center justify-center space-y-8 font-mono text-xl text-bio-blue"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-10"
+        x-transition:enter-end="opacity-100 translate-x-0">
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6">CLOSE [X]</button>
+        <a href="#analysis" @click="mobileMenuOpen = false">Analysis</a>
+        <a href="#genetic" @click="mobileMenuOpen = false">Genetic Map</a>
+        <a href="#kits" @click="mobileMenuOpen = false">Purchase Kit</a>
+        <a href="#login" @click="mobileMenuOpen = false">Log In</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="relative pt-32 pb-20 px-6 min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Abstract DNA Helix Animation (CSS/SVG) -->
+        <div class="absolute inset-0 z-0 opacity-20 flex justify-center items-center">
+            <div class="w-[800px] h-[800px] border border-bio-blue/30 rounded-full animate-[spin_60s_linear_infinite]">
+            </div>
+            <div
+                class="absolute w-[600px] h-[600px] border border-bio-purple/30 rounded-full animate-[spin_40s_linear_infinite_reverse]">
+            </div>
+            <div
+                class="absolute w-[400px] h-[400px] border border-bio-teal/30 rounded-full animate-[spin_20s_linear_infinite]">
+            </div>
+        </div>
+
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto items-center">
+            <div>
+                <div class="inline-block border border-bio-blue/30 bg-bio-blue/10 px-4 py-1 mb-6 rounded-sm">
+                    <span class="font-mono text-xs text-bio-blue animate-pulse">SYSTEM STATUS: OPTIMAL</span>
+                </div>
+                <h1 class="text-6xl md:text-8xl font-bold leading-none text-white mb-6 tracking-tight">
+                    DECODE <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-bio-blue to-bio-purple">YOUR
+                        ORIGIN</span>
+                </h1>
+                <p
+                    class="text-lg md:text-xl text-gray-400 mb-10 max-w-md leading-relaxed border-l-2 border-bio-purple pl-6">
+                    Advanced genome sequencing paired with AI-driven health insights. Understand your code to optimize
+                    your future.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#kits"
+                        class="bg-bio-blue text-bio-black px-8 py-4 font-bold text-lg hover:bg-white hover:shadow-[0_0_20px_#06b6d4] transition-all clip-path-slant flex items-center justify-center gap-2 group">
+                        <span>INITIATE SEQUENCE</span>
+                        <span class="font-mono group-hover:translate-x-1 transition-transform">>></span>
+                    </a>
+                    <a href="#demo"
+                        class="border border-bio-blue/50 text-bio-blue px-8 py-4 font-bold text-lg hover:bg-bio-blue/10 transition-all flex items-center justify-center">
+                        VIEW DEMO DATA
+                    </a>
+                </div>
+
+                <div class="mt-12 grid grid-cols-3 gap-8 font-mono text-xs text-gray-500">
+                    <div>
+                        <div class="text-2xl text-white font-bold mb-1">99.9%</div>
+                        <div>ACCURACY</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl text-white font-bold mb-1">24H</div>
+                        <div>PROCESSING</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl text-white font-bold mb-1">ENCRYPTED</div>
+                        <div>DATA STORAGE</div>
+                    </div>
+                </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+            <!-- Data Card Visualization -->
+            <div
+                class="relative bg-bio-black/50 border border-bio-blue/30 p-8 backdrop-blur-xl rounded-lg shadow-[0_0_50px_rgba(6,182,212,0.1)]">
+                <!-- HUD Corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <!-- Scanning Line -->
+                <div
+                    class="absolute top-0 left-0 w-full h-[2px] bg-bio-blue/50 shadow-[0_0_10px_#06b6d4] animate-scan z-20">
+                </div>
+
+                <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                    <div class="font-mono text-xs text-bio-blue">SUBJECT: HUMAN_01</div>
+                    <div class="font-mono text-xs text-bio-teal">ID: 8492-XJ</div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Stat 1 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-gray-300 mb-1">
+                            <span>METABOLIC EFFICIENCY</span>
+                            <span>84%</span>
+                        </div>
+                        <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-bio-blue to-bio-purple w-[84%] relative">
+                                <div class="absolute right-0 top-0 bottom-0 w-1 bg-white animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat 2 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-gray-300 mb-1">
+                            <span>MUCLE COMPOSITION</span>
+                            <span>TYPE II DOMINANT</span>
+                        </div>
+                        <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-bio-teal to-bio-blue w-[62%]"></div>
+                        </div>
+                    </div>
+                    <!-- Stat 3 -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold text-gray-300 mb-1">
+                            <span>SLEEP RECOVERY</span>
+                            <span>OPTIMAL</span>
+                        </div>
+                        <div class="grid grid-cols-10 gap-1 mt-1">
+                            <div class="h-4 bg-bio-blue/40"></div>
+                            <div class="h-4 bg-bio-blue/60"></div>
+                            <div class="h-4 bg-bio-blue/80"></div>
+                            <div class="h-4 bg-bio-blue"></div>
+                            <div class="h-4 bg-bio-blue"></div>
+                            <div class="h-4 bg-bio-blue"></div>
+                            <div class="h-4 bg-bio-blue/80"></div>
+                            <div class="h-4 bg-bio-blue/60"></div>
+                            <div class="h-4 bg-bio-blue/40"></div>
+                            <div class="h-4 bg-gray-800"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex gap-4">
+                    <div class="w-1/2 bg-gray-900 border border-gray-700 p-4">
+                        <div class="text-[10px] text-gray-500 mb-2">RISK FACTOR</div>
+                        <div class="text-xl font-bold text-white">LOW</div>
+                    </div>
+                    <div class="w-1/2 bg-gray-900 border border-gray-700 p-4">
+                        <div class="text-[10px] text-gray-500 mb-2">ANCESTRY</div>
+                        <div class="text-xl font-bold text-white">GLOBAL</div>
+                    </div>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$799</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+        </div>
+    </header>
+
+    <!-- Features Grid -->
+    <section id="analysis" class="py-24 px-6 border-t border-bio-blue/10 bg-black/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="font-mono text-bio-blue text-xs mb-4">:: SYSTEM CAPABILITIES</div>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-16">BEYOND DNA</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
+                <!-- Card 1 -->
+                <div class="bg-gray-900/50 p-8 border border-white/5 hover:border-bio-blue/50 transition-colors group">
+                    <div
+                        class="w-12 h-12 bg-bio-blue/10 rounded-sm flex items-center justify-center text-bio-blue mb-6 group-hover:bg-bio-blue group-hover:text-bio-black transition-colors">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl text-white font-bold mb-4">Health Predispositions</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Early warning systems based on your genetic
+                        markers. Proactive, not reactive health management.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-gray-900/50 p-8 border border-white/5 hover:border-bio-purple/50 transition-colors group">
+                    <div
+                        class="w-12 h-12 bg-bio-purple/10 rounded-sm flex items-center justify-center text-bio-purple mb-6 group-hover:bg-bio-purple group-hover:text-bio-black transition-colors">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl text-white font-bold mb-4">Longevity Metrics</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Telomere length analysis to estimate biological age
+                        vs chronological age.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gray-900/50 p-8 border border-white/5 hover:border-bio-teal/50 transition-colors group">
+                    <div
+                        class="w-12 h-12 bg-bio-teal/10 rounded-sm flex items-center justify-center text-bio-teal mb-6 group-hover:bg-bio-teal group-hover:text-bio-black transition-colors">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 7h-9" />
+                            <path d="M14 17H5" />
+                            <circle cx="17" cy="17" r="3" />
+                            <circle cx="7" cy="7" r="3" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl text-white font-bold mb-4">Pharmacogenomics</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Precise drug response prediction. Know which
+                        medications work best for your unique body.</p>
+                </div>
             </div>
-         </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">LabTech Analytics</h2>
+    <!-- Pricing / Kits -->
+    <section id="kits" class="py-32 px-6 relative overflow-hidden">
+        <!-- Background Glow -->
+        <div
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-bio-blue/20 rounded-full blur-[100px] -z-10">
         </div>
-        <div>&copy; 2025</div>
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
+            <div>
+                <div class="font-mono text-bio-blue text-xs mb-4">:: HARDWARE SELECTION</div>
+                <h2 class="text-4xl md:text-5xl font-bold text-white">TESTING KITS</h2>
+            </div>
+            <div class="w-full md:w-auto h-[1px] bg-gray-800 flex-grow mx-8"></div>
+            <div class="text-right">
+                <div class="font-mono text-xs text-gray-500">GLOBAL SHIPPING</div>
+                <div class="font-bold text-white">AVAILABLE</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <!-- Kit 1 -->
+            <div
+                class="bg-black border border-gray-800 p-1 relative overflow-hidden group hover:border-bio-blue transition-colors">
+                <div class="bg-gray-900/50 p-8 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="font-bold text-2xl text-white">MOWGLAI <span class="text-bio-blue">CORE</span></div>
+                        <div class="font-mono text-xl text-gray-400">$199</div>
+                    </div>
+                    <ul class="space-y-4 mb-12 flex-grow">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <div class="w-1 h-1 bg-bio-blue"></div>Ancestry Reports
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <div class="w-1 h-1 bg-bio-blue"></div>Health Predisposition
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <div class="w-1 h-1 bg-bio-blue"></div>Carrier Status
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-500 line-through decoration-gray-700">
+                            Pharmacogenomics</li>
+                    </ul>
+                    <button
+                        class="w-full border border-white/20 text-white font-bold py-4 hover:bg-white hover:text-black transition-all">SELECT
+                        CORE</button>
+                </div>
+            </div>
+
+            <!-- Kit 2 -->
+            <div
+                class="bg-black border border-bio-blue/30 p-1 relative overflow-hidden group hover:border-bio-blue hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] transition-all">
+                <div
+                    class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-bio-blue text-black font-mono text-[10px] font-bold px-3 py-1">
+                    MOST POPULAR</div>
+                <div class="bg-bio-blue/5 p-8 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="font-bold text-2xl text-white">MOWGLAI <span class="text-bio-purple">PRO</span>
+                        </div>
+                        <div class="font-mono text-xl text-gray-400">$349</div>
+                    </div>
+                    <ul class="space-y-4 mb-12 flex-grow">
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <div class="w-1 h-1 bg-bio-purple"></div>Full Genome Sequencing
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <div class="w-1 h-1 bg-bio-purple"></div>Ancestry & Health +
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <div class="w-1 h-1 bg-bio-purple"></div>Pharmacogenomics
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <div class="w-1 h-1 bg-bio-purple"></div>Lifetime Updates
+                        </li>
+                    </ul>
+                    <button
+                        class="w-full bg-bio-blue text-bio-black font-bold py-4 hover:bg-white transition-all shadow-[0_0_15px_rgba(6,182,212,0.5)]">SELECT
+                        PRO</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-900 bg-bio-black py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col items-center md:items-start">
+                <a href="#" class="text-xl font-bold tracking-widest text-white mb-2">MOWGLAI<span
+                        class="text-bio-blue">.BIO</span></a>
+                <p class="font-mono text-[10px] text-gray-600">ENCRYPTED. SECURE. PRIVATE.</p>
+            </div>
+
+            <div class="flex gap-8 font-mono text-xs text-gray-500">
+                <a href="#" class="hover:text-bio-blue transition-colors">LEGAL</a>
+                <a href="#" class="hover:text-bio-blue transition-colors">PRIVACY POLICY</a>
+                <a href="#" class="hover:text-bio-blue transition-colors">RESEARCH CONSENT</a>
+            </div>
+
+            <div class="font-mono text-[10px] text-gray-700">
+                SYSTEM_VER_5.0
+            </div>
+        </div>
     </footer>
+
 </body>
+
 </html>

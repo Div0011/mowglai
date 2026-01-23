@@ -1,110 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mindful Retreat [Tier 2]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cinzel:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <title>Mowglai Retreat | Luxury Wellness</title>
+    <meta name="description" content="Mowglai Retreat - A sanctuary for the soul.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Base Anims
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-            
-            // Tier Specific JS
-            
-        });
-    </script>
-    <style>
-        :root {
-            --primary: #db2777;
-            --bg: #fdf2f8;
-            --text: #831843;
-            --font-head: 'Italiana&', serif;
-            --font-body: 'Cinzel', sans-serif;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sage': '#bcc8bc',
+                        'sage-dark': '#8da38d',
+                        'beige-light': '#fdfbf7',
+                        'gold-muted': '#c5a365',
+                        'charcoal': '#3e3e3e',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Tier Badge */
-        .tier-badge { position: fixed; bottom: 20px; left: 20px; padding: 5px 10px; background: var(--text); color: var(--bg); font-size: 0.7rem; z-index: 1000; opacity: 0.5; }
-
-        /* Global Anims */
-        .animate { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .visible { opacity: 1; transform: translateY(0); }
-
-        /* Layout */
-        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 100; color: white; mix-blend-mode: exclusion; }
-        footer { padding: 100px 60px; border-top: 1px solid rgba(125,125,125,0.2); display: flex; justify-content: space-between; align-items: flex-end; }
-        
-        .btn { display: inline-block; padding: 18px 36px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 2px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* Tier Specific CSS */
-        
-            .btn { position: relative; overflow: hidden; }
-            .btn::before { content:''; position:absolute; top:50%; left:50%; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-            .btn:hover::before { width: 300px; height: 300px; }
-            h1 { font-size: 6rem; letter-spacing: -2px; }
-        
-        
-        
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; padding: 0 60px; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; z-index: -1; }
-        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-        
-        
-            .hero { justify-content: flex-end; color: white; text-align: left; }
-            .hero::after { content:''; position: absolute; inset:0; background: rgba(0,0,0,0.3); z-index:-1; }
-        
-
-        
-        
-         /* ... other layouts simplified for brevity but functional ... */
-         
-         
-         
-    
-    </style>
+    </script>
 </head>
-<body>
-    
-    <div class="tier-badge">TIER 2 • $699</div>
 
-    <nav class="animate">
-        <div style="font-weight: 700; letter-spacing: -1px; font-size: 1.5rem;">MOWGLAI</div>
-        <div>Menu</div>
-        <a href="#" class="btn" style="padding: 10px 20px;">Buy</a>
+<body x-data="{ mobileMenuOpen: false, bookingOpen: false }" class="bg-beige-light text-charcoal font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-beige-light/80 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-charcoal">
+                <svg width="24" height="24" stroke="currentColor" fill="none">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-width="1" />
+                </svg>
+            </button>
+
+            <div class="hidden md:flex gap-10 text-xs uppercase tracking-[0.2em] font-light text-charcoal/80">
+                <a href="#retreats" class="hover:text-gold-muted transition-colors">Retreats</a>
+                <a href="#spa" class="hover:text-gold-muted transition-colors">Spa</a>
+                <a href="#dining" class="hover:text-gold-muted transition-colors">Dining</a>
+            </div>
+
+            <a href="#"
+                class="text-2xl font-serif text-charcoal tracking-widest absolute left-1/2 transform -translate-x-1/2">
+                MOWGLAI
+            </a>
+
+            <div class="hidden md:flex gap-10 items-center">
+                <a href="#about"
+                    class="text-xs uppercase tracking-[0.2em] font-light text-charcoal/80 hover:text-gold-muted transition-colors">Our
+                    Story</a>
+                <button @click="bookingOpen = true"
+                    class="border border-charcoal/20 px-8 py-3 text-xs uppercase tracking-[0.2em] hover:bg-gold-muted hover:border-gold-muted hover:text-white transition-all duration-500">
+                    Book Stay
+                </button>
+            </div>
+            <button @click="bookingOpen = true"
+                class="md:hidden text-xs uppercase tracking-widest border-b border-charcoal pb-1">Book</button>
+        </div>
     </nav>
 
-    
-            <div class="hero">
-                <div class="hero-bg"><img src="https://placehold.co/1200x800/f43f5e/ffffff?text=Retreat+Luxury"></div>
-                <div class="animate ">
-                    <h1>Mindful Retreat</h1>
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen"
+        class="fixed inset-0 z-40 bg-beige-light flex flex-col items-center justify-center space-y-8 font-serif italic text-3xl text-charcoal"
+        x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100">
+        <button @click="mobileMenuOpen = false"
+            class="absolute top-8 right-8 text-sm font-sans uppercase not-italic tracking-widest">Close</button>
+        <a href="#retreats" @click="mobileMenuOpen = false">Retreats</a>
+        <a href="#spa" @click="mobileMenuOpen = false">The Spa</a>
+        <a href="#dining" @click="mobileMenuOpen = false">Dining</a>
+        <a href="#about" @click="mobileMenuOpen = false">Our Story</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="relative h-screen overflow-hidden">
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-90">
+            <source
+                src="https://player.vimeo.com/external/371842369.sd.mp4?s=d40130d223847a9acc96898492023023e9a7e822&profile_id=164&oauth2_token_id=57447761"
+                type="video/mp4">
+            <!-- Fallback image if video fails -->
+            <img src="https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2670&auto=format&fit=crop"
+                class="w-full h-full object-cover">
+        </video>
+        <div class="absolute inset-0 bg-black/10"></div>
+
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+            <p class="text-white text-xs md:text-sm uppercase tracking-[0.4em] mb-8 animate-fade-in-up">Welcome to
+                Sanctuary</p>
+            <h1 class="text-5xl md:text-8xl font-serif text-white mb-12 max-w-4xl leading-tight">
+                <span class="italic font-light">Rediscover</span> <br> Your Inner Peace
+            </h1>
+            <button @click="bookingOpen = true"
+                class="text-white border-b border-white pb-2 hover:text-sage-dark hover:border-sage transition-colors text-sm uppercase tracking-[0.2em]">
+                Explore Availability
+            </button>
+        </div>
+
+        <div class="absolute bottom-12 left-0 w-full text-center">
+            <div class="w-px h-16 bg-white/50 mx-auto mb-4"></div>
+            <p class="text-white/70 text-[10px] uppercase tracking-widest">Scroll</p>
+        </div>
+    </header>
+
+    <!-- Intro -->
+    <section id="about" class="py-32 px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-gold-muted text-xs uppercase tracking-[0.3em] mb-8">The Philosophy</h2>
+            <p class="font-serif text-3xl md:text-5xl leading-snug text-charcoal mb-8">
+                "We believe that true wellness lies in the harmony between nature, body, and spirit. Mowglai is not just
+                a place, it is a return to yourself."
+            </p>
+            <img src="https://images.unsplash.com/photo-1591343395082-e21f174bd081?q=80&w=2670&auto=format&fit=crop"
+                class="w-full h-64 object-cover mt-12 opacity-80 rounded-sm">
+        </div>
+    </section>
+
+    <!-- Experience Grid -->
+    <section id="retreats" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-px bg-stone-100 border border-stone-100">
+            <!-- Item 1 -->
+            <div class="relative group h-[600px] overflow-hidden bg-white">
+                <img src="https://images.unsplash.com/photo-1599447421405-0e32096b303a?q=80&w=2574&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105">
+                <div
+                    class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex flex-col justify-end p-12">
+                    <h3 class="text-white font-serif text-4xl italic mb-2">Yoga & Meditation</h3>
+                    <p
+                        class="text-white/80 font-light max-w-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Daily guided sessions in our open-air pavilion overlooking the valley.
+                    </p>
                 </div>
             </div>
 
-    <!-- Standard Content Section -->
-    <section class="animate" style="padding: 150px 60px; max-width: 1400px; margin: 0 auto;">
-         <div style="border-top: 1px solid rgba(125,125,125,0.2); padding-top: 40px; display: flex; justify-content: space-between;">
-            <div style="max-width: 400px;">
-                <h3 style="font-size: 2rem; margin-bottom: 20px;">Tier 2 Experience</h3>
-                <p style="opacity: 0.7; line-height: 1.6;">This is a Pro template with elevated interactions and sophisticated grid layouts.</p>
+            <!-- Item 2 -->
+            <div class="relative group h-[600px] overflow-hidden bg-white">
+                <img src="https://images.unsplash.com/photo-1620733723572-11c52f7c2d82?q=80&w=2670&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105">
+                <div
+                    class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex flex-col justify-end p-12">
+                    <h3 class="text-white font-serif text-4xl italic mb-2">The Spa</h3>
+                    <p
+                        class="text-white/80 font-light max-w-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Ancient healing traditions meets modern luxury. Hydrotherapy, massage, and facials.
+                    </p>
+                </div>
             </div>
-            <div>
-                 <div style="font-size: 4rem;">$699</div>
-                 <div style="opacity: 0.5;">One-time license</div>
+
+            <!-- Item 3 -->
+            <div class="relative group h-[600px] overflow-hidden bg-white">
+                <img src="https://images.unsplash.com/photo-1605333144214-4eb95a122e2e?q=80&w=2673&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105">
+                <div
+                    class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex flex-col justify-end p-12">
+                    <h3 class="text-white font-serif text-4xl italic mb-2">Organic Dining</h3>
+                    <p
+                        class="text-white/80 font-light max-w-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Farm-to-table cuisine prepared by our nutritional expert chefs.
+                    </p>
+                </div>
             </div>
-         </div>
+
+            <!-- Item 4 -->
+            <div class="relative group h-[600px] overflow-hidden bg-white">
+                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2670&auto=format&fit=crop"
+                    class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105">
+                <div
+                    class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex flex-col justify-end p-12">
+                    <h3 class="text-white font-serif text-4xl italic mb-2">Nature Immersion</h3>
+                    <p
+                        class="text-white/80 font-light max-w-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        Guided forest bathing, hiking trails, and waterfall excursions.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <div>
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Mindful Retreat</h2>
+    <!-- Testimonials / Quote -->
+    <section class="py-32 px-6 bg-sage/20">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="text-gold-muted text-4xl mb-8">❝</div>
+            <p class="font-serif text-2xl md:text-4xl text-charcoal italic mb-8 leading-relaxed">
+                I arrived exhausted and left reborn. The attention to detail, the silence, and the care provided by the
+                staff is unlike anywhere else in the world.
+            </p>
+            <div class="text-xs uppercase tracking-[0.2em] font-bold text-charcoal/60">— Eleanor R., London</div>
+
+            <div class="flex justify-center gap-2 mt-12">
+                <button class="w-2 h-2 rounded-full bg-charcoal"></button>
+                <button class="w-2 h-2 rounded-full bg-charcoal/30 hover:bg-charcoal transition-colors"></button>
+                <button class="w-2 h-2 rounded-full bg-charcoal/30 hover:bg-charcoal transition-colors"></button>
+            </div>
         </div>
-        <div>&copy; 2025</div>
+    </section>
+
+    <!-- Booking CTA -->
+    <section class="py-32 px-6 bg-charcoal text-beige-light text-center">
+        <h2 class="font-serif text-4xl md:text-6xl mb-8 italic">Begin Your Journey</h2>
+        <p class="font-light text-white/70 max-w-md mx-auto mb-12">
+            Limited availability for the upcoming season. Reserve your sanctuary today.
+        </p>
+        <button @click="bookingOpen = true"
+            class="bg-beige-light text-charcoal px-12 py-4 text-xs uppercase tracking-[0.2em] hover:bg-gold-muted hover:text-white transition-colors duration-300">
+            Check Availability
+        </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 bg-beige-light border-t border-charcoal/5">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <a href="#" class="text-2xl font-serif text-charcoal tracking-widest block mb-4">
+                    MOWGLAI
+                </a>
+                <p class="text-charcoal/50 font-light text-sm max-w-xs">
+                    123 Serenity Lane, <br> Bali, Indonesia
+                </p>
+            </div>
+
+            <div class="flex gap-8 text-xs uppercase tracking-[0.2em] text-charcoal/60">
+                <a href="#" class="hover:text-gold-muted">Instagram</a>
+                <a href="#" class="hover:text-gold-muted">Facebook</a>
+                <a href="#" class="hover:text-gold-muted">Email</a>
+            </div>
+
+            <div class="text-xs text-charcoal/40 tracking-widest">
+                <p>&copy; 2025 Mowglai Retreats.</p>
+            </div>
+        </div>
     </footer>
+
+    <!-- Booking Overlay -->
+    <div x-show="bookingOpen"
+        class="fixed inset-0 z-[60] bg-charcoal/90 backdrop-blur-md flex items-center justify-center p-6"
+        x-transition:enter="transition opacity ease-out duration-500" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" style="display: none;">
+
+        <div class="bg-beige-light w-full max-w-2xl p-8 md:p-16 relative" @click.away="bookingOpen = false">
+            <button @click="bookingOpen = false"
+                class="absolute top-6 right-6 text-charcoal hover:text-gold-muted transition-colors text-xs uppercase tracking-widest">Close
+                ✕</button>
+
+            <h2 class="font-serif text-3xl md:text-4xl text-charcoal italic mb-8 text-center">Reserve Your Stay</h2>
+
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-charcoal/60 mb-2">Check In</label>
+                        <input type="date"
+                            class="w-full bg-transparent border-b border-charcoal/20 py-2 focus:outline-none focus:border-gold-muted font-serif text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-charcoal/60 mb-2">Check Out</label>
+                        <input type="date"
+                            class="w-full bg-transparent border-b border-charcoal/20 py-2 focus:outline-none focus:border-gold-muted font-serif text-lg">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-charcoal/60 mb-2">Guests</label>
+                    <select
+                        class="w-full bg-transparent border-b border-charcoal/20 py-2 focus:outline-none focus:border-gold-muted font-serif text-lg">
+                        <option>1 Guest</option>
+                        <option>2 Guests</option>
+                        <option>3 Guests</option>
+                        <option>4+ Guests</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-charcoal/60 mb-2">Room Type</label>
+                    <select
+                        class="w-full bg-transparent border-b border-charcoal/20 py-2 focus:outline-none focus:border-gold-muted font-serif text-lg">
+                        <option>Forest Suite</option>
+                        <option>Ocean Villa</option>
+                        <option>Mountain Cabin</option>
+                    </select>
+                </div>
+
+                <button
+                    class="w-full bg-charcoal text-beige-light py-4 mt-8 text-xs uppercase tracking-[0.2em] hover:bg-gold-muted transition-colors">
+                    Search Rates
+                </button>
+            </form>
+        </div>
+    </div>
+
 </body>
+
 </html>
