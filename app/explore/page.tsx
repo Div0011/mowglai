@@ -332,8 +332,8 @@ export default function ExplorePage() {
                                                         label={tech}
                                                         active={[...websiteTypes, ...cmsTypes, ...structures].includes(tech)}
                                                         onClick={() => {
-                                                            if (uniqueWebsiteTypes.includes(tech)) toggleFilter(websiteTypes, setWebsiteTypes, tech)
-                                                            else if (uniqueCmsTypes.includes(tech)) toggleFilter(cmsTypes, setCmsTypes, tech)
+                                                            if ((uniqueWebsiteTypes as string[]).includes(tech)) toggleFilter(websiteTypes, setWebsiteTypes, tech)
+                                                            else if ((uniqueCmsTypes as string[]).includes(tech)) toggleFilter(cmsTypes, setCmsTypes, tech)
                                                             else toggleFilter(structures, setStructures, tech)
                                                         }}
                                                     />
