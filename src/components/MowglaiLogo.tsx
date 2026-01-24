@@ -55,7 +55,7 @@ const MowglaiLogo = ({ className, size = "md" }: MowglaiLogoProps) => {
           alt="Mowglai"
           width={dimensions[size]}
           height={dimensions[size]}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-full"
           priority={size === "lg" || size === "xl"}
         />
       </div>

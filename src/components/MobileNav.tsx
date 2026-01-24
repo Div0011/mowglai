@@ -7,12 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Magnetic from "@/components/Magnetic";
 
 const navItems = [
-    { icon: Home, label: "Home", href: "/" },
-    { icon: Users, label: "About", href: "/about" },
-    { icon: Layers, label: "Services", href: "/services" },
-    { icon: LayoutTemplate, label: "Templates", href: "/explore" },
-    { icon: DollarSign, label: "Purchase", href: "/investment" },
-    { icon: Mail, label: "Contact", href: "/contact" },
+    { icon: Home, label: "Begin", href: "/" },
+    { icon: Users, label: "Origin", href: "/about" },
+    { icon: Layers, label: "Craft", href: "/services" },
+    { icon: LayoutTemplate, label: "Artifacts", href: "/explore" },
+    { icon: DollarSign, label: "Acquire", href: "/investment" },
+    { icon: Mail, label: "Dialogue", href: "/contact" },
 ];
 
 const socialItems = [
@@ -147,24 +147,26 @@ const MobileNav = () => {
                                     </motion.a>
                                 );
                             })}
-                        </div>
-
-                        {/* Social Links - Bottom */}
-                        <div className="absolute bottom-12 w-full flex justify-center gap-6 z-10">
-                            {socialItems.map((item, i) => (
-                                <motion.a
-                                    key={item.label}
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    initial={{ opacity: 0, scale: 0 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.5 + (i * 0.1), type: "spring", stiffness: 200 }}
-                                    className="p-3 rounded-full bg-primary/5 text-primary/60 border border-primary/10 hover:bg-primaryhover:text-primary-foreground hover:scale-110 active:scale-95 transition-all duration-300"
-                                >
-                                    <item.icon className="w-5 h-5" />
-                                </motion.a>
-                            ))}
+                            {/* Social Links - Aligned with Nav Items */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
+                                className="flex items-center justify-center gap-6 w-full max-w-xs"
+                            >
+                                {socialItems.map((item, i) => (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-3 rounded-full bg-primary/5 text-primary/40 border border-primary/10 hover:bg-primary/10 hover:text-primary hover:scale-110 transition-all duration-300 group"
+                                    >
+                                        <item.icon className="w-6 h-6" />
+                                    </a>
+                                ))}
+                            </motion.div>
                         </div>
                     </motion.div>
                 )}

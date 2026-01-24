@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Globe, Zap, Layers, Smartphone } from "lucide-react";
+import { Sparkles, Globe, Zap, Layers, Smartphone, Shield, RefreshCw } from "lucide-react";
 
 const cards = [
-    { icon: Sparkles, title: "Aesthetic" },
-    { icon: Globe, title: "Global" },
-    { icon: Zap, title: "Fast" },
-    { icon: Layers, title: "Deep" },
-    { icon: Smartphone, title: "Mobile" }
+    { icon: Sparkles, title: "Aesthetic", text: "Stunning Visuals" },
+    { icon: Globe, title: "Global", text: "Borderless Experiences" },
+    { icon: Zap, title: "Fast", text: "Blazing Performance" },
+    { icon: Layers, title: "Deep", text: "Simplified Complexity" },
+    { icon: Smartphone, title: "Mobile", text: "Flawless Everywhere" },
+    { icon: RefreshCw, title: "Adaptation", text: "Constant Evolution" },
+    { icon: Shield, title: "Survival", text: "Resilient Code" }
 ];
 
 export function AestheticShowcase() {
@@ -38,9 +40,12 @@ export function AestheticShowcase() {
                         return (
                             <>
                                 <ItemIcon className="w-24 h-24 text-primary mb-8 animate-pulse drop-shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]" strokeWidth={1} />
-                                <span className="text-3xl md:text-5xl font-display font-black uppercase tracking-[0.2em] text-foreground text-center">
+                                <span className="text-3xl md:text-5xl font-display font-black uppercase tracking-[0.2em] text-foreground text-center mb-4">
                                     {cards[activeCard].title}
                                 </span>
+                                <p className="text-lg md:text-xl font-medium text-muted-foreground text-center max-w-[250px] font-light leading-relaxed animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                    {cards[activeCard].text}
+                                </p>
                             </>
                         );
                     })()}

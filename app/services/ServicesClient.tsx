@@ -113,7 +113,7 @@ export default function ServicesClient() {
                 </div>
             </section>
 
-            <NextPageButton label="Purchase Plans" href="/investment" />
+            <NextPageButton label="MOWGLAI ACQUIRE" href="/investment" />
         </PageLayout>
     );
 }

@@ -13,12 +13,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-    { icon: Home, label: "HOME", href: "/" },
-    { icon: Users, label: "ABOUT", href: "/about" },
-    { icon: Layers, label: "SERVICES", href: "/services" },
-    { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
-    { icon: DollarSign, label: "PURCHASE", href: "/investment" },
-    { icon: Mail, label: "CONTACT", href: "/contact" },
+    { icon: Home, label: "BEGIN", href: "/" },
+    { icon: Users, label: "ORIGIN", href: "/about" },
+    { icon: Layers, label: "CRAFT", href: "/services" },
+    { icon: LayoutTemplate, label: "ARTIFACTS", href: "/explore" },
+    { icon: DollarSign, label: "ACQUIRE", href: "/investment" },
+    { icon: Mail, label: "DIALOGUE", href: "/contact" },
 ];
 
 interface FullScreenNavProps {
@@ -72,14 +72,14 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
 
             {/* Logo - Fixed Top Left - Visible Always */}
-            <div className="fixed top-[calc(1.5rem+env(safe-area-inset-top))] left-[calc(0.1rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
+            <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] left-[calc(0.875rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
                 <Magnetic amount={0.4}>
                     <div
                         className="cursor-pointer"
                         onClick={() => router.push('/')}
                     >
                         <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-300">
-                            <MowglaiLogo size="lg" className="w-12 h-12 md:w-16 md:h-16 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.4)] transition-all duration-500" />
+                            <MowglaiLogo size="lg" className="w-14 h-14 md:w-16 md:h-16 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.4)] transition-all duration-500" />
                         </div>
                     </div>
                 </Magnetic>
@@ -179,6 +179,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     <div className="hidden md:flex w-[10%] h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5">
 
                         <div className="flex flex-col gap-8 items-center">
+
+
                             {/* Magnetic Social Icons */}
                             {[
                                 { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },

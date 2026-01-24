@@ -31,7 +31,7 @@ const HeroSection = () => {
                 {/* Subtitle / Value Prop */}
                 <div className="mt-8 md:mt-12 max-w-3xl" data-aos="fade-up" data-aos-delay="300">
                     <div className="text-xl md:text-3xl text-foreground/80 font-body font-light leading-relaxed">
-                        <TextReveal text="We craft modern, stylish websites for visionary brands. Delivering digital elegance that transcends borders." />
+                        <TextReveal text="Delivering digital elegance." />
                     </div>
                 </div>
 
@@ -46,14 +46,6 @@ const HeroSection = () => {
                             className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center"
                         >
                             Start a Project
-                        </Link>
-                    </Magnetic>
-                    <Magnetic>
-                        <Link
-                            href="/investment"
-                            className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 border border-foreground/30 text-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors duration-300 rounded-full text-center"
-                        >
-                            Consult for Free
                         </Link>
                     </Magnetic>
                 </div>

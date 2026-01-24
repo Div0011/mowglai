@@ -112,7 +112,7 @@ export default function InvestmentClient() {
                 </div>
             </section>
 
-            <NextPageButton label="Contact Us" href="/contact" />
+            <NextPageButton label="MOWGLAI DIALOGUE" href="/contact" />
         </PageLayout>
     );
 }

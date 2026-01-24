@@ -24,7 +24,7 @@ const ThemeToggle = () => {
     };
 
     return (
-        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-[calc(0.625rem+env(safe-area-inset-left))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60] flex items-center justify-center">
+        <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-[calc(0.875rem+env(safe-area-inset-left))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60] flex items-center justify-center">
             <button
                 onClick={toggleTheme}
                 className={cn(

@@ -7,28 +7,28 @@ const Footer = () => {
 
   const footerLinks = [
     {
-      title: "Explore",
+      title: "DISCOVER",
       links: [
-        { label: "Home", href: "/" },
-        { label: "Services", href: "/services" },
-        { label: "Our DNA", href: "/our-dna" },
-        { label: "Purchase Plans", href: "/investment" },
+        { label: "BEGIN", href: "/" },
+        { label: "CRAFT", href: "/services" },
+        { label: "ACQUIRE", href: "/investment" },
+        { label: "ARTIFACTS", href: "/explore" },
       ],
     },
     {
-      title: "Company",
+      title: "AGENCY",
       links: [
-        { label: "About", href: "/#about" }, // Assuming section id
-        { label: "Mission", href: "/#mission" },
-        { label: "Contact", href: "/contact" },
+        { label: "ORIGIN", href: "/about" },
+        { label: "OUR DNA", href: "/our-dna" },
+        { label: "DIALOGUE", href: "/contact" },
       ],
     },
   ];
 
   const socialLinks = [
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
+    { icon: Twitter, href: "https://x.com/Mowglai11", label: "Twitter" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
   ];
 
   return (

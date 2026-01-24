@@ -145,11 +145,7 @@ export default function SelectedWork() {
                 </div>
 
                 <div
-                    className="relative w-full aspect-[2/3] sm:aspect-video md:aspect-[21/9] max-w-6xl mx-auto rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl"
-                    style={{
-                        maskImage: "radial-gradient(ellipse at center, black 85%, transparent 100%)",
-                        WebkitMaskImage: "radial-gradient(ellipse at center, black 85%, transparent 100%)"
-                    }}
+                    className="relative w-full aspect-[2/3] sm:aspect-video md:aspect-[21/9] max-w-6xl mx-auto rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-card"
                     onMouseEnter={() => {
                         if (autoplayRef.current) clearInterval(autoplayRef.current);
                         autoplayRef.current = null;
@@ -188,7 +184,7 @@ export default function SelectedWork() {
                             </div>
 
                             {/* CONTENT CONTAINER - Integrated Mobile (Bottom 50%), Overlay Desktop */}
-                            <div className="relative w-full h-[50%] md:absolute md:inset-0 md:h-full z-10 flex flex-col justify-center items-start md:justify-center md:items-start bg-card md:bg-transparent pointer-events-auto md:pointer-events-none p-5 md:p-12">
+                            <div className="relative w-full h-[50%] md:absolute md:inset-0 md:h-full z-10 flex flex-col justify-center items-center md:items-start bg-card md:bg-transparent pointer-events-auto md:pointer-events-none p-5 md:p-12">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -199,7 +195,7 @@ export default function SelectedWork() {
                                     <div className="hidden md:block absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent opacity-50" />
 
                                     {/* Content Wrapper for Mobile Alignment */}
-                                    <div className="relative z-10 flex flex-col items-start gap-2 md:gap-5">
+                                    <div className="relative z-10 flex flex-col items-center md:items-start gap-2 md:gap-5 text-center md:text-left">
                                         {/* Header */}
                                         <div className="space-y-1">
                                             <span className="text-primary font-display font-bold tracking-widest uppercase text-[10px] md:text-sm">
@@ -217,7 +213,7 @@ export default function SelectedWork() {
                                     </div>
 
                                     {/* Actions Row: Anchored to bottom on mobile */}
-                                    <div className="flex items-center justify-between w-full mt-2 md:mt-4 relative z-10">
+                                    <div className="flex items-center justify-center w-full mt-4 relative z-10">
                                         <a
                                             href={projects[currentIndex].link}
                                             target={projects[currentIndex].link === "#" ? "_self" : "_blank"}
@@ -237,44 +233,26 @@ export default function SelectedWork() {
                                             <span className="text-xs md:text-base">EXPLORE CASE</span>
                                             <ExternalLink size={14} className="md:w-5 md:h-5" />
                                         </a>
-
-                                        {/* Mobile Navigation Controls */}
-                                        <div className="flex md:hidden items-center gap-2">
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); prevSlide(); resetAutoplay(); }}
-                                                className="p-2.5 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors bg-card/50"
-                                                aria-label="Previous Project"
-                                            >
-                                                <ArrowLeft size={16} />
-                                            </button>
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); nextSlide(); resetAutoplay(); }}
-                                                className="p-2.5 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors bg-card/50"
-                                                aria-label="Next Project"
-                                            >
-                                                <ArrowRight size={16} />
-                                            </button>
-                                        </div>
                                     </div>
                                 </motion.div>
                             </div>
                         </motion.div>
                     </AnimatePresence>
 
-                    {/* Navigation Buttons - Sides (Desktop Only) */}
+                    {/* Navigation Buttons - Sides (Now Visible on Mobile) */}
                     <button
                         onClick={() => { prevSlide(); resetAutoplay(); }}
-                        className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 z-40 p-4 text-white/50 hover:text-primary hover:scale-110 transition-all rounded-full"
+                        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-2 md:p-4 text-white/70 hover:text-primary hover:scale-110 transition-all rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm"
                         aria-label="Previous Slide"
                     >
-                        <ArrowLeft size={32} />
+                        <ArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
                     </button>
                     <button
                         onClick={() => { nextSlide(); resetAutoplay(); }}
-                        className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-40 p-4 text-white/50 hover:text-primary hover:scale-110 transition-all rounded-full"
+                        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-2 md:p-4 text-white/70 hover:text-primary hover:scale-110 transition-all rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm"
                         aria-label="Next Slide"
                     >
-                        <ArrowRight size={32} />
+                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
                     </button>
                 </div>
             </div>
