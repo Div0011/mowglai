@@ -8,11 +8,19 @@ import Magnetic from "@/components/Magnetic";
 
 const navItems = [
     { icon: Home, label: "Home", href: "/" },
+<<<<<<< HEAD
     { icon: Users, label: "Story", href: "/about" },
     { icon: Palette, label: "Craft", href: "/services" },
     { icon: LayoutGrid, label: "Blueprint", href: "/explore" },
     { icon: DollarSign, label: "Value", href: "/investment" },
     { icon: Mail, label: "Hello", href: "/contact" },
+=======
+    { icon: Users, label: "Studio", href: "/about" },
+    { icon: Layers, label: "Expertise", href: "/services" },
+    { icon: LayoutTemplate, label: "Work", href: "/explore" },
+    { icon: DollarSign, label: "Investment", href: "/investment" },
+    { icon: Mail, label: "Connect", href: "/contact" },
+>>>>>>> main
 ];
 
 const socialItems = [
@@ -117,7 +125,11 @@ const MobileNav = () => {
                         {/* Navigation Links */}
                         <div className="relative z-10 flex flex-col items-center w-full px-6">
                             {/* Navigation Links - Centered Block with Left Aligned Items */}
+<<<<<<< HEAD
                             <div className="flex flex-col items-start gap-4 w-fit mx-auto">
+=======
+                            <div className="flex flex-col items-start gap-8 w-fit mx-auto">
+>>>>>>> main
                                 {navItems.map((item, i) => {
                                     const isActive = activeItem === item.label;
                                     return (

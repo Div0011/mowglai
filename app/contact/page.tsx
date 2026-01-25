@@ -82,7 +82,11 @@ export default function Contact() {
                 </div>
             </section>
 
+<<<<<<< HEAD
             <NextPageButton label="BACK TO START" href="/" />
+=======
+            <NextPageButton label="RETURN HOME" href="/" />
+>>>>>>> main
         </PageLayout>
     );
 }
