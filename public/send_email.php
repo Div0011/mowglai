@@ -8,9 +8,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Don't output errors to the client, log them instead
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php_errors.log');
+
+// Log access
+file_put_contents(__DIR__ . '/email_debug.log', "[" . date('Y-m-d H:i:s') . "] Request received\n", FILE_APPEND);
+
 // Get JSON input
 $rest_json = file_get_contents("php://input");
 $_POST = json_decode($rest_json, true);
+
+// Log raw input
+file_put_contents(__DIR__ . '/email_debug.log', "[" . date('Y-m-d H:i:s') . "] Input: " . $rest_json . "\n", FILE_APPEND);
 
 if (empty($_POST['email'])) {
     http_response_code(400);
@@ -117,10 +129,17 @@ if ($mail_sent) {
     $message_user .= "--$boundary_user--";
 
     // Send to User
-    mail($user_email, $user_subject, $message_user, $headers_user, "-f no-reply@mowglai.in");
-
-    echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
+    $user_mail_sent = mail($user_email, $user_subject, $message_user, $headers_user, "-f no-reply@mowglai.in");
+    
+    if ($user_mail_sent) {
+        file_put_contents(__DIR__ . '/email_debug.log', "[" . date('Y-m-d H:i:s') . "] Admin and User emails sent successfully to $to_admin and $user_email\n", FILE_APPEND);
+        echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
+    } else {
+        file_put_contents(__DIR__ . '/email_debug.log', "[" . date('Y-m-d H:i:s') . "] Admin email sent, but User email FAILED to $user_email\n", FILE_APPEND);
+        echo json_encode(["status" => "success", "message" => "Email sent successfully (Admin only)"]);
+    }
 } else {
+    file_put_contents(__DIR__ . '/email_debug.log', "[" . date('Y-m-d H:i:s') . "] Mail function returned FALSE. Check server logs.\n", FILE_APPEND);
     http_response_code(500);
     echo json_encode(["status" => "error", "message" => "Failed to send email server-side."]);
 }
