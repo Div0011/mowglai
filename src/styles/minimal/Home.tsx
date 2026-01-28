@@ -4,9 +4,11 @@ import MinimalLayout from "./Layout";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import SelectedWork from "@/components/SelectedWork";
 import { useState, useEffect } from "react";
 import { Sparkles, Globe, Zap, Layers, Smartphone, RefreshCw, Shield, ArrowRight } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const SelectedWork = dynamic(() => import("@/components/SelectedWork"), { ssr: false });
 
 export default function MinimalHome() {
     const { t } = useLanguage();
