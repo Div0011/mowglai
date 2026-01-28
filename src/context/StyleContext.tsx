@@ -27,9 +27,22 @@ export function StyleProvider({ children }: { children: React.ReactNode }) {
         if (mounted) {
             localStorage.setItem("visual-style", style);
 
-            // Update body class for global CSS variable overrides
-            document.body.classList.remove("style-original", "style-minimal", "style-candy");
-            document.body.classList.add(`style-${style}`);
+            // Update both html and body for maximum compatibility
+            const root = document.documentElement;
+            const body = document.body;
+
+            const classesToRemove = ["style-original", "style-minimal", "style-candy"];
+            root.classList.remove(...classesToRemove);
+            body.classList.remove(...classesToRemove);
+
+            root.classList.add(`style-${style}`);
+            body.classList.add(`style-${style}`);
+
+            // Set data attribute for even more reliable targeting
+            root.setAttribute("data-style", style);
+
+            // Set as a global variable for any JS that needs to know theme without hook
+            (window as any).__visualStyle = style;
         }
     }, [style, mounted]);
 

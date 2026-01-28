@@ -17,9 +17,11 @@ const PageLayout = ({ children }: PageLayoutProps) => {
 
     return (
         <Suspense fallback={<div className="h-screen w-full flex items-center justify-center">Loading Layout...</div>}>
-            {style === "original" && <OriginalLayout>{children}</OriginalLayout>}
-            {style === "minimal" && <MinimalLayout>{children}</MinimalLayout>}
-            {style === "candy" && <CandyLayout>{children}</CandyLayout>}
+            <div key={style} className="contents">
+                {style === "original" && <OriginalLayout>{children}</OriginalLayout>}
+                {style === "minimal" && <MinimalLayout>{children}</MinimalLayout>}
+                {style === "candy" && <CandyLayout>{children}</CandyLayout>}
+            </div>
         </Suspense>
     );
 };
