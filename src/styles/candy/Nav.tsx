@@ -85,24 +85,42 @@ export default function CandyNav() {
                         })}
                     </div>
 
-                    <div className={`w-px h-6 md:h-8 ${isDark ? 'bg-white/10' : 'bg-black/5'} mx-1 md:mx-2`} />
+                    <div className={`w-px h-6 md:h-8 ${isDark ? 'bg-white/10' : 'bg-black/5'} mx-1 md:mx-2 hidden md:block`} />
 
-                    {/* UTILITY BUTTONS */}
-                    <div className="flex items-center gap-1 md:gap-2">
+                    {/* UTILITY BUTTONS - DESKTOP ONLY (integrated in nav) */}
+                    <div className="hidden md:flex items-center gap-2">
                         <button
                             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                            className={`w-8 h-8 md:w-10 md:h-10 rounded-full ${isDark ? 'bg-white/10 text-white/60 border-white/10' : 'bg-white/60 text-black/60 border-white'} flex items-center justify-center shadow-lg border-2 hover:bg-[#ffd447] hover:text-black transition-all`}
+                            className={`w-10 h-10 rounded-full ${isDark ? 'bg-white/10 text-white/60 border-white/10' : 'bg-white/60 text-black/60 border-white'} flex items-center justify-center shadow-lg border-2 hover:bg-[#ffd447] hover:text-black transition-all`}
                         >
                             {isDark ? <Sun size={14} /> : <Moon size={14} />}
                         </button>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
-                            className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-lg border-2 transition-all ${showSettings ? 'bg-[#ee5781] text-white border-white' : (isDark ? 'bg-white/10 text-white/60 border-white/10 hover:bg-[#6ca2fb] hover:text-white' : 'bg-white/60 text-black/60 border-white hover:bg-[#6ca2fb] hover:text-white')}`}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-2 transition-all ${showSettings ? 'bg-[#ee5781] text-white border-white' : (isDark ? 'bg-white/10 text-white/60 border-white/10 hover:bg-[#6ca2fb] hover:text-white' : 'bg-white/60 text-black/60 border-white hover:bg-[#6ca2fb] hover:text-white')}`}
                         >
                             <Palette size={14} />
                         </button>
                     </div>
                 </nav>
+            </div>
+
+            {/* UTILITY BUTTONS - MOBILE ONLY (Vertical on the right) */}
+            <div className="fixed right-4 top-1/2 -translate-y-1/2 z-[200] flex flex-col gap-4 md:hidden">
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                    className={`w-12 h-12 rounded-full ${isDark ? 'bg-black/60 border-white/20 text-white' : 'bg-white/60 border-black/10 text-black'} backdrop-blur-xl flex items-center justify-center shadow-2xl border-2 transition-all`}
+                >
+                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                </motion.button>
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setShowSettings(!showSettings)}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 transition-all backdrop-blur-xl ${showSettings ? 'bg-[#ee5781] text-white border-white' : (isDark ? 'bg-black/60 text-white border-white/20' : 'bg-white/60 text-black border-black/10')}`}
+                >
+                    <Palette size={20} />
+                </motion.button>
             </div>
 
             {/* SETTINGS MENU (Overlay style) */}
