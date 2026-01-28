@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { sendEmail } from "@/utils/emailSender";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 
 const CONTACT_EMAIL = "info@mowglai.in"; // REPLACE THIS WITH YOUR PERSONAL EMAIL FOR TESTING

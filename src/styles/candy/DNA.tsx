@@ -2,7 +2,7 @@
 
 import CandyLayout from "./Layout";
 import { motion } from "framer-motion";
-import { Zap, Sparkles, RefreshCw, Cpu, Fingerprint, Activity, MousePointer2 } from "lucide-react";
+import { Zap, Sparkles, RefreshCw, Cpu, Fingerprint, Activity, MousePointer2, Heart, Star, Smile } from "lucide-react";
 import Link from "next/link";
 
 import { useTheme } from "next-themes";
@@ -13,19 +13,43 @@ export default function CandyDNA() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-32 md:pt-48 pb-20 md:pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-48 md:pt-48 pb-20 md:pb-32 px-4 md:px-8">
 
                 {/* HERO */}
                 <section className="container mx-auto mb-24 md:mb-32 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-12 md:gap-20 items-center">
-                        <div className="flex-1 text-center lg:text-left">
+                        <div className="flex-1 text-center lg:text-left relative">
+                            {/* Rotating Cute Icon */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                                className={`absolute -top-20 -right-12 ${isDark ? 'text-white/5' : 'text-[#ee5781]/20'} hidden lg:block`}
+                            >
+                                <Fingerprint size={160} strokeWidth={1} />
+                            </motion.div>
                             <motion.h1
                                 initial={{ y: 50, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
-                                className="text-[12vw] md:text-8xl font-display font-black leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12"
+                                className="text-[10vw] md:text-8xl font-display font-black leading-[1.2] tracking-tighter uppercase italic mb-8 md:mb-12 relative py-2 whitespace-nowrap"
                             >
-                                <span className={isDark ? "text-white/10" : "text-black/10"}>The</span> <br />
+                                <span className={isDark ? "text-white/10" : "text-black/10"}>The</span>{" "}
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6ca2fb] via-[#ee5781] to-[#ffd447]">Genetic</span>
+
+                                {/* Decorative floating icons */}
+                                <motion.div
+                                    animate={{ y: [0, -20, 0], x: [0, 5, 0] }}
+                                    transition={{ duration: 5, repeat: Infinity }}
+                                    className="absolute -top-10 right-0 text-[#ffd447]/20 hidden md:block"
+                                >
+                                    <Star size={64} fill="currentColor" stroke="none" />
+                                </motion.div>
+                                <motion.div
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ duration: 3, repeat: Infinity }}
+                                    className="absolute -bottom-10 left-0 text-[#ee5781]/20 hidden md:block"
+                                >
+                                    <Heart size={48} fill="currentColor" stroke="none" />
+                                </motion.div>
                             </motion.h1>
                             <p className={`text-xl md:text-3xl font-body font-bold ${isDark ? "text-white/40" : "text-black/40"} italic leading-tight mb-12`}>
                                 Welcome to Mowglai. Here is how we craft world-class digital experiences for international clients through precision and creativity.

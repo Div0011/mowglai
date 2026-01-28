@@ -2,7 +2,7 @@
 
 import CandyLayout from "./Layout";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Zap, Sparkles, Globe, Smile } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Zap, Sparkles, Globe, Smile, Heart, Star } from "lucide-react";
 
 import { useTheme } from "next-themes";
 
@@ -12,7 +12,7 @@ export default function CandyContact() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-32 md:pt-48 pb-20 md:pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-48 md:pt-48 pb-20 md:pb-32 px-4 md:px-8">
 
                 {/* HERO */}
                 <section className="container mx-auto mb-20 md:mb-32 relative z-10 text-center lg:text-left">
@@ -21,10 +21,39 @@ export default function CandyContact() {
                             <motion.h1
                                 initial={{ x: -20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
-                                className="text-[15vw] md:text-8xl font-display font-black leading-[1] md:leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12"
+                                className="text-[10vw] md:text-8xl font-display font-black leading-[1.2] md:leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12 relative py-2 whitespace-nowrap"
                             >
-                                <span className={`${isDark ? "text-white/10" : "text-black/10"} block mb-2`}>Say</span>
+                                <span className={`${isDark ? "text-white/10" : "text-black/10"} mr-4`}>Say</span>
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ee5781] via-[#ffd447] to-[#66bcb4]">Hello</span>
+
+                                {/* Decorative floating icons */}
+                                <motion.div
+                                    animate={{
+                                        y: [0, -15, 0],
+                                        rotate: 360
+                                    }}
+                                    transition={{
+                                        y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                                        rotate: { duration: 15, repeat: Infinity, ease: "linear" }
+                                    }}
+                                    className="absolute -top-16 left-12 text-[#ee5781]/20 hidden md:block"
+                                >
+                                    <Heart size={64} fill="currentColor" stroke="none" />
+                                </motion.div>
+                                <motion.div
+                                    animate={{ rotate: -360 }}
+                                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                                    className="absolute -top-10 right-20 text-[#6ca2fb]/20 hidden md:block"
+                                >
+                                    <Smile size={80} strokeWidth={1} />
+                                </motion.div>
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                    className="absolute top-0 right-0 text-[#ffd447]/20 hidden md:block"
+                                >
+                                    <Star size={56} fill="currentColor" stroke="none" />
+                                </motion.div>
                             </motion.h1>
                             <p className={`text-xl md:text-3xl font-body font-bold ${isDark ? "text-white/40" : "text-black/40"} italic leading-tight mb-12`}>
                                 Start Dialogue. We primarily operate from Noida, India, serving the global digital landscape.
@@ -47,6 +76,22 @@ export default function CandyContact() {
                         </div>
 
                         <div className="flex-1 w-full max-w-2xl relative">
+                            {/* Rotating bits for form */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                                className={`absolute -top-20 -right-20 ${isDark ? 'text-white/5' : 'text-black/10'} hidden lg:block`}
+                            >
+                                <Sparkles size={120} />
+                            </motion.div>
+                            <motion.div
+                                animate={{ rotate: -360 }}
+                                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                                className={`absolute -bottom-10 -left-10 ${isDark ? 'text-white/5' : 'text-[#66bcb4]/20'} hidden lg:block`}
+                            >
+                                <Star size={100} fill="currentColor" stroke="none" />
+                            </motion.div>
+
                             {/* FORM BOX */}
                             <motion.div
                                 initial={{ y: 50, opacity: 0 }}

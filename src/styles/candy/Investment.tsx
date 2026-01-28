@@ -3,7 +3,7 @@
 import { useState } from "react";
 import CandyLayout from "./Layout";
 import { motion } from "framer-motion";
-import { Sparkles, ArrowUpRight } from "lucide-react";
+import { Sparkles, ArrowUpRight, Heart, Star, Smile } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
@@ -49,18 +49,44 @@ export default function CandyInvestment() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-32 md:pt-48 pb-20 md:pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-48 md:pt-48 pb-20 md:pb-32 px-4 md:px-8">
 
                 {/* HERO */}
-                <section className="container mx-auto mb-20 md:mb-32 relative z-10 text-center">
+                <section className="container mx-auto mb-20 md:mb-32 relative z-10 text-center px-4 overflow-visible">
+                    {/* Rotating Cute Icon */}
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+                        className={`absolute -top-16 left-0 md:left-20 ${isDark ? 'text-white/5' : 'text-[#ffd447]/20'} hidden lg:block`}
+                    >
+                        <Smile size={140} strokeWidth={1} />
+                    </motion.div>
+
                     <motion.div
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                     >
-                        <h1 className="text-[12vw] md:text-8xl font-display font-black leading-[1.1] tracking-tighter uppercase italic mb-8">
-                            <span className={isDark ? "text-white/10" : "text-black/10"}>The</span> <br />
+                        <h1 className="text-[9vw] md:text-8xl font-display font-black leading-[1.2] tracking-tighter uppercase italic mb-8 relative py-2 whitespace-nowrap">
+                            <span className={isDark ? "text-white/10" : "text-black/10"}>The</span>{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6ca2fb] via-[#ee5781] to-[#ffd447]">Economy</span>
+
+                            {/* Decorative floating icons */}
+                            <motion.div
+                                animate={{ y: [0, -15, 0], rotate: [0, -20, 0] }}
+                                transition={{ duration: 6, repeat: Infinity }}
+                                className="absolute -top-10 left-0 text-[#6ca2fb]/20 hidden md:block"
+                            >
+                                <Star size={72} fill="currentColor" stroke="none" />
+                            </motion.div>
+                            <motion.div
+                                animate={{ scale: [1, 1.3, 1] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className="absolute -bottom-10 right-0 text-[#ee5781]/20 hidden md:block"
+                            >
+                                <Heart size={56} fill="currentColor" stroke="none" />
+                            </motion.div>
                         </h1>
+
                         <p className={`text-xl md:text-2xl font-body font-bold ${isDark ? "text-white/40" : "text-black/40"} italic leading-tight max-w-4xl mx-auto mb-12 md:mb-16 px-4`}>
                             "The investment in excellence is the only currency that never devalues in the digital age."
                         </p>

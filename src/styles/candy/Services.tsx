@@ -2,7 +2,7 @@
 
 import CandyLayout from "./Layout";
 import { motion } from "framer-motion";
-import { Palette, Shield, Rocket, Globe, BarChart, Bot, Sparkles, Zap, Layout, Globe2, Layers, MousePointer2, RefreshCw } from "lucide-react";
+import { Palette, Shield, Rocket, Globe, BarChart, Bot, Sparkles, Zap, Layout, Globe2, Layers, MousePointer2, RefreshCw, Heart, Star, Smile, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
@@ -57,19 +57,43 @@ export default function CandyServices() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-48 pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-48 md:pt-48 pb-32 px-4 md:px-8">
 
                 {/* HERO */}
                 <section className="container mx-auto mb-32 relative z-10">
-                    <div className="max-w-4xl">
+                    <div className="max-w-4xl relative">
+                        {/* Rotating Cute Icon */}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                            className={`absolute -top-20 -right-20 ${isDark ? 'text-white/5' : 'text-[#ee5781]/20'} hidden lg:block`}
+                        >
+                            <Sun size={160} strokeWidth={1} />
+                        </motion.div>
                         <motion.h1
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            className="text-[10vw] md:text-7xl font-display font-black leading-[1.1] tracking-tighter uppercase italic mb-12"
+                            className="text-[8vw] md:text-7xl font-display font-black leading-[1.2] tracking-tighter uppercase italic mb-12 py-2 whitespace-nowrap"
                         >
-                            <span className={isDark ? "text-white/10" : "text-black/10"}>The</span> <br />
+                            <span className={isDark ? "text-white/10" : "text-black/10"}>The</span>{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6ca2fb] via-[#ee5781] to-[#ffd447]">Arsenal</span>
                         </motion.h1>
+
+                        {/* Floating elements */}
+                        <motion.div
+                            animate={{ scale: [1, 1.3, 1], rotate: [0, 10, 0] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                            className="absolute -top-10 -right-10 text-[#ee5781]/20 hidden md:block"
+                        >
+                            <Heart size={120} fill="currentColor" stroke="none" />
+                        </motion.div>
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1], rotate: [0, -15, 0] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute bottom-0 -left-20 text-[#ffd447]/20 hidden md:block"
+                        >
+                            <Star size={100} fill="currentColor" stroke="none" />
+                        </motion.div>
                         <p className={`text-2xl md:text-3xl font-body font-bold ${isDark ? "text-white/40" : "text-black/40"} italic leading-tight`}>
                             Capabilities woven into digital reality. Designing and developing for a world that demands better interaction.
                         </p>
@@ -88,8 +112,8 @@ export default function CandyServices() {
                                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] md:rounded-[3.5rem] flex items-center justify-center shadow-xl shrink-0 group-hover:scale-110 group-hover:rotate-12 transition-transform" style={{ backgroundColor: s.color }}>
                                     <s.icon className="text-white" size={window?.innerWidth < 768 ? 32 : 48} />
                                 </div>
-                                <div className="text-center md:text-left overflow-hidden w-full">
-                                    <h3 className={`text-3xl sm:text-4xl md:text-5xl font-display font-black uppercase italic ${isDark ? 'text-white/90' : 'text-black/80'} mb-6 break-words tracking-tighter`}>{s.title}</h3>
+                                <div className="text-center md:text-left w-full overflow-visible">
+                                    <h3 className={`text-[8vw] sm:text-4xl md:text-5xl font-display font-black uppercase italic ${isDark ? 'text-white/90' : 'text-black/80'} mb-6 tracking-tighter whitespace-normal md:whitespace-nowrap overflow-visible py-1`}>{s.title}</h3>
                                     <p className={`text-lg md:text-xl font-medium ${isDark ? 'text-white/30' : 'text-black/30'} italic leading-tight mb-8`}>{s.desc}</p>
                                     <div className="flex flex-wrap justify-center md:justify-start gap-4">
                                         {s.tags.map((t, idx) => (

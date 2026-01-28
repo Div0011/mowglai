@@ -3,7 +3,7 @@
 import CandyLayout from "./Layout";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { Palette, Shield, Rocket, Globe, BarChart, Headphones } from "lucide-react";
+import { Palette, Shield, Rocket, Globe, BarChart, Headphones, Heart, Star, Sparkles, Smile } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
@@ -21,7 +21,7 @@ export default function CandyAbout() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-32 md:pt-48 pb-20 md:pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-44 md:pt-48 pb-20 md:pb-32 px-4 md:px-8">
 
                 {/* HERO SECTION */}
                 <section className="container mx-auto relative z-10">
@@ -29,10 +29,18 @@ export default function CandyAbout() {
                         <motion.div
                             initial={{ x: -100, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
-                            className="flex-1 text-center lg:text-left"
+                            className="flex-1 text-center lg:text-left relative"
                         >
-                            <h1 className="text-[15vw] md:text-8xl font-display font-black leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12">
-                                <span className={isDark ? "text-white/10" : "text-black/10"}>The</span> <br />
+                            {/* Rotating Cute Icon */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                                className={`absolute -top-16 -left-12 ${isDark ? 'text-white/5' : 'text-[#6ca2fb]/20'} hidden lg:block`}
+                            >
+                                <Rocket size={140} strokeWidth={1} />
+                            </motion.div>
+                            <h1 className="text-[9vw] md:text-8xl font-display font-black leading-[1.2] tracking-tighter uppercase italic mb-8 md:mb-12 py-2 whitespace-nowrap">
+                                <span className={isDark ? "text-white/10" : "text-black/10"}>The</span>{" "}
                                 <span className="text-[#6ca2fb]">Pulse</span>
                             </h1>
                             <p className={`text-xl md:text-3xl font-body font-bold ${isDark ? 'text-white/40' : 'text-black/40'} leading-tight italic max-w-2xl mb-12`}>
@@ -55,6 +63,23 @@ export default function CandyAbout() {
                                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                                 className="w-[120%] h-[120%] absolute -top-[10%] -left-[10%] bg-gradient-to-tr from-[#ee5781]/10 to-[#ffd447]/10 rounded-full blur-[80px] md:blur-[100px]"
                             />
+
+                            {/* Floating decorative elements */}
+                            <motion.div
+                                animate={{ y: [0, -15, 0], rotate: [0, 15, 0] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className={`absolute -top-12 -right-6 ${isDark ? 'text-[#ffd447]/20' : 'text-[#ffd447]/40'} z-20`}
+                            >
+                                <Star size={48} fill="currentColor" stroke="none" />
+                            </motion.div>
+                            <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                                className={`absolute -bottom-10 -left-6 ${isDark ? 'text-[#ee5781]/20' : 'text-[#ee5781]/40'} z-20`}
+                            >
+                                <Heart size={40} fill="currentColor" stroke="none" />
+                            </motion.div>
+
                             <div className={`relative p-8 md:p-16 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-white/50'} rounded-[3rem] md:rounded-[5rem] shadow-2xl border-8`}>
                                 <p className={`text-xl md:text-2xl font-body font-medium leading-relaxed italic ${isDark ? 'text-white/60' : 'text-black/60'} text-center`}>
                                     "In an era of noise, we choose the resonance of silence and the strength of form."

@@ -5,6 +5,7 @@ import CandyNav from "./Nav";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import CustomCursor from "@/components/CustomCursor";
+import { Heart, Star, Sparkles } from "lucide-react";
 
 import { useTheme } from "next-themes";
 
@@ -64,6 +65,36 @@ export default function CandyLayout({ children }: CandyLayoutProps) {
                     transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
                     className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] md:w-[90vw] h-[120vw] md:h-[90vw] bg-[#a08ac0] rounded-full blur-[80px] md:blur-[100px] ${isDark ? 'opacity-8' : 'opacity-10'} will-change-transform`}
                 />
+
+                {/* Floating Decorative Elements */}
+                <motion.div
+                    animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    className={`absolute top-[15%] left-[5%] ${isDark ? 'text-[#ee5781]/10' : 'text-[#ee5781]/20'}`}
+                >
+                    <Heart size={64} fill="currentColor" stroke="none" />
+                </motion.div>
+                <motion.div
+                    animate={{ y: [0, 25, 0], rotate: [0, -15, 0] }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+                    className={`absolute bottom-[20%] left-[10%] ${isDark ? 'text-[#ffd447]/10' : 'text-[#ffd447]/20'}`}
+                >
+                    <Star size={80} fill="currentColor" stroke="none" />
+                </motion.div>
+                <motion.div
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    className={`absolute top-[40%] right-[15%] ${isDark ? 'text-[#6ca2fb]/10' : 'text-[#6ca2fb]/20'}`}
+                >
+                    <Sparkles size={120} />
+                </motion.div>
+                <motion.div
+                    animate={{ y: [0, -30, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                    className={`absolute bottom-[10%] right-[5%] ${isDark ? 'text-[#66bcb4]/10' : 'text-[#66bcb4]/20'}`}
+                >
+                    <Heart size={48} fill="currentColor" stroke="none" />
+                </motion.div>
             </div>
 
             {/* MAIN CONTENT AREA */}

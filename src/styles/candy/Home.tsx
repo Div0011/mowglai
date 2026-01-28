@@ -3,7 +3,7 @@
 import CandyLayout from "./Layout";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Zap, Layout, Sparkles, Box, Compass, Play, ArrowRight, ExternalLink, RefreshCw, Layers, Globe, MousePointer2, Heart, Star, Rocket } from "lucide-react";
+import { Zap, Layout, Sparkles, Box, Compass, Play, ArrowRight, ExternalLink, RefreshCw, Layers, Globe, MousePointer2, Heart, Star, Rocket, Smile } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -26,10 +26,10 @@ export default function CandyHome() {
 
     return (
         <CandyLayout>
-            <div className="relative overflow-hidden">
+            <div className="relative">
 
                 {/* HERO - SOFT BUBBLE DESIGN */}
-                <section className="relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center px-4 md:px-6 pt-24 md:pt-32">
+                <section className="relative min-h-[80vh] md:min-h-screen flex flex-col items-center justify-start md:justify-center px-4 md:px-6 pt-48 md:pt-52">
                     <div className="container mx-auto relative z-20">
 
                         {/* Floating Candy Icons */}
@@ -40,13 +40,37 @@ export default function CandyHome() {
                             <Heart size={200} fill="currentColor" stroke="none" />
                         </motion.div>
 
-                        <div className="text-center">
+                        {/* New cute floating bits */}
+                        <motion.div
+                            animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.7, 0.3] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                            className="absolute top-1/4 right-1/4 text-[#ffd447]/40 hidden md:block"
+                        >
+                            <Star size={32} fill="currentColor" stroke="none" />
+                        </motion.div>
+                        <motion.div
+                            animate={{ y: [0, -20, 0], opacity: [0.2, 0.5, 0.2] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute bottom-1/4 left-1/4 text-[#66bcb4]/40 hidden md:block"
+                        >
+                            <Sparkles size={40} />
+                        </motion.div>
+
+                        <div className="text-center relative">
+                            {/* Rotating Cute Icon */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                                className={`absolute -top-24 -right-12 ${isDark ? 'text-white/5' : 'text-[#ffd447]/20'} hidden lg:block`}
+                            >
+                                <Smile size={180} strokeWidth={1} />
+                            </motion.div>
                             <motion.div
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 className={`inline-flex items-center gap-3 px-6 py-3 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/80 border-[#fffbfb]'} backdrop-blur-md rounded-full border-4 shadow-xl mb-8 md:mb-12`}
                             >
-                                <span className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-[#ffd447] animate-pulse" />
+                                <span className="w-6 h-6 md:w-4 md:h-4 rounded-full bg-[#ffd447] animate-pulse" />
                                 <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] ${isDark ? 'text-white/60' : 'text-black/60'}`}>Creative Euphoria</span>
                                 <span className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-[#66bcb4] animate-pulse" />
                             </motion.div>
@@ -55,11 +79,11 @@ export default function CandyHome() {
                                 initial={{ y: 50, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 1, type: "spring" }}
-                                className={`text-[12vw] md:text-[7vw] font-display font-black leading-[0.9] md:leading-[1] tracking-tighter uppercase mb-8 md:mb-16 italic ${isDark ? 'text-white' : 'text-[#333]'}`}
+                                className={`text-[10vw] md:text-[8vw] lg:text-[7.5vw] font-display font-black leading-[1.1] tracking-tighter uppercase mb-12 md:mb-16 italic py-4 ${isDark ? 'text-white' : 'text-[#333]'} whitespace-nowrap text-center`}
                             >
-                                <span className="drop-shadow-[0_10px_30px_rgba(108,162,251,0.3)] text-[#6ca2fb]">
+                                <span className="drop-shadow-[0_10px_30px_rgba(108,162,251,0.3)] text-[#6ca2fb] mr-2 md:mr-4">
                                     {t.Home?.weCreate?.split(' ')[0] || "Creative"}
-                                </span> <br />
+                                </span>
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ee5781] via-[#ffd447] to-[#66bcb4] drop-shadow-[0_10px_20px_rgba(238,87,129,0.3)]">
                                     {t.Home?.weCreate?.split(' ').slice(1).join(' ') || "Excellence"}
                                 </span>
@@ -69,7 +93,7 @@ export default function CandyHome() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.4 }}
-                                className={`max-w-3xl mx-auto text-xl md:text-3xl font-body font-bold ${isDark ? 'text-white/40' : 'text-black/40'} mb-12 md:mb-20 leading-tight italic`}
+                                className={`max-w-3xl mx-auto text-xl md:text-3xl font-body font-bold ${isDark ? 'text-white/40' : 'text-black/40'} mb-12 md:mb-20 leading-tight italic text-center`}
                             >
                                 We've abandoned the boring grid for a world of liquid color and soft-textured digital artifacts.
                             </motion.p>
@@ -112,7 +136,7 @@ export default function CandyHome() {
                     <div className="container mx-auto">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8 md:gap-12">
                             <div className="max-w-2xl">
-                                <h2 className={`text-[12vw] md:text-7xl font-display font-black leading-[0.85] tracking-tighter uppercase italic ${isDark ? 'text-white/80' : 'text-black/80'}`}>
+                                <h2 className={`text-[11vw] md:text-7xl font-display font-black leading-[1] md:leading-[0.85] tracking-tighter uppercase italic ${isDark ? 'text-white/80' : 'text-black/80'}`}>
                                     <span className="text-[#6ca2fb]">CORE</span> <br />
                                     <span className="text-[#ee5781]">ENZYMES</span>
                                 </h2>
@@ -153,7 +177,7 @@ export default function CandyHome() {
                         <div className={`bg-white/${isDark ? '5' : '40'} backdrop-blur-2xl rounded-[3rem] md:rounded-[5rem] border-4 md:border-8 ${isDark ? 'border-white/10' : 'border-white'} p-8 md:p-24 shadow-[0_0_100px_rgba(0,0,0,0.05)] relative overflow-hidden`}>
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16 md:mb-24">
                                 <div>
-                                    <h2 className={`text-[15vw] md:text-8xl font-display font-black leading-[0.8] tracking-tighter uppercase italic mb-6 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+                                    <h2 className={`text-[12vw] md:text-8xl font-display font-black leading-[1] md:leading-[0.8] tracking-tighter uppercase italic mb-6 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
                                         The <br /> <span className="text-[#ec802b]">Museum</span>
                                     </h2>
                                     <p className={`text-lg md:text-xl font-bold ${isDark ? 'text-white/20' : 'text-black/30'} uppercase italic`}>A curated collection of digital artifacts.</p>

@@ -3,7 +3,7 @@
 import CandyLayout from "./Layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Search, ArrowRight, Zap } from "lucide-react";
+import { Search, ArrowRight, Zap, Heart, Star, Sparkles, Compass, Smile } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -30,17 +30,42 @@ export default function CandyExplore() {
 
     return (
         <CandyLayout>
-            <div className="relative pt-32 md:pt-48 pb-20 md:pb-32 px-4 md:px-8 overflow-hidden">
+            <div className="relative pt-48 md:pt-48 pb-20 md:pb-32 px-4 md:px-8">
 
                 {/* HERO */}
-                <section className="container mx-auto mb-16 md:mb-20 relative z-10 text-center px-4">
+                <section className="container mx-auto mb-16 md:mb-20 relative z-10 text-center px-4 overflow-visible">
+                    {/* Rotating Cute Icon */}
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className={`absolute -top-24 left-0 md:left-20 ${isDark ? 'text-white/5' : 'text-[#66bcb4]/20'} hidden lg:block`}
+                    >
+                        <Compass size={180} strokeWidth={1} />
+                    </motion.div>
+
                     <motion.h1
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="text-[12vw] md:text-8xl lg:text-7xl font-display font-black leading-[1] md:leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12"
+                        className="text-[8vw] md:text-8xl lg:text-7xl font-display font-black leading-[1.2] md:leading-[1.1] tracking-tighter uppercase italic mb-8 md:mb-12 relative py-2 whitespace-nowrap"
                     >
-                        <span className={isDark ? "text-white/10" : "text-black/10"}>The</span> <br />
+                        <span className={isDark ? "text-white/10" : "text-black/10"}>The</span>{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6ca2fb] via-[#ee5781] to-[#ffd447]">Archive</span>
+
+                        {/* Decorative floating icons */}
+                        <motion.div
+                            animate={{ y: [0, -10, 0], rotate: [0, 20, 0] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute -top-10 left-10 text-[#6ca2fb]/30 md:text-[#6ca2fb]/20"
+                        >
+                            <Star size={48} fill="currentColor" stroke="none" />
+                        </motion.div>
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                            className="absolute top-0 right-10 text-[#ee5781]/30 md:text-[#ee5781]/20"
+                        >
+                            <Heart size={40} fill="currentColor" stroke="none" />
+                        </motion.div>
                     </motion.h1>
 
                     <div className="max-w-4xl mx-auto relative group">
