@@ -40,9 +40,6 @@ export function StyleProvider({ children }: { children: React.ReactNode }) {
 
             // Set data attribute for even more reliable targeting
             root.setAttribute("data-style", style);
-
-            // Set as a global variable for any JS that needs to know theme without hook
-            (window as any).__visualStyle = style;
         }
     }, [style, mounted]);
 
