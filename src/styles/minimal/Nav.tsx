@@ -211,7 +211,7 @@ export default function MinimalNav() {
                                     {languages.map((l) => (
                                         <button
                                             key={l.code}
-                                            onClick={() => setLanguage(l.code as any)}
+                                            onClick={() => setLanguage(l.code)}
                                             className={`px-3 py-3 text-xs uppercase tracking-widest border border-foreground/10 hover:border-foreground transition-all ${language === l.code ? 'font-bold bg-foreground text-background' : 'text-foreground/50'}`}
                                         >
                                             {l.label}
