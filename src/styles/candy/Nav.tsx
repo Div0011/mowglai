@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useStyle } from "@/context/StyleContext";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage, Language } from "@/context/LanguageContext";
 import { useTheme } from "next-themes";
 import { X, Sun, Moon, Palette, Check, Zap, Sparkles, Layout, Users, Layers, LayoutTemplate, DollarSign, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -171,7 +171,7 @@ export default function CandyNav() {
                                         {languages.map((l) => (
                                             <button
                                                 key={l.code}
-                                                onClick={() => setLanguage(l.code as "en" | "hi" | "es")}
+                                                onClick={() => setLanguage(l.code as Language)}
                                                 className={`px-3 md:px-6 py-3 md:py-5 rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest border-2 md:border-4 transition-all ${language === l.code ? 'bg-[#6ca2fb] text-white border-white shadow-xl' : (isDark ? 'border-white/5 text-white/40 hover:bg-white/5 hover:border-white/10' : 'border-black/5 text-black/40 hover:bg-black/5 hover:border-black/10')}`}
                                             >
                                                 {l.label}

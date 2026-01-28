@@ -1,7 +1,6 @@
-// import PageLayout from "@/components/PageLayout"; // Moved to DynamicHome sub-components
-// import HeroSection from "@/components/HeroSection";
-// import HomeContent from "@/components/HomeContent";
-import DynamicHome from "@/components/DynamicHome";
+import PageLayout from "@/components/PageLayout";
+import HeroSection from "@/components/HeroSection";
+import HomeContent from "@/components/HomeContent";
 
 export const metadata = {
     title: "Premium Digital Agency - Web Development & Design",
@@ -50,9 +49,12 @@ const jsonLdBreadcrumb = {
 
 export default function Home() {
     return (
-        <>
+        <PageLayout>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
-            <DynamicHome />
-        </>
+            <div className="relative w-full h-screen">
+                <HeroSection />
+            </div>
+            <HomeContent />
+        </PageLayout>
     );
 }
