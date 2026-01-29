@@ -128,7 +128,7 @@ ${formData.message}
           </div>
 
           {/* Form - Clean & underlined */}
-          <div className={clsx("p-10 md:p-14 rounded-[2rem] border border-primary/20", isDark ? "bg-[#253218]/95" : "glass-card")}>
+          <div className={clsx("p-10 md:p-14 rounded-[2rem] border border-primary/20 bg-secondary/10 backdrop-blur-xl shadow-2xl")}>
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="space-y-6">
                 <Input

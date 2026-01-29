@@ -11,7 +11,7 @@ const Footer = () => {
       links: [
         { label: "START", href: "/" },
         { label: "CRAFT", href: "/services" },
-        { label: "VALUE", href: "/investment" },
+        { label: "INVESTMENT", href: "/investment" },
         { label: "BLUEPRINT", href: "/explore" },
       ],
     },
