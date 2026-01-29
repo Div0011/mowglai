@@ -1,5 +1,4 @@
 
-
 export const metadata = {
     title: "Premium Digital Agency - Web Development & Design",
     description: "Mowglai is a premium digital agency creating stunning, high-performance websites and web applications. Expert web development, 3D design, and immersive digital experiences. Transform your brand with cutting-edge technology and creative excellence.",
@@ -45,13 +44,13 @@ const jsonLdBreadcrumb = {
     ]
 };
 
-import HomeSwitcher from "@/components/HomeSwitcher";
+import OriginalHome from "@/styles/original/Home";
 
 export default function Home() {
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
-            <HomeSwitcher />
+            <OriginalHome />
         </>
     );
 }

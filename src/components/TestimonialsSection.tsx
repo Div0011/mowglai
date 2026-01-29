@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, Quote, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { useStyle } from "@/context/StyleContext";
 
 interface Testimonial {
     id: number;
@@ -86,9 +85,9 @@ interface TestimonialsSectionProps {
     isDark?: boolean;
 }
 
-export default function TestimonialsSection({ isDark: isDarkProp }: TestimonialsSectionProps) {
+const TestimonialsSection = ({ isDark: isDarkProp }: TestimonialsSectionProps) => {
     const { resolvedTheme } = useTheme();
-    const { style } = useStyle();
+
     const isDark = isDarkProp ?? resolvedTheme === "dark";
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -175,9 +174,7 @@ export default function TestimonialsSection({ isDark: isDarkProp }: Testimonials
                                 <div className={cn(
                                     "h-full relative p-10 border transition-all duration-500 hover:-translate-y-2 group flex flex-col items-center text-center shadow-lg overflow-hidden",
                                     // Style-specific Logic
-                                    style === 'minimal' ? "rounded-none border-2 border-foreground/10 bg-background shadow-none" :
-                                        style === 'candy' ? "glass-card rounded-[2.5rem] bg-background/40" :
-                                            "rounded-3xl bg-[#0a2310]/95", // Original (Default)
+                                    "rounded-3xl bg-[#0a2310]/95", // Original (Default)
 
                                     t.accent === "gold"
                                         ? "border-primary/30 hover:border-primary shadow-primary/10"
@@ -255,3 +252,5 @@ export default function TestimonialsSection({ isDark: isDarkProp }: Testimonials
         </section>
     );
 }
+
+export default TestimonialsSection;

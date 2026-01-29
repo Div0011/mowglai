@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
+import NextPageButton from "@/components/NextPageButton";
 
 const plans = {
     standard: [
@@ -70,11 +71,11 @@ export default function OriginalInvestment() {
         return `$${discounted}`;
     };
 
-    // Mapping for standard plans from translations
+    // Mapping for standard plans from translations + prices from local config
     const standardPlans = [
-        { ...t.Pricing.plans.basic, type: 'basic' },
-        { ...t.Pricing.plans.advanced, type: 'advanced' },
-        { ...t.Pricing.plans.epic, type: 'epic' }
+        { ...t.Pricing.plans.basic, price: plans.standard[0].price, type: 'basic' },
+        { ...t.Pricing.plans.advanced, price: plans.standard[1].price, type: 'advanced' },
+        { ...t.Pricing.plans.epic, price: plans.standard[2].price, type: 'epic' }
     ];
 
     return (
@@ -95,7 +96,7 @@ export default function OriginalInvestment() {
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-primary/20 pb-12 gap-12">
                         <div>
                             <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.5em] text-primary block mb-6">Financial Strategy</span>
-                            <h1 className="text-6xl md:text-8xl font-display font-black leading-tight uppercase tracking-tighter">
+                            <h1 className="text-5xl md:text-[6.5rem] lg:text-[7.5rem] font-display font-black leading-tight uppercase tracking-tighter">
                                 The <br /> <span className="text-primary italic">Economy</span>
                             </h1>
                         </div>
@@ -176,8 +177,8 @@ export default function OriginalInvestment() {
                                         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                                         <div className="mb-12 relative z-10">
-                                            <h3 className="text-3xl md:text-4xl font-display uppercase italic mb-2 text-primary group-hover:scale-105 transition-transform origin-left">{plan.name}</h3>
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80">{plan.description}</p>
+                                            <h3 className="text-3xl md:text-5xl font-display uppercase italic mb-4 text-primary group-hover:scale-105 transition-transform origin-left">{plan.name}</h3>
+                                            <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-muted-foreground/80">{plan.description}</p>
                                         </div>
 
                                         <div className="mb-16 relative z-10 h-16 sm:h-20 flex flex-col justify-center">
@@ -206,21 +207,21 @@ export default function OriginalInvestment() {
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            {plan.price !== "CUSTOM" && <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/40">Initial Acquisition</span>}
+                                            {plan.price !== "CUSTOM" && <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Initial Acquisition</span>}
                                         </div>
 
-                                        <ul className="space-y-6 mb-16 flex-grow font-body text-sm tracking-wide relative z-10">
+                                        <ul className="space-y-6 mb-16 flex-grow font-body text-base md:text-lg tracking-wide relative z-10">
                                             {(plan.features as string[]).map((f, fi) => (
-                                                <li key={fi} className="flex gap-4 items-start text-foreground/70 group-hover:text-foreground transition-colors">
-                                                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
-                                                    <span className="">{f}</span>
+                                                <li key={fi} className="flex gap-4 items-start text-foreground/80 group-hover:text-foreground transition-colors">
+                                                    <div className="mt-2 w-2 h-2 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
+                                                    <span className="leading-snug">{f}</span>
                                                 </li>
                                             ))}
                                         </ul>
 
                                         <Link
                                             href={`/project-request?plan=${plan.type}`}
-                                            className="relative z-10 w-full py-5 border border-primary/30 text-center text-[10px] font-black uppercase tracking-[0.4em] transition-all bg-transparent text-primary hover:bg-primary hover:text-primary-foreground rounded-2xl mt-auto shadow-[0_0_20px_rgba(var(--primary-rgb),0.0)] hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)]"
+                                            className="relative z-10 w-full py-6 border border-primary/30 text-center text-sm font-black uppercase tracking-[0.4em] transition-all bg-transparent text-primary hover:bg-primary hover:text-primary-foreground rounded-2xl mt-auto shadow-[0_0_20px_rgba(var(--primary-rgb),0.0)] hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)]"
                                         >
                                             {plan.button}
                                         </Link>
@@ -232,30 +233,30 @@ export default function OriginalInvestment() {
                                         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
 
                                         <div className="mb-12 relative z-10">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <h3 className="text-4xl font-display uppercase italic text-primary">APEX</h3>
-                                                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <h3 className="text-5xl font-display uppercase italic text-primary">APEX</h3>
+                                                <Sparkles className="w-8 h-8 text-primary animate-pulse" />
                                             </div>
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80">{t.Investment.apex.description}</p>
+                                            <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-muted-foreground/80">{t.Investment.apex.description}</p>
                                         </div>
 
                                         <div className="mb-20 relative z-10">
-                                            <div className="text-5xl md:text-6xl font-display font-black text-foreground mb-2">$4,999+</div>
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/40">Architecture Level</span>
+                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">$4,999+</div>
+                                            <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Architecture Level</span>
                                         </div>
 
-                                        <ul className="space-y-6 mb-16 flex-grow font-body text-sm tracking-wide relative z-10">
+                                        <ul className="space-y-6 mb-16 flex-grow font-body text-base md:text-lg tracking-wide relative z-10">
                                             {["Bespoke Digital Architecture", "Survival Ready Support", "Strategic Market Hegemony", "Liquid Motion Graphics", "Neural AI Integration"].map((f, fi) => (
-                                                <li key={fi} className="flex gap-4 items-start text-foreground/80">
-                                                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary" />
-                                                    <span>{f}</span>
+                                                <li key={fi} className="flex gap-4 items-start text-foreground/90">
+                                                    <div className="mt-2 w-2 h-2 rounded-full bg-primary" />
+                                                    <span className="leading-snug">{f}</span>
                                                 </li>
                                             ))}
                                         </ul>
 
                                         <Link
                                             href="/contact"
-                                            className="relative z-10 w-full py-6 bg-primary text-primary-foreground text-center text-[10px] font-black uppercase tracking-[0.5em] rounded-2xl shadow-[0_20px_40px_rgba(var(--primary-rgb),0.3)] hover:scale-[1.02] transition-all"
+                                            className="relative z-10 w-full py-8 bg-primary text-primary-foreground text-center text-sm font-black uppercase tracking-[0.5em] rounded-2xl shadow-[0_20px_40px_rgba(var(--primary-rgb),0.3)] hover:scale-[1.02] transition-all"
                                         >
                                             {t.Investment.apex.button}
                                         </Link>
@@ -285,26 +286,26 @@ export default function OriginalInvestment() {
                         <motion.div
                             key={i}
                             whileHover={{ y: -10 }}
-                            className="p-12 border border-primary/20 rounded-[2.5rem] flex flex-col justify-between items-center text-center space-y-8 bg-secondary/10 hover:bg-secondary/20 transition-all group backdrop-blur-md"
+                            className="p-16 border border-primary/20 rounded-[2.5rem] flex flex-col justify-between items-center text-center space-y-10 bg-secondary/10 hover:bg-secondary/20 transition-all group backdrop-blur-md"
                         >
-                            <div className="p-5 rounded-3xl bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                <item.icon className="w-10 h-10 stroke-[1.5px]" />
+                            <div className="p-6 rounded-3xl bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                <item.icon className="w-12 h-12 stroke-[1.5px]" />
                             </div>
                             <div>
-                                <h3 className="text-3xl font-display uppercase mb-2 text-foreground">{item.title}</h3>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{item.label}</p>
+                                <h3 className="text-4xl md:text-5xl font-display uppercase mb-4 text-foreground">{item.title}</h3>
+                                <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-muted-foreground/60">{item.label}</p>
                             </div>
                             {item.link ? (
                                 <Link
                                     href={item.link}
-                                    className="mt-8 text-[10px] font-bold uppercase tracking-[0.5em] border-b-2 border-primary text-primary pb-2 hover:tracking-[0.7em] transition-all"
+                                    className="mt-10 text-xs md:text-sm font-bold uppercase tracking-[0.5em] border-b-2 border-primary text-primary pb-3 hover:tracking-[0.7em] transition-all"
                                 >
                                     {item.btn}
                                 </Link>
                             ) : (
                                 <button
-                                    onClick={() => downloadAsHtml(`/${item.file}`, item.name)}
-                                    className="mt-8 text-[10px] font-bold uppercase tracking-[0.5em] border-b-2 border-primary text-primary pb-2 hover:tracking-[0.7em] transition-all"
+                                    onClick={() => downloadAsHtml(`/${item.file!}`, item.name!)}
+                                    className="mt-10 text-xs md:text-sm font-bold uppercase tracking-[0.5em] border-b-2 border-primary text-primary pb-3 hover:tracking-[0.7em] transition-all"
                                 >
                                     {item.btn}
                                 </button>
@@ -327,25 +328,12 @@ export default function OriginalInvestment() {
                 </div>
 
                 {/* Next Chapter CTA - Final Narrative */}
-                <div className="mt-64 pt-32 border-t border-primary/20 flex flex-col items-center text-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24 px-6"
-                    >
-                        <h2 className="text-2xl md:text-5xl font-display italic max-w-4xl mx-auto leading-tight text-foreground/80">
-                            "The investment in <span className="text-primary">excellence</span> is the only currency that never devalues in the digital age."
-                        </h2>
-                    </motion.div>
-
-                    <Link href="/contact" className="group">
-                        <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground block mb-8">Next Movement</span>
-                        <h4 className="text-6xl md:text-[10vw] font-display font-black uppercase leading-none transition-all group-hover:text-primary duration-700">
-                            Say <span className="text-foreground group-hover:text-primary transition-colors">Hello</span>
-                        </h4>
-                        <p className="mt-8 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-primary/40 group-hover:text-primary transition-opacity">Initiate Dialogue & Project Scoping</p>
-                    </Link>
+                <div className="mt-32 relative z-10">
+                    <NextPageButton
+                        label="HELLO"
+                        href="/contact"
+                        tagline="Initiate Dialogue"
+                    />
                 </div>
             </div>
         </PageLayout>

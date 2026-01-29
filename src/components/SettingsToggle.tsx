@@ -20,12 +20,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useLanguage, Language } from "@/context/LanguageContext";
-import { useStyle } from "@/context/StyleContext";
+
 
 const SettingsToggle = () => {
     const { setTheme, theme } = useTheme();
     const { language, setLanguage, t } = useLanguage();
-    const { style, setStyle } = useStyle();
 
     const [mounted, setMounted] = useState(false);
     const [showLanguageIcon, setShowLanguageIcon] = useState(false);
