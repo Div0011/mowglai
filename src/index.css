@@ -274,7 +274,7 @@
 }
 
 .animate-marquee-vertical {
-  animation: marquee-vertical 30s linear infinite;
+  animation: marquee-vertical 40s linear infinite;
 }
 
 @layer components {
