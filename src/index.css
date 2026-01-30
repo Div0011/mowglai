@@ -263,6 +263,7 @@
   animation: pookie-bounce 3s ease-in-out infinite;
 }
 
+<<<<<<< HEAD
 @keyframes marquee-vertical {
   0% {
     transform: translateY(0);
@@ -277,6 +278,8 @@
   animation: marquee-vertical 150s linear infinite;
 }
 
+=======
+>>>>>>> b21c72a68fc1a4058b4f2558addab3c22540046c
 @layer components {
   .glass-card {
     background: linear-gradient(135deg, hsl(var(--glass-bg) / 0.7), hsl(var(--glass-bg) / 0.4));

@@ -65,7 +65,12 @@ export default function OriginalInvestment() {
 
     const getPrice = (originalPrice: string) => {
         if (!isDiscountApplied || originalPrice === "CUSTOM" || originalPrice.includes("+")) return originalPrice;
+<<<<<<< HEAD
         const numPrice = parseInt(originalPrice.replace("$", "").replace(",", ""));
+=======
+        const numericPart = originalPrice.replace(/[^\d]/g, "");
+        const numPrice = parseInt(numericPart, 10);
+>>>>>>> b21c72a68fc1a4058b4f2558addab3c22540046c
         if (isNaN(numPrice)) return originalPrice;
         const discounted = Math.round(numPrice * 0.9);
         return `$${discounted}`;
@@ -334,5 +339,4 @@ export default function OriginalInvestment() {
                 </div>
             </div>
         </PageLayout>
-    );
-}
+    )};
