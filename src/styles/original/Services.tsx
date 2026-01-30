@@ -49,7 +49,6 @@ const services = [
 export default function OriginalServices() {
     const { t } = useLanguage();
     const { Services: s } = t;
-
     const servicesData = [
         { id: "01", ...s.cards.webDesign },
         { id: "02", ...s.cards.development },

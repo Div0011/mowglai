@@ -384,6 +384,7 @@ export default function ExplorePage() {
 
             </div>
             <NextPageButton label="INVESTMENT" href="/investment" />
+            <NextPageButton label="MOWGLAI ACQUIRE" href="/investment" />
 
             <style jsx global>{`
                 .mask-linear-fade {

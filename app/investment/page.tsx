@@ -1,4 +1,3 @@
-
 import OriginalInvestment from "@/styles/original/Investment";
 
 export const metadata = {
@@ -7,5 +6,5 @@ export const metadata = {
 };
 
 export default function InvestmentPage() {
-    return <OriginalInvestment />;
-}
+    return <OriginalInvestment />
+};

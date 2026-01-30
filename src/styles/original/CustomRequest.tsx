@@ -155,8 +155,8 @@ ${formData.workPlan}
                                 <div className="space-y-4 mb-10">
                                     <h3 className="text-sm font-display uppercase tracking-widest text-muted-foreground">{ProjectRequest.hero.includedFeatures}</h3>
                                     <ul className="space-y-3">
-                                        {/* NOTE: Features here are hardcoded in English in the plan object above. 
-                                            Ideally we should map them or use translate checks. 
+                                        {/* NOTE: Features here are hardcoded in English in the plan object above.
+                                            Ideally we should map them or use translate checks.
                                             For now, leaving as-is for the Plan object but UI labels are translated. */}
                                         {plan.features.map((feature: string, i: number) => (
                                             <li key={i} className="flex items-center gap-3 text-foreground/80">
