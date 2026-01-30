@@ -50,11 +50,7 @@ const HeroSection = () => {
                             href="/investment"
                             className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center"
                         >
-<<<<<<< HEAD
                             START THE PROJECT
-=======
-                            {t.Home.consultFree}
->>>>>>> b21c72a68fc1a4058b4f2558addab3c22540046c
                         </Link>
                     </Magnetic>
                 </div>

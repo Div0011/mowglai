@@ -129,12 +129,8 @@ ${formData.workPlan}
     return (
         <PageLayout>
             <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans relative overflow-hidden">
-<<<<<<< HEAD
-
-=======
                 <div className="absolute inset-0 bg-transparent z-0" />
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.05),transparent_70%)] pointer-events-none" />
->>>>>>> b21c72a68fc1a4058b4f2558addab3c22540046c
 
                 <div className="container relative z-10 max-w-6xl">
                     <Button
@@ -177,7 +173,7 @@ ${formData.workPlan}
                                         {ProjectRequest.hero.downloadText}
                                     </p>
                                     <button
-                                        className="w-full py-4 flex items-center justify-center gap-2 bg-primary text-background font-display font-bold uppercase tracking-widest hover:bg-foreground transition-colors rounded-xl shadow-lg cursor-pointer"
+                                        className="w-full py-4 px-8 flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full shadow-lg cursor-pointer"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             downloadAsHtml(`/${plan.proposalFile}`, `Mowglai_${plan.name}_Proposal.html`);
@@ -258,7 +254,7 @@ ${formData.workPlan}
 
                                 <Button
                                     type="submit"
-                                    className="w-full py-8 text-xl font-display font-black uppercase tracking-widest bg-primary text-background hover:bg-foreground hover:text-background transition-all duration-300 rounded-xl"
+                                    className="w-full h-auto py-6 px-8 sm:px-10 text-xl font-display font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-300 rounded-full shadow-lg"
                                 >
                                     <Send className="w-5 h-5 mr-3" />
                                     {ProjectRequest.form.button}
@@ -267,11 +263,7 @@ ${formData.workPlan}
                         </div>
                     </div>
                 </div>
-            </div>
-<<<<<<< HEAD
-        </PageLayout>
-=======
+            </div >
         </PageLayout >
->>>>>>> b21c72a68fc1a4058b4f2558addab3c22540046c
     );
 }
