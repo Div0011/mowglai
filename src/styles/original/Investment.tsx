@@ -334,5 +334,4 @@ export default function OriginalInvestment() {
                 </div>
             </div>
         </PageLayout>
-    );
-}
+    )};
