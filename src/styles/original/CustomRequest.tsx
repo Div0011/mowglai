@@ -129,8 +129,7 @@ ${formData.workPlan}
     return (
         <PageLayout>
             <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans relative overflow-hidden">
-                <div className="absolute inset-0 bg-transparent z-0" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.05),transparent_70%)] pointer-events-none" />
+
 
                 <div className="container relative z-10 max-w-6xl">
                     <Button
@@ -263,7 +262,7 @@ ${formData.workPlan}
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </PageLayout>
     );
 }

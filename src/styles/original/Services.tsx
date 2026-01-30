@@ -62,9 +62,7 @@ export default function OriginalServices() {
         <PageLayout>
             <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans relative overflow-hidden">
 
-                {/* Background Decor - Immersive Pulses */}
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-20 -mt-20 pointer-events-none animate-pookie-float" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -ml-20 -mb-20 pointer-events-none animate-pulse" />
+
 
                 {/* Header Section - Massive Regular Style */}
                 <motion.div
