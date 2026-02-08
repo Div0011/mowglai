@@ -78,6 +78,11 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         const h1Matches = [...html.matchAll(/<h1[^>]*>([^<]+)<\/h1>/gi)];
 
+        const canonicalMatch = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i);
+        const canonical = canonicalMatch ? canonicalMatch[1] : null;
+
+        const viewportMatch = html.match(/<meta\s+name=["']viewport["'][^>]*>/i);
+
         // 3. Content
         const wordCount = html.replace(/<[^>]*>/g, ' ').split(/\s+/).length;
 
@@ -87,14 +92,24 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
         const altMatches = [...html.matchAll(/<img[^>]+alt=["']([^"']+)["'][^>]*>/gi)];
         const imagesWithAlt = altMatches.length;
 
+        // 5. Social / Open Graph
+        const ogTitle = html.match(/<meta\s+property=["']og:title["']/i);
+        const ogImage = html.match(/<meta\s+property=["']og:image["']/i);
+
+        // 6. Scripts & CSS (Simplistic count)
+        const scriptCount = (html.match(/<script/gi) || []).length;
+        const cssCount = (html.match(/<link\s+rel=["']stylesheet["']/gi) || []).length;
+
+
         // --- SCORING & CATEGORIZATION ---
 
         // SEO
         let seoScore = 0;
         const seoItems: AuditDetail[] = [];
 
+        // Title
         if (title) {
-            seoScore += 40;
+            seoScore += 20;
             seoItems.push({
                 title: "Page Title",
                 status: "pass",
@@ -111,8 +126,9 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
             });
         }
 
+        // Meta Description
         if (description) {
-            seoScore += 30;
+            seoScore += 20;
             seoItems.push({
                 title: "Meta Description",
                 status: "pass",
@@ -129,8 +145,9 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
             });
         }
 
+        // H1
         if (h1Matches.length > 0) {
-            seoScore += 30;
+            seoScore += 20;
             seoItems.push({
                 title: "Main Heading (H1)",
                 status: "pass",
@@ -147,14 +164,55 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
             });
         }
 
+        // Mobile Viewport
+        if (viewportMatch) {
+            seoScore += 20;
+            seoItems.push({
+                title: "Mobile Optimization",
+                status: "pass",
+                value: "Optimized",
+                description: "Your page is configured to scale correctly on mobile devices."
+            });
+        } else {
+            seoItems.push({
+                title: "Mobile Optimization",
+                status: "fail",
+                value: "Missing Viewport",
+                description: "This page might look broken on mobile phones.",
+                recommendation: "Add a <meta name='viewport'> tag to ensure mobile responsiveness."
+            });
+        }
+
+        // Canonical
+        if (canonical) {
+            seoScore += 20;
+            seoItems.push({
+                title: "Canonical Tag",
+                status: "pass",
+                value: "Found",
+                description: "You're preventing duplicate content issues correctly."
+            });
+        } else {
+            // Warning only, not always critical for small sites
+            seoScore += 10;
+            seoItems.push({
+                title: "Canonical Tag",
+                status: "warning",
+                value: "Missing",
+                description: "Helps prevent duplicate content issues if your site is accessed via multiple URLs.",
+                recommendation: "Add a <link rel='canonical'> tag."
+            });
+        }
+
 
         // PERFORMANCE
         let perfScore = 0;
         const perfItems: AuditDetail[] = [];
         const loadTimeSec = (loadTimeMs / 1000).toFixed(2);
 
+        // Load Time
         if (loadTimeMs < 800) {
-            perfScore = 100;
+            perfScore += 60;
             perfItems.push({
                 title: "Server Response Time",
                 status: "pass",
@@ -162,7 +220,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 description: "Incredible! Your website server responds instantly."
             });
         } else if (loadTimeMs < 2000) {
-            perfScore = 70;
+            perfScore += 40;
             perfItems.push({
                 title: "Server Response Time",
                 status: "warning",
@@ -171,13 +229,61 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 recommendation: "Optimize server cache or upgrade hosting."
             });
         } else {
-            perfScore = 40;
+            perfScore += 10;
             perfItems.push({
                 title: "Server Response Time",
                 status: "fail",
                 value: `${loadTimeSec}s`,
                 description: "Slow. Users may leave before the page loads.",
                 recommendation: "Critical: Investigate server response times."
+            });
+        }
+
+        // Code Bloat (Scripts)
+        if (scriptCount < 15) {
+            perfScore += 20;
+            perfItems.push({
+                title: "JavaScript Bloat",
+                status: "pass",
+                value: `${scriptCount} scripts`,
+                description: "Low code usage. Helps with faster rendering."
+            });
+        } else if (scriptCount < 30) {
+            perfScore += 10;
+            perfItems.push({
+                title: "JavaScript Bloat",
+                status: "warning",
+                value: `${scriptCount} scripts`,
+                description: "Moderate amount of external code. Watch out for slowdowns.",
+                recommendation: "Combine or remove unnecessary script tags."
+            });
+        } else {
+            perfItems.push({
+                title: "JavaScript Bloat",
+                status: "fail",
+                value: `${scriptCount} scripts`,
+                description: "High amount of third-party code. Likely slowing down your site.",
+                recommendation: "Audit and remove unused JavaScript libraries."
+            });
+        }
+
+        // Code Bloat (CSS)
+        if (cssCount < 10) {
+            perfScore += 20;
+            perfItems.push({
+                title: "CSS Requests",
+                status: "pass",
+                value: `${cssCount} files`,
+                description: "Efficient styling structure."
+            });
+        } else {
+            perfScore += 10;
+            perfItems.push({
+                title: "CSS Requests",
+                status: "warning",
+                value: `${cssCount} files`,
+                description: "Many separate style files. Each one delays rendering.",
+                recommendation: "Combine certain CSS files to reduce requests."
             });
         }
 
@@ -196,17 +302,18 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 title: "SSL Certificate",
                 status: "fail",
                 value: "Missing",
-                description: "Not Secure. thoroughBrowsers may warn users not to visit.",
+                description: "Not Secure. Browsers may warn users not to visit.",
                 recommendation: "Install an SSL certificate immediately (HTTPS)."
             });
         }
 
         // CONTENT / STRUCTURE
-        let contentScore = 50;
+        let contentScore = 0;
         const contentItems: AuditDetail[] = [];
 
+        // Word Count
         if (wordCount > 300) {
-            contentScore += 25;
+            contentScore += 40;
             contentItems.push({
                 title: "Content Volume",
                 status: "pass",
@@ -214,6 +321,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 description: "Good amount of text content for search engines to understand."
             });
         } else {
+            contentScore += 20;
             contentItems.push({
                 title: "Content Volume",
                 status: "warning",
@@ -223,9 +331,10 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
             });
         }
 
+        // Images
         const missingAlt = imageCount - imagesWithAlt;
         if (imageCount === 0) {
-            contentScore += 25;
+            contentScore += 30; // Not a fail, but warning
             contentItems.push({
                 title: "Images",
                 status: "warning",
@@ -234,7 +343,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 recommendation: "Consider adding relevant images."
             });
         } else if (missingAlt === 0) {
-            contentScore += 25;
+            contentScore += 30;
             contentItems.push({
                 title: "Image Accessibility",
                 status: "pass",
@@ -242,12 +351,41 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 description: "All images have descriptions (Alt text). Great for accessibility."
             });
         } else {
+            contentScore += 10;
             contentItems.push({
                 title: "Image Accessibility",
                 status: "warning",
                 value: `${missingAlt} missing descriptions`,
                 description: "Some images are missing descriptions for screen readers.",
                 recommendation: "Add 'alt' attributes to describe your images."
+            });
+        }
+
+        // Social Graph
+        if (ogTitle && ogImage) {
+            contentScore += 30;
+            contentItems.push({
+                title: "Social Sharing",
+                status: "pass",
+                value: "Optimized",
+                description: "Your site looks good when shared on social media (Open Graph)."
+            });
+        } else if (ogTitle || ogImage) {
+            contentScore += 15;
+            contentItems.push({
+                title: "Social Sharing",
+                status: "warning",
+                value: "Partial",
+                description: "Partial social configuration found.",
+                recommendation: "Ensure both og:title and og:image tags are present."
+            });
+        } else {
+            contentItems.push({
+                title: "Social Sharing",
+                status: "fail",
+                value: "Missing",
+                description: "Links will look broken or empty when shared on social media.",
+                recommendation: "Add Open Graph (og:) meta tags."
             });
         }
 
