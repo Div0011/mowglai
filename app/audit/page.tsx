@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import AuditReport from './AuditReport';
 import { analyzeWebsite, AuditResult } from './actions';
 import { motion } from "framer-motion";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function AuditPage() {
     const [url, setUrl] = useState("");
@@ -54,6 +55,7 @@ export default function AuditPage() {
 
     return (
         <div className="min-h-screen w-full bg-[#0d1a12] text-white selection:bg-[#c5a059]/30 pt-24 pb-20 px-4 relative overflow-hidden">
+            <CustomCursor />
 
             {/* Background Ambience */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#c5a059]/5 rounded-full blur-[120px] pointer-events-none" />
