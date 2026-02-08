@@ -61,13 +61,24 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
         }
 
         const html = await response.text();
+        const headers = response.headers;
         const endTime = Date.now();
         const loadTimeMs = endTime - startTime;
 
         // --- SIMULATED ANALYSIS ---
 
-        // 1. SSL Check
+        // 1. SSL & Security Headers
         const isSSL = url.startsWith("https://");
+        const hsts = headers.get('strict-transport-security');
+        const xFrame = headers.get('x-frame-options');
+        const xContentType = headers.get('x-content-type-options');
+        const referrerPolicy = headers.get('referrer-policy');
+
+        // Email Privacy
+        const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+        const emailsFound = [...html.matchAll(emailRegex)];
+        const uniqueEmails = [...new Set(emailsFound.map(m => m[0]))];
+
 
         // 2. SEO Basics
         const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
@@ -82,6 +93,18 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
         const canonical = canonicalMatch ? canonicalMatch[1] : null;
 
         const viewportMatch = html.match(/<meta\s+name=["']viewport["'][^>]*>/i);
+
+        // Check for Language and Charset
+        const langMatch = html.match(/<html[^>]+lang=["']([^"']+)["'][^>]*>/i);
+        const lang = langMatch ? langMatch[1] : null;
+
+        const charsetMatch = html.match(/<meta\s+charset=["']([^"']+)["'][^>]*>/i);
+        const charset = charsetMatch ? charsetMatch[1] : null;
+
+        // Favicon
+        const faviconMatch = html.match(/<link\s+rel=["'](?:shortcut )?icon["'][^>]+href=["']([^"']+)["'][^>]*>/i);
+        const favicon = faviconMatch ? faviconMatch[1] : null;
+
 
         // 3. Content
         const wordCount = html.replace(/<[^>]*>/g, ' ').split(/\s+/).length;
@@ -109,7 +132,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         // Title
         if (title) {
-            seoScore += 20;
+            seoScore += 15;
             seoItems.push({
                 title: "Page Title",
                 status: "pass",
@@ -128,7 +151,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         // Meta Description
         if (description) {
-            seoScore += 20;
+            seoScore += 15;
             seoItems.push({
                 title: "Meta Description",
                 status: "pass",
@@ -147,7 +170,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         // H1
         if (h1Matches.length > 0) {
-            seoScore += 20;
+            seoScore += 15;
             seoItems.push({
                 title: "Main Heading (H1)",
                 status: "pass",
@@ -166,7 +189,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         // Mobile Viewport
         if (viewportMatch) {
-            seoScore += 20;
+            seoScore += 15;
             seoItems.push({
                 title: "Mobile Optimization",
                 status: "pass",
@@ -185,7 +208,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
 
         // Canonical
         if (canonical) {
-            seoScore += 20;
+            seoScore += 15;
             seoItems.push({
                 title: "Canonical Tag",
                 status: "pass",
@@ -193,7 +216,6 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 description: "You're preventing duplicate content issues correctly."
             });
         } else {
-            // Warning only, not always critical for small sites
             seoScore += 10;
             seoItems.push({
                 title: "Canonical Tag",
@@ -201,6 +223,44 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 value: "Missing",
                 description: "Helps prevent duplicate content issues if your site is accessed via multiple URLs.",
                 recommendation: "Add a <link rel='canonical'> tag."
+            });
+        }
+
+        // Language
+        if (lang) {
+            seoScore += 15;
+            seoItems.push({
+                title: "Language Tag",
+                status: "pass",
+                value: lang,
+                description: "Search engines know the language of your content."
+            });
+        } else {
+            seoItems.push({
+                title: "Language Tag",
+                status: "fail",
+                value: "Missing",
+                description: "Search engines might guess the wrong language.",
+                recommendation: "Add a 'lang' attribute to your <html> tag."
+            });
+        }
+
+        // Favicon
+        if (favicon) {
+            seoScore += 10;
+            seoItems.push({
+                title: "Favicon",
+                status: "pass",
+                value: "Found",
+                description: "Brand icon found. Helps with recognition in browser tabs."
+            });
+        } else {
+            seoItems.push({
+                title: "Favicon",
+                status: "warning",
+                value: "Missing",
+                description: "No brand icon found.",
+                recommendation: "Add a favicon to look more professional."
             });
         }
 
@@ -288,9 +348,12 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
         }
 
         // SECURITY
-        let secScore = isSSL ? 100 : 0;
+        let secScore = 0;
         const secItems: AuditDetail[] = [];
+
+        // SSL
         if (isSSL) {
+            secScore += 40;
             secItems.push({
                 title: "SSL Certificate",
                 status: "pass",
@@ -304,6 +367,63 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
                 value: "Missing",
                 description: "Not Secure. Browsers may warn users not to visit.",
                 recommendation: "Install an SSL certificate immediately (HTTPS)."
+            });
+        }
+
+        // HSTS
+        if (hsts) {
+            secScore += 20;
+            secItems.push({
+                title: "HSTS Header",
+                status: "pass",
+                value: "Active",
+                description: "You are enforcing secure connections strictly."
+            });
+        } else {
+            secItems.push({
+                title: "HSTS Header",
+                status: "warning",
+                value: "Missing",
+                description: "Strict-Transport-Security header is missing.",
+                recommendation: "Enable HSTS to prevent protocol downgrade attacks."
+            });
+        }
+
+        // X-Content-Type-Options
+        if (xContentType === 'nosniff') {
+            secScore += 20;
+            secItems.push({
+                title: "MIME Sniffing Protection",
+                status: "pass",
+                value: "Active",
+                description: "Prevents browsers from incorrectly detecting file types."
+            });
+        } else {
+            secItems.push({
+                title: "MIME Sniffing Protection",
+                status: "warning",
+                value: "Missing",
+                description: "X-Content-Type-Options header is missing.",
+                recommendation: "Add 'X-Content-Type-Options: nosniff' header."
+            });
+        }
+
+        // Email Privacy
+        if (uniqueEmails.length === 0) {
+            secScore += 20;
+            secItems.push({
+                title: "Email Privacy",
+                status: "pass",
+                value: "Secure",
+                description: "No plain-text email addresses found. Good for spam prevention."
+            });
+        } else {
+            secItems.push({
+                title: "Email Privacy",
+                status: "warning",
+                value: `${uniqueEmails.length} Emails Exposed`,
+                description: "Plain text emails found. Bots can scrape these for spam.",
+                recommendation: "Use contact forms or obfuscate email addresses."
             });
         }
 
