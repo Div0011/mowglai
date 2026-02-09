@@ -8,8 +8,8 @@ import StarryBackground from "./StarryBackground";
 import CustomCursor from "./CustomCursor";
 
 const CONTACT_EMAIL = "info@mowglai.in";
-const WHATSAPP_NUMBER = "919528545302";
-const PHONE_NUMBER = "+91 95285 45302";
+const WHATSAPP_NUMBER = "919452476331";
+const PHONE_NUMBER = "+91 94524 76331";
 
 const socialLinks = [
     { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
