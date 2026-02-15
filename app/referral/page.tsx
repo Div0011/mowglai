@@ -108,7 +108,7 @@ export default function ReferralPage() {
                                         </li>
                                         <li className="flex items-start gap-5">
                                             <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs text-primary font-bold shrink-0 mt-0.5">3</div>
-                                            <span className="text-foreground/70 leading-relaxed">Both of you receive a unique 10% commission code for your next digital evolution project.</span>
+                                            <span className="text-foreground/70 leading-relaxed">Your friend will get 5% off for his purchase and you will get 5% as real cash in their bank account or as gift card(the cash will be transferred after handing over the final product to the client).</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -256,7 +256,7 @@ export default function ReferralPage() {
                                         <Button
                                             type="submit"
                                             disabled={status === "submitting"}
-                                            className="w-full bg-primary text-primary-foreground hover:scale-[1.02] active:scale-[0.98] font-display font-black text-[10px] sm:text-xs md:text-lg py-6 md:py-8 rounded-full transition-all uppercase tracking-[0.1em] md:tracking-[0.2em] shadow-xl group"
+                                            className="w-full bg-primary text-primary-foreground hover:scale-[1.02] active:scale-[0.98] font-display font-black text-[10px] sm:text-xs md:text-lg py-6 md:py-8 rounded-full transition-all uppercase tracking-[0.1em] md:tracking-[0.2em] shadow-xl group whitespace-normal h-auto min-h-[60px] leading-tight"
                                         >
                                             {status === "submitting" ? (
                                                 <motion.span
@@ -266,9 +266,10 @@ export default function ReferralPage() {
                                                     Processing Invitation...
                                                 </motion.span>
                                             ) : (
-                                                <div className="flex items-center justify-center gap-2 md:gap-4">
-                                                    <span>Grant Access to 10% COMMISSION</span>
-                                                    <Send className="w-3 h-3 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 md:gap-4 leading-[1.2] sm:leading-none py-1">
+                                                    <span className="whitespace-nowrap opacity-80 sm:opacity-100">Grant Access to</span>
+                                                    <span className="whitespace-nowrap text-[12px] sm:text-xs md:text-lg">10% COMMISSION</span>
+                                                    <Send className="hidden sm:block w-3 h-3 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                                 </div>
                                             )}
                                         </Button>

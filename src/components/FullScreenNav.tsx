@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Twitter, Linkedin, Layers, Bot, LayoutTemplate } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Linkedin, Layers, Bot, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import Magnetic from "@/components/Magnetic";
 import MowglaiLogo from "@/components/MowglaiLogo";
 import { useTheme } from "next-themes";
+import XLogo from "@/components/icons/XLogo";
 
 interface NavItem {
     icon: React.ElementType;
@@ -34,6 +35,21 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     const pathname = usePathname();
 
     const { resolvedTheme } = useTheme();
+
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 200);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Logo state:
+    // - Visible (opacity-100, blur-0) if menu is open, OR at top of page, OR hovered locally.
+    // - Dim/Blurred otherwise.
+    const isLogoActive = isOpen || !scrolled;
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -71,11 +87,14 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
 
 
-            {/* Logo - Fixed Top Left - Visible Always */}
+            {/* Logo - Fixed Top Left - Visible Always but Reactive */}
             <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] left-[calc(0.875rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
                 <Magnetic amount={0.4}>
                     <div
-                        className="cursor-pointer"
+                        className={cn(
+                            "cursor-pointer group/logo transition-all duration-700",
+                            !isLogoActive ? "opacity-30 blur-[4px] hover:opacity-100 hover:blur-0" : "opacity-100 blur-0"
+                        )}
                         onClick={() => router.push('/')}
                     >
                         <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-300">
@@ -158,7 +177,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     <div className="absolute bottom-10 left-0 w-full flex md:hidden justify-center gap-6 z-50">
                         {[
                             { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
-                            { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
+                            { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
                             { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
                         ].map((item, i) => (
                             <Magnetic key={i} amount={0.5}>
@@ -184,7 +203,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                             {/* Magnetic Social Icons */}
                             {[
                                 { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
-                                { icon: Twitter, href: "https://x.com/Mowglai11", label: "X (Twitter)" },
+                                { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
                                 { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
                             ].map((item, i) => (
                                 <Magnetic key={i} amount={0.5}>

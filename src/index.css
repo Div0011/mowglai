@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;800&display=swap');
+@config "../tailwind.config.ts";
+@import "tailwindcss";
 
 @font-face {
   font-family: 'Boldonse';
@@ -39,10 +40,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer base {
   :root {
@@ -221,6 +218,17 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* --- ANIMATIONS --- */
 
 @keyframes pookie-float {
@@ -283,13 +291,31 @@
   animation: marquee-vertical 40s linear infinite;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
+.animate-marquee-slow {
+  animation: marquee 25s linear infinite;
+}
+
 @layer components {
   .glass-card {
     background: linear-gradient(135deg, hsl(var(--glass-bg) / 0.7), hsl(var(--glass-bg) / 0.4));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid hsl(var(--glass-border) / 0.3);
-    @apply rounded-2xl;
+    border-radius: 1rem;
   }
 
   .nav-icon-button {
