@@ -432,7 +432,7 @@ export default function InvestmentPage() {
                             </h1>
                         </div>
 
-                        <Link href="#your-assets" className="mb-4 md:mb-8 hidden md:block">
+                        <Link href="?modal=purchases" scroll={false} className="mb-4 md:mb-8 hidden md:block">
                             <div className="p-4 md:p-6 rounded-full bg-primary/10 border border-primary/20 text-primary hover:scale-110 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg group">
                                 <ShoppingCart className="w-6 h-6 md:w-8 md:h-8" />
                             </div>

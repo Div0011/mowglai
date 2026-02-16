@@ -100,8 +100,8 @@ const MobileNav = () => {
 
                 {/* Shopping Cart Icon - Only on Investment Page */}
                 {pathname?.includes('/investment') && !isOpen && (
-                    <motion.a
-                        href="#your-assets"
+                    <motion.button
+                        onClick={() => router.push('/investment?modal=purchases', { scroll: false })}
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0 }}
@@ -114,7 +114,7 @@ const MobileNav = () => {
                         whileTap={{ scale: 0.95 }}
                     >
                         <ShoppingCart className="w-5 h-5" />
-                    </motion.a>
+                    </motion.button>
                 )}
             </div>
 
