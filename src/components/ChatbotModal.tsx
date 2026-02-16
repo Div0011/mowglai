@@ -99,6 +99,8 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
                 }
             ]);
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
 
     useEffect(() => {

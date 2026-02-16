@@ -16,6 +16,9 @@ import { motion } from "framer-motion";
 
 export type FieldType = "text" | "email" | "textarea" | "select" | "radio" | "checkbox-group";
 
+// Define a union type for form values
+export type FormValue = string | string[];
+
 export interface FormField {
     id: string;
     label: string;
@@ -44,11 +47,11 @@ export default function ServiceRequestForm({
     const router = useRouter();
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formData, setFormData] = useState<Record<string, any>>({});
+    const [formData, setFormData] = useState<Record<string, FormValue>>({});
 
     // Initialize checkboxes as arrays
     useState(() => {
-        const initialData: Record<string, any> = {};
+        const initialData: Record<string, FormValue> = {};
         fields.forEach(field => {
             if (field.type === 'checkbox-group') {
                 initialData[field.id] = [];
@@ -59,13 +62,13 @@ export default function ServiceRequestForm({
         setFormData(initialData);
     });
 
-    const handleInputChange = (id: string, value: any) => {
+    const handleInputChange = (id: string, value: string) => {
         setFormData(prev => ({ ...prev, [id]: value }));
     };
 
     const handleCheckboxChange = (id: string, option: string, checked: boolean, max?: number) => {
         setFormData(prev => {
-            const current = prev[id] || [];
+            const current = (prev[id] as string[]) || [];
             if (checked) {
                 if (max && current.length >= max) return prev; // Limit reached
                 return { ...prev, [id]: [...current, option] };
