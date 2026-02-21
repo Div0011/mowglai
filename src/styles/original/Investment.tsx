@@ -2,33 +2,36 @@
 
 import PageLayout from "@/components/PageLayout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Download, FileText, Sparkles, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
 import NextPageButton from "@/components/NextPageButton";
+import UserPurchasesSection from "@/components/UserPurchasesSection";
+import { useUserCurrency } from "@/hooks/useUserCurrency";
+import { BASE_PRICES_USD, formatPrice, roundPrice } from "@/utils/pricing";
 
 const plans = {
     standard: [
         {
             name: "BASIC",
-            price: "$499",
+            priceKey: "basic",
             description: "Essential Digital Prescence",
             features: ["Single page website", "Mobile responsive design", "Basic SEO optimization", "Contact form integration", "1 month support"],
             cta: "Initiate"
         },
         {
             name: "ADVANCED",
-            price: "$999",
+            priceKey: "advanced",
             description: "Scale & Growth Architecture",
             features: ["Multi-page website (up to 5)", "Custom animations", "Advanced SEO & Analytics", "CMS integration", "3 months support"],
             cta: "Accelerate"
         },
         {
             name: "EPIC",
-            price: "CUSTOM",
+            priceKey: "custom", // Special case
             description: "Infrastructure Level Solutions",
             features: ["Unlimited pages", "Custom web applications", "API development", "Database integration", "Priority 24/7 support"],
             cta: "Dialogue"
@@ -37,7 +40,7 @@ const plans = {
     premium: [
         {
             name: "APEX",
-            price: "$4,999+",
+            priceKey: "apex",
             description: "Industry-Leading Digital Soul",
             features: ["Bespoke Digital Architecture", "Survival Ready Support", "Strategic Market Hegemony", "Liquid Motion Graphics", "Neural AI Integration"],
             cta: "Dominate"
@@ -53,6 +56,9 @@ export default function OriginalInvestment() {
     const [isDiscountApplied, setIsDiscountApplied] = useState(false);
     const [discountError, setDiscountError] = useState("");
 
+    // New: Currency Hook
+    const { currency, exchangeRate, isLoading } = useUserCurrency();
+
     const handleApplyDiscount = () => {
         if (discountCode.trim().toUpperCase() === "MOWGLAI10") {
             setIsDiscountApplied(true);
@@ -63,25 +69,45 @@ export default function OriginalInvestment() {
         }
     };
 
-    const getPrice = (originalPrice: string) => {
-        if (!isDiscountApplied || originalPrice === "CUSTOM" || originalPrice.includes("+")) return originalPrice;
-        const numericPart = originalPrice.replace(/[^\d]/g, "");
-        const numPrice = parseInt(numericPart, 10);
-        if (isNaN(numPrice)) return originalPrice;
-        const discounted = Math.round(numPrice * 0.9);
-        return `$${discounted}`;
+    // Helper: Convert, Round, Format
+    const getFinalPrice = (priceKey: string, applyDiscount: boolean = false) => {
+        if (priceKey === "custom") return "CUSTOM";
+
+        // 1. Get Base Price
+        // Use assertion or safer check
+        const basePrice = (BASE_PRICES_USD as Record<string, number>)[priceKey];
+        if (!basePrice) return "CUSTOM"; // Should not happen based on types
+
+        // 2. Convert
+        let val = basePrice * exchangeRate;
+
+        // 3. Discount
+        if (applyDiscount && isDiscountApplied) {
+            val = val * 0.9;
+        }
+
+        // 4. Round
+        val = roundPrice(val);
+
+        // 5. Format
+        let formatted = formatPrice(val, currency);
+
+        // Append + for Apex
+        if (priceKey === 'apex') formatted += '+';
+
+        return formatted;
     };
 
-    // Mapping for standard plans from translations + prices from local config
+    // Mapping for standard plans from translations
     const standardPlans = [
-        { ...t.Pricing.plans.basic, price: plans.standard[0].price, type: 'basic' },
-        { ...t.Pricing.plans.advanced, price: plans.standard[1].price, type: 'advanced' },
-        { ...t.Pricing.plans.epic, price: plans.standard[2].price, type: 'epic' }
+        { ...t.Pricing.plans.basic, priceKey: plans.standard[0].priceKey, type: 'basic' },
+        { ...t.Pricing.plans.advanced, priceKey: plans.standard[1].priceKey, type: 'advanced' },
+        { ...t.Pricing.plans.epic, priceKey: plans.standard[2].priceKey, type: 'epic' }
     ];
 
     return (
         <PageLayout>
-            <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans overflow-hidden relative">
+            <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans relative">
 
 
                 {/* Header Area */}
@@ -99,17 +125,28 @@ export default function OriginalInvestment() {
                             </h1>
                         </div>
 
-                        {/* Toggle */}
-                        <div className="flex bg-background/20 p-1 rounded-full border border-primary/20 backdrop-blur-xl">
-                            {["standard", "premium"].map((type) => (
-                                <button
-                                    key={type}
-                                    onClick={() => setPlanType(type as "standard" | "premium")}
-                                    className={`px-8 py-3 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-full ${planType === type ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)]' : 'text-primary/60 hover:text-primary'}`}
-                                >
-                                    {type}
-                                </button>
-                            ))}
+                        <div className="flex flex-col items-end gap-6">
+                            {/* Purchases Button */}
+                            <button
+                                onClick={() => document.getElementById('user-purchases')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] transition-all flex items-center gap-3 z-50 animate-pulse hover:animate-none"
+                            >
+                                <Sparkles className="w-5 h-5" />
+                                Your Assets
+                            </button>
+
+                            {/* Toggle */}
+                            <div className="flex bg-background/20 p-1 rounded-full border border-primary/20 backdrop-blur-xl">
+                                {["standard", "premium"].map((type) => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setPlanType(type as "standard" | "premium")}
+                                        className={`px-8 py-3 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-full ${planType === type ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary-rgb),0.4)]' : 'text-primary/60 hover:text-primary'}`}
+                                    >
+                                        {type}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </motion.div>
@@ -182,7 +219,14 @@ export default function OriginalInvestment() {
                                         <div className="mb-16 relative z-10 h-16 sm:h-20 flex flex-col justify-center">
                                             <div className="text-4xl sm:text-5xl md:text-6xl font-display font-black leading-none mb-3 text-foreground flex items-center flex-wrap gap-4">
                                                 <AnimatePresence mode="wait">
-                                                    {isDiscountApplied && plan.price !== "CUSTOM" && !plan.price.includes("+") ? (
+                                                    {isLoading ? (
+                                                        <motion.div
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            exit={{ opacity: 0 }}
+                                                            className="h-12 w-32 bg-secondary/40 animate-pulse rounded-lg"
+                                                        />
+                                                    ) : isDiscountApplied && plan.priceKey !== "custom" ? (
                                                         <motion.div
                                                             key="discounted"
                                                             initial={{ opacity: 0, y: 10 }}
@@ -190,8 +234,8 @@ export default function OriginalInvestment() {
                                                             exit={{ opacity: 0, y: -10 }}
                                                             className="flex items-center gap-4"
                                                         >
-                                                            <span className="line-through text-muted-foreground/30 text-3xl sm:text-4xl">{plan.price}</span>
-                                                            <span className="text-primary">{getPrice(plan.price)}</span>
+                                                            <span className="line-through text-muted-foreground/30 text-3xl sm:text-4xl">{getFinalPrice(plan.priceKey, false)}</span>
+                                                            <span className="text-primary">{getFinalPrice(plan.priceKey, true)}</span>
                                                         </motion.div>
                                                     ) : (
                                                         <motion.div
@@ -200,12 +244,12 @@ export default function OriginalInvestment() {
                                                             animate={{ opacity: 1 }}
                                                             exit={{ opacity: 0 }}
                                                         >
-                                                            {plan.price}
+                                                            {getFinalPrice(plan.priceKey, false)}
                                                         </motion.div>
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            {plan.price !== "CUSTOM" && <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Initial Acquisition</span>}
+                                            {plan.priceKey !== "custom" && <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Initial Acquisition</span>}
                                         </div>
 
                                         <ul className="space-y-6 mb-16 flex-grow font-body text-base md:text-lg tracking-wide relative z-10">
@@ -218,7 +262,7 @@ export default function OriginalInvestment() {
                                         </ul>
 
                                         <Link
-                                            href={`/project-request?plan=${plan.type}`}
+                                            href={`/start-project?plan=${plan.type}`}
                                             className="relative z-10 w-full py-4 px-8 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center mt-auto"
                                         >
                                             {plan.button}
@@ -239,7 +283,13 @@ export default function OriginalInvestment() {
                                         </div>
 
                                         <div className="mb-20 relative z-10">
-                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">$4,999+</div>
+                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">
+                                                {isLoading ? (
+                                                    <div className="h-16 w-48 bg-secondary/40 animate-pulse rounded-lg" />
+                                                ) : (
+                                                    getFinalPrice("apex", true) // Assuming Apex always shows final price, discount logic could be applied if needed
+                                                )}
+                                            </div>
                                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Architecture Level</span>
                                         </div>
 
@@ -312,6 +362,9 @@ export default function OriginalInvestment() {
                     ))}
                 </div>
 
+                {/* User Purchases Section - New Addition */}
+                <UserPurchasesSection />
+
                 {/* Footnote */}
                 <div className="mt-48 pt-12 border-t border-primary/20 flex flex-col md:flex-row justify-between items-start gap-12 relative z-10 opacity-60">
                     <div className="max-w-md space-y-6">
@@ -336,4 +389,4 @@ export default function OriginalInvestment() {
             </div>
         </PageLayout>
     )
-};
+}
