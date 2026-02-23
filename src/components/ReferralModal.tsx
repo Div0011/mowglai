@@ -71,7 +71,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                 <div className="p-2 bg-primary/10 rounded-full text-primary">
                                     <Gift size={20} />
                                 </div>
-                                <h2 className="font-display text-xl font-bold uppercase tracking-wider text-primary">
+                                <h2 className="font-sans text-xl font-bold uppercase tracking-wider text-primary">
                                     Refer & Earn
                                 </h2>
                             </div>
@@ -101,7 +101,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                             id="userName"
                                                             name="userName"
                                                             placeholder="Your Full Name"
-                                                            className="pl-9 bg-primary/5 border-primary/10"
+                                                            className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                             required
                                                             value={formData.userName}
                                                             onChange={handleInputChange}
@@ -118,7 +118,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                                 name="userEmail"
                                                                 type="email"
                                                                 placeholder="you@email.com"
-                                                                className="pl-9 bg-primary/5 border-primary/10"
+                                                                className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                                 required
                                                                 value={formData.userEmail}
                                                                 onChange={handleInputChange}
@@ -133,7 +133,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                                 id="userPhone"
                                                                 name="userPhone"
                                                                 placeholder="+91..."
-                                                                className="pl-9 bg-primary/5 border-primary/10"
+                                                                className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                                 required
                                                                 value={formData.userPhone}
                                                                 onChange={handleInputChange}
@@ -157,7 +157,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                             id="friendName"
                                                             name="friendName"
                                                             placeholder="Friend's Name"
-                                                            className="pl-9 bg-primary/5 border-primary/10"
+                                                            className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                             required
                                                             value={formData.friendName}
                                                             onChange={handleInputChange}
@@ -174,7 +174,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                                 name="friendEmail"
                                                                 type="email"
                                                                 placeholder="friend@email.com"
-                                                                className="pl-9 bg-primary/5 border-primary/10"
+                                                                className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                                 required
                                                                 value={formData.friendEmail}
                                                                 onChange={handleInputChange}
@@ -189,7 +189,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                                                 id="friendPhone"
                                                                 name="friendPhone"
                                                                 placeholder="+91..."
-                                                                className="pl-9 bg-primary/5 border-primary/10"
+                                                                className="pl-9 bg-primary/5 border-primary/10 font-sans"
                                                                 required
                                                                 value={formData.friendPhone}
                                                                 onChange={handleInputChange}
@@ -204,7 +204,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                     <Button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-widest uppercase py-6"
+                                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-widest uppercase py-6 font-sans"
                                     >
                                         {loading ? "Sending..." : "Send Referral Code"}
                                         {!loading && <Send className="ml-2 w-4 h-4" />}
@@ -215,7 +215,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                     <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 mb-2">
                                         <Gift className="w-8 h-8" />
                                     </div>
-                                    <h3 className="text-2xl font-bold font-display uppercase tracking-widest text-primary">
+                                    <h3 className="text-2xl font-bold font-sans uppercase tracking-widest text-primary">
                                         Referral Sent!
                                     </h3>
                                     <p className="text-muted-foreground max-w-xs text-sm">
@@ -225,7 +225,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                                         <Button
                                             onClick={onClose}
                                             variant="outline"
-                                            className="w-full border-primary/20 hover:bg-primary/5"
+                                            className="w-full border-primary/20 hover:bg-primary/5 font-sans"
                                         >
                                             Done
                                         </Button>

@@ -8,6 +8,7 @@ export default function NextJsProjectPage() {
         { id: "projectName", label: "Project Name", type: "text", placeholder: "e.g. E-commerce Platform", required: true },
         { id: "contactName", label: "Contact Name", type: "text", placeholder: "Your Name", required: true },
         { id: "email", label: "Email Address", type: "email", placeholder: "you@company.com", required: true },
+        { id: "phone", label: "Phone Number", type: "text", placeholder: "+91...", required: true },
         { id: "projectType", label: "Project Type", type: "select", options: ["New Web App", "Migration to Next.js", "Performance Optimization", "Headless CMS Integration"], required: true },
         { id: "requirements", label: "Key Requirements", type: "textarea", placeholder: "Describe the core functionality...", required: true },
         { id: "designStatus", label: "Design Status", type: "select", options: ["Ready (Figma/Sketch)", "Wireframes Only", "Need Design Help"], required: true },

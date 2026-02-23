@@ -27,22 +27,26 @@ function createQueryClient() {
     });
 }
 
+import { AuditProvider } from "@/context/AuditContext";
+
 export function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = useState(createQueryClient);
-    
+
     // Initialize performance monitoring
     usePerformanceMonitor();
 
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                <StyleProvider>
-                    <TooltipProvider delayDuration={0}>
-                        {children}
-                        <Toaster />
-                        <Sonner />
-                    </TooltipProvider>
-                </StyleProvider>
+                <AuditProvider>
+                    <StyleProvider>
+                        <TooltipProvider delayDuration={0}>
+                            {children}
+                            <Toaster />
+                            <Sonner />
+                        </TooltipProvider>
+                    </StyleProvider>
+                </AuditProvider>
             </ThemeProvider>
         </QueryClientProvider>
     );

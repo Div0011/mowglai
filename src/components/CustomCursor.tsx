@@ -82,12 +82,12 @@ const CustomCursor = () => {
 
     const handleMouseMove = (e: MouseEvent) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
-      
+
       // Throttle state updates to ~30fps (33ms)
       const now = performance.now();
       if (now - lastUpdateRef.current < 33) return;
       lastUpdateRef.current = now;
-      
+
       if (!isVisible) setIsVisible(true);
 
       const target = e.target as HTMLElement;
@@ -166,7 +166,7 @@ const CustomCursor = () => {
       {ripples.map((ripple) => (
         <div
           key={ripple.id}
-          className="fixed pointer-events-none z-[9997] w-12 h-12 rounded-full border animate-ripple bg-transparent"
+          className="fixed pointer-events-none z-[10100] w-12 h-12 rounded-full border animate-ripple bg-transparent"
           style={{
             left: ripple.x,
             top: ripple.y,
@@ -179,7 +179,7 @@ const CustomCursor = () => {
       {/* Follower */}
       <div
         ref={followerRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] transition-[opacity] duration-300 ease-out 
+        className={`fixed top-0 left-0 pointer-events-none z-[10200] transition-[opacity] duration-300 ease-out 
           ${isVisible ? 'opacity-100' : 'opacity-0'} 
           w-10 h-10 rounded-full border`}
         style={{
@@ -192,7 +192,7 @@ const CustomCursor = () => {
       {/* Main Dot */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-[opacity,background-color] duration-300 ease-out 
+        className={`fixed top-0 left-0 pointer-events-none z-[10300] rounded-full transition-[opacity,background-color] duration-300 ease-out 
           ${isVisible ? 'opacity-100' : 'opacity-0'} 
           w-2.5 h-2.5`}
         style={{

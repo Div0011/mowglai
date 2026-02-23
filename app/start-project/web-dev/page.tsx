@@ -8,6 +8,7 @@ export default function WebDevProjectPage() {
         { id: "businessName", label: "Business Name", type: "text", placeholder: "Your Company", required: true },
         { id: "contactPerson", label: "Contact Person", type: "text", placeholder: "Full Name", required: true },
         { id: "email", label: "Work Email", type: "email", placeholder: "you@business.com", required: true },
+        { id: "phone", label: "Phone Number", type: "text", placeholder: "+91...", required: true },
         { id: "services", label: "Services Needed", type: "checkbox-group", options: ["Custom Web Development", "E-commerce", "Corporate Website", "API Integration", "Ongoing Maintenance"], required: true, maxSelections: 5 },
         { id: "techStack", label: "Preferred Tech Stack", type: "text", placeholder: "e.g. React, Node, Laravel (Optional)" },
         { id: "brief", label: "Project Brief", type: "textarea", placeholder: "Tell us about your goals...", required: true },

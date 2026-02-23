@@ -1,0 +1,18 @@
+﻿
+> mowglai@0.0.0 lint
+> eslint .
+
+
+C:\Users\divya\.vscode\mowglai.in\mowglai\app\api\audit\route.ts
+  17:13  error  'responseHeaders' is never reassigned. Use 'const' instead  prefer-const
+  19:13  error  'isSSL' is never reassigned. Use 'const' instead            prefer-const
+
+C:\Users\divya\.vscode\mowglai.in\mowglai\app\audit\page.tsx
+  15:11  error  An empty interface declaration allows any non-nullish value, including literals like `0` and `""`.
+- If that's what you want, disable this lint rule with an inline comment or configure the 'allowInterfaces' rule option.
+- If you want a type meaning "any object", you probably want `object` instead.
+- If you want a type meaning "any value", you probably want `unknown` instead  @typescript-eslint/no-empty-object-type
+
+Γ£û 3 problems (3 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+

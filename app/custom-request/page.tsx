@@ -11,7 +11,7 @@ export default function CustomRequestPage() {
     const fields: FormField[] = [
         { id: "name", label: "Full Name", type: "text", required: true, placeholder: "Your Name" },
         { id: "email", label: "Email Address", type: "email", required: true, placeholder: "you@email.com" },
-        { id: "phone", label: "Phone (Optional)", type: "text", placeholder: "+91 ..." },
+        { id: "phone", label: "Phone Number", type: "text", placeholder: "+91 ...", required: true },
         {
             id: "topics", label: "Consultation Topics (Select up to 3)", type: "checkbox-group",
             options: [

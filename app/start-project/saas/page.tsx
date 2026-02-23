@@ -8,6 +8,7 @@ export default function SaasProjectPage() {
         { id: "startupName", label: "Startup Name", type: "text", placeholder: "Your Venture Name", required: true },
         { id: "founderName", label: "Founder Name", type: "text", placeholder: "Your Full Name", required: true },
         { id: "email", label: "Business Email", type: "email", placeholder: "you@venture.com", required: true },
+        { id: "phone", label: "Phone Number", type: "text", placeholder: "+91...", required: true },
         { id: "idea", label: "Elevator Pitch", type: "textarea", placeholder: "Describe your idea in one sentence...", required: true },
         { id: "audience", label: "Target Audience", type: "text", placeholder: "Who is this product for?", required: true },
         { id: "features", label: "Core Features (MVP)", type: "textarea", placeholder: "List 3-5 must-have features for V1...", required: true },

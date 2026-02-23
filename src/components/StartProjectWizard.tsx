@@ -12,6 +12,7 @@ const StartProjectWizard = () => {
         idea: "",
         name: "",
         email: "",
+        phone: "",
         company: "",
         timeline: "1-3 months",
     });
@@ -65,7 +66,7 @@ const StartProjectWizard = () => {
                 >
                     <Check className="w-12 h-12 text-primary" />
                 </motion.div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+                <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6">
                     Message Received
                 </h2>
                 <p className="text-muted-foreground text-lg max-w-xl">
@@ -107,7 +108,7 @@ const StartProjectWizard = () => {
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="w-full"
                     >
-                        <h1 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
+                        <h1 className="text-4xl md:text-6xl font-sans font-bold mb-8 leading-tight">
                             Elaborate your <span className="text-primary italic">vision</span>.
                         </h1>
                         <p className="text-muted-foreground text-lg mb-8">
@@ -118,7 +119,7 @@ const StartProjectWizard = () => {
                                 value={formData.idea}
                                 onChange={(e) => setFormData({ ...formData, idea: e.target.value })}
                                 placeholder="I want to build a platform that connects..."
-                                className="w-full h-64 bg-background/30 border border-white/10 rounded-2xl p-6 text-xl md:text-2xl font-light focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none placeholder:text-white/20"
+                                className="w-full h-64 bg-background/30 border border-white/10 rounded-2xl p-6 text-xl md:text-2xl font-sans font-light focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none placeholder:text-white/20"
                             />
                             <div className="absolute bottom-6 right-6 pointer-events-none">
                                 <Sparkles className={`w-6 h-6 transition-colors duration-300 ${formData.idea.length > 20 ? "text-primary" : "text-white/10"}`} />
@@ -149,7 +150,7 @@ const StartProjectWizard = () => {
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="w-full"
                     >
-                        <h1 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
+                        <h1 className="text-4xl md:text-6xl font-sans font-bold mb-8 leading-tight">
                             Business <span className="text-primary italic">Details</span>.
                         </h1>
 
@@ -162,7 +163,7 @@ const StartProjectWizard = () => {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20"
+                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20 font-sans"
                                         placeholder="John Doe"
                                     />
                                 </div>
@@ -173,7 +174,7 @@ const StartProjectWizard = () => {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20"
+                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20 font-sans"
                                         placeholder="john@company.com"
                                     />
                                 </div>
@@ -181,12 +182,23 @@ const StartProjectWizard = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
+                                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-2">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        required
+                                        value={formData.phone}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20 font-sans"
+                                        placeholder="+91..."
+                                    />
+                                </div>
+                                <div className="space-y-2">
                                     <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-2">Company (Optional)</label>
                                     <input
                                         type="text"
                                         value={formData.company}
                                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20"
+                                        className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20 font-sans"
                                         placeholder="Acme Inc."
                                     />
                                 </div>
@@ -217,7 +229,7 @@ const StartProjectWizard = () => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="group flex items-center gap-4 px-8 py-4 bg-primary text-primary-foreground rounded-full text-lg font-bold tracking-wide hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] transition-all disabled:opacity-50"
+                                    className="group flex items-center gap-4 px-8 py-4 bg-primary text-primary-foreground rounded-full text-lg font-bold tracking-wide hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] transition-all disabled:opacity-50 font-sans"
                                 >
                                     {isSubmitting ? "Launching..." : "Launch Project"}
                                     {!isSubmitting && <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}

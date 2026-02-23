@@ -47,9 +47,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     }, []);
 
     // Logo state:
-    // - Visible (opacity-100, blur-0) if menu is open, OR at top of page, OR hovered locally.
-    // - Dim/Blurred otherwise.
-    const isLogoActive = isOpen || !scrolled;
+    // - Visible (opacity-100, blur-0) if menu is open, OR at top of page, OR hovered locally, OR if on the standalone audit page
+    const isLogoActive = isOpen || !scrolled || pathname === '/audit';
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);

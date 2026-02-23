@@ -27,7 +27,7 @@ const ContactSection = () => {
 
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -40,6 +40,7 @@ const ContactSection = () => {
       subject: subject,
       email: formData.email,
       name: formData.name,
+      phone: formData.phone,
       message: formData.message
     });
 
@@ -48,12 +49,13 @@ const ContactSection = () => {
         title: "Message Sent!",
         description: "We'll get back to you as soon as possible.",
       });
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", message: "" });
     } else {
       // Fallback
       const body = `
 Name: ${formData.name}
 Email: ${formData.email}
+Phone: ${formData.phone}
 
 Message:
 ${formData.message}
@@ -69,7 +71,7 @@ ${formData.message}
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="relative w-full py-32 z-20 overflow-hidden">
+    <section id="contact" ref={sectionRef} className="relative w-full py-32 z-20 overflow-hidden text-body">
       <div className="container mx-auto px-6">
 
         {/* Huge Header */}
@@ -129,37 +131,47 @@ ${formData.message}
 
           {/* Form - Clean & underlined */}
           <div className={clsx("p-10 md:p-14 rounded-[2rem] border border-primary/20 bg-secondary/10 backdrop-blur-xl shadow-2xl")}>
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-8 font-sans">
               <div className="space-y-6">
                 <Input
                   required
                   placeholder={Contact.form.namePlaceholder}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
+                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-sans"
                 />
-                <Input
-                  required
-                  type="email"
-                  placeholder={Contact.form.emailPlaceholder}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-display font-bold"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input
+                    required
+                    type="email"
+                    placeholder={Contact.form.emailPlaceholder}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-sans"
+                  />
+                  <Input
+                    required
+                    type="tel"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 transition-all font-sans"
+                  />
+                </div>
                 <Textarea
                   required
                   rows={4}
                   placeholder={Contact.form.messagePlaceholder}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 resize-none transition-all font-display font-bold"
+                  className="bg-transparent border-0 border-b-2 border-foreground/20 rounded-none px-0 py-6 text-xl focus:border-primary focus:ring-0 placeholder:text-foreground/30 resize-none transition-all font-sans"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-auto px-8 sm:px-10 py-6 bg-primary text-primary-foreground font-display font-black text-sm sm:text-lg md:text-xl rounded-full transition-all uppercase tracking-widest hover:bg-primary-foreground hover:text-primary shadow-lg"
+                className="w-full h-auto px-8 sm:px-10 py-6 bg-primary text-primary-foreground font-sans font-black text-sm sm:text-lg md:text-xl rounded-full transition-all uppercase tracking-widest hover:bg-primary-foreground hover:text-primary shadow-lg"
               >
                 {isSubmitting ? Contact.form.buttonSending : Contact.form.buttonSend}
               </Button>

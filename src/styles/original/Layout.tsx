@@ -43,7 +43,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
                 <JungleBackground />
             </div>
 
-            <FullScreenNav onOpenChat={() => {}} />
+            <FullScreenNav onOpenChat={() => { }} />
             <MobileNav />
 
             <main className="relative z-10 w-full overflow-hidden">

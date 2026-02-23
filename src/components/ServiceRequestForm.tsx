@@ -166,7 +166,7 @@ export default function ServiceRequestForm({
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 {fields.map((field) => (
                                     <div key={field.id} className="space-y-3">
-                                        <Label className="text-xs uppercase tracking-widest text-primary/70 font-display">
+                                        <Label className="text-xs uppercase tracking-widest text-primary/70 font-sans">
                                             {field.label} {field.required && <span className="text-red-500">*</span>}
                                         </Label>
 
@@ -250,7 +250,7 @@ export default function ServiceRequestForm({
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full h-auto py-6 px-8 sm:px-10 text-lg sm:text-xl font-display font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-300 rounded-full shadow-lg mt-8"
+                                    className="w-full h-auto py-6 px-8 sm:px-10 text-lg sm:text-xl font-sans font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-300 rounded-full shadow-lg mt-8"
                                 >
                                     {isSubmitting ? (
                                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
