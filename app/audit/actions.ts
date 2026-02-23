@@ -43,7 +43,7 @@ export async function analyzeWebsite(formData: FormData): Promise<AuditResult> {
     const url = validatedFields.data.url;
 
     try {
-        const response = await fetch('/api/audit.php', {
+        const response = await fetch('/api/audit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
