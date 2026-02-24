@@ -11,15 +11,51 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, error: 'Please enter a valid URL (including http:// or https://).' }, { status: 400 });
         }
 
+        let parsedUrl: URL;
+        try {
+            parsedUrl = new URL(url);
+        } catch {
+            return NextResponse.json({ success: false, error: 'Please enter a valid URL.' }, { status: 400 });
+        }
+
+        // Enforce http/https and block obvious internal/localhost targets to mitigate SSRF.
+        if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+            return NextResponse.json({ success: false, error: 'Only http and https URLs are allowed.' }, { status: 400 });
+        }
+
+        const hostname = parsedUrl.hostname.toLowerCase();
+
+        // Block localhost-style hostnames.
+        if (
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname === '::1'
+        ) {
+            return NextResponse.json({ success: false, error: 'Localhost URLs are not allowed.' }, { status: 400 });
+        }
+
+        // Block common private and link-local IPv4 ranges.
+        const isPrivateIpv4 =
+            /^10\./.test(hostname) || // 10.0.0.0/8
+            /^192\.168\./.test(hostname) || // 192.168.0.0/16
+            /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(hostname) || // 172.16.0.0 - 172.31.255.255
+            /^169\.254\./.test(hostname); // link-local
+
+        if (isPrivateIpv4) {
+            return NextResponse.json({ success: false, error: 'Private network URLs are not allowed.' }, { status: 400 });
+        }
+
+        const safeUrl = parsedUrl.toString();
+
         const startTime = Date.now();
 
         let html = '';
         const responseHeaders: Record<string, string> = {};
         let statusCode = 0;
-        const isSSL = url.startsWith('https://');
+        const isSSL = safeUrl.startsWith('https://');
 
         try {
-            const res = await fetch(url, {
+            const res = await fetch(safeUrl, {
                 headers: { 'User-Agent': 'Mowglai-Audit-Bot/1.0' },
                 signal: AbortSignal.timeout(12000),
                 redirect: 'follow',
