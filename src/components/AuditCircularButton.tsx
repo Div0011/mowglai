@@ -115,10 +115,12 @@ const AuditCircularButton: React.FC<AuditCircularButtonProps> = ({
                 >
                     <g ref={svgRef}>
                         <path id="auditRingBase" d="M 50,50 m -36,0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0" fill="none" />
-                        <text fontSize="10.5" letterSpacing="1.5" style={{ fontWeight: 900, textTransform: "uppercase" }}>
+                        <text fontSize="8.5" letterSpacing="2" style={{ fontWeight: 800, textTransform: "uppercase" }}>
                             <textPath
                                 href="#auditRingBase"
                                 fill="#c5a059"
+                                textLength="210"
+                                lengthAdjust="spacing"
                             >
                                 GET FREE AUDIT • GET FREE AUDIT •
                             </textPath>
