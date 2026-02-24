@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * AuditCircularButton component - A magnetic circular button with revolving text
+ * used for triggering website audits.
+ */
+
 import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
