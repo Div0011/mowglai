@@ -1,59 +1,127 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const JungleBackground = () => {
-    const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-    const [scrollY, setScrollY] = useState(0);
+    const maskRef = useRef<HTMLDivElement>(null);
+    const bgRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePos({ x: e.clientX, y: e.clientY });
-        };
-        const handleMouseLeave = () => {
-            setMousePos({ x: -1000, y: -1000 });
-        };
+        let mouseTicking = false;
+        let scrollTicking = false;
+        let animationFrameId: number;
+        let handleMouseMove: ((e: MouseEvent) => void) | undefined;
+        let handleMouseLeave: (() => void) | undefined;
+
+        // Check if device is mobile/touch (no real mouse)
+        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+        if (isMobile) {
+            // --- MOBILE AUTO "WIND" EFFECT ---
+            let t = 0;
+            const animateWind = () => {
+                t += 0.003; // Wind speed
+                // Complex Lissajous curve for organic, random-feeling wind sweeps
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+
+                // Moves in a sweeping pattern
+                const x = (vw / 2) + Math.sin(t) * (vw * 0.6) * Math.cos(t * 0.7);
+                const y = (vh / 2) + Math.cos(t * 1.1) * (vh * 0.5) * Math.sin(t * 0.4);
+
+                if (maskRef.current) {
+                    // Soft, elongated ellipse for wind
+                    const maskStr = `radial-gradient(ellipse 400px 300px at ${x}px ${y}px, transparent 0%, black 70%)`;
+                    maskRef.current.style.webkitMaskImage = maskStr;
+                    maskRef.current.style.maskImage = maskStr;
+                }
+
+                animationFrameId = requestAnimationFrame(animateWind);
+            };
+            animationFrameId = requestAnimationFrame(animateWind);
+
+        } else {
+            // --- DESKTOP MOUSE FOLLOW EFFECT ---
+            handleMouseMove = (e: MouseEvent) => {
+                if (!mouseTicking) {
+                    requestAnimationFrame(() => {
+                        if (maskRef.current) {
+                            const maskStr = `radial-gradient(circle 250px at ${e.clientX}px ${e.clientY}px, transparent 0%, black 60%)`;
+                            maskRef.current.style.webkitMaskImage = maskStr;
+                            maskRef.current.style.maskImage = maskStr;
+                        }
+                        mouseTicking = false;
+                    });
+                    mouseTicking = true;
+                }
+            };
+
+            handleMouseLeave = () => {
+                requestAnimationFrame(() => {
+                    if (maskRef.current) {
+                        const maskStr = `radial-gradient(circle 250px at -1000px -1000px, transparent 0%, black 60%)`;
+                        maskRef.current.style.webkitMaskImage = maskStr;
+                        maskRef.current.style.maskImage = maskStr;
+                    }
+                });
+            };
+
+            window.addEventListener("mousemove", handleMouseMove, { passive: true });
+            document.documentElement.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+            handleMouseLeave(); // Hide initially until mouse enters
+        }
+
+        // --- GLOBAL SCROLL PARALLAX ---
         const handleScroll = () => {
-            setScrollY(window.scrollY);
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    if (bgRef.current) {
+                        bgRef.current.style.backgroundPosition = `center ${-window.scrollY * 0.4}px`;
+                    }
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
         };
 
-        window.addEventListener("mousemove", handleMouseMove);
-        document.body.addEventListener("mouseleave", handleMouseLeave);
         window.addEventListener("scroll", handleScroll, { passive: true });
-
-        // Initial setup
         handleScroll();
 
         return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-            document.body.removeEventListener("mouseleave", handleMouseLeave);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            if (!isMobile) {
+                if (handleMouseMove) window.removeEventListener("mousemove", handleMouseMove);
+                if (handleMouseLeave) document.documentElement.removeEventListener("mouseleave", handleMouseLeave);
+            }
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
 
     return (
-        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none">
+        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none bg-background">
             {/* 0. Hidden 3D Floral Texture (Bottom-most Layer) - Infinite Parallax Wall */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
                 {/* Single Continuous Texture Wall */}
                 <div
+                    ref={bgRef}
                     className="absolute inset-0 w-full h-full pointer-events-none"
                     style={{
                         backgroundImage: 'url(/floral_texture_custom.jpg)',
-                        backgroundSize: '400px', backgroundRepeat: 'repeat',
-                        backgroundPosition: `center ${-scrollY * 0.4}px`,
+                        backgroundSize: '400px',
+                        backgroundRepeat: 'repeat',
                         filter: "brightness(0.9) contrast(1.1)",
                         opacity: 1,
+                        willChange: "background-position",
                     }}
                 />
             </div>
 
             {/* Fog Cover: Contains the Gradient and Atmosphere layers */}
             <div
+                ref={maskRef}
                 className="absolute inset-0 pointer-events-none w-full h-full transition-opacity duration-300"
                 style={{
-                    WebkitMaskImage: `radial-gradient(circle 250px at ${mousePos.x}px ${mousePos.y}px, transparent 0%, black 60%)`,
-                    maskImage: `radial-gradient(circle 250px at ${mousePos.x}px ${mousePos.y}px, transparent 0%, black 60%)`,
+                    willChange: "mask-image, -webkit-mask-image",
                 }}
             >
                 {/* 1. Base Gradient Layer - Spans entire page height */}
