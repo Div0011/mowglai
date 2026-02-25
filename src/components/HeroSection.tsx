@@ -5,15 +5,14 @@ import TextReveal from "./TextReveal";
 import Magnetic from "./Magnetic";
 import { useLanguage } from "../context/LanguageContext";
 import AuditCircularButton from "./AuditCircularButton";
-
 const HeroSection = () => {
     const { t } = useLanguage();
 
     return (
-        <section id="home" className="relative w-full h-screen z-10 overflow-hidden flex flex-col items-center justify-center">
-
-            {/* Background Gradient/Glow - Subtle */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-primary/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
+        <section
+            id="home"
+            className="relative w-full h-screen z-10 overflow-hidden flex flex-col items-center justify-center"
+        >
 
             {/* Main Content Container */}
             <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
