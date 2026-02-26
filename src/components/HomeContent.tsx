@@ -90,42 +90,20 @@ export default function HomeContent() {
             </div>
 
             {/* 6. CONSULT / STORY */}
-            {/* Consult for Free Button with dynamic background tracking */}
-            <div
-                onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    consultX.set(e.clientX - rect.left);
-                    consultY.set(e.clientY - rect.top);
-                }}
-                className="w-full flex justify-center py-20 relative overflow-hidden group transition-colors duration-500"
-            >
-                <motion.div
-                    className="pointer-events-none absolute -inset-px z-0 opacity-0 transition duration-500 group-hover:opacity-100"
-                    style={{
-                        background: useMotionTemplate`
-                        radial-gradient(
-                            400px circle at ${consultSmoothX}px ${consultSmoothY}px,
-                            rgba(var(--primary-rgb), 0.1),
-                            transparent 80%
-                        )
-                        `
-                    }}
-                />
-
-                <div className="relative z-20 flex flex-col items-center">
-                    <p className="text-sm md:text-base font-display tracking-widest uppercase mb-8 text-muted-foreground/60 text-center max-w-2xl px-4 flex flex-col gap-2" data-aos="fade-up">
-                        <span className="text-primary font-bold text-lg md:text-xl transform-gpu transition-transform duration-300 group-hover:scale-105">READY TO BUILD?</span>
-                        <span>Turn your vision into reality with our expert team</span>
-                    </p>
-                    <Magnetic>
-                        <Link
-                            href="/custom-request"
-                            className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.6)] animate-in fade-in zoom-in duration-500"
-                        >
-                            CONSULT FOR FREE
-                        </Link>
-                    </Magnetic>
-                </div>
+            {/* Consult for Free Button */}
+            <div className="w-full flex flex-col items-center justify-center pb-12 pt-12 relative z-20">
+                <p className="text-sm md:text-base font-display tracking-widest uppercase mb-8 text-muted-foreground/60 text-center max-w-2xl px-4 flex flex-col gap-2" data-aos="fade-up">
+                    <span className="text-primary font-bold text-lg md:text-xl">READY TO BUILD?</span>
+                    <span>Turn your vision into reality with our expert team</span>
+                </p>
+                <Magnetic>
+                    <Link
+                        href="/custom-request"
+                        className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
+                    >
+                        CONSULT FOR FREE
+                    </Link>
+                </Magnetic>
             </div>
 
             <div className="w-full">
