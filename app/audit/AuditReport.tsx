@@ -160,8 +160,8 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
     const pdfRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        if (!reportRef.current) {
-            console.error("reportRef.current is null!");
+        if (!pdfRef.current) {
+            console.error("pdfRef.current is null!");
             return;
         }
 
@@ -171,8 +171,8 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
                 useCORS: true,
                 backgroundColor: '#0d1a12', // Forest Green Background
                 logging: false,
-                windowWidth: reportRef.current.scrollWidth,
-                windowHeight: reportRef.current.scrollHeight
+                windowWidth: pdfRef.current.scrollWidth,
+                windowHeight: pdfRef.current.scrollHeight
             });
 
             const imgData = canvas.toDataURL('image/png');
