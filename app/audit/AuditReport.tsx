@@ -3,8 +3,9 @@
 import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronRight } from "lucide-react";
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 import { AuditResult, AuditCategory, AuditDetail } from './actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -159,14 +160,19 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
     const pdfRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        if (!pdfRef.current) return;
+        if (!reportRef.current) {
+            console.error("reportRef.current is null!");
+            return;
+        }
 
         try {
             const canvas = await html2canvas(pdfRef.current, {
                 scale: 1.5, // Crisp resolution without inflating file size
                 useCORS: true,
-                backgroundColor: '#0a130e',
-                logging: false
+                backgroundColor: '#0d1a12', // Forest Green Background
+                logging: false,
+                windowWidth: reportRef.current.scrollWidth,
+                windowHeight: reportRef.current.scrollHeight
             });
 
             const imgData = canvas.toDataURL('image/png');
@@ -201,9 +207,9 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
         <div className="w-full max-w-5xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-500">
 
             {/* Controls */}
-            <div className="flex justify-end gap-3 print:hidden">
-                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold group">
-                    <Download className="w-4 h-4 mr-2 group-hover:-translate-y-0.5 transition-transform" />
+            <div className="flex justify-end gap-3 print:hidden relative z-50 pointer-events-auto">
+                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold relative z-50 cursor-pointer pointer-events-auto">
+                    <Download className="w-4 h-4 mr-2" />
                     Download PDF Report
                 </Button>
             </div>

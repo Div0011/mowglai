@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import TextReveal from "./TextReveal";
 import Magnetic from "./Magnetic";
 import { useLanguage } from "../context/LanguageContext";
@@ -12,11 +11,7 @@ import { cn } from "@/lib/utils";
 
 const HeroSection = () => {
     const { t } = useLanguage();
-    const router = useRouter();
     const tiltRef = useRef<HTMLDivElement>(null);
-    const [isTitleHovered, setIsTitleHovered] = useState(false);
-    const [isShakeHovered, setIsShakeHovered] = useState(false);
-    const [isStartClicked, setIsStartClicked] = useState(false);
 
     useEffect(() => {
         let animationFrameId: number;
@@ -83,14 +78,9 @@ const HeroSection = () => {
                         transition: "transform 0.15s cubic-bezier(0.22, 1, 0.36, 1)",
                         willChange: "transform"
                     }}
-                    onMouseEnter={() => setIsTitleHovered(true)}
-                    onMouseLeave={() => setIsTitleHovered(false)}
                 >
-                    <motion.h1
-                        animate={{ scale: isTitleHovered ? 1.02 : 1 }}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter cursor-default select-none transform-gpu"
-                        data-aos="zoom-out"
+                    <h1
+                        className="inline-block w-fit text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-widest transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default select-none transform-gpu hover:scale-105"
                         data-aos-duration="1000"
                     >
                         {"MOWGLAI".split("").map((letter, i, arr) => {
