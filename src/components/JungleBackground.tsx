@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 const JungleBackground = () => {
     const maskRef = useRef<HTMLDivElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         let mouseTicking = false;

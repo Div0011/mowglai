@@ -4,6 +4,9 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Magnetic from "@/components/Magnetic";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface NextPageButtonProps {
     label: string;
