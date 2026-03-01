@@ -5,51 +5,79 @@ import { useEffect, useRef } from "react";
 const JungleBackground = () => {
     const maskRef = useRef<HTMLDivElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
+        let mouseTicking = false;
         let scrollTicking = false;
+        let animationFrameId: number;
+        let handleMouseMove: ((e: MouseEvent) => void) | undefined;
+        let handleMouseLeave: (() => void) | undefined;
 
+        // Check if device is mobile/touch (no real mouse)
+        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+        if (isMobile) {
+            // --- MOBILE AUTO "WIND" EFFECT ---
+            let t = 0;
+            const animateWind = () => {
+                t += 0.003; // Wind speed
+                // Complex Lissajous curve for organic, random-feeling wind sweeps
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+
+                // Moves in a sweeping pattern
+                const x = (vw / 2) + Math.sin(t) * (vw * 0.6) * Math.cos(t * 0.7);
+                const y = (vh / 2) + Math.cos(t * 1.1) * (vh * 0.5) * Math.sin(t * 0.4);
+
+                if (maskRef.current) {
+                    // Soft, elongated ellipse for wind
+                    const maskStr = `radial-gradient(ellipse 400px 300px at ${x}px ${y}px, transparent 0%, black 70%)`;
+                    maskRef.current.style.webkitMaskImage = maskStr;
+                    maskRef.current.style.maskImage = maskStr;
+                }
+
+                animationFrameId = requestAnimationFrame(animateWind);
+            };
+            animationFrameId = requestAnimationFrame(animateWind);
+
+        } else {
+            // --- DESKTOP MOUSE FOLLOW EFFECT ---
+            handleMouseMove = (e: MouseEvent) => {
+                if (!mouseTicking) {
+                    requestAnimationFrame(() => {
+                        if (maskRef.current) {
+                            const maskStr = `radial-gradient(circle 250px at ${e.clientX}px ${e.clientY}px, transparent 0%, black 60%)`;
+                            maskRef.current.style.webkitMaskImage = maskStr;
+                            maskRef.current.style.maskImage = maskStr;
+                        }
+                        mouseTicking = false;
+                    });
+                    mouseTicking = true;
+                }
+            };
+
+            handleMouseLeave = () => {
+                requestAnimationFrame(() => {
+                    if (maskRef.current) {
+                        const maskStr = `radial-gradient(circle 250px at -1000px -1000px, transparent 0%, black 60%)`;
+                        maskRef.current.style.webkitMaskImage = maskStr;
+                        maskRef.current.style.maskImage = maskStr;
+                    }
+                });
+            };
+
+            window.addEventListener("mousemove", handleMouseMove, { passive: true });
+            document.documentElement.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+            handleMouseLeave(); // Hide initially until mouse enters
+        }
+
+        // --- GLOBAL SCROLL PARALLAX ---
         const handleScroll = () => {
             if (!scrollTicking) {
                 requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-
-                    // --- FOG CLEARING ON SCROLL ---
-                    // Compute exactly how far down the user has scrolled globally
-                    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-                    const scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
-
-                    const vw = window.innerWidth;
-                    const vh = window.innerHeight;
-                    const maxRadius = Math.hypot(vw, vh);
-
-                    // Easing mechanism: 
-                    // 1) Radius grows rapidly at the top half (fog clears)
-                    // 2) Radius shrinks dramatically back to 0 at the bottom half (fog returns)
-                    // We square the clearFactor to make the fog aggressively return near the end
-                    const clearFactor = Math.pow(Math.sin(scrollProgress * Math.PI), 2);
-                    const baseRadius = 250 * clearFactor; // Base radius also dies at the bottom
-                    const currentRadius = baseRadius + (maxRadius * 2 * clearFactor);
-
-                    // Position is permanently anchored at Top-Right (100% 0%).
-                    // - When radius grows, transparency expands from TR to BL (Fog clears from TR)
-                    // - When radius shrinks, transparency shrinks to TR (Fog encroaches/returns from BL)
-                    const currentX = 100;
-                    const currentY = 0;
-
-                    if (maskRef.current) {
-                        const maskStr = `radial-gradient(circle ${currentRadius}px at ${currentX}% ${currentY}%, transparent 0%, transparent ${Math.max(0, currentRadius - 500)}px, black ${currentRadius}px)`;
-                        maskRef.current.style.webkitMaskImage = maskStr;
-                        maskRef.current.style.maskImage = maskStr;
-                        maskRef.current.style.display = 'block';
-                    }
-
-                    // --- GLOBAL SCROLL PARALLAX ---
                     if (bgRef.current) {
-                        bgRef.current.style.backgroundPosition = `center ${-scrollY * 0.4}px`;
+                        bgRef.current.style.backgroundPosition = `center ${-window.scrollY * 0.4}px`;
                     }
-
                     scrollTicking = false;
                 });
                 scrollTicking = true;
@@ -57,130 +85,20 @@ const JungleBackground = () => {
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
-        // Initial trigger to lock the starting position
         handleScroll();
 
-        // --- INTERACTIVE FIREFLIES (CANVAS) ---
-        const canvas = canvasRef.current;
-        let fireflyFrameId: number;
-
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            // Mouse tracking for fireflies
-            let mouseX = window.innerWidth / 2;
-            let mouseY = window.innerHeight / 2;
-            let targetMouseX = mouseX;
-            let targetMouseY = mouseY;
-
-            const handleMouseMove = (e: MouseEvent) => {
-                targetMouseX = e.clientX;
-                targetMouseY = e.clientY;
-            };
-
-            window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-            const resizeCanvas = () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            };
-            window.addEventListener('resize', resizeCanvas, { passive: true });
-
-            // Firefly particle definition
-            const fireflies = Array.from({ length: 45 }).map(() => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2.5 + 0.5,
-                baseSpeedX: (Math.random() - 0.5) * 0.5,
-                baseSpeedY: (Math.random() - 0.5) * 0.5,
-                speedX: 0,
-                speedY: 0,
-                life: Math.random() * Math.PI * 2,
-                color: Math.random() > 0.8 ? '#ffffff' : (Math.random() > 0.4 ? '#F5D061' : '#E6B93D')
-            }));
-
-            const animateFireflies = () => {
-                if (!ctx) return;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Smoothly lerp mouse tracker for organic movement
-                mouseX += (targetMouseX - mouseX) * 0.05;
-                mouseY += (targetMouseY - mouseY) * 0.05;
-
-                fireflies.forEach(f => {
-                    f.life += 0.02;
-
-                    // Calculate distance to mouse
-                    const dx = mouseX - f.x;
-                    const dy = mouseY - f.y;
-                    const dist = Math.hypot(dx, dy);
-
-                    // If firefly gets too close to the cursor, scatter away! (Afraid effect)
-                    if (dist < 180) {
-                        const repelForce = (180 - dist) / 180; // Gets much stronger as the cursor gets closer
-                        const pushX = -(dx / dist) * repelForce * 4; // Push forcefully away 
-                        const pushY = -(dy / dist) * repelForce * 4;
-                        f.speedX += pushX;
-                        f.speedY += pushY;
-
-                        // Add erratic, panicked flitting movement when scared
-                        f.speedX += (Math.random() - 0.5) * 2.5;
-                        f.speedY += (Math.random() - 0.5) * 2.5;
-
-                        // Flash its light rapidly due to panic
-                        f.life += 0.3;
-                    } else {
-                        // Drift smoothly back to their normal lazy wandering
-                        f.speedX += (f.baseSpeedX - f.speedX) * 0.03;
-                        f.speedY += (f.baseSpeedY - f.speedY) * 0.03;
-                    }
-
-                    // Apply friction and limits
-                    f.speedX *= 0.95;
-                    f.speedY *= 0.95;
-
-                    f.x += f.speedX + Math.sin(f.life) * 0.5;
-                    f.y += f.speedY + Math.cos(f.life * 0.8) * 0.5;
-
-                    // Wrap around screen
-                    if (f.x < -10) f.x = canvas.width + 10;
-                    if (f.x > canvas.width + 10) f.x = -10;
-                    if (f.y < -10) f.y = canvas.height + 10;
-                    if (f.y > canvas.height + 10) f.y = -10;
-
-                    // Pulsing glow effect
-                    const pulse = Math.sin(f.life * 3) * 0.4 + 0.6;
-
-                    ctx.beginPath();
-                    ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
-                    ctx.fillStyle = f.color;
-                    ctx.globalAlpha = pulse * 0.8;
-                    ctx.fill();
-
-                    // Soft ambient blur rendered as secondary larger circle for performance
-                    ctx.beginPath();
-                    ctx.arc(f.x, f.y, f.size * 3, 0, Math.PI * 2);
-                    ctx.fillStyle = f.color;
-                    ctx.globalAlpha = pulse * 0.15;
-                    ctx.fill();
-                });
-
-                fireflyFrameId = requestAnimationFrame(animateFireflies);
-            };
-            animateFireflies();
-
-            return () => {
-                window.removeEventListener('mousemove', handleMouseMove);
-                window.removeEventListener('resize', resizeCanvas);
-                cancelAnimationFrame(fireflyFrameId);
-            };
-        }
+        return () => {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            if (!isMobile) {
+                if (handleMouseMove) window.removeEventListener("mousemove", handleMouseMove);
+                if (handleMouseLeave) document.documentElement.removeEventListener("mouseleave", handleMouseLeave);
+            }
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
     return (
-        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none bg-background" style={{ isolation: "isolate", transform: "translateZ(0)", contain: "paint" }}>
+        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none bg-background">
             {/* 0. Hidden 3D Floral Texture (Bottom-most Layer) - Infinite Parallax Wall */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
                 {/* Single Continuous Texture Wall */}
@@ -191,20 +109,19 @@ const JungleBackground = () => {
                         backgroundImage: 'url(/floral_texture_custom.jpg)',
                         backgroundSize: '400px',
                         backgroundRepeat: 'repeat',
-                        filter: "brightness(0.6) contrast(1.3)",
-                        opacity: 0.25,
+                        filter: "brightness(0.9) contrast(1.1)",
+                        opacity: 1,
                         willChange: "background-position",
                     }}
                 />
             </div>
 
+            {/* Fog Cover: Contains the Gradient and Atmosphere layers */}
             <div
                 ref={maskRef}
                 className="absolute inset-0 pointer-events-none w-full h-full transition-opacity duration-300"
                 style={{
                     willChange: "mask-image, -webkit-mask-image",
-                    transform: "translateZ(0)",
-                    backfaceVisibility: "hidden"
                 }}
             >
                 {/* 1. Base Gradient Layer - Spans entire page height */}
@@ -229,6 +146,15 @@ const JungleBackground = () => {
                 </div>
             </div>
 
+            {/* 3. Floating Yellow Fireflies (Independent of mask, floats in front) */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none">
+                <div className="absolute w-2 h-2 rounded-full bg-[#E6B93D] blur-[1px] animate-firefly-1" />
+                <div className="absolute w-3 h-3 rounded-full bg-[#F5D061] blur-[2px] animate-firefly-2" />
+                <div className="absolute w-1.5 h-1.5 rounded-full bg-[#FFFFFF] blur-[1px] animate-firefly-3" />
+                <div className="absolute w-2.5 h-2.5 rounded-full bg-[#E6B93D] blur-[2px] animate-firefly-4" />
+                <div className="absolute w-2 h-2 rounded-full bg-[#F5D061] blur-[1px] animate-firefly-5" />
+            </div>
+
             {/* 3. Interactive Floating Fireflies Canvas */}
             <canvas
                 ref={canvasRef}
@@ -244,6 +170,43 @@ const JungleBackground = () => {
                 .animate-bounce-slow {
                     animation: bounce-slow 15s ease-in-out infinite;
                 }
+                
+                @keyframes fly-1 {
+                    0% { top: 10%; left: -10%; transform: scale(1); opacity: 0; }
+                    20% { opacity: 0.8; }
+                    80% { opacity: 0.6; }
+                    100% { top: 40%; left: 110%; transform: scale(1.5); opacity: 0; }
+                }
+                @keyframes fly-2 {
+                    0% { top: 80%; left: 110%; transform: scale(1.2); opacity: 0; }
+                    20% { opacity: 0.5; }
+                    80% { opacity: 0.9; }
+                    100% { top: 20%; left: -10%; transform: scale(0.8); opacity: 0; }
+                }
+                @keyframes fly-3 {
+                    0% { top: -10%; left: 30%; transform: scale(0.8); opacity: 0; }
+                    20% { opacity: 1; }
+                    80% { opacity: 0.3; }
+                    100% { top: 110%; left: 70%; transform: scale(1.2); opacity: 0; }
+                }
+                @keyframes fly-4 {
+                    0% { top: 110%; left: 60%; transform: scale(1.5); opacity: 0; }
+                    20% { opacity: 0.7; }
+                    80% { opacity: 0.4; }
+                    100% { top: -10%; left: 20%; transform: scale(1); opacity: 0; }
+                }
+                @keyframes fly-5 {
+                    0% { top: 50%; left: -10%; transform: scale(1); opacity: 0; }
+                    20% { opacity: 0.6; }
+                    80% { opacity: 0.9; }
+                    100% { top: 80%; left: 110%; transform: scale(1.3); opacity: 0; }
+                }
+
+                .animate-firefly-1 { animation: fly-1 18s ease-in-out infinite; }
+                .animate-firefly-2 { animation: fly-2 24s ease-in-out infinite 2s; }
+                .animate-firefly-3 { animation: fly-3 20s ease-in-out infinite 5s; }
+                .animate-firefly-4 { animation: fly-4 28s ease-in-out infinite 1s; }
+                .animate-firefly-5 { animation: fly-5 22s ease-in-out infinite 7s; }
             `}</style>
         </div>
     );

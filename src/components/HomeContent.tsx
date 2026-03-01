@@ -11,13 +11,9 @@ import { useLanguage } from "@/context/LanguageContext";
 import TemplatesShowcase from "@/components/TemplatesShowcase";
 import StartupGrowthSection from "@/components/StartupGrowthSection";
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function HomeContent() {
     const { t } = useLanguage();
-    const router = useRouter();
-    const [isDnaClicked, setIsDnaClicked] = useState(false);
     const consultX = useMotionValue(0);
     const consultY = useMotionValue(0);
     const consultSmoothX = useSpring(consultX, { stiffness: 50, damping: 20 });
