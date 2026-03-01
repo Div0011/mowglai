@@ -3,6 +3,8 @@
 import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronRight } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 import { AuditResult, AuditCategory, AuditDetail } from './actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -64,34 +66,33 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
     const reportRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        console.log("PDF Download button clicked");
         if (!reportRef.current) {
             console.error("reportRef.current is null!");
             return;
         }
 
         try {
-            console.log("Importing html2pdf.js");
-            const html2pdfModule = await import('html2pdf.js');
-            const html2pdf = html2pdfModule.default;
-            console.log("Import successful, configuring options");
+            const canvas = await html2canvas(reportRef.current, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#0d1a12', // Forest Green Background
+                logging: false,
+                windowWidth: reportRef.current.scrollWidth,
+                windowHeight: reportRef.current.scrollHeight
+            });
 
-            const opt = {
-                margin: 10,
-                filename: `Mowglai_Audit_${new Date().toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg' as const, quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#0d1a12',
-                    scrollY: 0
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
-            };
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
 
-            console.log("Generating and saving PDF");
-            await html2pdf().set(opt).from(reportRef.current).save();
-            console.log("PDF saved successfully");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`Mowglai_Audit_${new Date().toISOString().split('T')[0]}.pdf`);
         } catch (error) {
             console.error("PDF Generation failed", error);
         }
