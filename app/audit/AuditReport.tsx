@@ -3,8 +3,7 @@
 import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronRight } from "lucide-react";
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+
 import { AuditResult, AuditCategory, AuditDetail } from './actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -68,24 +67,22 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
         if (!reportRef.current) return;
 
         try {
-            const canvas = await html2canvas(reportRef.current, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#0d1a12' // Forest Green Background
-            });
+            const html2pdf = (await import('html2pdf.js')).default;
 
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
+            const opt = {
+                margin: 10,
+                filename: `Mowglai_Audit_${new Date().toISOString().split('T')[0]}.pdf`,
+                image: { type: 'jpeg' as const, quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#0d1a12',
+                    scrollY: 0
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
+            };
 
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`Mowglai_Audit_${new Date().toISOString().split('T')[0]}.pdf`);
+            await html2pdf().set(opt).from(reportRef.current).save();
         } catch (error) {
             console.error("PDF Generation failed", error);
         }
