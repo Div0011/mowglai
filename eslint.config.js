@@ -5,7 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".next", "out", "node_modules"] },
+  { ignores: ["dist", "**/.next/**", ".next", "out", "node_modules", "mowglai/**", "lint-output-cmd.txt", "lint-output.txt"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
