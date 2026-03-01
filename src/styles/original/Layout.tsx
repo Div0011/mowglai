@@ -43,7 +43,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
                 <JungleBackground />
             </div>
 
-            <FullScreenNav onOpenChat={() => {}} />
+            <FullScreenNav onOpenChat={() => { }} />
             <MobileNav />
 
             <main className="relative z-10 w-full overflow-hidden">
@@ -54,7 +54,6 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="gpu-accelerate"
                     >
                         <Suspense fallback={<div className="w-full h-screen flex items-center justify-center text-primary font-display animate-pulse">Loading Content...</div>}>
                             {children}

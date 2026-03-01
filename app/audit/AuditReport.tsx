@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronRight } from "lucide-react";
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import { AuditResult, AuditCategory, AuditDetail } from './actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +12,99 @@ import { Progress } from "@/components/ui/progress";
 interface AuditReportProps {
     result: AuditResult;
 }
+
+// ─────────────────────────────────────────────────────────────────
+// OFF-SCREEN A4 PDF TEMPLATE
+// This component renders exclusively behind the scenes for pristine
+// high-resolution PDF generation via html2canvas without tearing UI.
+// ─────────────────────────────────────────────────────────────────
+const ModelAuditTemplate = React.forwardRef<HTMLDivElement, { result: AuditResult, grade: string }>(({ result, grade }, ref) => {
+    return (
+        <div style={{ position: 'absolute', left: '-15000px', top: 0 }}>
+            {/* Massive A4 high-res canvas container */}
+            <div ref={ref} className="w-[1200px] bg-[#0a130e] text-white p-24 flex flex-col relative overflow-hidden" style={{ minHeight: '1697px', fontSmooth: 'always' }}>
+
+                {/* Background Watermarks */}
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#c5a059]/10 rounded-full blur-[200px] -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2" />
+
+                {/* Cover & Header Grid */}
+                <div className="relative z-10 flex justify-between items-start border-b-2 border-[#c5a059]/30 pb-12 mb-16">
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-4">
+                            <span className="text-4xl font-black tracking-[0.2em] text-white uppercase">MOWGLAI</span>
+                            <span className="text-4xl font-light text-[#c5a059]">Intelligence</span>
+                        </div>
+                        <h1 className="text-6xl font-light text-[#f8fafc] mt-6">Digital Health<br />Diagnostic Report</h1>
+                        <div className="flex items-center gap-3 mt-6">
+                            <span className="px-4 py-2 rounded-full border border-white/20 bg-white/5 text-sm tracking-widest uppercase">Target</span>
+                            <span className="text-2xl font-mono text-[#c5a059]">{result.url}</span>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-end text-right">
+                        <div className="p-8 border-2 border-[#c5a059] bg-[#c5a059]/10 rounded-3xl flex flex-col items-center justify-center min-w-[200px]">
+                            <span className="text-sm text-[#c5a059] uppercase tracking-widest font-bold mb-2">Total Grade</span>
+                            <span className="text-8xl font-black text-[#c5a059] leading-none">{grade}</span>
+                        </div>
+                        <span className="text-white/40 mt-6 text-xl tracking-widest uppercase">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    </div>
+                </div>
+
+                {/* Categories Breakdown */}
+                <div className="relative z-10 grid grid-cols-2 gap-10 flex-1">
+                    {Object.values(result.categories).map((cat, i) => (
+                        <div key={i} className="border border-white/10 bg-white/5 p-8 rounded-3xl">
+                            <div className="flex justify-between items-center mb-6 pb-6 border-b border-white/10">
+                                <div>
+                                    <h2 className="text-3xl font-bold text-white mb-2">{cat.title}</h2>
+                                    <p className="text-lg text-white/50">{cat.description}</p>
+                                </div>
+                                <div className="text-5xl font-black" style={{ color: cat.score >= 80 ? '#c5a059' : cat.score >= 50 ? '#eab308' : '#ef4444' }}>
+                                    {cat.score}
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                {cat.items.map((item, idx) => (
+                                    <div key={idx} className="flex gap-4">
+                                        <div className="mt-1">
+                                            {item.status === 'pass' && <span className="text-green-500 font-bold text-xl">✓</span>}
+                                            {item.status === 'fail' && <span className="text-red-500 font-bold text-xl">✗</span>}
+                                            {item.status === 'warning' && <span className="text-yellow-500 font-bold text-xl">!</span>}
+                                        </div>
+                                        <div>
+                                            <div className="flex justify-between items-baseline mb-1">
+                                                <span className="text-xl font-medium text-white/90 pr-4">{item.title}</span>
+                                                <span className="text-lg font-mono text-[#c5a059]">{item.value}</span>
+                                            </div>
+                                            <p className="text-white/60 text-base">{item.description}</p>
+                                            {item.recommendation && <p className="text-blue-400 text-sm mt-2 italic border-l-2 border-blue-400/30 pl-3">Fix: {item.recommendation}</p>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Footer Strip */}
+                <div className="relative z-10 mt-16 pt-10 border-t-2 border-white/10 flex justify-between items-end">
+                    <div>
+                        <p className="text-xl text-white/40 mb-2 font-light">CONFIDENTIAL DIAGNOSTIC EXPORT</p>
+                        <p className="text-white/30">Automatically synthesized by Mowglai Intelligence Engine heuristics.</p>
+                    </div>
+                    <div className="text-right">
+                        <div className="text-2xl font-black tracking-widest uppercase text-white">MOWGLAI</div>
+                        <div className="text-[#c5a059] text-xl mt-1 font-mono">https://mowglai.in</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+ModelAuditTemplate.displayName = "ModelAuditTemplate";
+
 
 const CategoryCard = ({ category, delay }: { category: AuditCategory, delay: number }) => {
     let colorClass = "text-red-500";
@@ -62,16 +155,18 @@ const CategoryCard = ({ category, delay }: { category: AuditCategory, delay: num
 };
 
 const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
-    const reportRef = useRef<HTMLDivElement>(null);
+    const screenRef = useRef<HTMLDivElement>(null);
+    const pdfRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        if (!reportRef.current) return;
+        if (!pdfRef.current) return;
 
         try {
-            const canvas = await html2canvas(reportRef.current, {
-                scale: 2,
+            const canvas = await html2canvas(pdfRef.current, {
+                scale: 1.5, // Crisp resolution without inflating file size
                 useCORS: true,
-                backgroundColor: '#0d1a12' // Forest Green Background
+                backgroundColor: '#0a130e',
+                logging: false
             });
 
             const imgData = canvas.toDataURL('image/png');
@@ -107,14 +202,17 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
 
             {/* Controls */}
             <div className="flex justify-end gap-3 print:hidden">
-                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold">
-                    <Download className="w-4 h-4 mr-2" />
+                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold group">
+                    <Download className="w-4 h-4 mr-2 group-hover:-translate-y-0.5 transition-transform" />
                     Download PDF Report
                 </Button>
             </div>
 
-            {/* Printable Area */}
-            <div ref={reportRef} className="bg-[#0d1a12] text-white p-8 md:p-12 rounded-3xl shadow-2xl border border-[#c5a059]/20 relative overflow-hidden">
+            {/* Hidden High-Res A4 Template specifically for PDF exports */}
+            <ModelAuditTemplate ref={pdfRef} result={result} grade={grade} />
+
+            {/* Printable Area (Currently just the responsive screen container) */}
+            <div ref={screenRef} className="bg-[#0d1a12] text-white p-8 md:p-12 rounded-3xl shadow-2xl border border-[#c5a059]/20 relative overflow-hidden">
 
                 {/* Background Elements */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c5a059]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />

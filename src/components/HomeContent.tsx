@@ -11,9 +11,13 @@ import { useLanguage } from "@/context/LanguageContext";
 import TemplatesShowcase from "@/components/TemplatesShowcase";
 import StartupGrowthSection from "@/components/StartupGrowthSection";
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function HomeContent() {
     const { t } = useLanguage();
+    const router = useRouter();
+    const [isDnaClicked, setIsDnaClicked] = useState(false);
     const consultX = useMotionValue(0);
     const consultY = useMotionValue(0);
     const consultSmoothX = useSpring(consultX, { stiffness: 50, damping: 20 });
@@ -35,8 +39,16 @@ export default function HomeContent() {
 
                             <div className="mb-12 w-full">
                                 <Magnetic>
-                                    <Link
-                                        href="/our-dna"
+                                    <motion.button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setIsDnaClicked(true);
+                                            setTimeout(() => {
+                                                router.push('/our-dna');
+                                            }, 600);
+                                        }}
+                                        animate={{ x: isDnaClicked ? "100vw" : 0, opacity: isDnaClicked ? 0 : 1 }}
+                                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                                         className="group relative w-full flex items-center justify-center sm:justify-between px-8 py-5 bg-background/5 border border-primary/20 hover:bg-primary/10 hover:border-primary text-primary transition-all duration-500 rounded-full backdrop-blur-sm overflow-hidden"
                                     >
                                         <div className="flex items-center gap-2">
@@ -54,7 +66,7 @@ export default function HomeContent() {
                                             </span>
                                             <ArrowRight className="absolute w-6 h-6 text-primary transition-all duration-300 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0" />
                                         </div>
-                                    </Link>
+                                    </motion.button>
                                 </Magnetic>
                             </div>
 
