@@ -113,8 +113,8 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
         <div className="w-full max-w-5xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-500">
 
             {/* Controls */}
-            <div className="flex justify-end gap-3 print:hidden">
-                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold">
+            <div className="flex justify-end gap-3 print:hidden relative z-50 pointer-events-auto">
+                <Button onClick={handleDownloadPDF} className="bg-[#c5a059] hover:bg-[#b08d4b] text-black font-bold relative z-50 cursor-pointer pointer-events-auto">
                     <Download className="w-4 h-4 mr-2" />
                     Download PDF Report
                 </Button>
