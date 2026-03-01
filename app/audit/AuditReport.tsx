@@ -64,10 +64,17 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
     const reportRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        if (!reportRef.current) return;
+        console.log("PDF Download button clicked");
+        if (!reportRef.current) {
+            console.error("reportRef.current is null!");
+            return;
+        }
 
         try {
-            const html2pdf = (await import('html2pdf.js')).default;
+            console.log("Importing html2pdf.js");
+            const html2pdfModule = await import('html2pdf.js');
+            const html2pdf = html2pdfModule.default;
+            console.log("Import successful, configuring options");
 
             const opt = {
                 margin: 10,
@@ -82,7 +89,9 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
             };
 
+            console.log("Generating and saving PDF");
             await html2pdf().set(opt).from(reportRef.current).save();
+            console.log("PDF saved successfully");
         } catch (error) {
             console.error("PDF Generation failed", error);
         }
