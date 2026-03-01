@@ -6,6 +6,8 @@ import TextReveal from "./TextReveal";
 import Magnetic from "./Magnetic";
 import { useLanguage } from "../context/LanguageContext";
 import AuditCircularButton from "./AuditCircularButton";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const HeroSection = () => {
     const { t } = useLanguage();
@@ -81,8 +83,21 @@ const HeroSection = () => {
                         className="inline-block w-fit text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-widest transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default select-none transform-gpu hover:scale-105"
                         data-aos-duration="1000"
                     >
-                        MOWGLAI
-                    </h1>
+                        {"MOWGLAI".split("").map((letter, i, arr) => {
+                            // Calculate symmetric spread offset explicitly for hardware-accelerated letter-spacing
+                            const offset = i - (arr.length - 1) / 2;
+                            return (
+                                <motion.span
+                                    key={i}
+                                    className="inline-block transform-gpu"
+                                    animate={{ x: isTitleHovered ? `${offset * 0.12}em` : "0em" }}
+                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                    {letter}
+                                </motion.span>
+                            );
+                        })}
+                    </motion.h1>
                 </div>
 
                 {/* Subtitle / Value Prop */}
@@ -94,16 +109,40 @@ const HeroSection = () => {
 
                 {/* CTA Buttons */}
                 <div
-                    className="mt-2 flex flex-col items-center gap-4 opacity-0 animate-fade-in px-4"
-                    style={{ animationDelay: "1s", animationFillMode: "forwards" }}
+                    className="mt-2 flex flex-col items-center gap-4 px-4"
+                    data-aos="fade-up"
+                    data-aos-delay="500"
                 >
                     <Magnetic>
-                        <Link
-                            href="/investment"
-                            className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center"
+                        <motion.button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsStartClicked(true);
+                                setTimeout(() => router.push('/investment'), 800);
+                            }}
+                            onHoverStart={() => setIsShakeHovered(true)}
+                            onHoverEnd={() => setIsShakeHovered(false)}
+                            animate={isShakeHovered ? {
+                                x: [0, -2, 2, -4, 4, -6, 6],
+                                transition: { duration: 0.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                            } : {
+                                x: 0,
+                                transition: { type: "spring", stiffness: 400, damping: 10 }
+                            }}
+                            className={cn(
+                                "group relative z-10 inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center border border-transparent",
+                                isStartClicked ? "transition-none" : "overflow-hidden"
+                            )}
                         >
-                            START THE PROJECT
-                        </Link>
+                            {/* Shape Exploding Overlay */}
+                            <div
+                                className={cn(
+                                    "absolute top-1/2 left-1/2 w-[300vw] h-[300vw] md:w-[250vw] md:h-[250vw] -translate-x-1/2 -translate-y-1/2 rounded-full z-[0] pointer-events-none transition-all duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] bg-[#c5a059]",
+                                    isStartClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                                )}
+                            />
+                            <span className="relative z-10 transition-colors duration-300 group-hover:text-primary">START THE PROJECT</span>
+                        </motion.button>
                     </Magnetic>
 
                     <AuditCircularButton size="lg" />

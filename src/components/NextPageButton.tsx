@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -10,6 +12,17 @@ interface NextPageButtonProps {
 }
 
 const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
+    const router = useRouter();
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsClicked(true);
+        setTimeout(() => {
+            router.push(href);
+        }, 800);
+    };
+
     return (
         <div className="w-screen ml-[calc(50%-50vw)] h-[300px] flex flex-col items-center justify-center relative overflow-hidden">
 

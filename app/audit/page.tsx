@@ -81,6 +81,7 @@ export default function AuditPage() {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<AuditResult | null>(null);
     const [focused, setFocused] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
 
@@ -124,9 +125,19 @@ export default function AuditPage() {
         }
     };
 
+    const handleClose = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            router.push('/');
+        }, 800); // Wait for the reverse 'implosion' circle to finish
+    };
+
     return (
-        <div
-            className="relative w-full text-foreground font-body pt-20 pb-20 min-h-screen cursor-none"
+        <motion.div
+            initial={{ clipPath: "circle(150vw at 50% 50%)" }}
+            animate={{ clipPath: isClosing ? "circle(0vw at 50% 50%)" : "circle(150vw at 50% 50%)" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full text-foreground font-body pt-20 pb-20 min-h-screen cursor-none bg-background"
         >
             <CustomCursor />
             <SmoothScroll />
@@ -134,7 +145,7 @@ export default function AuditPage() {
             {/* ── Header Controls ────────────── */}
             <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] left-[calc(0.875rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
                 <button
-                    onClick={() => router.push('/')}
+                    onClick={handleClose}
                     className="group"
                     aria-label="Back to Home"
                 >
@@ -146,7 +157,7 @@ export default function AuditPage() {
 
             <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] right-[calc(1rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] z-[60]">
                 <button
-                    onClick={() => router.push('/')}
+                    onClick={handleClose}
                     className="flex items-center justify-center gap-2 group border border-primary/20 bg-background/50 hover:bg-primary/5 hover:border-primary/50 text-foreground transition-all duration-300 rounded-full px-4 md:px-5 py-2 md:py-2.5 backdrop-blur-md"
                     aria-label="Cancel Audit"
                 >
@@ -392,6 +403,6 @@ export default function AuditPage() {
                     )}
                 </AnimatePresence>
             </div>
-        </div>
+        </motion.div>
     );
 }

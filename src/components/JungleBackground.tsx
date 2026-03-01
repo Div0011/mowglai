@@ -155,6 +155,13 @@ const JungleBackground = () => {
                 <div className="absolute w-2 h-2 rounded-full bg-[#F5D061] blur-[1px] animate-firefly-5" />
             </div>
 
+            {/* 3. Interactive Floating Fireflies Canvas */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full pointer-events-none z-20"
+                style={{ mixBlendMode: 'screen' }}
+            />
+
             <style>{`
                 @keyframes bounce-slow {
                     0%, 100% { transform: translate3d(0, 0, 0); }

@@ -6,6 +6,7 @@ import Magnetic from "@/components/Magnetic";
 import MowglaiLogo from "@/components/MowglaiLogo";
 import { useTheme } from "next-themes";
 import XLogo from "@/components/icons/XLogo";
+import { motion } from "framer-motion";
 
 interface NavItem {
     icon: React.ElementType;
@@ -125,14 +126,14 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
                     {/* Navigation Columns (90% Width) */}
                     <nav className="w-[90%] flex h-full">
-                        {navItems.map((item) => {
+                        {navItems.map((item, index) => {
                             const isHovered = hoveredItem === item.label;
 
                             return (
                                 <div
                                     key={item.label}
                                     className={cn(
-                                        "h-full relative group/col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col items-center justify-center p-4",
+                                        "h-full relative group/col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col items-center justify-center p-4 overflow-hidden",
                                         isHovered ? "flex-[1.5] bg-primary/5" : "flex-1 hover:bg-primary/5"
                                     )}
                                     onMouseEnter={() => setHoveredItem(item.label)}
@@ -142,8 +143,22 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                     <div className={cn(
                                         "absolute top-0 right-0 w-[1px] h-full transition-all duration-500",
                                         "bg-gradient-to-b from-transparent via-primary/20 to-transparent", // Default state
-                                        isHovered ? "w-[2px] bg-primary shadow-[0_0_15px_rgba(34,197,94,0.4)]" : "" // Active/Glow state
-                                    )} />
+                                        isHovered ? "w-[2px] bg-[#c5a059] shadow-[0_0_15px_rgba(197,160,89,0.5)] z-20" : "z-10" // Active/Glow state
+                                    )}>
+                                        {/* Golden Light Ray Flowing Downwards */}
+                                        <motion.div
+                                            className="absolute top-0 right-[-1px] w-[3px] h-32 bg-[#c5a059] shadow-[0_0_20px_#c5a059]"
+                                            animate={{
+                                                top: ['-20%', '120%'],
+                                            }}
+                                            transition={{
+                                                duration: 2.5 + (index % 3),
+                                                repeat: Infinity,
+                                                delay: index * 0.4,
+                                                ease: "linear"
+                                            }}
+                                        />
+                                    </div>
 
 
                                     <a
