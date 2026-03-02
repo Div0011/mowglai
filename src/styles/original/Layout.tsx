@@ -17,6 +17,7 @@ const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: f
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
 const GalaxyBackground = dynamic(() => import("@/components/GalaxyBackground"), { ssr: false });
 const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
+const StitchTrailEffect = dynamic(() => import("@/components/StitchTrailEffect").then(mod => ({ default: mod.StitchTrailEffect })), { ssr: false });
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -37,6 +38,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <CustomCursor />
             <SettingsToggle />
             <ContactToggle />
+            <StitchTrailEffect />
 
             {/* Background - Spans entire page height */}
             <div className="absolute inset-0 z-0 pointer-events-none">

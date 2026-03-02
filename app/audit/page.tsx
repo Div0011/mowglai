@@ -137,10 +137,14 @@ export default function AuditPage() {
             initial={{ clipPath: "circle(150vw at 50% 50%)" }}
             animate={{ clipPath: isClosing ? "circle(0vw at 50% 50%)" : "circle(150vw at 50% 50%)" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full text-foreground font-body pt-20 pb-20 min-h-screen cursor-none bg-background"
+            className="fixed inset-0 w-screen h-screen text-foreground font-body cursor-none bg-gradient-to-b dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37] overflow-hidden"
+            style={{ willChange: 'clip-path' }}
         >
             <CustomCursor />
             <SmoothScroll />
+            
+            {/* Full viewport background to prevent JungleBackground bleed-through */}
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-b dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37] z-0 pointer-events-none" />
 
             {/* ── Header Controls ────────────── */}
             <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] left-[calc(0.875rem+env(safe-area-inset-left))] md:top-[calc(2rem+env(safe-area-inset-top))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60]">
@@ -181,17 +185,18 @@ export default function AuditPage() {
             </div>
 
             {/* ── Jungle Background ───────────── */}
-            <div className="fixed inset-0 pointer-events-none -z-20">
+            <div className="fixed inset-0 pointer-events-none -z-20 w-screen h-screen overflow-hidden">
                 <JungleBackground />
             </div>
 
             {/* ── Floating particles ───────────── */}
-            <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden text-primary">
+            <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden text-primary w-screen h-screen">
                 {particles.map((p) => <Particle key={p.id} {...p} />)}
             </div>
 
-            {/* ── Main content ─────────────────── */}
-            <div className="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center w-full">
+            {/* ── Main content wrapper ──────────── */}
+            <div className="relative z-10 w-full h-full overflow-y-auto pt-20 pb-20">
+                <div className="max-w-5xl mx-auto px-4 flex flex-col items-center w-full">
 
                 <AnimatePresence mode="wait">
                     {!result ? (
@@ -402,6 +407,7 @@ export default function AuditPage() {
 
                     )}
                 </AnimatePresence>
+                </div>
             </div>
         </motion.div>
     );

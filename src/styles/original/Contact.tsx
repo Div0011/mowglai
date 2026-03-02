@@ -36,8 +36,8 @@ export default function OriginalContact() {
                         </p>
 
                         <div className="relative w-full flex items-center justify-center">
-                            {/* Background Trail behind button - Full width breakout */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[100vw] -translate-y-1/2 transform pointer-events-none z-0 overflow-hidden">
+                            {/* Background Trail behind button - Full width breakout (HIDDEN - only for Services) */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[100vw] -translate-y-1/2 transform pointer-events-none z-0 overflow-hidden hidden">
                                 <div className="flex animate-marquee-slow whitespace-nowrap gap-10 items-center py-4">
                                     {[...Array(6)].map((_, groupIndex) => (
                                         <div key={groupIndex} className="flex gap-10 md:gap-20 items-center px-6 md:px-10">

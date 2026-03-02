@@ -7,40 +7,79 @@ import Magnetic from "@/components/Magnetic";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { PageTransitionOverlay, PageTransitionType } from "@/components/PageTransitionOverlay";
+import type { AnimatePresence } from "framer-motion";
 
 interface NextPageButtonProps {
     label: string;
     href: string;
     tagline?: string;
+    enableTransition?: boolean;
 }
 
-const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
+// Map href to transition type
+function getTransitionTypeFromHref(href: string): PageTransitionType {
+    const hrefMap: Record<string, PageTransitionType> = {
+        '/explore': 'blueprint',
+        '/start-project': 'start-project',
+        '/services': 'services',
+        '/contact': 'contact',
+        '/about': 'about',
+    };
+    return hrefMap[href] || 'blueprint';
+}
+
+const NextPageButton = ({ label, href, tagline, enableTransition = true }: NextPageButtonProps) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
+    const [transitionOpen, setTransitionOpen] = useState(false);
+    const transitionType = getTransitionTypeFromHref(href);
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        if (enableTransition) {
+            setTransitionOpen(true);
+        } else {
+            setIsClicked(true);
+            setTimeout(() => {
+                router.push(href);
+            }, 800);
+        }
+    };
+
+    const handleNavigate = (navigateHref: string) => {
         setIsClicked(true);
         setTimeout(() => {
-            router.push(href);
-        }, 800);
+            router.push(navigateHref);
+        }, 300);
     };
 
     return (
-        <div className="w-screen ml-[calc(50%-50vw)] h-[300px] flex flex-col items-center justify-center relative overflow-hidden">
-
-            {/* Tagline - Just above button */}
-            {tagline && (
-                <p className="relative z-10 text-xs md:text-sm font-display tracking-widest uppercase mb-6 text-muted-foreground/60" data-aos="fade-up">
-                    {tagline}
-                </p>
+        <>
+            {/* Page Transition Overlay */}
+            {enableTransition && (
+                <PageTransitionOverlay
+                    type={transitionType}
+                    isOpen={transitionOpen}
+                    onClose={() => setTransitionOpen(false)}
+                    onNavigate={handleNavigate}
+                />
             )}
+
+            <div className="w-screen ml-[calc(50%-50vw)] h-[300px] flex flex-col items-center justify-center relative overflow-hidden">
+
+                {/* Tagline - Just above button */}
+                {tagline && (
+                    <p className="relative z-10 text-xs md:text-sm font-display tracking-widest uppercase mb-6 text-muted-foreground/60" data-aos="fade-up">
+                        {tagline}
+                    </p>
+                )}
 
             {/* Button + Marquee Container - Linked together for alignment */}
             <div className="relative w-full flex items-center justify-center">
 
-                {/* Marquee Trail - Robust breakout and consistent slow speed */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0">
+                {/* Marquee Trail - HIDDEN (only enabled in Services section) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0 hidden">
                     <div className="relative flex whitespace-nowrap overflow-hidden py-12">
                         <div className="flex animate-marquee-slow items-center flex-shrink-0">
                             {[...Array(8)].map((_, i) => (
@@ -69,8 +108,12 @@ const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
 
                 {/* Main Big Button - Now in Foreground */}
                 <Magnetic>
-                    <Link
-                        href={href}
+                    <motion.button
+                        onClick={handleClick}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        animate={{ x: isClicked ? "100vw" : 0, opacity: isClicked ? 0 : 1 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                         className="group relative z-10 flex px-6 sm:px-12 py-4 sm:py-6 rounded-full border-2 border-primary/20 bg-background/40 hover:bg-primary hover:border-primary transition-all duration-400 overflow-hidden backdrop-blur-xl scale-100 sm:scale-110 md:scale-125"
                     >
                         <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors" />
@@ -84,12 +127,12 @@ const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
                                 <ArrowRight strokeWidth={1.5} className="absolute transition-all duration-300 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 w-8 h-8 sm:w-10 sm:h-10 text-primary-foreground" />
                             </div>
                         </div>
-                    </Link>
+                    </motion.button>
                 </Magnetic>
             </div>
 
-
         </div>
+        </>
     );
 };
 

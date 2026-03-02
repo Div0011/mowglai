@@ -306,7 +306,7 @@
 }
 
 .animate-marquee-slow {
-  animation: marquee 25s linear infinite;
+  animation: marquee 50s linear infinite;
 }
 
 @layer components {

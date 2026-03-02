@@ -13,10 +13,13 @@ import StartupGrowthSection from "@/components/StartupGrowthSection";
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ScrollReveal, CascadeContainer, CascadeItem, ParallaxScroll } from "@/components/ScrollRevealComponents";
+import { useDeviceOptimization } from "@/hooks/useDeviceOptimization";
 
 export default function HomeContent() {
     const { t } = useLanguage();
     const router = useRouter();
+    const deviceInfo = useDeviceOptimization();
     const [isDnaClicked, setIsDnaClicked] = useState(false);
     const consultX = useMotionValue(0);
     const consultY = useMotionValue(0);
@@ -26,57 +29,77 @@ export default function HomeContent() {
 
     return (
         <>
-            <section className="relative py-16 overflow-hidden">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-start">
-                        <div data-aos="fade-up" className="w-full pt-12 md:pt-0">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-tight">
-                                {t.Home.weCreate} <span className="opacity-10">{t.Home.the}</span> <span className="text-primary italic whitespace-nowrap">{t.Home.extraordinary}</span>
-                            </h2>
-                            <p className="text-lg text-muted-foreground mb-8 leading-relaxed md:text-xl">
-                                {t.Home.introText}
-                            </p>
+            <section className="relative py-16 md:py-24 overflow-hidden">
+                <div className="container mx-auto px-4 sm:px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-24 items-start">
+                        <ScrollReveal variant="slideInLeft" delay={0} className="w-full pt-12 md:pt-0">
+                            <div data-aos="fade-up" className="w-full">
+                                <motion.h2
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-tight"
+                                >
+                                    {t.Home.weCreate} <span className="opacity-10">{t.Home.the}</span> <span className="text-primary italic whitespace-nowrap">{t.Home.extraordinary}</span>
+                                </motion.h2>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed md:text-xl"
+                                >
+                                    {t.Home.introText}
+                                </motion.p>
 
-                            <div className="mb-12 w-full">
-                                <Magnetic>
-                                    <motion.button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setIsDnaClicked(true);
-                                            setTimeout(() => {
-                                                router.push('/our-dna');
-                                            }, 600);
-                                        }}
-                                        animate={{ x: isDnaClicked ? "100vw" : 0, opacity: isDnaClicked ? 0 : 1 }}
-                                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                                        className="group relative w-full flex items-center justify-center sm:justify-between px-8 py-5 bg-background/5 border border-primary/20 hover:bg-primary/10 hover:border-primary text-primary transition-all duration-500 rounded-full backdrop-blur-sm overflow-hidden"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <div className="p-2 rounded-full bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                                                <Fingerprint className="w-6 h-6" />
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                    className="mb-12 w-full"
+                                >
+                                    <Magnetic>
+                                        <motion.button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setIsDnaClicked(true);
+                                                setTimeout(() => {
+                                                    router.push('/our-dna');
+                                                }, 600);
+                                            }}
+                                            whileHover={deviceInfo.hasHover ? { scale: 1.02 } : {}}
+                                            whileTap={{ scale: 0.98 }}
+                                            animate={{ x: isDnaClicked ? "100vw" : 0, opacity: isDnaClicked ? 0 : 1 }}
+                                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                            className="group relative w-full flex flex-col sm:flex-row items-center justify-center sm:justify-between px-6 sm:px-8 py-4 sm:py-5 bg-background/5 border border-primary/20 hover:bg-primary/10 hover:border-primary text-primary transition-all duration-500 rounded-full backdrop-blur-sm overflow-hidden"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <div className="p-2 rounded-full bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                                                    <Fingerprint className="w-5 sm:w-6 h-5 sm:h-6" />
+                                                </div>
+                                                <span className="text-base sm:text-lg font-display font-bold uppercase tracking-widest text-foreground group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
+                                                    {t.Home.exploreDNA}
+                                                </span>
                                             </div>
-                                            <span className="text-lg font-display font-bold uppercase tracking-widest text-foreground group-hover:text-primary transition-colors duration-300">
-                                                {t.Home.exploreDNA}
-                                            </span>
-                                        </div>
 
-                                        <div className="hidden sm:block relative w-8 h-8 flex items-center justify-center">
-                                            <span className="absolute transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-4 font-light text-2xl text-primary leading-none pb-1">
-                                                -
-                                            </span>
-                                            <ArrowRight className="absolute w-6 h-6 text-primary transition-all duration-300 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0" />
-                                        </div>
-                                    </motion.button>
-                                </Magnetic>
+                                            <div className="hidden sm:block relative w-8 h-8 flex items-center justify-center">
+                                                <span className="absolute transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-4 font-light text-2xl text-primary leading-none pb-1">
+                                                    -
+                                                </span>
+                                                <ArrowRight className="absolute w-6 h-6 text-primary transition-all duration-300 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0" />
+                                            </div>
+                                        </motion.button>
+                                    </Magnetic>
+                                </motion.div>
                             </div>
-
-
-                        </div>
+                        </ScrollReveal>
 
                         {/* Sequential Cards Presentation - Pulled up */}
-                        <div className="md:-mt-24">
+                        <ScrollReveal variant="slideInRight" delay={1} className="md:-mt-24">
                             <AestheticShowcase />
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </div>
             </section>
@@ -92,38 +115,54 @@ export default function HomeContent() {
             <TemplatesShowcase />
 
             {/* Explore Templates CTA (Blueprint Button) */}
-            <div className="w-full relative z-20 -mt-20 md:-mt-32 mb-16" data-aos="fade-up">
+            <ScrollReveal variant="slideUpFade" className="w-full relative z-20 -mt-20 md:-mt-32 mb-16">
                 <NextPageButton label="BLUEPRINT" href="/explore" />
-            </div>
+            </ScrollReveal>
 
             {/* 5. COMMISSION (Refer and Earn Flash Text) */}
-            <div className="mt-12 md:mt-24 mb-12">
+            <ScrollReveal variant="slideUpFade" delay={0.5} className="mt-12 md:mt-24 mb-12">
                 <FlashText />
-            </div>
+            </ScrollReveal>
 
             {/* 6. CONSULT / STORY */}
             {/* Consult for Free Button */}
-            <div className="w-full flex flex-col items-center justify-center pb-12 pt-12 relative z-20">
-                <p className="text-sm md:text-base font-display tracking-widest uppercase mb-8 text-muted-foreground/60 text-center max-w-2xl px-4 flex flex-col gap-2" data-aos="fade-up">
-                    <span className="text-primary font-bold text-lg md:text-xl">READY TO BUILD?</span>
-                    <span>Turn your vision into reality with our expert team</span>
-                </p>
-                <Magnetic>
-                    <Link
-                        href="/custom-request"
-                        className="inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
-                    >
-                        CONSULT FOR FREE
-                    </Link>
-                </Magnetic>
-            </div>
+            <ScrollReveal variant="slideUpFade" className="w-full flex flex-col items-center justify-center pb-12 pt-12 relative z-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <p className="text-xs sm:text-sm md:text-base font-display tracking-widest uppercase mb-8 text-muted-foreground/60 text-center max-w-2xl px-4 flex flex-col gap-2" data-aos="fade-up">
+                        <span className="text-primary font-bold text-base sm:text-lg md:text-xl">READY TO BUILD?</span>
+                        <span>Turn your vision into reality with our expert team</span>
+                    </p>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <Magnetic>
+                        <Link
+                            href="/custom-request"
+                            className="inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-primary text-primary-foreground text-xs sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
+                        >
+                            CONSULT FOR FREE
+                        </Link>
+                    </Magnetic>
+                </motion.div>
+            </ScrollReveal>
 
             <div className="w-full">
-                <NextPageButton
-                    label="STORY"
-                    href="/about"
-                    tagline={t.Home.knowMore}
-                />
+                <ScrollReveal variant="slideUpFade">
+                    <NextPageButton
+                        label="STORY"
+                        href="/about"
+                        tagline={t.Home.knowMore}
+                    />
+                </ScrollReveal>
             </div>
         </>
     );
