@@ -7,65 +7,27 @@ import Magnetic from "@/components/Magnetic";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { PageTransitionOverlay, PageTransitionType } from "@/components/PageTransitionOverlay";
-import type { AnimatePresence } from "framer-motion";
 
 interface NextPageButtonProps {
     label: string;
     href: string;
     tagline?: string;
-    enableTransition?: boolean;
 }
 
-// Map href to transition type
-function getTransitionTypeFromHref(href: string): PageTransitionType {
-    const hrefMap: Record<string, PageTransitionType> = {
-        '/explore': 'blueprint',
-        '/start-project': 'start-project',
-        '/services': 'services',
-        '/contact': 'contact',
-        '/about': 'about',
-    };
-    return hrefMap[href] || 'blueprint';
-}
-
-const NextPageButton = ({ label, href, tagline, enableTransition = true }: NextPageButtonProps) => {
+const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
-    const [transitionOpen, setTransitionOpen] = useState(false);
-    const transitionType = getTransitionTypeFromHref(href);
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (enableTransition) {
-            setTransitionOpen(true);
-        } else {
-            setIsClicked(true);
-            setTimeout(() => {
-                router.push(href);
-            }, 800);
-        }
-    };
-
-    const handleNavigate = (navigateHref: string) => {
         setIsClicked(true);
         setTimeout(() => {
-            router.push(navigateHref);
-        }, 300);
+            router.push(href);
+        }, 600);
     };
 
     return (
         <>
-            {/* Page Transition Overlay */}
-            {enableTransition && (
-                <PageTransitionOverlay
-                    type={transitionType}
-                    isOpen={transitionOpen}
-                    onClose={() => setTransitionOpen(false)}
-                    onNavigate={handleNavigate}
-                />
-            )}
-
             <div className="w-screen ml-[calc(50%-50vw)] h-[300px] flex flex-col items-center justify-center relative overflow-hidden">
 
                 {/* Tagline - Just above button */}
