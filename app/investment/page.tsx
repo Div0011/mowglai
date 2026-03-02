@@ -186,8 +186,14 @@ export default function InvestmentPage() {
     const [razorpayReady, setRazorpayReady] = useState(false);
     const [razorpayError, setRazorpayError] = useState("");
     const [processingPlan, setProcessingPlan] = useState<string | null>(null);
+    const [hoveredPlanIndex, setHoveredPlanIndex] = useState<number | null>(null);
+    const [pageLoaded, setPageLoaded] = useState(false);
     const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? "";
     const subscriptionEndpoint = process.env.NEXT_PUBLIC_SUBSCRIPTION_ENDPOINT ?? "/api/create-subscription.php";
+
+    useEffect(() => {
+        setPageLoaded(true);
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -335,9 +341,17 @@ export default function InvestmentPage() {
     const renderPlans = (type: "standard" | "care" | "addons" | "systems") => {
         const currentPlans = type === "standard" ? plans.standard : (type === "care" ? plans.care : (type === "systems" ? plans.systems : plans.addons));
         return currentPlans.map((plan, i) => (
-            <div
+            <motion.div
                 key={i}
-                className="p-8 md:p-14 rounded-[2.5rem] bg-secondary/20 border border-primary/10 hover:border-primary/40 hover:bg-secondary/30 transition-all duration-500 flex flex-col group relative overflow-hidden backdrop-blur-md"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                onMouseEnter={() => setHoveredPlanIndex(i)}
+                onMouseLeave={() => setHoveredPlanIndex(null)}
+                className={cn(
+                    "p-8 md:p-14 rounded-[2.5rem] bg-secondary/20 border border-primary/10 hover:border-primary/40 hover:bg-secondary/30 transition-all duration-500 flex flex-col group relative overflow-hidden backdrop-blur-md",
+                    hoveredPlanIndex !== null && hoveredPlanIndex !== i && "opacity-50 blur-sm"
+                )}
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
@@ -408,13 +422,18 @@ export default function InvestmentPage() {
                         {plan.cta}
                     </Link>
                 )}
-            </div>
+            </motion.div>
         ));
     };
 
     return (
         <PageLayout>
-            <div className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans overflow-hidden relative">
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: pageLoaded ? 1 : 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-transparent text-foreground min-h-screen px-4 md:px-24 py-32 font-sans overflow-hidden relative"
+            >
 
 
                 {/* Header Area */}
@@ -638,7 +657,7 @@ export default function InvestmentPage() {
                         tagline="Initiate Dialogue"
                     />
                 </div>
-            </div >
-        </PageLayout >
+            </motion.div>
+        </PageLayout>
     )
 };
