@@ -135,6 +135,17 @@ export default function HomeContent() {
             <ScrollReveal variant="slideUpFade" delay={0.5} className="mt-12 md:mt-24 mb-12">
                 <FlashText />
             </ScrollReveal>
+
+            {/* 6. STORY SECTION */}
+            <div className="w-full">
+                <ScrollReveal variant="slideUpFade">
+                    <NextPageButton
+                        label="STORY"
+                        href="/about"
+                        tagline="WANNA KNOW MORE?"
+                    />
+                </ScrollReveal>
+            </div>
         </motion.div>
     );
 }
