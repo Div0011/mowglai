@@ -40,8 +40,8 @@ const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
             {/* Button + Marquee Container - Linked together for alignment */}
             <div className="relative w-full flex items-center justify-center">
 
-                {/* Marquee Trail - HIDDEN (only enabled in Services section) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0 hidden">
+                {/* Marquee Trail - Word trail behind button */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0">
                     <div className="relative flex whitespace-nowrap overflow-hidden py-12">
                         <div className="flex animate-marquee-slow items-center flex-shrink-0">
                             {[...Array(8)].map((_, i) => (
