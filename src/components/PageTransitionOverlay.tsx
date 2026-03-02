@@ -45,7 +45,6 @@ const pageContents: TransitionPageContent = {
     'about': {
         title: 'OUR STORY',
         href: '/about',
-        description: 'Learn more about Mowglai',
     },
 };
 
