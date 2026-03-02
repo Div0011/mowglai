@@ -15,20 +15,32 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ScrollReveal, CascadeContainer, CascadeItem, ParallaxScroll } from "@/components/ScrollRevealComponents";
 import { useDeviceOptimization } from "@/hooks/useDeviceOptimization";
+import { useEffect } from "react";
 
 export default function HomeContent() {
     const { t } = useLanguage();
     const router = useRouter();
     const deviceInfo = useDeviceOptimization();
     const [isDnaClicked, setIsDnaClicked] = useState(false);
+    const [pageLoaded, setPageLoaded] = useState(false);
     const consultX = useMotionValue(0);
     const consultY = useMotionValue(0);
     const consultSmoothX = useSpring(consultX, { stiffness: 50, damping: 20 });
     const consultSmoothY = useSpring(consultY, { stiffness: 50, damping: 20 });
 
+    // Trigger page opening animation on mount
+    useEffect(() => {
+        setPageLoaded(true);
+    }, []);
+
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: pageLoaded ? 1 : 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+        >
             <section className="relative py-16 md:py-24 overflow-hidden">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-24 items-start">
@@ -123,47 +135,6 @@ export default function HomeContent() {
             <ScrollReveal variant="slideUpFade" delay={0.5} className="mt-12 md:mt-24 mb-12">
                 <FlashText />
             </ScrollReveal>
-
-            {/* 6. CONSULT / STORY */}
-            {/* Consult for Free Button */}
-            <ScrollReveal variant="slideUpFade" className="w-full flex flex-col items-center justify-center pb-12 pt-12 relative z-20">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <p className="text-xs sm:text-sm md:text-base font-display tracking-widest uppercase mb-8 text-muted-foreground/60 text-center max-w-2xl px-4 flex flex-col gap-2" data-aos="fade-up">
-                        <span className="text-primary font-bold text-base sm:text-lg md:text-xl">READY TO BUILD?</span>
-                        <span>Turn your vision into reality with our expert team</span>
-                    </p>
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <Magnetic>
-                        <Link
-                            href="/custom-request"
-                            className="inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-primary text-primary-foreground text-xs sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
-                        >
-                            CONSULT FOR FREE
-                        </Link>
-                    </Magnetic>
-                </motion.div>
-            </ScrollReveal>
-
-            <div className="w-full">
-                <ScrollReveal variant="slideUpFade">
-                    <NextPageButton
-                        label="STORY"
-                        href="/about"
-                        tagline={t.Home.knowMore}
-                    />
-                </ScrollReveal>
-            </div>
-        </>
+        </motion.div>
     );
 }
