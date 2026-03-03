@@ -9,7 +9,6 @@ import AuditCircularButton from "./AuditCircularButton";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { useDeviceOptimization, getAnimationOptimizations } from "@/hooks/useDeviceOptimization";
 
 const HeroSection = () => {
     const { t } = useLanguage();
@@ -104,10 +103,7 @@ const HeroSection = () => {
                     }}
                 >
                     <motion.h1
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        className="inline-block w-fit text-3xl sm:text-6xl md:text-7xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-widest transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default select-none transform-gpu hover:scale-105"
+                        className="inline-block w-fit text-4xl sm:text-7xl md:text-8xl lg:text-[13vw] font-display font-black text-foreground tracking-tighter hover:tracking-widest transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-default select-none transform-gpu hover:scale-105"
                         data-aos-duration="1000"
                         onHoverStart={() => setIsTitleHovered(true)}
                         onHoverEnd={() => setIsTitleHovered(false)}
@@ -119,7 +115,7 @@ const HeroSection = () => {
                                 <motion.span
                                     key={i}
                                     className="inline-block transform-gpu"
-                                    animate={{ x: isTitleHovered && deviceInfo.hasHover ? `${offset * 0.12}em` : "0em" }}
+                                    animate={{ x: isTitleHovered ? `${offset * 0.12}em` : "0em" }}
                                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                                 >
                                     {letter}
@@ -144,11 +140,8 @@ const HeroSection = () => {
                 </motion.div>
 
                 {/* CTA Buttons */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8 sm:mt-6 flex flex-col items-center gap-6 px-4 w-full"
+                <div
+                    className="mt-2 flex flex-col items-center gap-4 px-4"
                     data-aos="fade-up"
                     data-aos-delay="500"
                 >
@@ -159,7 +152,7 @@ const HeroSection = () => {
                                 setIsStartClicked(true);
                                 setTimeout(() => router.push('/investment'), 800);
                             }}
-                            onHoverStart={() => deviceInfo.hasHover && setIsShakeHovered(true)}
+                            onHoverStart={() => setIsShakeHovered(true)}
                             onHoverEnd={() => setIsShakeHovered(false)}
                             animate={isShakeHovered ? {
                                 x: [0, -2, 2, -4, 4, -6, 6],
@@ -169,7 +162,7 @@ const HeroSection = () => {
                                 transition: { type: "spring", stiffness: 400, damping: 10 }
                             }}
                             className={cn(
-                                "group relative z-10 inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-primary text-primary-foreground text-xs sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center border border-transparent",
+                                "group relative z-10 inline-block w-full sm:w-auto px-8 sm:px-10 py-4 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center border border-transparent",
                                 isStartClicked ? "transition-none" : "overflow-hidden"
                             )}
                         >
@@ -180,7 +173,7 @@ const HeroSection = () => {
                                     isStartClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
                                 )}
                             />
-                            <span className="relative z-10 transition-colors duration-300 group-hover:text-primary whitespace-nowrap">START PROJECT</span>
+                            <span className="relative z-10 transition-colors duration-300 group-hover:text-primary">START THE PROJECT</span>
                         </motion.button>
                     </Magnetic>
 

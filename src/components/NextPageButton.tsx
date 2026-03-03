@@ -23,7 +23,7 @@ const NextPageButton = ({ label, href, tagline }: NextPageButtonProps) => {
         setIsClicked(true);
         setTimeout(() => {
             router.push(href);
-        }, 600);
+        }, 800);
     };
 
     return (

@@ -137,8 +137,7 @@ export default function AuditPage() {
             initial={{ clipPath: "circle(150vw at 50% 50%)" }}
             animate={{ clipPath: isClosing ? "circle(0vw at 50% 50%)" : "circle(150vw at 50% 50%)" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 w-screen h-screen text-foreground font-body cursor-none bg-gradient-to-b dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37] overflow-hidden"
-            style={{ willChange: 'clip-path' }}
+            className="relative w-full text-foreground font-body pt-20 pb-20 min-h-screen cursor-none bg-background"
         >
             <CustomCursor />
             <SmoothScroll />

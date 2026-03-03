@@ -107,9 +107,8 @@ const AuditCircularButton: React.FC<AuditCircularButtonProps> = ({
                 {/* EXPLOSION ELEMENT - Screen Takeover on click */}
                 <div
                     className={cn(
-                        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-[999] pointer-events-none transition-all duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                        "absolute top-1/2 left-1/2 w-[300vw] h-[300vw] md:w-[200vw] md:h-[200vw] -translate-x-1/2 -translate-y-1/2 rounded-full z-[999] pointer-events-none transition-all duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
                         "bg-gradient-to-br from-[#c5a059] via-[#0d1a12] to-black",
-                        "w-[400px] h-[400px] sm:w-[500px] sm:h-[500px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px]",
                         isClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
                     )}
                 />
