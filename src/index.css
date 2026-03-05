@@ -219,6 +219,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -299,6 +300,30 @@
   100% {
     transform: translateX(0);
   }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-2px, 2px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate(2px, -2px) rotate(1deg);
+  }
+
+  75% {
+    transform: translate(-2px, -2px) rotate(-1deg);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.2s cubic-bezier(.36, .07, .19, .97) both infinite;
 }
 
 .animate-marquee {

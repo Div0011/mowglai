@@ -82,12 +82,12 @@ const CustomCursor = () => {
 
     const handleMouseMove = (e: MouseEvent) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
-      
+
       // Throttle state updates to ~30fps (33ms)
       const now = performance.now();
       if (now - lastUpdateRef.current < 33) return;
       lastUpdateRef.current = now;
-      
+
       if (!isVisible) setIsVisible(true);
 
       const target = e.target as HTMLElement;

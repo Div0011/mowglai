@@ -12,7 +12,7 @@ interface AuditReportProps {
     result: AuditResult;
 }
 
-const CategoryCard = ({ category, delay, icon: Icon }: { category: AuditCategory, delay: number, icon: any }) => {
+const CategoryCard = ({ category, delay, icon: Icon }: { category: AuditCategory, delay: number, icon: React.ElementType }) => {
     let colorHex = "#ef4444"; // Red
     let gradientFrom = "from-red-500/20";
     let gradientTo = "to-red-500/5";

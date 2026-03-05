@@ -132,7 +132,7 @@ export default function DigitalDust() {
             window.removeEventListener("mousemove", handleMouseMove);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [smoothScroll]);
 
     // Set z-index to 2 to place it between the deep JungleBackground and the Main Content
     return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[2] opacity-80 mix-blend-screen" />;
