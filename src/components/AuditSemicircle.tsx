@@ -109,9 +109,15 @@ const AuditButton = () => {
                             />
 
                             {/* Rotating SVG text ring */}
-                            <svg
+                            <motion.svg
+                                animate={{
+                                    opacity: isHovered ? 1 : 0.6,
+                                    scale: isHovered ? 0.75 : 1.1,
+                                    color: isHovered ? "#000000" : "#c5a059"
+                                }}
+                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                                 viewBox="0 0 100 100"
-                                className="absolute inset-0 w-full h-full pointer-events-none"
+                                className="absolute inset-0 w-full h-full pointer-events-none z-30"
                                 aria-hidden
                             >
                                 <g>
@@ -120,18 +126,19 @@ const AuditButton = () => {
                                         <textPath
                                             ref={svgRef}
                                             href="#btnCircle"
-                                            fill="#c5a059"
+                                            fill="currentColor"
                                             style={{ fontFamily: 'var(--font-display, sans-serif)', fontWeight: 700 }}
                                         >
                                             FREE AUDIT • FREE AUDIT • FREE AUDIT •
                                         </textPath>
                                     </text>
                                 </g>
-                            </svg>
+                            </motion.svg>
 
                             {/* Inner disc */}
                             <motion.div
                                 animate={{
+                                    scale: isHovered ? 2 : 1,
                                     backgroundColor: isHovered
                                         ? 'rgba(197,160,89,1)'
                                         : 'rgba(197,160,89,0.12)',
@@ -139,8 +146,8 @@ const AuditButton = () => {
                                         ? '0 0 40px rgba(197,160,89,0.5), 0 0 80px rgba(197,160,89,0.2)'
                                         : '0 0 0px rgba(197,160,89,0)',
                                 }}
-                                transition={{ duration: 0.35 }}
-                                className="relative w-12 h-12 rounded-full border border-[#c5a059]/40 backdrop-blur-xl flex items-center justify-center"
+                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                className="relative w-12 h-12 rounded-full border border-[#c5a059]/40 backdrop-blur-xl flex items-center justify-center z-20"
                             >
                                 <motion.div
                                     animate={{ rotate: isHovered ? 45 : 0 }}
@@ -178,7 +185,7 @@ const AuditButton = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.45, duration: 0.4 }}
-                            className="shrink-0 w-full flex items-center justify-between px-6 md:px-10 py-5 border-b border-white/5 bg-background/60 backdrop-blur-2xl z-10"
+                            className="shrink-0 w-full flex items-center justify-between px-6 md:px-10 py-5 bg-background/60 backdrop-blur-2xl z-10"
                         >
                             {/* Brand */}
                             <div className="flex items-center gap-3">

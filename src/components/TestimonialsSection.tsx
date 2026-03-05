@@ -223,7 +223,7 @@ const TestimonialsSection = ({ isDark: isDarkProp }: TestimonialsSectionProps) =
                                         "{t.text}"
                                     </p>
 
-                                    <div className="mt-auto border-t border-primary/10 pt-6 w-full">
+                                    <div className="mt-auto pt-6 w-full">
                                         <h4 className="font-display font-bold text-foreground text-lg uppercase tracking-wide">{t.name}</h4>
                                         <p className={cn(
                                             "text-xs font-medium tracking-widest uppercase mt-1",

@@ -33,13 +33,16 @@ const Footer = () => {
   ];
 
   return (
-    <footer id="footer" className="w-full bg-background border-t border-primary/10 relative z-10 overflow-hidden">
+    <footer id="footer" className="w-full relative z-10 overflow-hidden bg-transparent">
+      {/* Dense fog building up from bottom right */}
+      <div className="absolute bottom-0 right-0 w-full h-[150%] pointer-events-none z-[-1] bg-[radial-gradient(ellipse_at_bottom_right,rgba(253,243,231,1)_0%,rgba(212,175,55,0.6)_40%,transparent_70%)] dark:bg-[radial-gradient(ellipse_at_bottom_right,rgba(55,68,38,1)_0%,rgba(71,98,42,0.6)_40%,transparent_70%)] blur-[40px] opacity-90" />
+
       <div className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
 
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-8">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="inline-block relative z-10">
               <div className="flex items-center gap-3">
                 <MowglaiLogo size="sm" />
                 <span className="font-display font-black text-2xl tracking-tight text-foreground">MOWGLAI</span>
@@ -106,7 +109,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-20 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
             <div className="text-sm text-muted-foreground/40 font-display tracking-widest uppercase">
               © {currentYear} Mowglai Galaxy. All rights reserved.

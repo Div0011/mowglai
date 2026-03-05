@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const JungleBackground = () => {
     const maskRef = useRef<HTMLDivElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const [revealPhase, setRevealPhase] = useState<"entering" | "visible" | "exiting">("entering");
 
     useEffect(() => {
         let mouseTicking = false;
-        let scrollTicking = false;
         let animationFrameId: number;
         let handleMouseMove: ((e: MouseEvent) => void) | undefined;
         let handleMouseLeave: (() => void) | undefined;
@@ -20,22 +21,17 @@ const JungleBackground = () => {
             // --- MOBILE AUTO "WIND" EFFECT ---
             let t = 0;
             const animateWind = () => {
-                t += 0.003; // Wind speed
-                // Complex Lissajous curve for organic, random-feeling wind sweeps
+                t += 0.003;
                 const vw = window.innerWidth;
                 const vh = window.innerHeight;
-
-                // Moves in a sweeping pattern
                 const x = (vw / 2) + Math.sin(t) * (vw * 0.6) * Math.cos(t * 0.7);
                 const y = (vh / 2) + Math.cos(t * 1.1) * (vh * 0.5) * Math.sin(t * 0.4);
 
                 if (maskRef.current) {
-                    // Soft, elongated ellipse for wind
-                    const maskStr = `radial-gradient(ellipse 400px 300px at ${x}px ${y}px, transparent 0%, black 70%)`;
+                    const maskStr = `radial-gradient(ellipse 400px 300px at ${x}px ${y}px, rgba(0,0,0,0.85) 0%, black 70%)`;
                     maskRef.current.style.webkitMaskImage = maskStr;
                     maskRef.current.style.maskImage = maskStr;
                 }
-
                 animationFrameId = requestAnimationFrame(animateWind);
             };
             animationFrameId = requestAnimationFrame(animateWind);
@@ -46,7 +42,7 @@ const JungleBackground = () => {
                 if (!mouseTicking) {
                     requestAnimationFrame(() => {
                         if (maskRef.current) {
-                            const maskStr = `radial-gradient(circle 250px at ${e.clientX}px ${e.clientY}px, transparent 0%, black 60%)`;
+                            const maskStr = `radial-gradient(circle 250px at ${e.clientX}px ${e.clientY}px, rgba(0,0,0,0.85) 0%, black 60%)`;
                             maskRef.current.style.webkitMaskImage = maskStr;
                             maskRef.current.style.maskImage = maskStr;
                         }
@@ -59,7 +55,7 @@ const JungleBackground = () => {
             handleMouseLeave = () => {
                 requestAnimationFrame(() => {
                     if (maskRef.current) {
-                        const maskStr = `radial-gradient(circle 250px at -1000px -1000px, transparent 0%, black 60%)`;
+                        const maskStr = `radial-gradient(circle 250px at -1000px -1000px, rgba(0,0,0,0.85) 0%, black 60%)`;
                         maskRef.current.style.webkitMaskImage = maskStr;
                         maskRef.current.style.maskImage = maskStr;
                     }
@@ -68,20 +64,46 @@ const JungleBackground = () => {
 
             window.addEventListener("mousemove", handleMouseMove, { passive: true });
             document.documentElement.addEventListener("mouseleave", handleMouseLeave, { passive: true });
-            handleMouseLeave(); // Hide initially until mouse enters
+            handleMouseLeave();
         }
 
-        // --- GLOBAL SCROLL PARALLAX ---
+        // --- SCROLL PARALLAX + FOG REVEAL ---
         const handleScroll = () => {
-            if (!scrollTicking) {
-                requestAnimationFrame(() => {
-                    if (bgRef.current) {
-                        bgRef.current.style.backgroundPosition = `center ${-window.scrollY * 0.4}px`;
+            requestAnimationFrame(() => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight;
+                const viewHeight = window.innerHeight;
+
+                // Parallax scroll
+                if (bgRef.current) {
+                    bgRef.current.style.backgroundPosition = `center ${-scrollTop * 0.4}px`;
+                }
+
+                // 1. Clear fog coming from Top-Right (as user scrolls down)
+                // 2. Swallow fog back from Bottom-Left (as user reaches the footer)
+                if (overlayRef.current) {
+                    const scrollPercent = Math.max(0, Math.min(1, scrollTop / Math.max(1, (docHeight - viewHeight))));
+
+                    let maskOffset: number;
+                    if (scrollPercent < 0.05) {
+                        maskOffset = 0; // Solid fog 
+                    } else if (scrollPercent < 0.3) {
+                        // 0.05 to 0.3 -> fog mostly clears from top right, but remains dense
+                        maskOffset = ((scrollPercent - 0.05) / 0.25) * 150;
+                    } else if (scrollPercent < 0.7) {
+                        // mostly clear but dense
+                        maskOffset = 150;
+                    } else {
+                        // 0.7 to 1.0 -> fog returns from bottom left
+                        maskOffset = Math.max(0, 150 - ((scrollPercent - 0.7) / 0.3) * 150);
                     }
-                    scrollTicking = false;
-                });
-                scrollTicking = true;
-            }
+
+                    // Use rgba(0,0,0,0.85) instead of transparent to make the fog dense and only hard texture visible
+                    const gradientStr = `linear-gradient(to bottom left, rgba(0,0,0,0.85) ${maskOffset - 50}%, black ${maskOffset}%)`;
+                    overlayRef.current.style.maskImage = gradientStr;
+                    overlayRef.current.style.webkitMaskImage = gradientStr;
+                }
+            });
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
@@ -98,17 +120,16 @@ const JungleBackground = () => {
     }, []);
 
     return (
-        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none bg-background">
-            {/* 0. Hidden 3D Floral Texture (Bottom-most Layer) - Infinite Parallax Wall */}
+        <div className="fixed inset-0 w-full h-full -z-[100] overflow-hidden pointer-events-none bg-black">
+            {/* Texture Layer: Always visible at the bottom */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
-                {/* Single Continuous Texture Wall */}
                 <div
                     ref={bgRef}
                     className="absolute inset-0 w-full h-full pointer-events-none"
                     style={{
-                        backgroundImage: 'url(/floral_texture_custom.jpg)',
-                        backgroundSize: '400px',
-                        backgroundRepeat: 'repeat',
+                        backgroundImage: "url(/floral_texture_custom.jpg)",
+                        backgroundSize: "400px",
+                        backgroundRepeat: "repeat",
                         filter: "brightness(0.9) contrast(1.1)",
                         opacity: 1,
                         willChange: "background-position",
@@ -116,37 +137,43 @@ const JungleBackground = () => {
                 />
             </div>
 
-            {/* Fog Cover: Contains the Gradient and Atmosphere layers */}
+            {/* Fog Overlay: Scroll Mask (clears Fog to reveal Texture) */}
             <div
-                ref={maskRef}
-                className="absolute inset-0 pointer-events-none w-full h-full transition-opacity duration-300"
+                ref={overlayRef}
+                className="absolute inset-0 w-full h-full pointer-events-none transition-opacity"
                 style={{
                     willChange: "mask-image, -webkit-mask-image",
+                    maskImage: "linear-gradient(to bottom left, rgba(0,0,0,0.85) -50%, black 0%)",
+                    WebkitMaskImage: "linear-gradient(to bottom left, rgba(0,0,0,0.85) -50%, black 0%)",
                 }}
             >
-                {/* 1. Base Gradient Layer - Spans entire page height */}
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-b transition-colors duration-1000 
-                    /* Dark Mode: Palm Leaf -> Dark Green -> Deep Green */
-                    dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] 
-                    /* Light Mode: Off-white/Peach (#FDF3E7) -> Golden (#D4AF37) */
-                    from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37]"
-                />
+                {/* Mouse Follow Mask (clears a hole in the Fog for the mouse) */}
+                <div
+                    ref={maskRef}
+                    className="absolute inset-0 pointer-events-none w-full h-full"
+                    style={{
+                        willChange: "mask-image, -webkit-mask-image",
+                    }}
+                >
+                    {/* Fog Content */}
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-b transition-colors duration-1000 
+                        dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] 
+                        from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37]"
+                    />
 
-                {/* 2. Fixed Atmosphere Layer - Overlays that stay with the viewport */}
-                <div className="absolute inset-0 w-full h-full pointer-events-none">
-                    {/* Dappled light effects - Subtle pulses */}
-                    <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/10 dark:bg-green-900/10 rounded-full blur-[120px] animate-pulse will-change-[opacity]" />
-                    <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#D4AF37]/5 dark:bg-emerald-900/10 rounded-full blur-[150px] animate-bounce-slow will-change-transform" />
-
-                    {/* Subtle leaf/texture overlay */}
-                    <div className="absolute inset-0 w-full h-full opacity-[0.06] dark:opacity-[0.04] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/leaf.png')]" />
-
-                    {/* Vignette for depth - Stronger in dark mode */}
-                    <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.1)_100%)] dark:bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
+                    {/* Fixed Atmosphere Layer */}
+                    <div className="absolute inset-0 w-full h-full pointer-events-none">
+                        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/10 dark:bg-green-900/10 rounded-full blur-[120px] animate-pulse will-change-[opacity]" />
+                        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#D4AF37]/5 dark:bg-emerald-900/10 rounded-full blur-[150px] animate-bounce-slow will-change-transform" />
+                        <div className="absolute inset-0 w-full h-full opacity-[0.06] dark:opacity-[0.04] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/leaf.png')]" />
+                        <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.1)_100%)] dark:bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
+                    </div>
                 </div>
             </div>
 
-            {/* 3. Floating Yellow Fireflies (Independent of mask, floats in front) */}
+
+
+            {/* Floating Yellow Fireflies */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
                 <div className="absolute w-2 h-2 rounded-full bg-[#E6B93D] blur-[1px] animate-firefly-1" />
                 <div className="absolute w-3 h-3 rounded-full bg-[#F5D061] blur-[2px] animate-firefly-2" />

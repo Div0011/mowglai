@@ -140,7 +140,7 @@ export default function TemplatesShowcase() {
                                     </span>
 
                                     {/* Mobile Only: Name Left, Category Right Row */}
-                                    <div className="flex md:hidden items-end justify-between w-full mb-6 px-1 border-b border-primary/10 pb-4">
+                                    <div className="flex md:hidden items-end justify-between w-full mb-6 px-1 pb-4">
                                         <h3 className="text-2xl font-display font-black uppercase tracking-tighter text-foreground">
                                             {activeItem.template.title}
                                         </h3>
