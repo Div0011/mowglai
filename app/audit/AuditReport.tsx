@@ -184,6 +184,7 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
             {/* Printable Area */}
             <div ref={reportRef} className="bg-gradient-to-b from-[#0a120c] to-[#050806] text-white p-8 md:p-14 rounded-[2.5rem] shadow-2xl border border-white/5 relative overflow-hidden">
 
+            <div className="bg-[#0d1a12] text-white p-8 md:p-12 rounded-3xl shadow-2xl border border-[#c5a059]/20 relative overflow-hidden">
                 {/* Tech Grids */}
                 <div className="absolute inset-0 w-full h-full opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
