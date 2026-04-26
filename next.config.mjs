@@ -4,10 +4,13 @@ const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
 
+const basePath = process.env.GITHUB_PAGES_BASE_PATH || '';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
     trailingSlash: true,
+    ...(basePath ? { basePath } : {}),
     images: {
         unoptimized: true,
         formats: ['image/avif', 'image/webp'],

@@ -12,11 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    concurrency:
+      group: github-pages
+      cancel-in-progress: true
 
     steps:
-      # ==========================================
-      # CI (Continuous Integration) Pipeline
-      # ==========================================
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -35,30 +42,32 @@ jobs:
         run: bun run build
         env:
           NEXT_PUBLIC_RAZORPAY_KEY_ID: ${{ secrets.NEXT_PUBLIC_RAZORPAY_KEY_ID }}
+          GITHUB_PAGES_BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '' || format('/{0}', github.event.repository.name) }}
 
-      - name: Inject Secrets into .htaccess
-        env:
-          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
-          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
-        run: |
-          echo "" >> ./out/.htaccess
-          echo "# Injected by CI/CD" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET" >> ./out/.htaccess
-        shell: bash
-
-      # ==========================================
-      # CD (Continuous Deployment) Pipeline
-      # ==========================================
-      - name: Sync files to Hostinger via SSH
-        # Only deploy on push to main
+      - name: Configure Pages
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        uses: burnett01/rsync-deployments@8.0.4
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v3
         with:
-          switches: "-avzr --exclude '.next' --exclude 'node_modules' --exclude '.git'"
-          path: ./out/
-          remote_path: ${{ secrets.REMOTE_PATH }}
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USERNAME }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # Hostinger deployment kept for reference only.
+      # - name: Sync files to Hostinger via SSH
+      #   if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+      #   uses: burnett01/rsync-deployments@8.0.4
+      #   with:
+      #     switches: "-avzr --exclude '.next' --exclude 'node_modules' --exclude '.git'"
+      #     path: ./out/
+      #     remote_path: ${{ secrets.REMOTE_PATH }}
+      #     remote_host: ${{ secrets.SSH_HOST }}
+      #     remote_user: ${{ secrets.SSH_USERNAME }}
+      #     remote_port: ${{ secrets.SSH_PORT }}
+      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
