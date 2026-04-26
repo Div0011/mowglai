@@ -182,7 +182,7 @@ function InteractiveButton({
   href: string;
   children: React.ReactNode;
   variant?: "primary" | "secondary";
-  icon?: React.ElementType;
+  icon?: any;
 }) {
   const isPrimary = variant === "primary";
 

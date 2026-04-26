@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
+const MagicalForestBackground = dynamic(() => import("@/components/MagicalForestBackground"), { ssr: false });
 const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
 
 interface PageLayoutProps {
@@ -47,6 +48,13 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             {/* Background - Spans entire page height */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <JungleBackground />
+            </div>
+
+            {/* Magical Forest Effects - Plant Veins & Atokirina Creatures */}
+            <div className="fixed inset-0 z-[1] pointer-events-none">
+                <Suspense fallback={null}>
+                    <MagicalForestBackground />
+                </Suspense>
             </div>
 
             <FullScreenNav onOpenChat={() => {}} />
