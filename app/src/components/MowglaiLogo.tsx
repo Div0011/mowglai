@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import Image from "next/image";
 
 import { useTheme } from "next-themes";

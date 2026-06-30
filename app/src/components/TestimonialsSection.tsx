@@ -2,9 +2,9 @@
 
 import { useRef, useState, useEffect } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/src/components/ui/avatar";
 import { Star, Quote, MoveRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import { useTheme } from "next-themes";
 
 interface Testimonial {

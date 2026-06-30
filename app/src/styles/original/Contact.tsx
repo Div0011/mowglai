@@ -1,14 +1,14 @@
 "use client";
 
-import PageLayout from "@/components/PageLayout";
-import ContactSection from "@/components/ContactSection";
-import NextPageButton from "@/components/NextPageButton";
-import { Button } from "@/components/ui/button";
+import PageLayout from "@/app/src/components/PageLayout";
+import ContactSection from "@/app/src/components/ContactSection";
+import NextPageButton from "@/app/src/components/NextPageButton";
+import { Button } from "@/app/src/components/ui/button";
 import { Quote } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
-import { useLanguage } from "@/context/LanguageContext";
+import { cn } from "@/app/src/lib/utils";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 export default function OriginalContact() {
     const { resolvedTheme } = useTheme();

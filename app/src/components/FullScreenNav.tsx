@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Home, Users, Mail, DollarSign, Menu, X, Instagram, Linkedin, Layers, Bot, LayoutTemplate } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
-import Magnetic from "@/components/Magnetic";
-import MowglaiLogo from "@/components/MowglaiLogo";
+import Magnetic from "@/app/src/components/Magnetic";
+import MowglaiLogo from "@/app/src/components/MowglaiLogo";
 import { useTheme } from "next-themes";
-import XLogo from "@/components/icons/XLogo";
+import XLogo from "@/app/src/components/icons/XLogo";
 
 interface NavItem {
     icon: React.ComponentType<{ className?: string }>;

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Sparkles, Globe, Zap, Layers, Smartphone, Shield, RefreshCw } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 export function AestheticShowcase() {
     const { t } = useLanguage();

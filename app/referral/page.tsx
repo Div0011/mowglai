@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 
 export default function ReferralPage() {
     const router = useRouter();

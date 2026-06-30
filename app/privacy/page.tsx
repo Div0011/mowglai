@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 
 export const metadata = {
     title: "Privacy Policy | Mowglai",

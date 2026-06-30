@@ -1,6 +1,6 @@
 "use client";
 
-import ServiceRequestForm, { FormField } from "@/components/ServiceRequestForm";
+import ServiceRequestForm, { FormField } from "@/app/src/components/ServiceRequestForm";
 import { MessageSquare } from "lucide-react";
 
 export default function ConsultationPage() {

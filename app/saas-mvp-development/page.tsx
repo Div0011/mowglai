@@ -4,9 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Rocket, Code2, Layout, Database, Shield, Zap, TrendingUp, Users } from "lucide-react";
-import PageLayout from "@/components/PageLayout";
-import NextPageButton from "@/components/NextPageButton";
-import Magnetic from "@/components/Magnetic";
+import PageLayout from "@/app/src/components/PageLayout";
+import NextPageButton from "@/app/src/components/NextPageButton";
+import Magnetic from "@/app/src/components/Magnetic";
 
 export default function SaasMvpDevelopmentPage() {
     return (

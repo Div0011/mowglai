@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import OriginalAbout from "@/styles/original/About";
+import OriginalAbout from "@/app/src/styles/original/About";
 
 export const metadata: Metadata = {
     title: "About Mowglai | Leading Web Development Company in India",

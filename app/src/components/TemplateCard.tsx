@@ -5,8 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ShoppingCart } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { Template } from '@/data/templates'
+import { cn } from '@/app/src/lib/utils'
+import { Template } from '@/app/src/data/templates'
 
 export default function TemplateCard({ template }: { template: Template }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)

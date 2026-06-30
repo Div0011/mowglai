@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "../src/index.css";
-import { Providers } from "@/components/Providers";
-import { AOSInit } from "@/components/AOSInit";
-import { LanguageProvider } from "@/context/LanguageContext";
-import SplashScreen from "@/components/SplashScreen";
-import ClientCompanion from "@/components/guardian/ClientCompanion";
+import { Providers } from "@/app/src/components/Providers";
+import { AOSInit } from "@/app/src/components/AOSInit";
+import { LanguageProvider } from "@/app/src/context/LanguageContext";
+import SplashScreen from "@/app/src/components/SplashScreen";
+import ClientCompanion from "@/app/src/components/guardian/ClientCompanion";
 
 // Preload critical fonts for better performance
 const boldonse = localFont({

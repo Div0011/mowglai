@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import { motion } from "framer-motion";
 
 const WhatsAppButton = () => {

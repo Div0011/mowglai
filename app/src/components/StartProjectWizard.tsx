@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { ArrowLeft, ArrowRight, Check, Send, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 
 const StartProjectWizard = () => {
     const [step, setStep] = useState(1);

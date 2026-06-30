@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { RefreshCw, Clock, CheckCircle, AlertCircle, ShoppingBag, CreditCard, Search, Loader2, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
+import { cn } from "@/app/src/lib/utils";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogDescription,
-} from "@/components/ui/dialog";
+} from "@/app/src/components/ui/dialog";
 
 interface Purchase {
     id: string;

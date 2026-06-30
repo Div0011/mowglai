@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import PageLayout from "@/components/PageLayout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import PageLayout from "@/app/src/components/PageLayout";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
+import { Textarea } from "@/app/src/components/ui/textarea";
+import { Label } from "@/app/src/components/ui/label";
 import { Send, ArrowLeft, ArrowRight, Loader2, Quote } from "lucide-react";
-import { sendEmail } from "@/utils/emailSender";
-import { useToast } from "@/hooks/use-toast";
+import { sendEmail } from "@/app/src/utils/emailSender";
+import { useToast } from "@/app/src/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function CustomQuotePage() {

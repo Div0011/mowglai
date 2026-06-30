@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Magnetic from "../Magnetic";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import TextReveal from "@/components/TextReveal";
+import TextReveal from "@/app/src/components/TextReveal";
 
 const currentServices = [
   {
@@ -37,18 +37,18 @@ export default function ServicesSection() {
     <section className="relative py-32 z-10 bg-transparent">
       {/* Smart Companion Waypoint (Empty space for the 3D animal) */}
       <div className="absolute right-10 top-32 w-[300px] h-[400px] companion-waypoint pointer-events-none" />
-      
+
       <div className="container mx-auto px-6">
-        
+
 
 
         {/* Services Grid */}
         <div className="mb-20">
-          <TextReveal 
+          <TextReveal
             text="Services"
             className="text-4xl md:text-5xl font-display font-bold text-foreground mb-12"
           />
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             {currentServices.map((service, idx) => (
               <motion.div
@@ -68,7 +68,7 @@ export default function ServicesSection() {
 
         {/* Future Services */}
         <div>
-          <motion.h3 
+          <motion.h3
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}

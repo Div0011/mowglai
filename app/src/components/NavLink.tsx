@@ -3,7 +3,7 @@
 import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 
 interface NavLinkCompatProps extends Omit<LinkProps, "className"> {
   className?: string;

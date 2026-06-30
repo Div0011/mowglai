@@ -2,10 +2,10 @@
 
 import { Check, Sparkles, ArrowRight, Download, Smartphone } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { downloadAsHtml } from "@/utils/pdfDownloader";
-import { useLanguage } from "@/context/LanguageContext";
+import { Button } from "@/app/src/components/ui/button";
+import { cn } from "@/app/src/lib/utils";
+import { downloadAsHtml } from "@/app/src/utils/pdfDownloader";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 import { useTheme } from "next-themes";
 
 const PricingSection = () => {

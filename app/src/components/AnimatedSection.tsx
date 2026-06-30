@@ -1,5 +1,5 @@
 import { motion, HTMLMotionProps } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 
 interface AnimatedSectionProps extends HTMLMotionProps<"div"> {
     children: React.ReactNode;

@@ -6,7 +6,7 @@ import { Construction, Clock, ArrowLeft, Sparkles, Mail, Phone, MessageCircle, I
 import Link from "next/link";
 import StarryBackground from "./StarryBackground";
 import CustomCursor from "./CustomCursor";
-import XLogo from "@/components/icons/XLogo";
+import XLogo from "@/app/src/components/icons/XLogo";
 
 const CONTACT_EMAIL = "info@mowglai.com";
 const WHATSAPP_NUMBER = "919452476331";

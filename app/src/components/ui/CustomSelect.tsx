@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Check } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/app/src/lib/utils'
 
 export interface Option {
     label: string

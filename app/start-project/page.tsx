@@ -1,4 +1,4 @@
-import StartProjectWizard from "@/components/StartProjectWizard";
+import StartProjectWizard from "@/app/src/components/StartProjectWizard";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -5,8 +5,8 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Zap, Server, Shield, Globe, Cpu } from "lucide-react";
-import PageLayout from "@/components/PageLayout";
-import Magnetic from "@/components/Magnetic";
+import PageLayout from "@/app/src/components/PageLayout";
+import Magnetic from "@/app/src/components/Magnetic";
 
 export default function NextJsDevelopmentPage() {
     return (

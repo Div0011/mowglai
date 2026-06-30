@@ -1,11 +1,11 @@
 "use client";
 
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
-import NextPageButton from "@/components/NextPageButton";
+import { useLanguage } from "@/app/src/context/LanguageContext";
+import NextPageButton from "@/app/src/components/NextPageButton";
 
 const services = [
     {

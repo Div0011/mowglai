@@ -1,17 +1,17 @@
 "use client";
 
-import Magnetic from "@/components/Magnetic";
+import Magnetic from "@/app/src/components/Magnetic";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import FlashText from "@/components/FlashText";
-import SelectedWork from "@/components/SelectedWork";
-import NextPageButton from "@/components/NextPageButton";
-import TemplatesShowcase from "@/components/TemplatesShowcase";
-import { cn } from "@/lib/utils";
-import HowWeBuiltSection from "@/components/HowWeBuiltSection";
-import StartupGrowthSection from "@/components/StartupGrowthSection";
-import InteractiveAnimals from "@/components/InteractiveAnimals";
-import GiantJungleTree from "@/components/GiantJungleTree";
+import FlashText from "@/app/src/components/FlashText";
+import SelectedWork from "@/app/src/components/SelectedWork";
+import NextPageButton from "@/app/src/components/NextPageButton";
+import TemplatesShowcase from "@/app/src/components/TemplatesShowcase";
+import { cn } from "@/app/src/lib/utils";
+import HowWeBuiltSection from "@/app/src/components/HowWeBuiltSection";
+import StartupGrowthSection from "@/app/src/components/StartupGrowthSection";
+import InteractiveAnimals from "@/app/src/components/InteractiveAnimals";
+import GiantJungleTree from "@/app/src/components/GiantJungleTree";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
@@ -194,11 +194,10 @@ function InteractiveButton({
       >
         <Link
           href={href}
-          className={`group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 text-sm md:text-base font-bold uppercase tracking-[0.2em] rounded-full overflow-hidden transition-all duration-500 ${
-            isPrimary
+          className={`group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 text-sm md:text-base font-bold uppercase tracking-[0.2em] rounded-full overflow-hidden transition-all duration-500 ${isPrimary
               ? "bg-card/40 backdrop-blur-md border border-[#F5D061]/20 text-[#F5D061] hover:shadow-[0_0_40px_rgba(245,208,97,0.3)]"
               : "bg-background/10 backdrop-blur-xl border border-primary/10 text-primary hover:border-primary/50"
-          }`}
+            }`}
         >
           {/* Animated background */}
           <motion.span

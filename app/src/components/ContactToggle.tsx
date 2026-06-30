@@ -2,18 +2,18 @@
 
 import { MessageCircle, Bot, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/app/src/components/ui/popover";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 import dynamic from "next/dynamic";
 
-const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: false });
+const ChatbotModal = dynamic(() => import("@/app/src/components/ChatbotModal"), { ssr: false });
 
 const ContactToggle = () => {
     const { resolvedTheme } = useTheme();

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { DEFAULT_CURRENCY } from '@/utils/pricing';
+import { DEFAULT_CURRENCY } from '@/app/src/utils/pricing';
 
 interface UserCurrencyState {
     currency: string;

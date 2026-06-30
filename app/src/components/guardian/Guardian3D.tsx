@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import "../../types/global.d.ts";
+import "../../types/global.js";
 
 
 
@@ -29,7 +29,7 @@ export default function Guardian3D() {
   return (
     <>
       <div className="relative w-full h-full min-h-[400px] lg:min-h-[600px] flex items-center justify-center z-10">
-        
+
         {/* Glow effect behind the model */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
 

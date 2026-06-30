@@ -1,8 +1,8 @@
 "use client";
 
-import OriginalLayout from "@/styles/original/Layout";
-import HeroSection from "@/components/HeroSection";
-import HomeContent from "@/components/HomeContent";
+import OriginalLayout from "@/app/src/styles/original/Layout";
+import HeroSection from "@/app/src/components/HeroSection";
+import HomeContent from "@/app/src/components/HomeContent";
 
 export default function OriginalHome() {
     return (

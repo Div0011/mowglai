@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { sectors, allTemplates } from '@/data/templates';
+import { sectors, allTemplates } from '@/app/src/data/templates';
 
 // Get one representative template from each category
 const showcaseItems = sectors.map(sector => {
@@ -173,8 +173,8 @@ export default function TemplatesShowcase() {
                                     setCurrentIndex(idx);
                                 }}
                                 className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex
-                                        ? 'w-6 bg-primary'
-                                        : 'w-1.5 bg-foreground/20 hover:bg-foreground/40'
+                                    ? 'w-6 bg-primary'
+                                    : 'w-1.5 bg-foreground/20 hover:bg-foreground/40'
                                     }`}
                                 aria-label={`Go to blueprint ${idx + 1}`}
                             />

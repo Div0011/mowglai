@@ -79,17 +79,17 @@ const jsonLdWebPage = {
 };
 
 
-import LandingNavbar from "@/components/navigation/LandingNavbar";
-import Hero from "@/components/hero/Hero";
-import ServicesSection from "@/components/services/ServicesSection";
-import PortfolioSection from "@/components/portfolio/PortfolioSection";
-import TemplatesSection from "@/components/templates/TemplatesSection";
-import PricingSection from "@/components/pricing/PricingSection";
-import LeadFormSection from "@/components/forms/LeadFormSection";
-import NewFooter from "@/components/footer/NewFooter";
+import LandingNavbar from "@/app/src/components/navigation/LandingNavbar";
+import Hero from "@/app/src/components/hero/Hero";
+import ServicesSection from "@/app/src/components/services/ServicesSection";
+import PortfolioSection from "@/app/src/components/portfolio/PortfolioSection";
+import TemplatesSection from "@/app/src/components/templates/TemplatesSection";
+import PricingSection from "@/app/src/components/pricing/PricingSection";
+import LeadFormSection from "@/app/src/components/forms/LeadFormSection";
+import NewFooter from "@/app/src/components/footer/NewFooter";
 
-import PremiumLoader from "@/components/animations/PremiumLoader";
-import JungleBackground from "@/components/animations/JungleBackground";
+import PremiumLoader from "@/app/src/components/animations/PremiumLoader";
+import JungleBackground from "@/app/src/components/animations/JungleBackground";
 
 export default function Home() {
   return (
@@ -102,31 +102,31 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
       />
-      
+
       <PremiumLoader />
       <JungleBackground />
-      
+
       <LandingNavbar />
 
       <div className="relative z-10 flex flex-col">
         <Hero />
-        
+
         <div id="services">
           <ServicesSection />
         </div>
-        
+
         <div id="portfolio">
           <PortfolioSection />
         </div>
-        
+
         <div id="templates">
           <TemplatesSection />
         </div>
-        
+
         <div id="pricing">
           <PricingSection />
         </div>
-        
+
         <LeadFormSection />
         <NewFooter />
       </div>

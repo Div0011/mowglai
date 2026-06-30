@@ -5,10 +5,10 @@ import { Palette, Rocket, Shield, Globe, BarChart, Headphones } from "lucide-rea
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import MowglaiLogo from "@/components/MowglaiLogo";
+import { cn } from "@/app/src/lib/utils";
+import MowglaiLogo from "@/app/src/components/MowglaiLogo";
 
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 const featuresConfig = [
   { id: 1, icon: Palette },

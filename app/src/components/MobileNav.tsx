@@ -1,11 +1,11 @@
 import { Home, Users, Mail, Menu, X, Instagram, Linkedin, ShoppingCart, Layers, LayoutTemplate } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import Magnetic from "@/components/Magnetic";
-import XLogo from "@/components/icons/XLogo";
+import Magnetic from "@/app/src/components/Magnetic";
+import XLogo from "@/app/src/components/icons/XLogo";
 
 const navItems = [
     { icon: Home, label: "HOME", href: "/" },

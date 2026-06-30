@@ -2,11 +2,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Check, ArrowRight, ShoppingCart } from "lucide-react";
-import PageLayout from "@/components/PageLayout";
-import { getTemplateById, allTemplates, type Template } from "@/data/templates";
+import PageLayout from "@/app/src/components/PageLayout";
+import { getTemplateById, allTemplates, type Template } from "@/app/src/data/templates";
 import TemplateActions from "./TemplateActions";
 import TemplateGallery from "./TemplateGallery";
-import PremiumTemplateCard from "@/components/PremiumTemplateCard";
+import PremiumTemplateCard from "@/app/src/components/PremiumTemplateCard";
 
 // Required for static export
 export function generateStaticParams() {

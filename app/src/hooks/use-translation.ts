@@ -1,6 +1,6 @@
 "use client";
 
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/app/src/context/LanguageContext';
 
 export function useTranslation(namespace?: string) {
     const { t: resources } = useLanguage();

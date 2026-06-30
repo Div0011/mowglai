@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import OriginalServices from "@/styles/original/Services";
+import OriginalServices from "@/app/src/styles/original/Services";
 
 export const metadata: Metadata = {
     title: "Web Development Services | Mowglai Digital Agency",

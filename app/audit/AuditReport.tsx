@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/src/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import jsPDF from 'jspdf';
 import { AuditResult, AuditCategory } from './actions';

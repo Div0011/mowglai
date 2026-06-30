@@ -2,15 +2,15 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import PageLayout from "@/components/PageLayout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import PageLayout from "@/app/src/components/PageLayout";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
+import { Textarea } from "@/app/src/components/ui/textarea";
 import { Send, ArrowLeft, Download } from "lucide-react";
-import { downloadAsHtml } from "@/utils/pdfDownloader";
-import { sendEmail } from "@/utils/emailSender";
-import { useToast } from "@/hooks/use-toast";
-import { useLanguage } from "@/context/LanguageContext";
+import { downloadAsHtml } from "@/app/src/utils/pdfDownloader";
+import { sendEmail } from "@/app/src/utils/emailSender";
+import { useToast } from "@/app/src/hooks/use-toast";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 const plans = [
     {

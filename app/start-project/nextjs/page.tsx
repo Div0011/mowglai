@@ -1,6 +1,6 @@
 "use client";
 
-import ServiceRequestForm, { FormField } from "@/components/ServiceRequestForm";
+import ServiceRequestForm, { FormField } from "@/app/src/components/ServiceRequestForm";
 import { Code2 } from "lucide-react";
 
 export default function NextJsProjectPage() {

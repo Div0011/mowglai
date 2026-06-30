@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Globe } from "lucide-react";
 import Link from "next/link";
-import Magnetic from "@/components/Magnetic";
+import Magnetic from "@/app/src/components/Magnetic";
 
 export default function MistakeSection() {
   return (
@@ -17,7 +17,7 @@ export default function MistakeSection() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export default function MistakeSection() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-sans"
           >
-            In today's hyper-connected world, your website is your digital storefront. 
+            In today's hyper-connected world, your website is your digital storefront.
             We build immersive, high-performance web experiences that turn visitors into loyal customers.
           </motion.p>
 

@@ -8,12 +8,12 @@ import {
     ArrowRight, Filter, X, Check, Search, SlidersHorizontal, ArrowUpDown,
     DollarSign, Layers, Monitor, Zap, ShoppingCart
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import PageLayout from '@/components/PageLayout'
+import { cn } from '@/app/src/lib/utils'
+import PageLayout from '@/app/src/components/PageLayout'
 import Link from 'next/link'
-import { sectors, allTemplates, Template } from '@/data/templates'
-import { useLanguage } from "@/context/LanguageContext";
-import NextPageButton from "@/components/NextPageButton";
+import { sectors, allTemplates, Template } from '@/app/src/data/templates'
+import { useLanguage } from "@/app/src/context/LanguageContext";
+import NextPageButton from "@/app/src/components/NextPageButton";
 
 // --- Constants ---
 const pageRanges = [

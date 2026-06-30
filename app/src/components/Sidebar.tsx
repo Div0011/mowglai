@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Home, Users, Mail, DollarSign, ChevronRight, Sun, Moon, Palette, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 
 interface NavItem {
     icon: React.ComponentType<{ className?: string }>;

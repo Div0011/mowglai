@@ -1,17 +1,17 @@
 "use client";
 
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Download, FileText, Sparkles, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 import { useRouter } from "next/navigation";
-import { downloadAsHtml } from "@/utils/pdfDownloader";
-import NextPageButton from "@/components/NextPageButton";
-import UserPurchasesSection from "@/components/UserPurchasesSection";
-import { useUserCurrency } from "@/hooks/useUserCurrency";
-import { BASE_PRICES_USD, formatPrice, roundPrice } from "@/utils/pricing";
+import { downloadAsHtml } from "@/app/src/utils/pdfDownloader";
+import NextPageButton from "@/app/src/components/NextPageButton";
+import UserPurchasesSection from "@/app/src/components/UserPurchasesSection";
+import { useUserCurrency } from "@/app/src/hooks/useUserCurrency";
+import { BASE_PRICES_USD, formatPrice, roundPrice } from "@/app/src/utils/pricing";
 
 const plans = {
     standard: [

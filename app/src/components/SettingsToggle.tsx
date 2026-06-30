@@ -3,22 +3,22 @@
 import { Moon, Sun, Languages, Monitor, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+} from "@/app/src/components/ui/popover";
+import { Button } from "@/app/src/components/ui/button";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "@/app/src/components/ui/select";
 import { motion } from "framer-motion";
-import { useLanguage, Language } from "@/context/LanguageContext";
+import { useLanguage, Language } from "@/app/src/context/LanguageContext";
 
 
 const SettingsToggle = () => {

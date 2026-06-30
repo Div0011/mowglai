@@ -4,7 +4,7 @@ import { Github, Mail, Linkedin, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 // import { cn } from "@/lib/utils";
 import NextImage from "next/image";
-import XLogo from "@/components/icons/XLogo";
+import XLogo from "@/app/src/components/icons/XLogo";
 
 const teamMembers = [
     {

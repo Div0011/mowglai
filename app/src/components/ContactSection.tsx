@@ -3,20 +3,20 @@
 import { useState, useRef } from "react";
 import { Phone, MessageCircle } from "lucide-react";
 import TextReveal from "./TextReveal";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
+import { Textarea } from "@/app/src/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { sendEmail } from "@/utils/emailSender";
-import { useLanguage } from "@/context/LanguageContext";
-import { cn as clsx } from "@/lib/utils";
+} from "@/app/src/components/ui/select";
+import { useToast } from "@/app/src/hooks/use-toast";
+import { sendEmail } from "@/app/src/utils/emailSender";
+import { useLanguage } from "@/app/src/context/LanguageContext";
+import { cn as clsx } from "@/app/src/lib/utils";
 
 
 const CONTACT_EMAIL = "info@mowglai.com";
@@ -130,7 +130,7 @@ ${formData.message}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative">
-          
+
           {/* Smart Companion Waypoint */}
           <div className="absolute left-1/4 top-0 w-[200px] h-[400px] companion-waypoint pointer-events-none hidden lg:block" />
 

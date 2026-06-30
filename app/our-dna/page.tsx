@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import OriginalDNA from "@/styles/original/DNA";
+import OriginalDNA from "@/app/src/styles/original/DNA";
 
 export const metadata: Metadata = {
     title: "Our DNA & Process | How Mowglai Creates Digital Excellence",

@@ -8,7 +8,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/src/lib/utils";
 import { useRouter } from "next/navigation";
 
 interface AuditCircularButtonProps {

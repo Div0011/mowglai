@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { allTemplates } from '@/data/templates'
+import { allTemplates } from '@/app/src/data/templates'
 
 export const dynamic = 'force-static'
 

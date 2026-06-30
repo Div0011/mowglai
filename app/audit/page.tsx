@@ -1,20 +1,20 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/app/src/components/ui/button";
+import { Input } from "@/app/src/components/ui/input";
 import { Loader2, ArrowRight, ShieldCheck, Zap, Globe, ScanLine, TrendingUp, X, Sparkles } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/app/src/hooks/use-toast";
 import AuditReport from './AuditReport';
 import { analyzeWebsite, AuditResult } from './actions';
 import { motion, AnimatePresence } from "framer-motion";
-import JungleBackground from '@/components/JungleBackground';
-import MowglaiLogo from "@/components/MowglaiLogo";
+import JungleBackground from '@/app/src/components/JungleBackground';
+import MowglaiLogo from "@/app/src/components/MowglaiLogo";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
-const SmoothScroll = dynamic(() => import("@/components/SmoothScroll"), { ssr: false });
+const CustomCursor = dynamic(() => import("@/app/src/components/CustomCursor"), { ssr: false });
+const SmoothScroll = dynamic(() => import("@/app/src/components/SmoothScroll"), { ssr: false });
 
 
 /* ── Floating particle dot ────────────────────────────────── */

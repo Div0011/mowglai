@@ -7,7 +7,7 @@ import TextReveal from "./TextReveal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 

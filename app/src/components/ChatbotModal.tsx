@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Send, Bot, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/app/src/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn } from '@/app/src/lib/utils';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -81,8 +81,8 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
     const [draftData, setDraftData] = useState({ service: '', details: '' });
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const handleDraftInputRef = useRef<(text: string) => void>(() => {});
-    const startDraftingRef = useRef<() => void>(() => {});
+    const handleDraftInputRef = useRef<(text: string) => void>(() => { });
+    const startDraftingRef = useRef<() => void>(() => { });
     const router = useRouter();
 
     const addMessage = useCallback((text: string, sender: 'user' | 'bot', options?: Message['options']) => {

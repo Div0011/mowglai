@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/src/components/ui/button";
 import { Download } from "lucide-react";
 import jsPDF from "jspdf";
 

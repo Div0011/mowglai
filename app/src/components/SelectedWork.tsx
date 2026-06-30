@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/app/src/components/ui/use-toast";
 import NextImage from "next/image";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 
 const projects = [
     {

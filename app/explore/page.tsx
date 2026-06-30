@@ -1,5 +1,5 @@
 
-import ExplorePage from "@/styles/original/Explore";
+import ExplorePage from "@/app/src/styles/original/Explore";
 
 export const metadata = {
     title: "Explore Templates | Mowglai",

@@ -2,21 +2,21 @@
 
 import { useEffect, Suspense, useState } from "react";
 import dynamic from "next/dynamic";
-import FullScreenNav from "@/components/FullScreenNav";
-import MobileNav from "@/components/MobileNav";
-import SettingsToggle from "@/components/SettingsToggle";
-import ContactToggle from "@/components/ContactToggle";
+import FullScreenNav from "@/app/src/components/FullScreenNav";
+import MobileNav from "@/app/src/components/MobileNav";
+import SettingsToggle from "@/app/src/components/SettingsToggle";
+import ContactToggle from "@/app/src/components/ContactToggle";
 
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
+const CustomCursor = dynamic(() => import("@/app/src/components/CustomCursor"), { ssr: false });
 
-import Footer from "@/components/Footer";
-import ScrollToTop from "@/components/ScrollToTop";
-import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "@/app/src/components/Footer";
+import ScrollToTop from "@/app/src/components/ScrollToTop";
+import SmoothScroll from "@/app/src/components/SmoothScroll";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-import JungleBackground from "@/components/JungleBackground";
-import BackToTopButton from "@/components/BackToTopButton";
+import JungleBackground from "@/app/src/components/JungleBackground";
+import BackToTopButton from "@/app/src/components/BackToTopButton";
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -46,7 +46,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
                 <JungleBackground />
             </div>
 
-            <FullScreenNav onOpenChat={() => {}} />
+            <FullScreenNav onOpenChat={() => { }} />
             <MobileNav />
 
             <main className="relative z-10 w-full overflow-hidden min-h-dvh">

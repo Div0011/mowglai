@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import Magnetic from "@/components/Magnetic";
-import { cn } from "@/lib/utils";
+import Magnetic from "@/app/src/components/Magnetic";
+import { cn } from "@/app/src/lib/utils";
 
 const BackToTopButton = () => {
     const [isVisible, setIsVisible] = useState(false);

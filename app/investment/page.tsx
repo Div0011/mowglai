@@ -1,16 +1,16 @@
 "use client";
 
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Download, FileText, Sparkles, Check, ArrowRight, Clock, Rocket, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/app/src/context/LanguageContext";
 import { useRouter } from "next/navigation";
-import { downloadAsHtml } from "@/utils/pdfDownloader";
-import NextPageButton from "@/components/NextPageButton";
-import { cn } from "@/lib/utils";
-import UserPurchasesSection from "@/components/UserPurchasesSection";
+import { downloadAsHtml } from "@/app/src/utils/pdfDownloader";
+import NextPageButton from "@/app/src/components/NextPageButton";
+import { cn } from "@/app/src/lib/utils";
+import UserPurchasesSection from "@/app/src/components/UserPurchasesSection";
 
 interface Plan {
     name: string;

@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { MoveLeft, Home, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import CustomCursor from "@/components/CustomCursor";
+import { Button } from "@/app/src/components/ui/button";
+import CustomCursor from "@/app/src/components/CustomCursor";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

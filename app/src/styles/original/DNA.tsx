@@ -1,8 +1,8 @@
 "use client";
 
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/app/src/components/PageLayout";
 import { Code2, Layers, Zap, Target, Users, Rocket, CheckCircle2 } from "lucide-react";
-import NextPageButton from "@/components/NextPageButton";
+import NextPageButton from "@/app/src/components/NextPageButton";
 
 const workflowSteps = [
     {

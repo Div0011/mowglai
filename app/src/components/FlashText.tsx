@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
 import Link from "next/link";
-import Magnetic from "@/components/Magnetic";
+import Magnetic from "@/app/src/components/Magnetic";
 import React from "react";
 
 const FlashText = () => {

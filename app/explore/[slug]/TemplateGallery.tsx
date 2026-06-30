@@ -9,7 +9,7 @@ import {
     CarouselNext,
     CarouselPrevious,
     type CarouselApi,
-} from "@/components/ui/carousel";
+} from "@/app/src/components/ui/carousel";
 
 interface TemplateGalleryProps {
     images: string[];
