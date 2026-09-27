@@ -6,7 +6,7 @@ import { ArrowRight, ArrowUpRight, Code2, Search, Bot, Cpu } from "lucide-react"
 import NextPageButton from "@/components/NextPageButton";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -248,59 +248,6 @@ function AnimatedText({ text, className = "" }: { text: string; className?: stri
     );
 }
 
-function FloatingTemplatesButton() {
-    const [visible, setVisible] = useState(true);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setPosition({
-                x: (e.clientX / window.innerWidth) * 20 - 10,
-                y: (e.clientY / window.innerHeight) * 20 - 10
-            });
-        };
-        window.addEventListener("mousemove", handleMouseMove, { passive: true });
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
-
-    useGSAP(() => {
-        ScrollTrigger.create({
-            trigger: "#templates-showcase-section",
-            start: "top 80%",
-            onEnter: () => setVisible(false),
-            onLeaveBack: () => setVisible(true),
-        });
-    }, []);
-
-    return (
-        <AnimatePresence>
-            {visible && (
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="fixed bottom-10 right-10 z-50"
-                    style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-                >
-                    <Magnetic>
-                        <Link
-                            href="/explore"
-                            className="group relative inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] rounded-full overflow-hidden transition-all duration-500 bg-primary text-primary-foreground hover:shadow-[0_0_50px_rgba(230,185,61,0.4)]"
-                        >
-                            <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            <span className="relative z-10 flex items-center gap-3">
-                                EXPLORE TEMPLATES
-                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                            </span>
-                        </Link>
-                    </Magnetic>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
-}
-
 export default function HomeContent() {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -330,7 +277,6 @@ export default function HomeContent() {
         <div ref={containerRef} className="relative">
             <MouseGlow />
             <AmbientParticles />
-            <FloatingTemplatesButton />
 
             <section id="our-services-section" className="relative w-full py-16 md:py-24 z-20 overflow-hidden content-visibility-auto gpu-accelerate">
                 <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col gap-8 md:gap-12">
