@@ -17,7 +17,7 @@ const navLinks = [
 ];
 
 const socialLinks = [
-    { icon: Instagram, href: "https://www.instagram.com/mowglai",              label: "Instagram" },
+    { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",              label: "Instagram" },
     { icon: XLogo,     href: "https://x.com/mowglai_in",                          label: "X" },
     { icon: Linkedin,  href: "https://www.linkedin.com/company/mowglai", label: "LinkedIn" },
 ];
@@ -361,7 +361,7 @@ export default function ImmersiveFooter() {
             </div>
 
             {/* Lower Side: Options & Metadata */}
-            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 mt-auto pb-12 md:pb-16 flex flex-col items-center text-center">
+            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 mt-auto pb-[calc(3rem+env(safe-area-inset-bottom))] md:pb-16 flex flex-col items-center text-center">
                 {/* Navigation Links Row */}
                 <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-sm md:text-base tracking-[0.2em] font-mono font-bold text-foreground uppercase">
                     {navLinks.map((link, idx) => (

@@ -251,7 +251,7 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
                 ]);
             } else if (matchType === 'social') {
                 addMessage("Join our tribe in the digital wild. Follow us for updates, insights, and success stories.", 'bot', [
-                    { label: "Instagram", action: () => { window.open("https://www.instagram.com/mowglai_", "_blank"); } },
+                    { label: "Instagram", action: () => { window.open("https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", "_blank"); } },
                     { label: "LinkedIn", action: () => { window.open("https://linkedin.com/company/mowglai", "_blank"); } },
                     { label: "X", action: () => { window.open("https://x.com/mowglai_in", "_blank"); } }
                 ]);
@@ -324,7 +324,7 @@ const ChatbotModal = ({ isOpen, onClose }: ChatbotModalProps) => {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed bottom-24 right-4 md:right-8 w-[90vw] md:w-[400px] h-[600px] max-h-[70vh] bg-background border border-primary/20 rounded-[2rem] shadow-[0_0_50px_rgba(var(--primary-rgb),0.2)] z-[71] flex flex-col overflow-hidden origin-bottom-right"
+                        className="fixed bottom-24 right-4 md:right-8 w-[90vw] md:w-[400px] h-[600px] max-h-[70dvh] bg-background border border-primary/20 rounded-[2rem] shadow-[0_0_50px_rgba(var(--primary-rgb),0.2)] z-[71] flex flex-col overflow-hidden origin-bottom-right"
                     >
                         {/* Header */}
                         <div className="p-4 border-b border-primary/10 bg-primary/5 flex items-center justify-between">

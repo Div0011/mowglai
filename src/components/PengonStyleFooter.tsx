@@ -235,7 +235,7 @@ export default function PengonStyleFooter() {
     ];
 
     const socialLinks = [
-        { icon: Instagram, href: "https://www.instagram.com/mowglai", label: "Instagram" },
+        { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
         { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
         { icon: Linkedin, href: "https://www.linkedin.com/company/mowglai", label: "LinkedIn" },
     ];

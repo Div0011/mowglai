@@ -120,6 +120,10 @@ export const viewport: Viewport = {
     width: "device-width",
     initialScale: 1,
     maximumScale: 5,
+    // Required for `env(safe-area-inset-*)` to resolve to anything other than
+    // 0px on notched devices. Every fixed control in the layout (hamburger,
+    // logo, floating CTAs, back-to-top) offsets itself with these insets.
+    viewportFit: "cover",
     themeColor: [
         { media: "(prefers-color-scheme: light)", color: "#FDF3E7" },
         { media: "(prefers-color-scheme: dark)", color: "#0a0f0c" },
@@ -247,7 +251,7 @@ export default function RootLayout({
                                             "availableLanguage": ["English", "Hindi"]
                                         },
                                         "sameAs": [
-                                            "https://www.instagram.com/mowglai",
+                                            "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
                                             "https://www.linkedin.com/company/mowglai",
                                             "https://twitter.com/mowglai_in"
                                         ],

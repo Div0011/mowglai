@@ -105,8 +105,16 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     }, [isOpen]);
 
     useEffect(() => {
+        // rAF-gated so the boolean only flips at most once per frame instead of
+        // re-rendering on every scroll event the browser emits.
+        let ticking = false;
         const handleScroll = () => {
-            setScrolled(window.scrollY > 0);
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                setScrolled(window.scrollY > 0);
+                ticking = false;
+            });
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
@@ -145,7 +153,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
             {/* Decorative marquee strips */}
             <div
                 className={cn(
-                    "fixed z-[50] pointer-events-none bottom-[8vh] md:bottom-auto md:top-[calc(2.3rem+env(safe-area-inset-top))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 -rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
+                    "fixed z-[50] pointer-events-none bottom-[8dvh] md:bottom-auto md:top-[calc(2.3rem+env(safe-area-inset-top))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 -rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
                     !showStrips && "opacity-0 pointer-events-none !hidden"
                 )}
             >
@@ -165,7 +173,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
             <div
                 className={cn(
-                    "fixed z-[49] pointer-events-none bottom-[8vh] md:bottom-[calc(2.2rem+env(safe-area-inset-bottom))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
+                    "fixed z-[49] pointer-events-none bottom-[8dvh] md:bottom-[calc(2.2rem+env(safe-area-inset-bottom))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
                     !showStrips && "opacity-0 pointer-events-none !hidden"
                 )}
             >
@@ -502,7 +510,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                     </div>
 
                                     {/* Service Items */}
-                                    <div className="space-y-2 max-h-[58vh] overflow-y-auto pr-1">
+                                    <div className="space-y-2 max-h-[58dvh] overflow-y-auto pr-1">
                                         {serviceSubItems.map((sub) => {
                                             const SubIcon = sub.icon;
                                             return (
@@ -562,7 +570,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                     </div>
 
                                     {/* Pricing Tier Items */}
-                                    <div className="space-y-2 max-h-[58vh] overflow-y-auto pr-1">
+                                    <div className="space-y-2 max-h-[58dvh] overflow-y-auto pr-1">
                                         {pricingSubItems.map((sub) => {
                                             const SubIcon = sub.icon;
                                             return (
@@ -600,9 +608,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     </nav>
 
                     {/* Mobile Social Icons (Bottom Row) */}
-                    <div className="absolute bottom-6 left-0 w-full flex md:hidden justify-center gap-6 z-50">
+                    <div className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-0 w-full flex md:hidden justify-center gap-6 z-50">
                         {[
-                            { icon: Instagram, href: "https://www.instagram.com/mowglai", label: "Instagram" },
+                            { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
                             { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
                             { icon: Linkedin, href: "https://www.linkedin.com/company/mowglai", label: "LinkedIn" },
                         ].map((item, i) => (
@@ -624,7 +632,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                     <div className="hidden md:flex w-[10%] h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5">
                         <div className="flex flex-col gap-8 items-center">
                             {[
-                                { icon: Instagram, href: "https://www.instagram.com/mowglai", label: "Instagram" },
+                                { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
                                 { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
                                 { icon: Linkedin, href: "https://www.linkedin.com/company/mowglai", label: "LinkedIn" },
                             ].map((item, i) => (
