@@ -28,13 +28,35 @@ $ADMIN_EMAIL  = "info@mowglai.com";
 $FROM_NAME    = "Mowglai Website";
 $FROM_ADDRESS = "info@mowglai.com";
 
+/**
+ * The mailbox password is read from the environment only.
+ *
+ * CI/CD injects it into the deployed .htaccess as a `SetEnv` directive
+ * (see .github/workflows/ci-cd.yml), the same mechanism already used for the
+ * Razorpay keys. It must never be committed: this file is deployed verbatim
+ * and is served from the site root, so a literal fallback here would publish
+ * the credential.
+ */
+$SMTP_PASSWORD = getenv('SMTP_PASS');
+
+if (empty($SMTP_PASSWORD)) {
+    log_email('CONFIG_ERROR', 'SMTP_PASS is not set; email delivery is disabled.');
+    http_response_code(503);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status'  => 'error',
+        'message' => 'Email service is not configured. Please email info@mowglai.com directly.',
+    ]);
+    exit;
+}
+
 // Hostinger SMTP configuration
 $SMTP_CONFIG = [
     'enabled'  => true,
     'host'     => getenv('SMTP_HOST') ?: 'ssl://smtp.hostinger.com',
     'port'     => (int)(getenv('SMTP_PORT') ?: 465),
     'username' => getenv('SMTP_USER') ?: 'info@mowglai.com',
-    'password' => getenv('SMTP_PASS') ?: 'Jungle!@#99',
+    'password' => $SMTP_PASSWORD,
     'timeout'  => 10
 ];
 

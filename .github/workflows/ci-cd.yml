@@ -40,11 +40,17 @@ jobs:
         env:
           RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
           RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: |
           echo "" >> ./out/.htaccess
           echo "# Injected by CI/CD" >> ./out/.htaccess
           echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID" >> ./out/.htaccess
           echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET" >> ./out/.htaccess
+          # Consumed by public/send_email.php via getenv(). The password is
+          # never committed; without this secret the contact form returns 503.
+          echo "SetEnv SMTP_USER $SMTP_USER" >> ./out/.htaccess
+          echo "SetEnv SMTP_PASS $SMTP_PASS" >> ./out/.htaccess
         shell: bash
 
       # ==========================================
