@@ -54,7 +54,6 @@ const nextConfig = {
             'framer-motion',
             'gsap',
             '@gsap/react',
-            'date-fns',
             'clsx',
             'tailwind-merge',
             'lenis',
@@ -62,8 +61,8 @@ const nextConfig = {
         webpackBuildWorker: true,
         parallelServerBuildTraces: true,
     },
-    // Ensure that GSAP and Three.js work correctly
-    transpilePackages: ['gsap', 'three', '@react-three/fiber', '@react-three/drei'],
+    // Ensure that GSAP is compiled correctly
+    transpilePackages: ['gsap'],
     // Compiler optimizations
     compiler: {
         removeConsole: process.env.NODE_ENV === 'production',

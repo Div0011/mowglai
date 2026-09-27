@@ -176,13 +176,13 @@ export default function RootLayout({
                             textAlign: 'center',
                             padding: '20px'
                         }}>
-                            <h1 style={{
+                            <h2 style={{
                                 fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
                                 fontWeight: 'bold',
                                 marginBottom: '1rem'
                             }}>
                                 JavaScript Required
-                            </h1>
+                            </h2>
                             <p style={{
                                 fontSize: 'clamp(1rem, 2vw, 1.25rem)',
                                 maxWidth: '600px',
