@@ -15,7 +15,10 @@ import { usePathname } from "next/navigation";
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
 const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
-const ImmersiveFooter = dynamic(() => import("@/components/ImmersiveFooter"), { ssr: false });
+// Server-rendered so the footer nav links are present in the static HTML of
+// every page. Nothing here reads the browser during render, so it hydrates
+// cleanly; keeping it `ssr: false` hid the entire footer from crawlers.
+const ImmersiveFooter = dynamic(() => import("@/components/ImmersiveFooter"));
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -52,7 +55,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <FullScreenNav onOpenChat={() => {}} />
             <MobileNav />
 
-            <main className="relative z-10 w-full overflow-hidden min-h-dvh">
+            <main className="relative z-10 w-full overflow-x-clip min-h-dvh">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={pathname}

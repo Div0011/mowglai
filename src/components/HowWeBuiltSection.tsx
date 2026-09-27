@@ -84,13 +84,26 @@ export default function HowWeBuiltSection() {
 
     // Magnetic interaction
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
+        // Throttled to ~30fps: pointer events fire far faster than the
+        // parallax can be perceived, and each one triggered a re-render.
+        let ticking = false;
+        let lastX = 0;
+        let lastY = 0;
+        const flush = () => {
+            ticking = false;
             setMousePos({
-                x: (e.clientX / window.innerWidth - 0.5) * 30,
-                y: (e.clientY / window.innerHeight - 0.5) * 30,
+                x: (lastX / window.innerWidth - 0.5) * 30,
+                y: (lastY / window.innerHeight - 0.5) * 30,
             });
         };
-        window.addEventListener("mousemove", handleMouseMove);
+        const handleMouseMove = (e: MouseEvent) => {
+            lastX = e.clientX;
+            lastY = e.clientY;
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(flush);
+        };
+        window.addEventListener("mousemove", handleMouseMove, { passive: true });
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
@@ -156,9 +169,10 @@ export default function HowWeBuiltSection() {
             );
         });
 
-        return () => {
-            ScrollTrigger.getAll().forEach((t) => t.kill());
-        };
+        // No manual teardown here: `useGSAP` already reverts every tween and
+        // ScrollTrigger created inside this scope via its GSAP context.
+        // Calling `ScrollTrigger.getAll().kill()` tore down triggers belonging
+        // to *other* components (homepage reveals, nav, scroll-away buttons).
     }, []);
 
     return (
@@ -214,9 +228,9 @@ export default function HowWeBuiltSection() {
                                     Our Process
                                 </span>
                             </motion.div>
-                            <h2 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-black text-white uppercase tracking-tight whitespace-nowrap">
-                                From <span className="text-primary italic">Vision</span> To Reality
-                            </h2>
+                <h2 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-black text-white uppercase tracking-tight whitespace-normal sm:whitespace-nowrap break-words">
+                    From <span className="text-primary italic">Vision</span> To Reality
+                </h2>
                         </div>
                         <p className="text-foreground/50 text-sm md:text-base font-light max-w-md leading-relaxed">
                             A proven methodology refined through 50+ successful projects. Each

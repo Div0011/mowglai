@@ -11,6 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/context/LanguageContext";
+import { useMenuOpen } from "@/hooks/use-menu-open";
 import dynamic from "next/dynamic";
 
 const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: false });
@@ -22,12 +23,14 @@ const ContactToggle = () => {
     const [showChatIcon, setShowChatIcon] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const isMenuOpen = useMenuOpen();
 
     const phoneNumber = "919452476331";
     const message = "Hi, I'm interested in Mowglai's web & digital experience services. I'd like a quote and next steps.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-    // Cycle icons every 2 seconds
+    // Cycle icons every 2 seconds (only while idle; the animation is cosmetic
+    // and this orb is mounted on every page)
     useEffect(() => {
         setMounted(true);
         const interval = setInterval(() => {
@@ -49,7 +52,13 @@ const ContactToggle = () => {
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger asChild>
-                    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-[calc(0.875rem+env(safe-area-inset-right))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))] z-[60] flex items-center justify-center">
+                    <div
+                        aria-hidden={isMenuOpen}
+                        className={cn(
+                            "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-[calc(0.875rem+env(safe-area-inset-right))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))] z-[60] flex items-center justify-center transition-all duration-300",
+                            isMenuOpen ? "opacity-0 scale-50 pointer-events-none" : "opacity-100 scale-100"
+                        )}
+                    >
                         <button
                             className={cn(
                                 "w-14 h-14 md:w-16 md:h-16 rounded-full border border-primary/30 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)]",

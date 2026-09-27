@@ -14,6 +14,13 @@ const Magnetic = ({ children, amount = 0.3, className = "" }: MagneticProps) => 
     const rafRef = useRef<number | null>(null);
     const mousePosRef = useRef({ x: 0, y: 0 });
     const isHoveringRef = useRef(false);
+    const canHoverRef = useRef(true);
+
+    useEffect(() => {
+        canHoverRef.current =
+            typeof window !== "undefined" &&
+            window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    }, []);
 
     useEffect(() => {
         const element = ref.current;
@@ -22,17 +29,26 @@ const Magnetic = ({ children, amount = 0.3, className = "" }: MagneticProps) => 
         const xTo = gsap.quickTo(element, "x", { duration: 1, ease: "elastic.out(1, 0.3)" });
         const yTo = gsap.quickTo(element, "y", { duration: 1, ease: "elastic.out(1, 0.3)" });
 
-        // Animation loop for smooth 60fps updates
+        // The loop only runs while the pointer is actually over the element.
+        // Previously it re-scheduled itself forever, so every <Magnetic> on the
+        // page (12+ on the homepage) burned a frame per tick even when idle or
+        // on touch devices where `mouseenter` never fires.
         const animate = () => {
-            if (isHoveringRef.current) {
-                const { x, y } = mousePosRef.current;
-                xTo(x * amount);
-                yTo(y * amount);
+            if (!isHoveringRef.current) {
+                rafRef.current = null;
+                return;
             }
+            const { x, y } = mousePosRef.current;
+            xTo(x * amount);
+            yTo(y * amount);
             rafRef.current = requestAnimationFrame(animate);
         };
 
-        rafRef.current = requestAnimationFrame(animate);
+        const startLoop = () => {
+            if (rafRef.current === null) {
+                rafRef.current = requestAnimationFrame(animate);
+            }
+        };
 
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
@@ -44,22 +60,31 @@ const Magnetic = ({ children, amount = 0.3, className = "" }: MagneticProps) => 
         };
 
         const handleMouseEnter = () => {
+            if (!canHoverRef.current) return;
             isHoveringRef.current = true;
+            startLoop();
         };
 
         const handleMouseLeave = () => {
             isHoveringRef.current = false;
+            if (rafRef.current !== null) {
+                cancelAnimationFrame(rafRef.current);
+                rafRef.current = null;
+            }
             xTo(0);
             yTo(0);
         };
 
-        element.addEventListener("mousemove", handleMouseMove, { passive: true });
-        element.addEventListener("mouseenter", handleMouseEnter);
-        element.addEventListener("mouseleave", handleMouseLeave);
+        if (canHoverRef.current) {
+            element.addEventListener("mousemove", handleMouseMove, { passive: true });
+            element.addEventListener("mouseenter", handleMouseEnter);
+            element.addEventListener("mouseleave", handleMouseLeave);
+        }
 
         return () => {
-            if (rafRef.current) {
+            if (rafRef.current !== null) {
                 cancelAnimationFrame(rafRef.current);
+                rafRef.current = null;
             }
             element.removeEventListener("mousemove", handleMouseMove);
             element.removeEventListener("mouseenter", handleMouseEnter);

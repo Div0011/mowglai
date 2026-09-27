@@ -279,7 +279,7 @@ export default function IntelligentSystemsClient() {
                                     ))}
                                 </div>
 
-                                <div className="grid grid-cols-3 gap-3 pt-4 border-t border-primary/10">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-primary/10">
                                     <div className="text-center p-3 rounded-xl bg-background/60 border border-primary/10">
                                         <div className="text-[10px] uppercase font-mono text-muted-foreground">TTFT</div>
                                         <div className="text-sm sm:text-base font-display font-bold text-primary">{scenario.metrics.latency}</div>

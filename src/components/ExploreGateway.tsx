@@ -12,7 +12,7 @@ export default function ExploreGateway() {
     return (
         <section
             ref={ref}
-            className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 py-32"
+            className="relative min-h-[85dvh] flex flex-col items-center justify-center overflow-hidden px-6 py-32"
         >
             {/* Radial glow backdrop */}
             <div

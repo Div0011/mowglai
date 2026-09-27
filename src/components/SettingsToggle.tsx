@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { useLanguage, Language } from "@/context/LanguageContext";
+import { useMenuOpen } from "@/hooks/use-menu-open";
 
 
 const SettingsToggle = () => {
@@ -28,6 +29,7 @@ const SettingsToggle = () => {
     const [mounted, setMounted] = useState(false);
     const [showLanguageIcon, setShowLanguageIcon] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const isMenuOpen = useMenuOpen();
 
     // Cycle icons every 2 seconds
     useEffect(() => {
@@ -57,7 +59,13 @@ const SettingsToggle = () => {
     return (
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
-                <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-[calc(0.875rem+env(safe-area-inset-left))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60] flex items-center justify-center">
+                <div
+                    aria-hidden={isMenuOpen}
+                    className={cn(
+                        "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-[calc(0.875rem+env(safe-area-inset-left))] md:bottom-[calc(2rem+env(safe-area-inset-bottom))] md:left-[calc(2rem+env(safe-area-inset-left))] z-[60] flex items-center justify-center transition-all duration-300",
+                        isMenuOpen ? "opacity-0 scale-50 pointer-events-none" : "opacity-100 scale-100"
+                    )}
+                >
                     <button
                         className={cn(
                             "w-14 h-14 md:w-16 md:h-16 rounded-full border border-primary/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]",

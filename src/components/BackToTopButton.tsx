@@ -5,23 +5,30 @@ import { ArrowUp } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Magnetic from "@/components/Magnetic";
+import { useMenuOpen } from "@/hooks/use-menu-open";
 import { cn } from "@/lib/utils";
 
 const BackToTopButton = () => {
     const [isVisible, setIsVisible] = useState(false);
     const pathname = usePathname();
+    const isMenuOpen = useMenuOpen();
 
     useEffect(() => {
+        let rAF = 0;
         const toggleVisibility = () => {
-            if (window.scrollY > 300) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
+            if (rAF) return;
+            rAF = requestAnimationFrame(() => {
+                setIsVisible(window.scrollY > 300);
+                rAF = 0;
+            });
         };
 
+        toggleVisibility();
         window.addEventListener("scroll", toggleVisibility, { passive: true });
-        return () => window.removeEventListener("scroll", toggleVisibility);
+        return () => {
+            if (rAF) cancelAnimationFrame(rAF);
+            window.removeEventListener("scroll", toggleVisibility);
+        };
     }, []);
 
     const scrollToTop = () => {
@@ -36,13 +43,15 @@ const BackToTopButton = () => {
     };
 
     return (
-        <div className={cn(
-            "fixed z-[60] transition-all duration-500 transform",
-            // Positioned vertically above the Contact Toggle on the right
-            "bottom-[calc(5rem+env(safe-area-inset-bottom))] right-[calc(0.875rem+env(safe-area-inset-right))]",
-            "md:bottom-[calc(7rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))]",
-            isVisible ? "translate-y-0 opacity-100 scale-100" : "translate-y-20 opacity-0 scale-50 pointer-events-none"
-        )}>
+        <div
+            aria-hidden={isMenuOpen}
+            className={cn(
+                "fixed z-[60] transition-all duration-500 transform",
+                // Positioned vertically above the Contact Toggle on the right
+                "bottom-[calc(5rem+env(safe-area-inset-bottom))] right-[calc(0.875rem+env(safe-area-inset-right))]",
+                "md:bottom-[calc(7rem+env(safe-area-inset-bottom))] md:right-[calc(2rem+env(safe-area-inset-right))]",
+                isVisible && !isMenuOpen ? "translate-y-0 opacity-100 scale-100" : "translate-y-20 opacity-0 scale-50 pointer-events-none"
+            )}>
             <motion.button
                 onClick={scrollToTop}
                 whileHover={{ scale: 1.1 }}

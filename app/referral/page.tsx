@@ -86,7 +86,7 @@ export default function ReferralPage() {
 
                         {/* Header */}
                         <div className="mb-24 md:mb-24 relative">
-                            <h1 className="text-[18vw] md:text-[10vw] font-display font-black text-foreground select-none relative z-10 leading-[1.4] md:leading-[0.85] tracking-tighter">
+                            <h1 className="text-[13vw] sm:text-[16vw] md:text-[10vw] font-display font-black text-foreground select-none relative z-10 leading-[1.4] md:leading-[0.85] tracking-tighter break-words">
                                 GET <br className="md:hidden" /> <span className="text-primary">10–20%</span> DISCOUNT
                             </h1>
                         </div>

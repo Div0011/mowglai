@@ -276,7 +276,7 @@ export default function DatabaseSolutionsClient() {
                                     </span>
                                 </div>
 
-                                <div className="grid grid-cols-3 gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                     <div className="p-3 rounded-xl bg-background/80 border border-primary/10 text-center">
                                         <div className="text-[10px] font-mono text-muted-foreground uppercase">Latency</div>
                                         <div className="text-sm sm:text-base font-display font-bold text-primary">{activeNode.metrics.latency}</div>

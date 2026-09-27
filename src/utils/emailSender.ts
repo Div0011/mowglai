@@ -1,10 +1,10 @@
 const PHP_ENDPOINT = "/send_email.php";
-const API_ENDPOINT = "/api/send-email/";
 
 /**
- * Sends form data to info@mowglai.com via the PHP backend endpoint (production)
- * or Next.js TLS SMTP API route (local dev / fallback).
- * Saves details to database and dispatches email notifications seamlessly.
+ * Sends form data to info@mowglai.com via the PHP backend endpoint.
+ * The site is a static export (`output: 'export'`), so PHP under
+ * `public/api/` is the only supported server-side transport — there is no
+ * Next.js route handler to fall back to.
  */
 export const sendEmail = async (
     data: Record<string, string>
@@ -32,41 +32,16 @@ export const sendEmail = async (
                 };
             }
         }
-    } catch {
-        // PHP endpoint not available (e.g. running on Next.js dev server localhost:3000)
-    }
-
-    // 2. Fallback to Next.js API route for instant Hostinger SMTP delivery
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-        const response = await fetch(API_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-            signal: controller.signal,
-        });
-
-        clearTimeout(timeoutId);
-
-        const result = await response.json();
-        if (response.ok && result.status === "success") {
-            return {
-                status: "success",
-                message: result.message || "Thank you! Your message has been submitted and emailed to info@mowglai.com instantly!"
-            };
-        }
-
-        return {
-            status: "error",
-            message: result.message || "Unable to complete submission. Please try again shortly."
-        };
     } catch (err: unknown) {
-        console.error("[sendEmail] In-website submission error:", err);
+        console.error("[sendEmail] Submission error:", err);
         return {
             status: "error",
             message: "Unable to connect to mail server. Please check your internet connection or email info@mowglai.com directly.",
         };
     }
+
+    return {
+        status: "error",
+        message: "Unable to complete submission. Please try again shortly.",
+    };
 };

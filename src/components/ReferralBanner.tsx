@@ -72,7 +72,7 @@ const ReferralBanner = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="fixed left-0 top-[35%] md:top-[40%] z-[80] flex items-center justify-center pointer-events-auto"
+                        className="fixed left-0 top-[35%] md:top-[40%] z-[80] flex items-center justify-center pointer-events-auto pl-[env(safe-area-inset-left)]"
                     >
                         <button
                             onClick={() => setIsModalOpen(true)}

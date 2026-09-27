@@ -80,7 +80,7 @@ const StartProjectWizard = () => {
 
     if (isSuccess) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
+            <div className="flex flex-col items-center justify-center min-h-[60dvh] text-center p-6">
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}

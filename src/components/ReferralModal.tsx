@@ -87,7 +87,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.92, y: 24 }}
                         transition={{ type: "spring", damping: 28, stiffness: 260 }}
-                        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-[440px] max-h-[88vh] flex flex-col bg-background border border-primary/20 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.5)] z-[101] overflow-hidden"
+                        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-[440px] max-h-[88dvh] flex flex-col bg-background border border-primary/20 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.5)] z-[101] overflow-hidden"
                     >
                         {/* Decorative top gradient */}
                         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/0 via-primary to-primary/0" />
@@ -120,7 +120,7 @@ const ReferralModal = ({ isOpen, onClose }: ReferralModalProps) => {
                         <div className="mx-6 h-px bg-primary/10 shrink-0" />
 
                         {/* Content */}
-                        <div className="p-6 overflow-y-auto max-h-[calc(88vh-80px)] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+                        <div className="p-6 overflow-y-auto max-h-[calc(88dvh-80px)] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
                             <AnimatePresence mode="wait">
                                 {step === "form" ? (
                                     <motion.form

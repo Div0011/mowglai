@@ -1,5 +1,6 @@
 @config "../tailwind.config.ts";
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @font-face {
   font-family: 'Boldonse';
@@ -181,11 +182,13 @@
       will-change: transform;
     }
 
+    /* GPU hint only. Deliberately no `transform`/`perspective`/`will-change`:
+       any of those would make this box the containing block for every
+       `position: fixed` descendant (floating CTAs, mouse glow, back-to-top)
+       and permanently promote a page-sized layer. GSAP and Framer Motion
+       promote layers themselves while a tween is actually running. */
     .gpu-accelerate {
-      transform: translate3d(0, 0, 0);
       backface-visibility: hidden;
-      perspective: 1000px;
-      will-change: transform;
     }
 
     @keyframes spin {
@@ -208,8 +211,11 @@
     touch-action: manipulation;
   }
 
-  /* Apply custom cursor only on desktop devices */
-  @media (pointer: fine) {
+  /* Hide the native cursor ONLY where the enhanced cursor actually renders.
+     The JS gate in OriginalLayout uses `(hover: hover) and (pointer: fine)`;
+     the two must match or devices fall through with no cursor at all
+     (e.g. touch-screen Chromebooks, iPads with a trackpad). */
+  @media (hover: hover) and (pointer: fine) {
     * {
       cursor: none;
     }
@@ -261,17 +267,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Universal GPU Compositing & Mobile Smoothness */
-  .gpu-layer,
-  section,
-  .glass-card,
-  [data-aos] {
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
+  /* NOTE: a blanket `section { transform: translate3d(0,0,0) }` used to live
+     here. It was a no-op visually but it turned *every* <section> into the
+     containing block for its `position: fixed` children and forced a
+     perspective context on the whole document. Removed intentionally. */
 
-  @media (max-width: 768px) {
+  @media (max-width: 767.98px) {
     * {
       text-rendering: optimizeSpeed;
     }
@@ -495,5 +496,77 @@
 
   .animate-refraction {
     animation: refraction 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  /* --- Utilities referenced by live components but previously undefined --- */
+
+  /* DNA section pills (src/styles/original/DNA.tsx) */
+  .glassmorphism {
+    background: linear-gradient(135deg, hsl(var(--glass-bg) / 0.7), hsl(var(--glass-bg) / 0.35));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px hsl(var(--primary) / 0.08);
+  }
+
+  /* Soft breathing glow used behind hero/orb decorations */
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 7s ease-in-out infinite;
+    will-change: opacity, transform;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  .animate-text-shimmer {
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* Chat transcript / filter drawer scroll areas: keep the element scrollable
+     on desktop (the native bar is suppressed globally) and on touch. */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.25) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.2);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.4);
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.3);
+    border-radius: 9999px;
   }
 }

@@ -147,7 +147,7 @@ const HeroSection = () => {
             {/* max-h-[72dvh] reserves vertical space for the buttons at the bottom on mobile */}
             {/* z-30 and mix-blend-difference allows expanded hover circles to invert the text to black */}
             <div 
-                className="container mx-auto relative z-30 flex flex-col items-center justify-center h-full max-h-[72dvh] md:max-h-[85vh] w-full max-w-6xl border-none pointer-events-none mix-blend-difference"
+                className="container mx-auto relative z-30 flex flex-col items-center justify-center h-full max-h-[72dvh] md:max-h-[85dvh] w-full max-w-6xl border-none pointer-events-none mix-blend-difference"
                 style={{ mixBlendMode: "difference" }}
             >
                 
@@ -327,7 +327,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* 2. MOBILE ONLY: Structured Editorial Grid */}
-                <div className="flex md:hidden flex-col gap-4 select-none -mt-[16vh] mb-[12vh] w-full text-white px-2">
+                <div className="flex md:hidden flex-col gap-4 select-none -mt-[16dvh] mb-[12dvh] w-full text-white px-2">
                     
                     {/* Row 1: Slideshow 1 (Centered at top) */}
                     <div className="w-full flex justify-center pointer-events-auto">
@@ -512,7 +512,7 @@ const HeroSection = () => {
             </div>
             {/* Mobile stacked CTAs inside hero: placed just below the hero content */}
             <div className="md:hidden absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 w-[90%] z-[100000]"
-                 style={{ bottom: '22vh' }}>
+                 style={{ bottom: "22dvh" }}>
                 <Link href="/audit" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 rounded-full text-sm font-bold shadow-md">
                     GET FREE AUDIT
                 </Link>

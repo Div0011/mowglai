@@ -101,8 +101,8 @@ export default function TemplatesShowcase() {
                                 src={activeItem.template.image}
                                 alt={activeItem.template.title}
                                 fill
+                                sizes="(max-width: 768px) 100vw, 60vw"
                                 className="object-cover object-top"
-                                priority
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
 
