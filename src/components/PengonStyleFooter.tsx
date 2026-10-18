@@ -229,6 +229,7 @@ export default function PengonStyleFooter() {
         { label: "Start", href: "/" },
         { label: "Story", href: "/about" },
         { label: "Craft", href: "/services" },
+        { label: "Catalogue", href: "/catalogue" },
         { label: "Blueprint", href: "/explore" },
         { label: "Investment", href: "/investment" },
         { label: "Hello", href: "/contact" },

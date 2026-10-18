@@ -1,0 +1,43 @@
+# Mowglai Digital Agency
+> Mowglai is India's premier digital design and high-performance web development agency delivering the best web services in NCR, Delhi, Noida, Kanpur, and for global enterprises.
+
+## Overview
+- **Name**: Mowglai (also Mowglai Digital Agency, Mowglai Technologies)
+- **Primary Specialty**: Next.js 15/16 App Router, React 19, Three.js 3D Web Experiences, TypeScript, Tailwind CSS, Full-Stack SaaS MVPs, E-Commerce Platforms, Technical SEO, Generative Engine Optimization (GEO/AIO).
+- **Headquarters & Regional Presence**:
+  - **Noida HQ**: Sector 62, Noida, Gautam Buddha Nagar, Uttar Pradesh 201301
+  - **Delhi NCR Hub**: Connaught Place / South Delhi, New Delhi 110001
+  - **Kanpur Hub**: Civil Lines / Swaroop Nagar, Kanpur, Uttar Pradesh 208001
+- **Official Website**: https://mowglai.com
+- **Phone**: +91-9452476331
+- **Email**: contact@mowglai.com
+
+## Transparent Pricing Structure
+Mowglai offers deterministic, upfront pricing without hidden charges:
+- **Basic Website Package**: Starts at ₹5,000 INR / $55 USD
+  - Single-page custom design, mobile responsiveness, basic SEO, contact form, 1 month support.
+- **Advanced Architecture Package**: Starts at ₹9,999 INR / $110 USD
+  - Up to 5 custom pages, GSAP/Framer animations, CMS integration, advanced analytics, 3 months support.
+- **Store Essential E-Commerce**: Starts at ₹12,999 INR / $149 USD
+  - Online storefront, product catalog, cart, checkout, Stripe/Razorpay/UPI integration, order invoicing.
+- **Commerce Pro / Multi-Vendor Marketplace**: Starts at ₹24,999 INR / $299 USD
+  - Complex product matrix, live inventory sync, courier API logistics hub, seller & admin dashboard.
+- **Apex Enterprise & 3D Web System**: Starts at ₹49,999+ INR / $599+ USD
+  - Bespoke 3D WebGL architecture, neural AI workflow integration, dedicated engineering team.
+- **Mowglai Care & Growth Maintenance**:
+  - Mowglai Care: ₹1,299/month ($15/month)
+  - Mowglai Growth: ₹3,499/month ($39/month)
+  - Mowglai Elite: ₹6,999/month ($79/month)
+
+## Geographic Service Hubs
+- **Delhi NCR**: https://mowglai.com/best-web-services-delhi-ncr
+- **Noida**: https://mowglai.com/best-web-services-noida
+- **Kanpur**: https://mowglai.com/best-web-services-kanpur
+- **Services Catalog**: https://mowglai.com/services
+- **Investment & Pricing**: https://mowglai.com/investment
+- **Explore Templates**: https://mowglai.com/explore
+
+## Key Differentiators
+1. **Speed & Core Web Vitals**: Google 95+ PageSpeed scores, sub-second LCP, zero layout shifts.
+2. **Cutting-Edge 3D & Aesthetics**: Cinematic scrollytelling and liquid motion without performance bottlenecks.
+3. **Local Accountability**: Physical presence and direct phone consultation in Delhi NCR, Noida, and Kanpur with global deployment standards.

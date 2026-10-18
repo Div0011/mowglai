@@ -11,6 +11,7 @@ import { downloadAsHtml } from "@/utils/pdfDownloader";
 import { sendEmail } from "@/utils/emailSender";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/context/LanguageContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface PlanItem {
     name: string;
@@ -25,7 +26,7 @@ const plans: PlanItem[] = [
     {
         name: "BASIC",
         aliases: ["basic"],
-        price: "$499",
+        price: "$55",
         features: [
             "Single page website",
             "Mobile responsive design",
@@ -39,7 +40,7 @@ const plans: PlanItem[] = [
     {
         name: "ADVANCED",
         aliases: ["advanced"],
-        price: "$999",
+        price: "$110",
         features: [
             "Multi-page website (up to 5)",
             "Custom animations",
@@ -69,7 +70,7 @@ const plans: PlanItem[] = [
     {
         name: "STORE ESSENTIAL",
         aliases: ["store essential", "store-essential", "build store", "build-store", "store", "ecommerce", "e-commerce"],
-        price: "$999",
+        price: "$149",
         features: [
             "Full Product Catalog & Categories",
             "Product Details, Images, Pricing & Variants",
@@ -89,7 +90,7 @@ const plans: PlanItem[] = [
     {
         name: "COMMERCE PRO",
         aliases: ["commerce pro", "commerce-pro", "scale store", "scale-store"],
-        price: "$1,999",
+        price: "$299",
         features: [
             "Everything in Store Essential",
             "Unlimited Products & Complex Variant Matrix",
@@ -122,7 +123,7 @@ const plans: PlanItem[] = [
     {
         name: "APEX",
         aliases: ["apex", "dominate"],
-        price: "$4,999+",
+        price: "$599+",
         features: [
             "Bespoke Digital Architecture",
             "Survival Ready Support",
@@ -164,7 +165,7 @@ const plans: PlanItem[] = [
     {
         name: "BRAND EVOLUTION",
         aliases: ["brand evolution", "brand-evolution", "evolve"],
-        price: "From $1,499",
+        price: "From $149",
         features: [
             "Logo Redesign",
             "Brand Guidelines",
@@ -182,6 +183,7 @@ export default function OriginalCustomRequest() {
     const searchParams = useSearchParams();
     const { toast } = useToast();
     const { t } = useLanguage();
+    const { formatPrice } = useCurrency();
     const { ProjectRequest } = t;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -228,6 +230,7 @@ export default function OriginalCustomRequest() {
         e.preventDefault();
         setIsSubmitting(true);
 
+        const formattedPlanPrice = formatPrice(plan.price);
         const subject = `New Project Request: ${formData.companyName || formData.name} - ${plan.name} Plan`;
 
         const result = await sendEmail({
@@ -236,10 +239,10 @@ export default function OriginalCustomRequest() {
             email: formData.email,
             name: formData.name,
             company_name: formData.companyName,
-            plan_selected: `${plan.name} (${plan.price})`,
+            plan_selected: `${plan.name} (${formattedPlanPrice})`,
             target_start_date: formData.startDate || "Flexible",
             vision_work_plan: formData.workPlan,
-            message: `Company: ${formData.companyName}\nContact: ${formData.name}\nEmail: ${formData.email}\nPlan: ${plan.name} (${plan.price})\nTarget Start Date: ${formData.startDate || "Flexible"}\n\nProject Details:\n${formData.workPlan}`
+            message: `Company: ${formData.companyName}\nContact: ${formData.name}\nEmail: ${formData.email}\nPlan: ${plan.name} (${formattedPlanPrice})\nTarget Start Date: ${formData.startDate || "Flexible"}\n\nProject Details:\n${formData.workPlan}`
         });
 
         setIsSubmitting(false);
@@ -279,7 +282,7 @@ export default function OriginalCustomRequest() {
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black uppercase text-foreground leading-[1.35] sm:leading-[1.35] md:leading-[1.4] tracking-normal mb-6">
                                     {plan.name} <span className="text-primary">{ProjectRequest.hero.titleSuffix}</span>
                                 </h1>
-                                <p className="text-2xl sm:text-3xl font-light text-primary mb-8">{plan.price}</p>
+                                <p className="text-2xl sm:text-3xl font-light text-primary mb-8">{formatPrice(plan.price)}</p>
 
                                 <div className="space-y-4 mb-10">
                                     <h3 className="text-sm font-display uppercase tracking-widest text-muted-foreground">{ProjectRequest.hero.includedFeatures}</h3>

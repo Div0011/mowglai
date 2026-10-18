@@ -69,14 +69,14 @@ const plans: {
     standard: [
         {
             name: "BASIC",
-            price: "$499",
+            price: "$55",
             description: "Essential Digital Prescence",
             features: ["Single page website", "Mobile responsive design", "Basic SEO optimization", "Contact form integration", "1 month support"],
             cta: "Initiate"
         },
         {
             name: "ADVANCED",
-            price: "$999",
+            price: "$110",
             description: "Scale & Growth Architecture",
             features: ["Multi-page website (up to 5)", "Custom animations", "Advanced SEO & Analytics", "CMS integration", "3 months support"],
             cta: "Accelerate"
@@ -101,7 +101,7 @@ const plans: {
         },
         {
             name: "Mowglai Growth",
-            price: "$49/mo",
+            price: "$39/mo",
             description: "Proactive improvements and analytics.",
             features: ["Everything in Care", "Priority Support Response", "Social Media Handling (2 posts/week)", "Monthly Analytics Report", "Basic SEO Health Check", "3 Hours Content Updates/mo"],
             cta: "Subscribe",
@@ -110,7 +110,7 @@ const plans: {
         },
         {
             name: "Mowglai Elite",
-            price: "$99/mo",
+            price: "$79/mo",
             description: "Complete peace of mind for business critical sites.",
             features: ["Everything in Growth", "1 Hour Custom Dev/mo", "Weekly Backups & Tests", "Phone Support Access", "Performance Optimization"],
             cta: "Subscribe",
@@ -163,7 +163,7 @@ const plans: {
         },
         {
             name: "BRAND EVOLUTION",
-            price: "FROM $1499",
+            price: "FROM $149",
             description: "Total visual and identity transformation.",
             features: ["Logo Redesign", "Brand Guidelines", "Social Media Kit", "Typography System", "Marketing Assets"],
             cta: "Evolve",
@@ -173,7 +173,7 @@ const plans: {
     premium: [
         {
             name: "APEX",
-            price: "$4,999+",
+            price: "$599+",
             description: "Industry-Leading Digital Soul",
             features: ["Bespoke Digital Architecture", "Survival Ready Support", "Strategic Market Hegemony", "Liquid Motion Graphics", "Neural AI Integration"],
             cta: "Dominate"
@@ -182,7 +182,7 @@ const plans: {
     store: [
         {
             name: "STORE ESSENTIAL",
-            price: "$999",
+            price: "$149",
             description: "High-Converting Online Storefront",
             features: [
                 "Full Product Catalog & Categories",
@@ -195,7 +195,7 @@ const plans: {
         },
         {
             name: "COMMERCE PRO",
-            price: "$1,999",
+            price: "$299",
             description: "Scale & Growth Marketplace Platform",
             features: [
                 "Unlimited Products & Complex Variant Matrix",
@@ -303,19 +303,21 @@ function InvestmentContent() {
 
     const getPrice = (originalPrice: string) => {
         if (!isDiscountApplied || originalPrice === "CUSTOM" || originalPrice.includes("+")) return formatPrice(originalPrice);
-        const numericPart = originalPrice.replace(/[^\d]/g, "");
-        const numPrice = parseInt(numericPart, 10);
-        if (isNaN(numPrice)) return formatPrice(originalPrice);
+        const formatted = formatPrice(originalPrice);
+        const numericMatch = formatted.replace(/,/g, "").match(/\d+/);
+        if (!numericMatch) return formatted;
         
+        const numPrice = parseFloat(numericMatch[0]);
         const discountFactor = discountCode.trim().toUpperCase().startsWith("MOW20") ? 0.8 : 0.9;
         const discounted = Math.round(numPrice * discountFactor);
         
+        const symbol = formatted.trim().charAt(0);
         let suffix = "";
         if (originalPrice.toLowerCase().includes("/mo")) {
             suffix = "/mo";
         }
         
-        return formatPrice(`$${discounted}${suffix}`);
+        return `${symbol}${discounted.toLocaleString()}${suffix}`;
     };
 
     const handleCareSubscribe = (plan: Plan) => {
@@ -671,7 +673,9 @@ function InvestmentContent() {
                                         </div>
 
                                         <div className="mb-20 relative z-10">
-                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">$4,999+</div>
+                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">
+                                                {formatPrice("$599+")}
+                                            </div>
                                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Architecture Level</span>
                                         </div>
 

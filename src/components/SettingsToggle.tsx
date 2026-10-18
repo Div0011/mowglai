@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun, Languages, Monitor, X } from "lucide-react";
+import { Moon, Sun, Languages, Monitor, X, Zap } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -19,12 +19,16 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { useLanguage, Language } from "@/context/LanguageContext";
+import { useCurrency, CurrencyType } from "@/context/CurrencyContext";
+import { useNetwork } from "@/context/NetworkContext";
 import { useMenuOpen } from "@/hooks/use-menu-open";
 
 
 const SettingsToggle = () => {
     const { setTheme, theme } = useTheme();
     const { language, setLanguage, t } = useLanguage();
+    const { currency, setCurrency } = useCurrency();
+    const { effectiveDataSaver, toggleDataSaver } = useNetwork();
 
     const [mounted, setMounted] = useState(false);
     const [showLanguageIcon, setShowLanguageIcon] = useState(false);
@@ -206,6 +210,73 @@ const SettingsToggle = () => {
                                 ))}
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    {/* Currency Selection */}
+                    <div className="space-y-2 pt-1 border-t border-primary/10">
+                        <h5 className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                            Currency
+                        </h5>
+                        <div className="grid grid-cols-4 gap-1.5">
+                            {(["INR", "USD", "EUR", "GBP"] as CurrencyType[]).map((cur) => {
+                                const symbolMap: Record<CurrencyType, string> = {
+                                    INR: "₹",
+                                    USD: "$",
+                                    EUR: "€",
+                                    GBP: "£"
+                                };
+                                const isSelected = currency === cur;
+                                return (
+                                    <button
+                                        key={cur}
+                                        type="button"
+                                        onClick={() => setCurrency(cur)}
+                                        className={cn(
+                                            "flex flex-col items-center justify-center py-2 px-1 rounded-xl border text-[11px] font-mono font-bold transition-all duration-200",
+                                            isSelected
+                                                ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                                : "border-primary/20 hover:border-primary/50 text-foreground/80 hover:text-foreground bg-transparent"
+                                        )}
+                                    >
+                                        <span className="text-sm">{symbolMap[cur]}</span>
+                                        <span className="text-[9px] uppercase tracking-wider">{cur}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Data Saver Mode */}
+                    <div className="space-y-1.5 pt-2 border-t border-primary/10">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5">
+                                <Zap className="w-3.5 h-3.5 text-primary" />
+                                <h5 className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                                    Data Saver
+                                </h5>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={toggleDataSaver}
+                                className={cn(
+                                    "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                                    effectiveDataSaver ? "bg-primary" : "bg-muted"
+                                )}
+                                aria-label="Toggle Data Saver"
+                            >
+                                <span
+                                    className={cn(
+                                        "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow ring-0 transition duration-200 ease-in-out",
+                                        effectiveDataSaver ? "translate-x-4" : "translate-x-0"
+                                    )}
+                                />
+                            </button>
+                        </div>
+                        <p className="text-[9px] text-muted-foreground leading-tight">
+                            {effectiveDataSaver 
+                                ? "Active: Conserving bandwidth and disabling heavy image rotations."
+                                : "Off: Full interactive media enabled."}
+                        </p>
                     </div>
                 </div>
             </PopoverContent>

@@ -11,6 +11,7 @@ const navLinks = [
     { label: "Home",      href: "/" },
     { label: "About",     href: "/about" },
     { label: "Services",  href: "/services" },
+    { label: "Catalogue", href: "/catalogue" },
     { label: "Templates", href: "/explore" },
     { label: "Pricing",   href: "/investment" },
     { label: "Contact",   href: "/contact" },
@@ -369,6 +370,22 @@ export default function ImmersiveFooter() {
                             {link.label}
                         </Link>
                     ))}
+                </div>
+
+                {/* Regional Service Hubs (Delhi NCR • Noida • Kanpur) */}
+                <div className="mt-3 flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-xs tracking-wider font-mono text-foreground/50 uppercase">
+                    <span className="text-foreground/30">Locations:</span>
+                    <Link href="/best-web-services-delhi-ncr" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Delhi NCR
+                    </Link>
+                    <span>·</span>
+                    <Link href="/best-web-services-noida" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Noida
+                    </Link>
+                    <span>·</span>
+                    <Link href="/best-web-services-kanpur" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Kanpur
+                    </Link>
                 </div>
 
                 {/* Divider Line */}

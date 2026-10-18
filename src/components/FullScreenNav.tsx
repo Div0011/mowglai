@@ -27,7 +27,8 @@ import {
     ShieldCheck,
     Crown,
     Cpu,
-    Zap
+    Zap,
+    FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
@@ -48,6 +49,7 @@ const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
     { icon: Users, label: "ABOUT", href: "/about" },
     { icon: Layers, label: "SERVICES", href: "/services", hasSubmenu: true },
+    { icon: FileText, label: "CATALOGUE", href: "/catalogue" },
     { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
     { icon: DollarSign, label: "PRICING", href: "/investment", hasSubmenu: true },
     { icon: Mail, label: "CONTACT", href: "/contact" },

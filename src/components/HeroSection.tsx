@@ -29,19 +29,27 @@ const box4Images = [
     "/images/templates/ecommerce/ecom2-3.png",
 ];
 
+import { useNetwork } from "@/context/NetworkContext";
+
 const HeroSection = () => {
     const { t, language } = useLanguage();
+    const { effectiveDataSaver, isLowNetwork } = useNetwork();
     const [slideIndex, setSlideIndex] = useState(0);
     const [tick, setTick] = useState(0);
     const [scrollY, setScrollY] = useState(0);
 
-    // Automatic slideshow timer
+    // Automatic slideshow timer - paused on low network / data saver to conserve bandwidth
     useEffect(() => {
+        if (effectiveDataSaver || isLowNetwork) {
+            setSlideIndex(0);
+            return;
+        }
+
         const interval = setInterval(() => {
             setSlideIndex((prev) => (prev + 1) % 4);
         }, 3000);
         return () => clearInterval(interval);
-    }, []);
+    }, [effectiveDataSaver, isLowNetwork]);
 
     // 3-second interval timer for revolving texts
     useEffect(() => {

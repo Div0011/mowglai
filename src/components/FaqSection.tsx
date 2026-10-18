@@ -35,6 +35,16 @@ const faqItems: FaqItem[] = [
         id: 5,
         question: "What technologies do you specialize in?",
         answer: "We're experts in React, Next.js, TypeScript, Three.js for 3D experiences, GSAP for animations, Tailwind CSS, and modern web architecture. We stay ahead of the curve with cutting-edge tools and frameworks."
+    },
+    {
+        id: 6,
+        question: "Do you provide web design & development services in NCR, Delhi, Noida, and Kanpur?",
+        answer: "Yes! Mowglai is proud to serve as a leading digital agency across the National Capital Region (NCR), Delhi, Noida, and Kanpur, as well as global enterprises. We provide local strategic meetings, direct engineering support, and rapid turnaround for businesses across these key regional hubs."
+    },
+    {
+        id: 7,
+        question: "What are your service pricing rates?",
+        answer: "Our web development packages start at ₹5,000 INR ($55 USD) for essential single-page and starter solutions, ₹9,999 INR ($110 USD) for multi-page business architectures, ₹12,999 INR ($149 USD) for e-commerce storefronts, and tailored pricing for bespoke full-stack applications."
     }
 ];
 
