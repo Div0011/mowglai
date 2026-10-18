@@ -478,8 +478,27 @@ const Step3Visual = () => {
     );
 };
 
+const STARTING_PRICES = [
+    "WEBSITE CREATION STARTING FROM 55 DOLLARS",
+    "WEBSITE CREATION STARTING FROM 5000 INR",
+    "WEBSITE CREATION STARTING FROM 50 EUROS",
+    "WEBSITE CREATION STARTING FROM 45 POUNDS",
+    "WEBSITE CREATION STARTING FROM 75 CAD",
+    "WEBSITE CREATION STARTING FROM 85 AUD",
+    "WEBSITE CREATION STARTING FROM 200 AED",
+];
+
 export default function InteractiveSetupSection() {
     const [activeStep, setActiveStep] = useState(0);
+    const [priceIndex, setPriceIndex] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setPriceIndex((prev) => (prev + 1) % STARTING_PRICES.length);
+        }, 2000);
+
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -649,9 +668,20 @@ export default function InteractiveSetupSection() {
                     label="PRICING"
                     className="h-[120px] md:h-[140px]"
                 />
-                <span className="text-[10px] sm:text-xs md:text-sm font-display tracking-[0.25em] text-[#F5D061] font-black uppercase text-center select-none pointer-events-none mt-2 mb-4">
-                    WEBSITES STARTING AT 99 DOLLARS
-                </span>
+                <div className="h-6 flex items-center justify-center overflow-hidden mt-2 mb-4">
+                    <AnimatePresence mode="wait">
+                        <motion.span
+                            key={priceIndex}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="text-[10px] sm:text-xs md:text-sm font-display tracking-[0.25em] text-[#F5D061] font-black uppercase text-center select-none pointer-events-none whitespace-nowrap"
+                        >
+                            {STARTING_PRICES[priceIndex]}
+                        </motion.span>
+                    </AnimatePresence>
+                </div>
             </div>
 
             <div className="container mx-auto px-6 max-w-6xl mt-10">
