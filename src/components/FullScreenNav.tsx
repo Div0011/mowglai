@@ -47,11 +47,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
-    { icon: Users, label: "ABOUT", href: "/about" },
-    { icon: Layers, label: "SERVICES", href: "/services", hasSubmenu: true },
-    { icon: FileText, label: "CATALOGUE", href: "/catalogue" },
+    { icon: Zap, label: "AI ANALYZE", href: "/ai-analyze" },
+    { icon: Sparkles, label: "AI ONBOARD", href: "/ai-onboard" },
     { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
     { icon: DollarSign, label: "PRICING", href: "/investment", hasSubmenu: true },
+    { icon: Layers, label: "SERVICES", href: "/services", hasSubmenu: true },
     { icon: Mail, label: "CONTACT", href: "/contact" },
 ];
 
