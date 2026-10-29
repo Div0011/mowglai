@@ -478,41 +478,41 @@ const HeroSection = () => {
 
             </div>
 
-            {/* Floating Circular CTA Buttons at z-10 (GET FREE AUDIT Left, START PROJECT Right) */}
+            {/* Floating Circular CTA Buttons at z-10 (AI ANALYZE Left, AI ONBOARD Right) */}
             {/* Positioned side-by-side at bottom-8 on mobile, and vertically centered on desktop/laptop */}
             
-            {/* Left Edge / Bottom Left: GET FREE AUDIT Circle */}
+            {/* Left Edge / Bottom Left: AI ANALYZE Circle */}
             <div className="hidden md:block absolute bottom-8 left-[8%] top-auto translate-y-0 md:top-1/2 md:-translate-y-1/2 md:left-8 md:bottom-auto z-10 opacity-0 animate-fade-in animate-duration-1000" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <Magnetic>
                     <Link
-                        href="/audit"
+                        href="/ai-analyze"
                         className="group relative flex flex-col items-center justify-center text-center w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full transition-all duration-500 hover:scale-110"
                     >
                         {/* 10x Scaling background mask */}
                         <div className="absolute inset-0 rounded-full bg-background/5 backdrop-blur-3xl border border-primary/20 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] group-hover:scale-[10] group-hover:bg-white z-10" />
                         
                         <span className="relative z-20 flex flex-col items-center justify-center gap-0.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] leading-tight text-white transition-colors duration-500 group-hover:text-black">
-                            <span>GET FREE</span>
-                            <span>AUDIT</span>
+                            <span>AI</span>
+                            <span>ANALYZE</span>
                             <ScanLine className="w-3 h-3 md:w-4 md:h-4 mt-0.5 transition-all duration-500 group-hover:rotate-180 group-hover:text-black group-hover:stroke-black" />
                         </span>
                     </Link>
                 </Magnetic>
             </div>
 
-            {/* Right Edge / Bottom Right: START PROJECT Circle */}
+            {/* Right Edge / Bottom Right: AI ONBOARD Circle */}
             <div className="hidden md:block absolute bottom-8 right-[8%] top-auto translate-y-0 md:top-1/2 md:-translate-y-1/2 md:right-8 md:bottom-auto z-10 opacity-0 animate-fade-in animate-duration-1000" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
                 <Magnetic>
                     <Link
-                        href="/investment"
+                        href="/ai-onboard"
                         className="group relative flex flex-col items-center justify-center text-center w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full transition-all duration-500 hover:scale-110"
                     >
                         {/* 10x Scaling background mask */}
                         <div className="absolute inset-0 rounded-full bg-primary transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] group-hover:scale-[10] group-hover:bg-white z-10" />
                         
                         <span className="relative z-20 flex flex-col items-center justify-center gap-0.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] leading-tight text-white transition-colors duration-500 group-hover:text-black">
-                            <span>START</span>
-                            <span>PROJECT</span>
+                            <span>AI</span>
+                            <span>ONBOARD</span>
                             <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-0.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-black" />
                         </span>
                     </Link>
@@ -521,11 +521,11 @@ const HeroSection = () => {
             {/* Mobile stacked CTAs inside hero: placed just below the hero content */}
             <div className="md:hidden absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 w-[90%] z-[100000]"
                  style={{ bottom: "22dvh" }}>
-                <Link href="/audit" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 rounded-full text-sm font-bold shadow-md">
-                    GET FREE AUDIT
+                <Link href="/ai-analyze" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 rounded-full text-sm font-bold shadow-md">
+                    AI ANALYZE
                 </Link>
-                <Link href="/investment" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-background border border-primary/20 text-primary px-4 py-3 rounded-full text-sm font-bold shadow-md">
-                    START PROJECT
+                <Link href="/ai-onboard" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-background border border-primary/20 text-primary px-4 py-3 rounded-full text-sm font-bold shadow-md">
+                    AI ONBOARD
                 </Link>
             </div>
         </section>
