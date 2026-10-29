@@ -668,19 +668,10 @@ export default function InteractiveSetupSection() {
                     label="PRICING"
                     className="h-[120px] md:h-[140px]"
                 />
-                <div className="h-6 flex items-center justify-center overflow-hidden mt-2 mb-4">
-                    <AnimatePresence mode="wait">
-                        <motion.span
-                            key={priceIndex}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="text-[10px] sm:text-xs md:text-sm font-display tracking-[0.25em] text-[#F5D061] font-black uppercase text-center select-none pointer-events-none whitespace-nowrap"
-                        >
-                            {STARTING_PRICES[priceIndex]}
-                        </motion.span>
-                    </AnimatePresence>
+                <div className="h-6 flex items-center justify-center mt-2 mb-4">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-display tracking-[0.2em] text-[#F5D061] font-black uppercase text-center select-none pointer-events-none whitespace-nowrap">
+                        TRANSPARENT PRICING FROM ₹5,000 INR ($55 USD)
+                    </span>
                 </div>
             </div>
 

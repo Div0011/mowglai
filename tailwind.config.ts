@@ -18,6 +18,16 @@ export default {
         body: ["Josefin Sans", "sans-serif"],
       },
       colors: {
+        forest: {
+          DEFAULT: "#0A1F1A",
+          light: "#102A24",
+        },
+        lime: {
+          DEFAULT: "#C8F169",
+        },
+        peach: {
+          DEFAULT: "#FFDAB9",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -82,7 +92,7 @@ export default {
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(20px)" },
