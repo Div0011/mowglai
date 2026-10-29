@@ -12,9 +12,10 @@
 - **Phone**: +91-9452476331
 - **Email**: contact@mowglai.com
 
-## Automated AI Client Onboarder & Matcher
+## Automated AI Client Onboarder & Competitor Decompiler
 - **Interactive AI Onboarding Route**: https://mowglai.com/ai-onboard
-- **Capability**: Synthesizes client business profile, generates tailored website blueprints, matches bespoke HTML5/Tailwind previews in 120 seconds, and structures Local SEO & JSON-LD schemas.
+- **Competitor Inspiration Analyzer (Clean Room)**: https://mowglai.com/ai-analyze
+- **Capability**: Decompiles competitor websites into UX blueprints, audits speed bottlenecks, matches bespoke HTML5/Tailwind previews in 120 seconds, and structures Local SEO & JSON-LD schemas.
 - **Direct Template Match Registry**: Maps directly into 40+ handcrafted sector templates (Healthcare, Gym & Fitness, Education, Real Estate, Restaurants, E-Commerce, Portfolios).
 
 ## Transparent Pricing Structure

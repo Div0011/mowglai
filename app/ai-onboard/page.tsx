@@ -91,6 +91,26 @@ export default function AiOnboardingPage() {
 
     const [result, setResult] = useState<OnboardingAnalysisResult | null>(null);
 
+    // Read prefill parameters safely in useEffect (Static Export Friendly)
+    React.useEffect(() => {
+        if (typeof window === "undefined") return;
+        const params = new URLSearchParams(window.location.search);
+        const bName = params.get("businessName");
+        const bSector = params.get("businessSector") as BusinessSector | null;
+        const bBudget = params.get("budget");
+        const bGoal = params.get("primaryGoal");
+
+        if (bName || bSector || bBudget || bGoal) {
+            setFormData((prev) => ({
+                ...prev,
+                businessName: bName || prev.businessName,
+                businessSector: bSector || prev.businessSector,
+                budget: bBudget || prev.budget,
+                primaryGoal: bGoal || prev.primaryGoal
+            }));
+        }
+    }, []);
+
     const handleStartAnalysis = async () => {
         setIsAnalyzing(true);
         setAnalysisProgress(15);
