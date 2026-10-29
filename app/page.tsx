@@ -111,10 +111,10 @@ const jsonLdFaq = {
     },
     {
       "@type": "Question",
-      "name": "Can Mowglai help my business rank at the top of Google in Delhi, Noida, and Kanpur?",
+      "name": "How does Mowglai optimize websites for search visibility in NCR, Delhi, Noida, and Kanpur?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Every website developed by Mowglai is built with technical SEO, Google Core Web Vitals optimization, semantic structured data markup (JSON-LD), localized geo-tagging for Delhi NCR, Noida, and Kanpur, and AI-search optimization (AIO/GEO) to ensure maximum search visibility."
+        "text": "Every website engineered by Mowglai is built with technical SEO fundamentals, Google Core Web Vitals optimization, semantic structured data markup (JSON-LD), and localized geographic indexing to maximize organic search visibility across search engines and AI platforms."
       }
     },
     {

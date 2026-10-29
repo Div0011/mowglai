@@ -134,8 +134,8 @@ export const viewport: Viewport = {
     // logo, floating CTAs, back-to-top) offsets itself with these insets.
     viewportFit: "cover",
     themeColor: [
-        { media: "(prefers-color-scheme: light)", color: "#FDF3E7" },
-        { media: "(prefers-color-scheme: dark)", color: "#0a0f0c" },
+        { media: "(prefers-color-scheme: light)", color: "#FFF8F0" },
+        { media: "(prefers-color-scheme: dark)", color: "#0A1F1A" },
     ],
 };
 
@@ -357,12 +357,6 @@ export default function RootLayout({
                                                     "priceCurrency": "INR"
                                                 }
                                             ]
-                                        },
-                                        "aggregateRating": {
-                                            "@type": "AggregateRating",
-                                            "ratingValue": "4.9",
-                                            "reviewCount": "52",
-                                            "bestRating": "5"
                                         }
                                     }
                                 ]
