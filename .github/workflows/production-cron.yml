@@ -1,0 +1,50 @@
+name: Production Health & Audit Cron
+
+on:
+  schedule:
+    # Run twice daily (00:00 and 12:00 UTC) to audit public live production status
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+
+jobs:
+  audit-production:
+    name: Audit Production Endpoints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit Core Public Web Routes
+        run: |
+          echo "=== Auditing Mowglai Production Health ==="
+          declare -a urls=(
+            "https://mowglai.com/"
+            "https://mowglai.com/about"
+            "https://mowglai.com/explore"
+            "https://mowglai.com/investment"
+            "https://mowglai.com/contact"
+            "https://mowglai.com/audit"
+            "https://mowglai.com/ai-analyze"
+            "https://mowglai.com/ai-onboard"
+            "https://mowglai.com/robots.txt"
+            "https://mowglai.com/sitemap.xml"
+            "https://mowglai.com/llms.txt"
+          )
+          for url in "${urls[@]}"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L "$url" || echo "ERR")
+            echo "Endpoint: $url | HTTP Status: $code"
+          done
+
+      - name: Audit API & Background Handlers
+        run: |
+          echo "=== Auditing Public API Handlers ==="
+          # Audit AI Analyze endpoint
+          echo "Testing /api/ai-analyze.php..."
+          curl -s -X POST https://mowglai.com/api/ai-analyze.php \
+            -H "Content-Type: application/json" \
+            -d '{"url":"https://example.com"}' \
+            -w "\nHTTP Response: %{http_code}\n" || true
+
+          # Audit AI Onboard endpoint
+          echo "Testing /api/ai-onboard.php..."
+          curl -s -X POST https://mowglai.com/api/ai-onboard.php \
+            -H "Content-Type: application/json" \
+            -d '{"businessName":"Audit Ping","businessSector":"portfolio","city":"NCR"}' \
+            -w "\nHTTP Response: %{http_code}\n" || true

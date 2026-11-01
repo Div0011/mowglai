@@ -1,3 +1,9 @@
+# Default Directory Index
+DirectoryIndex index.html index.php
+
+# Prevent Directory Browsing
+Options -Indexes
+
 # Enable compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
@@ -22,7 +28,7 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
-  RewriteRule . /index.html [L]
+  RewriteRule ^ /index.html [L]
 </IfModule>
 
 # Caching headers
