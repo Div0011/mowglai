@@ -100,7 +100,7 @@ export const metadata: Metadata = {
         canonical: "https://mowglai.com",
     },
     verification: {
-        google: "Evz63X8emo75NARUTxWl7zuik4hstQOoYls6MKipByA",
+        google: "3MLnnPXMmJ1XyDvq4Pg8NU7d539HnXlro5bRLijpH98",
         other: {
             "razorpay-verification": "YOUR_RAZORPAY_VERIFICATION_KEY",
             "geo.region": "IN-DL;IN-UP",
