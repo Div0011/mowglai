@@ -24,15 +24,20 @@ const NextPageButton = ({ label, href, tagline, className }: NextPageButtonProps
                     0% { background-position: 0px 0px; }
                     100% { background-position: 40px 0px; }
                 }
+                @media (prefers-reduced-motion: reduce) {
+                    .grid-animated-bg {
+                        animation: none !important;
+                    }
+                }
             `}} />
 
             {/* Extreme Left to Extreme Right Moving Grid Background */}
             <div 
-                className="absolute inset-0 opacity-[0.06] pointer-events-none z-0"
+                className="absolute inset-0 opacity-[0.06] pointer-events-none z-0 grid-animated-bg"
                 style={{
                     backgroundImage: `
-                        linear-gradient(to right, rgba(230, 185, 61, 0.2) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(230, 185, 61, 0.2) 1px, transparent 1px)
+                        linear-gradient(to right, rgba(200, 241, 105, 0.2) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(200, 241, 105, 0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '40px 40px',
                     animation: 'grid-move-left-to-right 12s linear infinite',
@@ -49,11 +54,11 @@ const NextPageButton = ({ label, href, tagline, className }: NextPageButtonProps
             {/* Button + Marquee Container */}
             <div className="relative w-full flex items-center justify-center z-10">
 
-                {/* Marquee Trail */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0">
+                {/* Marquee Trail - hidden from assistive tech and reduced repetition */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-screen -translate-y-1/2 transform pointer-events-none z-0" aria-hidden="true">
                     <div className="relative flex whitespace-nowrap overflow-hidden py-12">
-                        <div className="flex animate-marquee-slow items-center flex-shrink-0">
-                            {[...Array(8)].map((_, i) => (
+                        <div className="flex animate-marquee-slow motion-reduce:animate-none items-center flex-shrink-0">
+                            {[...Array(2)].map((_, i) => (
                                 <div
                                     key={i}
                                     className="inline-flex items-center gap-6 mx-10 text-xl sm:text-3xl md:text-4xl font-display font-black text-foreground/[0.08] uppercase tracking-widest"
@@ -63,8 +68,8 @@ const NextPageButton = ({ label, href, tagline, className }: NextPageButtonProps
                                 </div>
                             ))}
                         </div>
-                        <div className="flex animate-marquee-slow items-center flex-shrink-0" aria-hidden="true">
-                            {[...Array(8)].map((_, i) => (
+                        <div className="flex animate-marquee-slow motion-reduce:animate-none items-center flex-shrink-0">
+                            {[...Array(2)].map((_, i) => (
                                 <div
                                     key={i}
                                     className="inline-flex items-center gap-6 mx-10 text-xl sm:text-3xl md:text-4xl font-display font-black text-foreground/[0.08] uppercase tracking-widest"
@@ -81,6 +86,7 @@ const NextPageButton = ({ label, href, tagline, className }: NextPageButtonProps
                 <Magnetic>
                     <Link
                         href={href}
+                        aria-label={`Navigate to ${label}`}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                         className={cn(

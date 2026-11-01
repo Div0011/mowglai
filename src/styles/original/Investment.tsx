@@ -18,7 +18,7 @@ const plans = {
         {
             name: "BASIC",
             priceKey: "basic",
-            description: "Essential Digital Prescence",
+            description: "Essential Digital Presence",
             features: ["Single page website", "Mobile responsive design", "Basic SEO optimization", "Contact form integration", "1 month support"],
             cta: "Initiate"
         },

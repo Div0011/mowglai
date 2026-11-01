@@ -26,7 +26,9 @@ function MouseGlow() {
     const [isTouchDevice, setIsTouchDevice] = useState(true);
 
     useEffect(() => {
-        if (window.matchMedia("(pointer: fine)").matches) {
+        const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (hasFinePointer && !prefersReducedMotion) {
             setIsTouchDevice(false);
         }
         const handleMouseMove = (e: MouseEvent) => {
@@ -54,7 +56,7 @@ function MouseGlow() {
             style={{
                 width: 300,
                 height: 300,
-                background: "radial-gradient(circle, rgba(230, 185, 61, 0.08) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(200, 241, 105, 0.08) 0%, transparent 70%)",
                 borderRadius: "50%",
             }}
         />
@@ -62,13 +64,16 @@ function MouseGlow() {
 }
 
 function AmbientParticles() {
-    const [particleCount, setParticleCount] = useState(3);
+    const [particleCount, setParticleCount] = useState(0);
 
     useEffect(() => {
-        if (window.innerWidth >= 768) {
-            setParticleCount(8);
+        const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (window.innerWidth >= 768 && !isReduced) {
+            setParticleCount(6);
         }
     }, []);
+
+    if (particleCount === 0) return null;
 
     return (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -252,7 +257,9 @@ export default function HomeContent() {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        const cards = gsap.utils.toArray(".reveal-card") as HTMLElement[];
+        const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (isReduced) return;
+        const cards = gsap.utils.toArray(".reveal-card", containerRef.current) as HTMLElement[];
         cards.forEach((card) => {
             gsap.fromTo(
                 card,
@@ -271,7 +278,7 @@ export default function HomeContent() {
                 }
             );
         });
-    }, []);
+    }, { scope: containerRef });
 
     return (
         <div ref={containerRef} className="relative">
@@ -308,7 +315,7 @@ export default function HomeContent() {
                                 title: "Website Development",
                                 desc: "Bespoke high-performance web systems engineered with React, Next.js, and advanced 3D transitions.",
                                 icon: <Code2 className="w-6 h-6 text-primary" />,
-                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(230,185,61,0.12)]",
+                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(200,241,105,0.15)]",
                                 border: "group-hover/tile:border-primary/30",
                             },
                             {

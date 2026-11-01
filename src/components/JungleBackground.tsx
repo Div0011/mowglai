@@ -4,12 +4,12 @@ const JungleBackground = () => {
     return (
         <div className="fixed inset-0 w-full h-dvh -z-[100] overflow-hidden pointer-events-none">
 
-            {/* 1. Base Gradient Layer - Spans entire page height (Unified, no mask) */}
+            {/* 1. Base Gradient Layer - Deep forest / Surface forest brand direction */}
             <div className="fixed inset-0 w-full h-dvh bg-gradient-to-b transition-colors duration-1000 
-                /* Dark Mode: Palm Leaf -> Dark Green -> Deep Green */
-                dark:from-[#799851] dark:via-[#47622A] dark:to-[#374426] 
-                /* Light Mode: Off-white/Peach (#FDF3E7) -> Golden (#D4AF37) */
-                from-[#FDF3E7] via-[#EBD5B3] to-[#D4AF37]"
+                /* Dark Mode: Deep Forest (#0A1F1A) -> Surface Forest (#102A24) */
+                dark:from-[#0A1F1A] dark:via-[#102A24] dark:to-[#0A1F1A] 
+                /* Light Mode: Peach tint (#FFF8F0) -> Soft Peach (#FFDAB9) */
+                from-[#FFF8F0] via-[#FFDAB9]/25 to-[#FFF8F0]"
             />
 
             {/* 2. Fixed Atmosphere Layer - Overlays that stay with the viewport */}
@@ -18,20 +18,20 @@ const JungleBackground = () => {
                 <div className="absolute inset-0 noise-overlay opacity-20 pointer-events-none" />
 
                 {/* Dappled light effects - Mobile optimized GPU pulses */}
-                <div className="absolute top-0 left-1/4 w-[320px] sm:w-[500px] md:w-[800px] h-[320px] sm:h-[500px] md:h-[800px] bg-white/5 dark:bg-green-900/10 rounded-full blur-2xl md:blur-[120px] animate-pulse transform-gpu" />
-                <div className="absolute bottom-1/4 right-1/4 w-[300px] sm:w-[450px] md:w-[700px] h-[300px] sm:h-[450px] md:h-[700px] bg-[#D4AF37]/5 dark:bg-emerald-900/5 rounded-full blur-3xl md:blur-[150px] animate-bounce-slow transform-gpu" />
+                <div className="absolute top-0 left-1/4 w-[320px] sm:w-[500px] md:w-[800px] h-[320px] sm:h-[500px] md:h-[800px] bg-white/5 dark:bg-emerald-950/20 rounded-full blur-2xl md:blur-[120px] animate-pulse transform-gpu" />
+                <div className="absolute bottom-1/4 right-1/4 w-[300px] sm:w-[450px] md:w-[700px] h-[300px] sm:h-[450px] md:h-[700px] bg-[#FFDAB9]/10 dark:bg-emerald-900/5 rounded-full blur-3xl md:blur-[150px] animate-bounce-slow transform-gpu" />
 
                 {/* Vignette for depth - Stronger in dark mode */}
                 <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.05)_100%)] dark:bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
             </div>
 
-            {/* 3. Floating Yellow Fireflies - GPU hardware compositor driven */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#E6B93D] blur-[1px] animate-firefly-1 will-change-transform" />
-                <div className="absolute top-0 left-0 w-3 h-3 rounded-full bg-[#F5D061] blur-[2px] animate-firefly-2 will-change-transform" />
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#FFFFFF] blur-[1px] animate-firefly-3 will-change-transform" />
-                <div className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-[#E6B93D] blur-[2px] animate-firefly-4 will-change-transform" />
-                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#F5D061] blur-[1px] animate-firefly-5 will-change-transform" />
+            {/* 3. Floating Brand Fireflies - Desktop only for mobile battery optimization */}
+            <div className="hidden md:block absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#C8F169] blur-[1px] animate-firefly-1 will-change-transform" />
+                <div className="absolute top-0 left-0 w-3 h-3 rounded-full bg-[#FFDAB9] blur-[2px] animate-firefly-2 will-change-transform" />
+                <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#F4F7F5] blur-[1px] animate-firefly-3 will-change-transform" />
+                <div className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-[#C8F169] blur-[2px] animate-firefly-4 will-change-transform" />
+                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#FFDAB9] blur-[1px] animate-firefly-5 will-change-transform" />
             </div>
 
             <style>{`
@@ -79,6 +79,17 @@ const JungleBackground = () => {
                 .animate-firefly-3 { animation: fly-3 20s ease-in-out infinite 5s; }
                 .animate-firefly-4 { animation: fly-4 28s ease-in-out infinite 1s; }
                 .animate-firefly-5 { animation: fly-5 22s ease-in-out infinite 7s; }
+                @media (prefers-reduced-motion: reduce) {
+                    .animate-bounce-slow,
+                    .animate-firefly-1,
+                    .animate-firefly-2,
+                    .animate-firefly-3,
+                    .animate-firefly-4,
+                    .animate-firefly-5 {
+                        animation: none !important;
+                        opacity: 0 !important;
+                    }
+                }
             `}</style>
         </div>
     );
