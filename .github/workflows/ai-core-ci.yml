@@ -1,0 +1,32 @@
+name: AI Core Focused CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/ai-core/**"
+      - "packages/core-contracts/**"
+      - ".github/workflows/ai-core-ci.yml"
+  push:
+    branches:
+      - "integration/ai-core-contracts-only"
+
+permissions:
+  contents: read
+
+jobs:
+  focused-tests:
+    name: Shared contracts and AI Core tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Run focused tests
+        run: bun test packages/core-contracts/src packages/ai-core/src
