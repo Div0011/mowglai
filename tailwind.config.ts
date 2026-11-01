@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Boldonse", "serif"],
-        body: ["Josefin Sans", "sans-serif"],
+        display: ["var(--font-display)", "Boldonse", "serif"],
+        body: ["var(--font-body)", "Josefin Sans", "sans-serif"],
       },
       colors: {
         forest: {
@@ -92,7 +92,7 @@ export default {
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(20px)" },

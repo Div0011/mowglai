@@ -2,26 +2,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@font-face {
-  font-family: 'Boldonse';
-  src: url('/fonts/Boldonse-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Specialty typography variants - core display and body fonts loaded via next/font/local */
 @font-face {
   font-family: 'Sloops';
   src: url('/fonts/Sloops.TTF') format('truetype');
   font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Josefin Sans';
-  src: url('/fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -44,38 +29,52 @@
 
 @layer base {
   :root {
-    /* Original Theme Variables */
-    --background: 150 60% 15%;
-    --foreground: 50 100% 95%;
-    --primary: 43 100% 70%;
-    --primary-foreground: 150 60% 5%;
-    --secondary: 150 60% 20%;
-    --secondary-foreground: 43 100% 90%;
-    --card: 150 60% 12%;
-    --card-foreground: 50 100% 95%;
-    --accent: 79 45% 45%;
-    --accent-foreground: 43 100% 90%;
-    --border: 43 100% 70% / 0.2;
-    --ring: 43 100% 70%;
+    /* Brand Design Tokens (Forest, Lime, Peach) */
+    --background: 166 51% 8%;       /* Deep forest: #0A1F1A */
+    --foreground: 160 15% 96%;      /* High-contrast off-white: #F4F7F5 */
+    --primary: 78 82% 68%;          /* Lime action accent: #C8F169 */
+    --primary-foreground: 166 51% 8%;/* Deep forest on lime */
+    --secondary: 166 45% 11%;       /* Surface forest: #102A24 */
+    --secondary-foreground: 28 100% 86%; /* Soft peach: #FFDAB9 */
+    --card: 166 45% 11%;            /* Surface forest */
+    --card-foreground: 160 15% 96%;
+    --popover: 166 45% 11%;
+    --popover-foreground: 160 15% 96%;
+    --muted: 166 30% 16%;
+    --muted-foreground: 160 10% 70%;
+    --accent: 28 100% 86%;          /* Soft peach secondary accent: #FFDAB9 */
+    --accent-foreground: 166 51% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 160 15% 96%;
+    --border: 166 35% 20%;
+    --input: 166 35% 20%;
+    --ring: 78 82% 68%;             /* Lime focus ring */
 
-    --glass-bg: 0 0% 100%;
-    --glass-border: 255 255 255;
+    --glass-bg: 16 42 36;
+    --glass-border: 200 241 105;
     --gradient-candy: linear-gradient(135deg, hsl(320 100% 60%), hsl(45 100% 60%), hsl(190 100% 50%));
   }
 
   .light {
-    --background: 34 100% 98%;
-    --foreground: 150 60% 15%;
-    --primary: 43 100% 45%;
-    --primary-foreground: 150 60% 15%;
-    --secondary: 34 100% 92%;
-    --secondary-foreground: 150 60% 15%;
-    --card: 34 100% 96%;
-    --card-foreground: 150 60% 15%;
-    --accent: 43 100% 45%;
-    --accent-foreground: 34 100% 98%;
-    --border: 43 100% 45% / 0.2;
-    --ring: 43 100% 45%;
+    --background: 28 100% 97%;      /* Soft peach-tinted light background */
+    --foreground: 166 51% 8%;       /* Deep forest */
+    --primary: 166 51% 10%;         /* Deep forest */
+    --primary-foreground: 78 82% 68%;/* Lime text on deep forest */
+    --secondary: 28 100% 92%;       /* Soft peach */
+    --secondary-foreground: 166 51% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 166 51% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 166 51% 8%;
+    --muted: 28 30% 90%;
+    --muted-foreground: 166 25% 35%;
+    --accent: 78 82% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 166 25% 82%;
+    --input: 166 25% 82%;
+    --ring: 166 51% 12%;
   }
 
   /* Minimal Style Core */

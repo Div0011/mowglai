@@ -68,9 +68,9 @@ const Step1Visual = () => {
         let frameId: number;
 
         const isDark = resolvedTheme === "dark";
-        const goldColor = isDark ? "rgba(230, 185, 61, 0.7)" : "rgba(212, 175, 55, 0.85)";
-        const greenColor = isDark ? "rgba(16, 185, 129, 0.7)" : "rgba(71, 98, 42, 0.85)";
-        const gridColor = isDark ? "rgba(230, 185, 61, 0.08)" : "rgba(71, 98, 42, 0.12)";
+        const goldColor = isDark ? "rgba(200, 241, 105, 0.85)" : "rgba(100, 160, 40, 0.9)";
+        const greenColor = isDark ? "rgba(16, 42, 36, 0.95)" : "rgba(10, 31, 26, 0.9)";
+        const gridColor = isDark ? "rgba(200, 241, 105, 0.08)" : "rgba(10, 31, 26, 0.12)";
 
         const drawScene = () => {
             tick++;
@@ -215,8 +215,8 @@ const Step2Visual = () => {
         let frameId: number;
 
         const isDark = resolvedTheme === "dark";
-        const goldColor = isDark ? "rgba(230, 185, 61, 0.7)" : "rgba(212, 175, 55, 0.85)";
-        const greenColor = isDark ? "rgba(16, 185, 129, 0.7)" : "rgba(71, 98, 42, 0.85)";
+        const goldColor = isDark ? "rgba(200, 241, 105, 0.85)" : "rgba(100, 160, 40, 0.9)";
+        const greenColor = isDark ? "rgba(16, 42, 36, 0.95)" : "rgba(10, 31, 26, 0.9)";
         const monitorColor = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.15)";
         const screenColor = isDark ? "rgba(16, 185, 129, 0.03)" : "rgba(71, 98, 42, 0.04)";
 
@@ -317,7 +317,7 @@ const Step2Visual = () => {
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ imageRendering: "pixelated" }} />
             <div className="absolute bottom-2 flex justify-between w-[90%] px-4 font-mono text-[7px] z-10 text-white/50">
                 <span className="text-emerald-400">LCP: 0.8s</span>
-                <span className="text-[#E6B93D]">FID: 9ms</span>
+                <span className="text-[#C8F169]">INP: &lt; 50ms</span>
             </div>
         </div>
     );
@@ -472,7 +472,7 @@ const Step3Visual = () => {
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ imageRendering: "pixelated" }} />
             <div className="absolute bottom-2 flex justify-between w-[90%] px-4 font-mono text-[7px] z-10 text-white/50">
                 <span>SPEED INDEX: 0.4s</span>
-                <span className="text-[#E6B93D]">SEO CORE: 100</span>
+                <span className="text-[#C8F169]">SEO CORE: 100</span>
             </div>
         </div>
     );

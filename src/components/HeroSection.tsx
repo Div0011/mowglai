@@ -2,31 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Magnetic from "./Magnetic";
 import { useLanguage } from "../context/LanguageContext";
 import { ArrowRight, ScanLine } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const box1Images = [
-    "/images/templates/portfolio/port1-1.png",
-    "/images/templates/portfolio/port2-2.png",
-    "/images/templates/real-estate/re1-1.png",
-    "/images/templates/real-estate/re2-2.png",
+    "/images/templates/portfolio/port1-1.webp",
+    "/images/templates/portfolio/port2-2.webp",
+    "/images/templates/real-estate/re1-1.webp",
+    "/images/templates/real-estate/re2-2.webp",
 ];
 
 const box2Images = [
-    "/images/templates/yoga/yoga1-1.png",
-    "/images/templates/yoga/yoga4-3.png",
-    "/images/templates/gym/gym1-1.png",
-    "/images/templates/gym/gym3-2.png",
+    "/images/templates/yoga/yoga1-1.webp",
+    "/images/templates/yoga/yoga4-3.webp",
+    "/images/templates/gym/gym1-1.webp",
+    "/images/templates/gym/gym3-2.webp",
 ];
 
 const box4Images = [
-    "/images/templates/school/school2-3.png",
-    "/images/templates/school/school1-1.png",
-    "/images/templates/ecommerce/ecom1-1.png",
-    "/images/templates/ecommerce/ecom2-3.png",
+    "/images/templates/school/school2-3.webp",
+    "/images/templates/school/school1-1.webp",
+    "/images/templates/ecommerce/ecom1-1.webp",
+    "/images/templates/ecommerce/ecom2-3.webp",
 ];
 
 import { useNetwork } from "@/context/NetworkContext";
@@ -34,9 +34,9 @@ import { useNetwork } from "@/context/NetworkContext";
 const HeroSection = () => {
     const { t, language } = useLanguage();
     const { effectiveDataSaver, isLowNetwork } = useNetwork();
+    const sectionRef = useRef<HTMLElement>(null);
     const [slideIndex, setSlideIndex] = useState(0);
     const [tick, setTick] = useState(0);
-    const [scrollY, setScrollY] = useState(0);
 
     // Automatic slideshow timer - paused on low network / data saver to conserve bandwidth
     useEffect(() => {
@@ -59,13 +59,21 @@ const HeroSection = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Scroll listener to keep slideshows static during scroll (throttled with rAF for 60fps mobile performance)
+    // Direct CSS transform updater via element ref: avoids triggering React state updates on every scroll frame
     useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
         let rAF = 0;
         const handleScroll = () => {
             if (!rAF) {
                 rAF = requestAnimationFrame(() => {
-                    setScrollY(window.scrollY);
+                    const y = window.scrollY;
+                    if (y <= 500) {
+                        const opacity = Math.max(0, 1 - y / 400);
+                        el.style.setProperty("--hero-scroll", `${y}px`);
+                        el.style.setProperty("--hero-opacity", `${opacity}`);
+                        el.style.setProperty("--hero-pe", opacity === 0 ? "none" : "auto");
+                    }
                     rAF = 0;
                 });
             }
@@ -134,20 +142,16 @@ const HeroSection = () => {
     const lineState3 = getLineState(3);
     const lineState4 = getLineState(4);
 
-    // Calculate dynamic styles for scroll parallax (offsetting upward scroll and fading out)
-    const getSlideshowStyle = () => {
-        const opacity = Math.max(0, 1 - scrollY / 400);
-        return {
-            transform: `translateY(${scrollY}px) translateZ(0)`,
-            opacity,
-            pointerEvents: opacity === 0 ? "none" : ("auto" as "none" | "auto"),
-        };
+    // Zero-state CSS parallax style powered by compositor variable
+    const slideshowStyle: React.CSSProperties = {
+        transform: "translateY(var(--hero-scroll, 0px)) translateZ(0)",
+        opacity: "var(--hero-opacity, 1)" as unknown as number,
+        pointerEvents: "var(--hero-pe, auto)" as unknown as "auto" | "none",
     };
-
-    const slideshowStyle = getSlideshowStyle();
 
     return (
         <section
+            ref={sectionRef}
             id="home"
             className="relative w-full h-[100dvh] z-10 overflow-hidden flex flex-col items-center justify-center border-none py-6 px-4 md:px-8 select-none"
         >
@@ -201,7 +205,7 @@ const HeroSection = () => {
                                         src={box1Images[slideIndex]} 
                                         alt="Website Preview Laptop" 
                                         fill 
-                                        unoptimized 
+                                        priority={slideIndex === 0} 
                                         className="object-cover object-top" 
                                     />
                                 </motion.div>
