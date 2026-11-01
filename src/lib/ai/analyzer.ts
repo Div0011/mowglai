@@ -76,12 +76,12 @@ export function analyzeCompetitorUrl(rawUrl: string): CompetitorAnalysisResult {
         cleanUrl = 'https://' + cleanUrl;
     }
 
-    let domain = 'competitor.com';
+    let domain: string;
     try {
         const parsed = new URL(cleanUrl);
         domain = parsed.hostname.replace('www.', '');
     } catch {
-        domain = cleanUrl.replace(/https?:\/\//, '').split('/')[0];
+        domain = cleanUrl.replace(/https?:\/\//, '').split('/')[0] || 'competitor.com';
     }
 
     const sector = detectSectorFromUrlOrText(cleanUrl + ' ' + domain);
