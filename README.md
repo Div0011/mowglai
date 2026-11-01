@@ -44,7 +44,9 @@ To run this project locally:
 
 ## Technologies
 
-- **Framework**: Next.js 15
+- **Framework**: Next.js 16 (App Router)
+- **React**: 19
+- **Language**: TypeScript
 - **Icons**: Lucide React
 - **Styling**: Tailwind CSS
 - **Interactivity**: Framer Motion
@@ -52,7 +54,7 @@ To run this project locally:
 - **3D Visuals**: Three.js (@react-three/fiber, @react-three/drei)
 - **Internationalization**: Custom React Context (`LanguageContext`) + Typed Dictionaries
 - **Theming**: `next-themes` (Dark/Light/System modes)
-- **Deployment**: Optimized for Vercel/Cloudflare
+- **Deployment**: Deployment target must be confirmed against the active hosting workflow; do not assume Vercel/Cloudflare
 - **Bespoke Templates**: Custom HTML/Tailwind templates for various sectors (Healthcare, Education, Real Estate, etc.) available in `public/previews`.
 
 ## Project Structure
@@ -141,7 +143,7 @@ docker push ghcr.io/div0011/mowglai:latest
 
 #### Automated Builds with GitHub Actions
 
-The repository includes GitHub Actions workflows for automated Docker builds and pushes to GHCR on every push to the main branch.
+The repository contains GitHub Actions workflows for Docker builds and GHCR publishing. Verify the workflow triggers, required secrets, permissions and target image before relying on automated publishing.
 
 ### Docker Configuration
 
@@ -153,4 +155,4 @@ The repository includes GitHub Actions workflows for automated Docker builds and
 
 ## License
 
-[Add your license information here]
+License: not yet specified. Confirm the intended license before redistribution.

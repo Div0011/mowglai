@@ -27,7 +27,7 @@ This project uses **Next.js 16 (App Router)** with a split structure:
 - **Imports**: Use relative imports or configured aliases (check `tsconfig.json`).
 
 ## 3. Technology Stack
-- **Framework**: Next.js 15 (React 19 RC)
+- **Framework**: Next.js 16 (App Router) with React 19
 - **Language**: TypeScript (Strict mode)
 - **Styling**: Tailwind CSS + Custom CSS Variables (`index.css`)
 - **UI Library**: Shadcn UI (Radix Primitives)
@@ -68,7 +68,7 @@ This project uses **Next.js 16 (App Router)** with a split structure:
 - **Start**: `bun start` (Runs the production build locally)
 - **Lint**: `bun run lint` (Run ESLint)
 - **Type Check**: `npx tsc --noEmit` (Check TypeScript types without emitting)
-- **No Tests**: This project does not have a test framework configured
+- **Tests**: Bun test is configured in package.json (`bun test`). Maintain or add tests for new modules and security-sensitive changes.
 
 ## 6. Code Style Guidelines
 
