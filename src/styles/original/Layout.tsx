@@ -4,8 +4,8 @@ import { useEffect, Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
-import SettingsToggle from "@/components/SettingsToggle";
-import ContactToggle from "@/components/ContactToggle";
+
+
 
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -45,8 +45,8 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <ScrollToTop />
             <BackToTopButton />
             {enableEnhancedCursor ? <CustomCursor /> : null}
-            <SettingsToggle />
-            <ContactToggle />
+
+
             <InteractivePet />
 
             {/* Background - Spans entire page height */}
