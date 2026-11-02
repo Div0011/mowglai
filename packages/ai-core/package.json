@@ -1,0 +1,13 @@
+{
+  "name": "@aemy/ai-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared request policy, task-aware model routing and provider-neutral AI core helpers",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "bun test src/index.test.ts"
+  }
+}
