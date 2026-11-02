@@ -1,0 +1,78 @@
+{
+  "agency": "Mowglai Digital Agency",
+  "website": "https://mowglai.com",
+  "whatsapp": "+91-9452476331",
+  "email": "contact@mowglai.com",
+  "packages": [
+    {
+      "id": "starter-web",
+      "name": "Basic Web Package",
+      "priceINR": 5000,
+      "priceUSD": 55,
+      "turnaroundDays": 5,
+      "description": "Essential single-page ultra-fast website, mobile-optimized with Google SEO and contact integration.",
+      "features": [
+        "Sub-second load times on mobile & desktop",
+        "Responsive design with smooth interactions",
+        "WhatsApp click-to-chat integration",
+        "Google Search Console & indexing setup"
+      ]
+    },
+    {
+      "id": "gmb-local-seo",
+      "name": "Google My Business & Local 3-Pack (48h)",
+      "priceINR": 4999,
+      "priceUSD": 59,
+      "turnaroundDays": 2,
+      "description": "Complete GMB profile setup, category optimization, and map ranking in 48 hours for immediate customer calls.",
+      "features": [
+        "Verified Google Business Profile setup",
+        "Local 3-Pack map keyword optimization",
+        "Direct call & direction button setup",
+        "5-star review collection funnel"
+      ]
+    },
+    {
+      "id": "scale-architecture",
+      "name": "Advanced Scale Architecture",
+      "priceINR": 9999,
+      "priceUSD": 110,
+      "turnaroundDays": 10,
+      "description": "Multi-page website (up to 5 pages), custom micro-interactions, CMS integration, and advanced AIO search optimization.",
+      "features": [
+        "Multi-page Next.js architecture",
+        "Interactive UI and custom visual effects",
+        "AI Engine Optimization (ChatGPT & Gemini citations)",
+        "Advanced lead generation forms"
+      ]
+    },
+    {
+      "id": "ecommerce-pro",
+      "name": "Store Essential & E-Commerce",
+      "priceINR": 12999,
+      "priceUSD": 149,
+      "turnaroundDays": 14,
+      "description": "High-converting online store with product catalog, cart, checkout, Razorpay, UPI, and courier sync.",
+      "features": [
+        "Product catalog with filter and instant search",
+        "Instant UPI, Razorpay, Cashfree & card checkout",
+        "Automated WhatsApp order confirmation",
+        "Courier integration (Shiprocket/Delhivery)"
+      ]
+    },
+    {
+      "id": "saas-mvp",
+      "name": "SaaS MVP & AI Workflows",
+      "priceINR": 24999,
+      "priceUSD": 299,
+      "turnaroundDays": 21,
+      "description": "Full-stack SaaS minimum viable product with authentication, database architecture, billing, and AI bot integration.",
+      "features": [
+        "Complete user authentication and protected dashboards",
+        "Subscription billing and payment webhooks",
+        "Custom AI workflow & WhatsApp assistant",
+        "Full source code ownership & staging deployment"
+      ]
+    }
+  ]
+}

@@ -15,10 +15,7 @@ const CustomCursor = () => {
   const [isInverted, setIsInverted] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
-  const cursorRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
-  const lastUpdateRef = useRef(0);
-
   const [isMobile, setIsMobile] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -44,38 +41,28 @@ const CustomCursor = () => {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const cursorXRef = useRef<((value: number) => void) | null>(null);
-  const cursorYRef = useRef<((value: number) => void) | null>(null);
   const followerXRef = useRef<((value: number) => void) | null>(null);
   const followerYRef = useRef<((value: number) => void) | null>(null);
 
-  // Initialize GSAP animations
+  // Initialize GSAP animations for the ambient follower ring
   useEffect(() => {
     if (isMobile || isReducedMotion) return;
 
-    if (cursorRef.current && followerRef.current) {
-      gsap.set([cursorRef.current, followerRef.current], { xPercent: -50, yPercent: -50 });
-      cursorXRef.current = gsap.quickTo(cursorRef.current, "x", { duration: 0.08, ease: "power3.out" });
-      cursorYRef.current = gsap.quickTo(cursorRef.current, "y", { duration: 0.08, ease: "power3.out" });
-      followerXRef.current = gsap.quickTo(followerRef.current, "x", { duration: 0.28, ease: "power3.out" });
-      followerYRef.current = gsap.quickTo(followerRef.current, "y", { duration: 0.28, ease: "power3.out" });
+    if (followerRef.current) {
+      gsap.set(followerRef.current, { xPercent: -50, yPercent: -50 });
+      followerXRef.current = gsap.quickTo(followerRef.current, "x", { duration: 0.18, ease: "power2.out" });
+      followerYRef.current = gsap.quickTo(followerRef.current, "y", { duration: 0.18, ease: "power2.out" });
     }
   }, [isMobile, isReducedMotion]);
 
-  // Mouse move handler
+  // Mouse move handler (unthrottled for 60/120Hz monitor smoothness)
   useEffect(() => {
     if (isMobile || isReducedMotion) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      cursorXRef.current?.(e.clientX);
-      cursorYRef.current?.(e.clientY);
       followerXRef.current?.(e.clientX);
       followerYRef.current?.(e.clientY);
-      
-      const now = performance.now();
-      if (now - lastUpdateRef.current < 40) return;
-      lastUpdateRef.current = now;
-      
+
       if (!isVisible) setIsVisible(true);
 
       const target = e.target as HTMLElement;
@@ -119,7 +106,7 @@ const CustomCursor = () => {
 
       setTimeout(() => {
         setRipples((prev) => prev.filter((r) => r.id !== id));
-      }, 600);
+      }, 500);
     };
 
     window.addEventListener("click", handleClick, { passive: true });
@@ -130,28 +117,28 @@ const CustomCursor = () => {
   useEffect(() => {
     if (isMobile || isReducedMotion || !followerRef.current) return;
 
-    const scale = isPointer ? 1.6 : 1;
+    const scale = isPointer ? 1.4 : 1;
 
     gsap.to(followerRef.current, {
       scale: scale,
-      duration: 0.3,
+      duration: 0.25,
       ease: "power2.out"
     });
   }, [isPointer, isMobile, isReducedMotion]);
 
   if (isMobile || isReducedMotion) return null;
 
-  // Force original style logic
   const colors = {
-    dot: isInverted ? '#1B3022' : '#C5A059',
-    followerBorder: isInverted ? '#1B3022' : '#C5A059',
-    followerBg: isPointer ? (isInverted ? 'rgba(27, 48, 34, 0.1)' : 'rgba(197, 160, 89, 0.1)') : 'transparent',
-    ripple: isInverted ? 'rgba(27, 48, 34, 0.3)' : 'rgba(197, 160, 89, 0.3)'
+    followerBorder: isInverted ? 'rgba(27, 48, 34, 0.6)' : 'rgba(197, 160, 89, 0.6)',
+    followerBg: isPointer 
+      ? (isInverted ? 'rgba(27, 48, 34, 0.12)' : 'rgba(197, 160, 89, 0.12)') 
+      : 'transparent',
+    ripple: isInverted ? 'rgba(27, 48, 34, 0.4)' : 'rgba(197, 160, 89, 0.4)'
   };
 
   return (
     <>
-      {/* Ripples */}
+      {/* Click Ripples */}
       {ripples.map((ripple) => (
         <div
           key={ripple.id}
@@ -165,28 +152,15 @@ const CustomCursor = () => {
         />
       ))}
 
-      {/* Follower */}
+      {/* Ambient Follower Ring (tracks native cursor smoothly without blocking) */}
       <div
         ref={followerRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] transition-[opacity] duration-300 ease-out 
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] transition-[opacity] duration-200 ease-out 
           ${isVisible ? 'opacity-100' : 'opacity-0'} 
-          w-10 h-10 rounded-full border`}
+          w-9 h-9 rounded-full border`}
         style={{
           borderColor: colors.followerBorder,
           backgroundColor: colors.followerBg,
-          willChange: 'transform'
-        }}
-      />
-
-      {/* Main Dot */}
-      <div
-        ref={cursorRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-[opacity,background-color] duration-300 ease-out 
-          ${isVisible ? 'opacity-100' : 'opacity-0'} 
-          w-2.5 h-2.5`}
-        style={{
-          mixBlendMode: 'normal',
-          backgroundColor: colors.dot,
           willChange: 'transform'
         }}
       />

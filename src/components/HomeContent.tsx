@@ -2,7 +2,7 @@
 
 import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Code2, Search, Bot, Cpu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Code2, Search, Bot, Cpu, MapPin } from "lucide-react";
 import NextPageButton from "@/components/NextPageButton";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -313,28 +313,28 @@ export default function HomeContent() {
                         {[
                             {
                                 title: "Website Development",
-                                desc: "Bespoke high-performance web systems engineered with React, Next.js, and advanced 3D transitions.",
+                                desc: "Bespoke high-performance web systems engineered with React, Next.js, and modern UI. Starting at ₹5,000 INR / $55 USD.",
                                 icon: <Code2 className="w-6 h-6 text-primary" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(200,241,105,0.15)]",
                                 border: "group-hover/tile:border-primary/30",
                             },
                             {
-                                title: "SEO Optimization",
-                                desc: "Precision crawling, semantic architecture, and visibility indexing to position your brand at the summit.",
-                                icon: <Search className="w-6 h-6 text-emerald-500" />,
+                                title: "GMB & Local 3-Pack Setup",
+                                desc: "Complete Google My Business profile verification, map ranking, and local SEO in 48 hours to drive immediate customer calls.",
+                                icon: <MapPin className="w-6 h-6 text-emerald-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(16,185,129,0.12)]",
                                 border: "group-hover/tile:border-emerald-500/30",
                             },
                             {
-                                title: "GEO (Generative Engine)",
-                                desc: "Optimizing structure and authority to rank as the primary answer source in AI systems like ChatGPT & Perplexity.",
+                                title: "AI Search Engine (GEO & AIO)",
+                                desc: "Optimizing structure and authority so your business ranks as the primary recommended answer in ChatGPT, Gemini & Perplexity.",
                                 icon: <Bot className="w-6 h-6 text-indigo-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(99,102,241,0.12)]",
                                 border: "group-hover/tile:border-indigo-500/30",
                             },
                             {
-                                title: "AEO (Answer Engine)",
-                                desc: "Optimizing content for voice search, smart virtual assistants, and instant zero-click answer boxes.",
+                                title: "AI & WhatsApp Automation",
+                                desc: "24/7 intelligent WhatsApp lead capture, instant quote estimation, and automated onboarding assistants for your business.",
                                 icon: <Cpu className="w-6 h-6 text-amber-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(245,158,11,0.12)]",
                                 border: "group-hover/tile:border-amber-500/30",

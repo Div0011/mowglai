@@ -266,6 +266,22 @@ export default function RootLayout({
                                             },
                                             {
                                                 "@type": "City",
+                                                "name": "Bengaluru"
+                                            },
+                                            {
+                                                "@type": "City",
+                                                "name": "Chennai"
+                                            },
+                                            {
+                                                "@type": "City",
+                                                "name": "Pune"
+                                            },
+                                            {
+                                                "@type": "City",
+                                                "name": "Lucknow"
+                                            },
+                                            {
+                                                "@type": "City",
                                                 "name": "Delhi"
                                             },
                                             {
@@ -307,10 +323,17 @@ export default function RootLayout({
                                             }
                                         ],
                                         "sameAs": [
+                                            "https://www.trustpilot.com/review/mowglai.com",
                                             "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
                                             "https://www.linkedin.com/company/mowglai",
                                             "https://twitter.com/mowglai_in"
                                         ],
+                                        "aggregateRating": {
+                                            "@type": "AggregateRating",
+                                            "ratingValue": "4.9",
+                                            "bestRating": "5",
+                                            "reviewCount": "54"
+                                        },
                                         "openingHoursSpecification": {
                                             "@type": "OpeningHoursSpecification",
                                             "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],

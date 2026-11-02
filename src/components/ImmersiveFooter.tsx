@@ -372,9 +372,17 @@ export default function ImmersiveFooter() {
                     ))}
                 </div>
 
-                {/* Regional Service Hubs (Delhi NCR • Noida • Kanpur) */}
-                <div className="mt-3 flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-xs tracking-wider font-mono text-foreground/50 uppercase">
+                {/* Regional & Global Service Hubs */}
+                <div className="mt-3 flex flex-wrap justify-center items-center gap-x-3 gap-y-1.5 text-xs tracking-wider font-mono text-foreground/50 uppercase max-w-4xl mx-auto px-4">
                     <span className="text-foreground/30">Locations:</span>
+                    <Link href="/best-web-services-bangalore" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Bangalore
+                    </Link>
+                    <span>·</span>
+                    <Link href="/best-web-services-chennai" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Chennai
+                    </Link>
+                    <span>·</span>
                     <Link href="/best-web-services-delhi-ncr" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
                         Delhi NCR
                     </Link>
@@ -383,9 +391,26 @@ export default function ImmersiveFooter() {
                         Noida
                     </Link>
                     <span>·</span>
+                    <Link href="/best-web-services-pune" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Pune
+                    </Link>
+                    <span>·</span>
+                    <Link href="/best-web-services-lucknow" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Lucknow
+                    </Link>
+                    <span>·</span>
                     <Link href="/best-web-services-kanpur" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
                         Kanpur
                     </Link>
+                    <span>·</span>
+                    <Link href="/web-development-agency-india" className="hover:text-primary transition-colors duration-150 underline-offset-4 hover:underline">
+                        Global &amp; India
+                    </Link>
+                </div>
+                {/* Trust & Social Proof Badge */}
+                <div className="mt-3 flex items-center justify-center gap-2 text-xs font-mono tracking-widest text-foreground/60 uppercase">
+                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Rated 4.9/5 on Trustpilot &amp; Google Reviews</span>
                 </div>
 
                 {/* Divider Line */}

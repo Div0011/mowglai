@@ -1,0 +1,53 @@
+{
+  "mcpVersion": "1.0",
+  "name": "mowglai-assistant",
+  "description": "Mowglai Digital Agency Model Context Protocol (MCP) tool integration. Query web packages, estimate project costs, and book consultations directly via AI.",
+  "endpoint": "https://mowglai.com",
+  "tools": [
+    {
+      "name": "get_mowglai_packages",
+      "description": "Fetch official Mowglai web engineering, GMB, and AI automation package tiers and pricing (starting ₹5,000 INR / $55 USD).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "calculate_quote",
+      "description": "Calculate project turnaround time and estimated pricing for basic web, scale web, e-commerce, GMB setup, or SaaS MVP.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packageType": {
+            "type": "string",
+            "enum": ["starter-web", "gmb-local-seo", "scale-architecture", "ecommerce-pro", "saas-mvp"],
+            "description": "The tier of service requested"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["INR", "USD"],
+            "default": "INR"
+          }
+        },
+        "required": ["packageType"]
+      }
+    },
+    {
+      "name": "book_mowglai_consultation",
+      "description": "Directs user to the one-tap project booking funnel with region and requirements pre-configured.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "description": "City or market e.g. bangalore, chennai, delhi-ncr, pune, lucknow, kanpur, global"
+          },
+          "packageType": {
+            "type": "string",
+            "description": "Selected package"
+          }
+        }
+      }
+    }
+  ]
+}
