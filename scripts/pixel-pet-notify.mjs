@@ -3,10 +3,13 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * OpenPets IPC connector for Mowglai workflows.
- * Communicates directly with the installed 'pixel-terminal' pet on desktop.
+ * Communicates directly with desktop OpenPets companions.
  */
 function getOpenPetsIpc() {
   const ipcPath = path.join(
@@ -37,7 +40,7 @@ function sendRequest(ipc, method, params = {}) {
     const timer = setTimeout(() => {
       socket.destroy();
       resolve(null);
-    }, 3000);
+    }, 4000);
 
     socket.on('connect', () => {
       socket.write(JSON.stringify(req) + '\n');
@@ -68,17 +71,29 @@ function sendRequest(ipc, method, params = {}) {
   });
 }
 
-export async function notifyPixelTerminal(message, reaction = 'working') {
+export async function notifyPixelTerminal(message, reaction = 'working', petId = 'pixel-terminal') {
   const ipc = getOpenPetsIpc();
   if (!ipc) {
-    console.log('[PixelTerminal] OpenPets is not currently running on desktop.');
+    console.log('[OpenPets] OpenPets is not currently running on desktop.');
     return false;
   }
 
   try {
-    // Acquire lease for pixel-terminal
-    const leaseRes = await sendRequest(ipc, 'lease.acquire', { requestedPetId: 'pixel-terminal' });
+    // Acquire lease for requested pet
+    let leaseRes = await sendRequest(ipc, 'lease.acquire', { requestedPetId: petId });
+
+    // If requested pet is not yet installed and it's pixel-terminal, auto-install from local ./pet folder
+    if (leaseRes?.result?.usingDefaultPet && petId === 'pixel-terminal') {
+      const localPetDir = path.resolve(__dirname, '../pet');
+      if (fs.existsSync(path.join(localPetDir, 'pet.json'))) {
+        console.log('[OpenPets] Installing pixel-terminal from local repository folder...');
+        await sendRequest(ipc, 'pets.install-local', { path: localPetDir, kind: 'folder' });
+        leaseRes = await sendRequest(ipc, 'lease.acquire', { requestedPetId: petId });
+      }
+    }
+
     const leaseId = leaseRes?.result?.leaseId;
+    const actualPet = leaseRes?.result?.actualTargetPetName || petId;
 
     const sayRes = await sendRequest(ipc, 'pet.say', {
       message,
@@ -86,20 +101,21 @@ export async function notifyPixelTerminal(message, reaction = 'working') {
       leaseId
     });
 
-    return sayRes?.result?.ok === true;
+    if (sayRes?.result?.ok) {
+      console.log(`[OpenPets (${actualPet})] "${message}" [${reaction}]`);
+      return true;
+    }
+    return false;
   } catch (err) {
-    console.warn('[PixelTerminal] Could not send message to pet:', err.message);
+    console.warn('[OpenPets] Could not send message to pet:', err.message);
     return false;
   }
 }
 
-// CLI execution support: node scripts/pixel-pet-notify.mjs "Message" "reaction"
+// CLI execution support: node scripts/pixel-pet-notify.mjs "Message" [reaction] [petId]
 if (process.argv[1] && process.argv[1].endsWith('pixel-pet-notify.mjs')) {
   const msg = process.argv[2] || 'Mowglai workflow in progress...';
   const reaction = process.argv[3] || 'working';
-  notifyPixelTerminal(msg, reaction).then((ok) => {
-    if (ok) {
-      console.log(`[PixelTerminal] Displayed "${msg}" [${reaction}]`);
-    }
-  });
+  const targetPet = process.argv[4] || 'pixel-terminal';
+  notifyPixelTerminal(msg, reaction, targetPet);
 }

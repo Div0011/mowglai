@@ -9,7 +9,9 @@
 		"start": "next start",
 		"lint": "eslint .",
 		"test": "bun test",
-		"pet:notify": "node scripts/pixel-pet-notify.mjs"
+		"pet:notify": "node scripts/pixel-pet-notify.mjs",
+		"pet:install": "node scripts/pixel-pet-install.mjs",
+		"pet:install:all": "node scripts/pixel-pet-install.mjs --all"
 	},
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
