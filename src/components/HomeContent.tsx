@@ -14,7 +14,7 @@ import RLIntelligenceSimulator from "@/components/interactive/RLIntelligenceSimu
 const SelectedWork = dynamic(() => import("@/components/SelectedWork"), { ssr: false });
 const TemplatesShowcase = dynamic(() => import("@/components/TemplatesShowcase"), { ssr: false });
 const InteractiveSetupSection = dynamic(() => import("@/components/InteractiveSetupSection"), { ssr: false });
-const TeamSection = dynamic(() => import("@/components/TeamSection"), { ssr: false });
+import TeamSection from "@/components/TeamSection";
 
 function ScrollReveal({
     children,

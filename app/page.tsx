@@ -128,6 +128,41 @@ const jsonLdFaq = {
   ]
 };
 
+const jsonLdTeam = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Mowglai Digital Agency",
+  "url": "https://mowglai.com",
+  "employee": [
+    {
+      "@type": "Person",
+      "name": "Nikhil Sharma",
+      "jobTitle": "Head of AIO, SEO & Search Intelligence",
+      "sameAs": ["https://github.com/1nsharma", "https://x.com/1nsharma"],
+      "knowsAbout": [
+        "AIO",
+        "Generative Engine Optimization (GEO)",
+        "Keyword Research",
+        "SERP Ranking",
+        "On-Page SEO",
+        "Off-Page SEO",
+        "GA4 Analytics",
+        "Google Analytics 4 Tagging"
+      ]
+    },
+    {
+      "@type": "Person",
+      "name": "Ajay Ahlawat",
+      "jobTitle": "Chief Executive Officer"
+    },
+    {
+      "@type": "Person",
+      "name": "Aryan Singh",
+      "jobTitle": "Chief Technical Officer"
+    }
+  ]
+};
+
 import OriginalHome from "@/styles/original/Home";
 
 export default function Home() {
@@ -144,6 +179,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTeam) }}
       />
       <OriginalHome />
     </>
