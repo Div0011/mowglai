@@ -136,6 +136,19 @@ const jsonLdTeam = {
   "employee": [
     {
       "@type": "Person",
+      "name": "Amit Sharma",
+      "jobTitle": "Founder & Chief Delivery Execution Officer",
+      "sameAs": ["https://github.com/1nsharma", "https://x.com/mowglai_in"],
+      "knowsAbout": [
+        "Full-Stack Architecture",
+        "Milestone Execution",
+        "Multi-Cloud Infrastructure",
+        "Autonomous Systems",
+        "Next.js 16"
+      ]
+    },
+    {
+      "@type": "Person",
       "name": "Nikhil Sharma",
       "jobTitle": "Head of AIO, SEO & Search Intelligence",
       "sameAs": ["https://github.com/1nsharma", "https://x.com/1nsharma"],
@@ -152,13 +165,13 @@ const jsonLdTeam = {
     },
     {
       "@type": "Person",
-      "name": "Ajay Ahlawat",
-      "jobTitle": "Chief Executive Officer"
+      "name": "Ankit Baghel",
+      "jobTitle": "Chief Marketing Officer"
     },
     {
       "@type": "Person",
-      "name": "Aryan Singh",
-      "jobTitle": "Chief Technical Officer"
+      "name": "Divyansh Awasthi",
+      "jobTitle": "Chief Financial Officer"
     }
   ]
 };

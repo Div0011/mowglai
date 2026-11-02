@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Code2, Search, Bot, Cpu, Shield, Zap, Sparkles, Building2, Truck, Sun, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Code2, Search, Bot, Cpu, Shield, Zap, Sparkles, Building2, Truck, Sun, CheckCircle2, Server, Cloud, Layers } from "lucide-react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
@@ -10,11 +10,11 @@ import LuminaSprout from "@/components/interactive/LuminaSprout";
 import LiveAuditScanner from "@/components/interactive/LiveAuditScanner";
 import InteractivePricingCalculator from "@/components/interactive/InteractivePricingCalculator";
 import RLIntelligenceSimulator from "@/components/interactive/RLIntelligenceSimulator";
+import TeamSection from "@/components/TeamSection";
 
 const SelectedWork = dynamic(() => import("@/components/SelectedWork"), { ssr: false });
 const TemplatesShowcase = dynamic(() => import("@/components/TemplatesShowcase"), { ssr: false });
 const InteractiveSetupSection = dynamic(() => import("@/components/InteractiveSetupSection"), { ssr: false });
-import TeamSection from "@/components/TeamSection";
 
 function ScrollReveal({
     children,
@@ -73,21 +73,21 @@ export default function HomeContent() {
                 </div>
             </section>
 
-            {/* 2. Capabilities & Bento Grid (Services + Company OS Ecosystem) */}
+            {/* 2. Capabilities & Bento Grid (Multi-Cloud & Enterprise Capabilities) */}
             <section id="our-services-section" className="relative w-full py-8 z-20">
                 <div className="container mx-auto px-4 sm:px-6 max-w-7xl flex flex-col gap-10 md:gap-14">
                     <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
                         <ScrollReveal direction="left" className="space-y-3">
                             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-xs font-mono font-bold text-primary uppercase tracking-wider">
                                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                                Engineering & Company OS Ecosystem
+                                Multi-Cloud Runtimes & Frontier LLM Mastery
                             </div>
                             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-white uppercase leading-tight">
-                                High-Performance <br />
-                                <span className="text-primary italic">Capabilities</span> & OS Modules.
+                                Enterprise <br />
+                                <span className="text-primary italic">Capabilities</span> & Architecture.
                             </h2>
                             <p className="text-white/70 text-sm sm:text-base font-normal max-w-xl leading-relaxed">
-                                From bespoke Next.js 16 web applications to full autonomous enterprise modules (DukaanMitra billing, TruckWala 24x7 logistics, SolarHub clean energy, and HireSaathi HR talent).
+                                Engineered across Google Cloud (GCP), AWS, Azure, and Cloudflare Edge. Driven by Gemini 2.5, Claude 3.5 Sonnet, and Llama 3.3 via Contextual Bandit reinforcement learning.
                             </p>
                         </ScrollReveal>
                         <ScrollReveal direction="right" delay={0.2} className="shrink-0 scale-75 md:scale-90">
@@ -126,7 +126,7 @@ export default function HomeContent() {
                                     <div className="flex items-center gap-4 text-xs font-mono text-white/60">
                                         <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Static & Dynamic Edge</span>
                                         <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Framer Motion / GSAP</span>
-                                        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Tailwind 4</span>
+                                        <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Multi-Cloud Sovereignty</span>
                                     </div>
                                     <Link
                                         href="/services/web-development"
@@ -173,7 +173,7 @@ export default function HomeContent() {
                             </div>
                         </ScrollReveal>
 
-                        {/* Tile 3: Company OS Ecosystem: DukaanMitra ERP */}
+                        {/* Tile 3: Enterprise Commerce & POS */}
                         <ScrollReveal
                             direction="up"
                             delay={0.15}
@@ -185,27 +185,27 @@ export default function HomeContent() {
                                         <Building2 className="w-6 h-6" />
                                     </div>
                                     <span className="text-xs font-mono font-bold text-primary uppercase tracking-widest">
-                                        Company OS
+                                        Enterprise Commerce
                                     </span>
                                 </div>
                                 <h3 className="text-xl font-display font-black text-white uppercase mb-2">
-                                    DukaanMitra POS & Billing
+                                    Smart Retail POS & Automated GST
                                 </h3>
                                 <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                                    Instant line-item billing, automated 5% GST computation, inventory tracking, and one-click PDF invoices.
+                                    Instant line-item POS billing, automated 5% GST computation, inventory ledger tracking, and one-click PDF receipts.
                                 </p>
                             </div>
 
                             <Link
-                                href="/company-os"
+                                href="/client-portal?mode=demo&proj=commerce"
                                 className="mt-6 pt-4 border-t border-white/10 inline-flex items-center gap-2 text-xs font-mono font-bold text-primary uppercase"
                             >
-                                <span>Open DukaanMitra OS</span>
+                                <span>Inspect Commerce Demo</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
                             </Link>
                         </ScrollReveal>
 
-                        {/* Tile 4: TruckWala 24x7 Logistics */}
+                        {/* Tile 4: Mission-Critical 24/7 Logistics */}
                         <ScrollReveal
                             direction="up"
                             delay={0.25}
@@ -221,23 +221,23 @@ export default function HomeContent() {
                                     </span>
                                 </div>
                                 <h3 className="text-xl font-display font-black text-white uppercase mb-2">
-                                    TruckWala 24×7 Highway Ops
+                                    24/7 Roadside Logistics & Telemetry
                                 </h3>
                                 <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                                    Emergency highway breakdown intake, live mechanic dispatching, GPS tracking, and route recovery SLA.
+                                    Emergency roadside intake, live dynamic mechanic dispatching, real-time GPS telemetry, and fleet recovery SLA.
                                 </p>
                             </div>
 
                             <Link
-                                href="/company-os"
+                                href="/client-portal?mode=demo&proj=logistics"
                                 className="mt-6 pt-4 border-t border-white/10 inline-flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase"
                             >
-                                <span>Launch Logistics Portal</span>
+                                <span>Inspect Logistics Demo</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
                             </Link>
                         </ScrollReveal>
 
-                        {/* Tile 5: SolarHub & HireSaathi */}
+                        {/* Tile 5: Autonomous Multi-Agent Hive & Workforce */}
                         <ScrollReveal
                             direction="up"
                             delay={0.35}
@@ -246,25 +246,25 @@ export default function HomeContent() {
                             <div>
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                                        <Sun className="w-6 h-6" />
+                                        <Bot className="w-6 h-6" />
                                     </div>
                                     <span className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest">
-                                        CleanTech & Talent
+                                        Distributed AI Fleet
                                     </span>
                                 </div>
                                 <h3 className="text-xl font-display font-black text-white uppercase mb-2">
-                                    SolarHub & HireSaathi AI
+                                    Autonomous Agent Swarms & Talent AI
                                 </h3>
                                 <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                                    Rooftop solar irradiance calculation with tariff savings alongside automated AI candidate screening.
+                                    Distributed self-coordinating agent swarms running market intelligence, asynchronous messaging, and candidate skill grading.
                                 </p>
                             </div>
 
                             <Link
-                                href="/company-os"
+                                href="/client-portal?mode=demo&proj=agent-swarm"
                                 className="mt-6 pt-4 border-t border-white/10 inline-flex items-center gap-2 text-xs font-mono font-bold text-indigo-400 uppercase"
                             >
-                                <span>Access Talent & Energy Suite</span>
+                                <span>Inspect Agent Swarm Demo</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
                             </Link>
                         </ScrollReveal>
@@ -366,10 +366,10 @@ export default function HomeContent() {
                                 </Link>
                             </Magnetic>
                             <Link
-                                href="/company-os"
+                                href="/client-portal?mode=demo"
                                 className="px-8 py-4 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-display font-semibold text-sm tracking-wide transition-all"
                             >
-                                Explore Company OS
+                                Experience Client Demo Portal
                             </Link>
                         </div>
                     </div>

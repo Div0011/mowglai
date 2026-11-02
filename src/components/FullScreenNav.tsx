@@ -28,7 +28,9 @@ import {
     Crown,
     Cpu,
     Zap,
-    FileText
+    FileText,
+    Smartphone,
+    Terminal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
@@ -48,7 +50,8 @@ interface NavItem {
 const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
     { icon: Cpu, label: "COMPANY OS", href: "/company-os" },
-    { icon: Zap, label: "AI ANALYZE", href: "/ai-analyze" },
+    { icon: Terminal, label: "DEV OPS", href: "/developer" },
+    { icon: Smartphone, label: "CLIENT DEMO", href: "/client-portal?mode=demo" },
     { icon: Sparkles, label: "AI ONBOARD", href: "/ai-onboard" },
     { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
     { icon: DollarSign, label: "PRICING", href: "/investment", hasSubmenu: true },
