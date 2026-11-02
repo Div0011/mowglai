@@ -6,7 +6,7 @@ import NextPageButton from "@/components/NextPageButton";
 import PageLayout from "@/components/PageLayout";
 import dynamic from "next/dynamic";
 
-const TeamSection = dynamic(() => import("@/components/TeamSection"), { ssr: false });
+import TeamSection from "@/components/TeamSection";
 const HowWeBuiltSection = dynamic(() => import("@/components/HowWeBuiltSection"), { ssr: false });
 const FaqSection = dynamic(() => import("@/components/FaqSection"), { ssr: false });
 
