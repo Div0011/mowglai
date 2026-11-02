@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Magnetic from "./Magnetic";
-import { ArrowRight, Sparkles, Zap, Shield, Cpu, ChevronRight, Activity, CheckCircle2, Bot } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Shield, Cpu, ChevronRight, Activity, CheckCircle2, Bot, Smartphone, Terminal } from "lucide-react";
 import { motion } from "framer-motion";
 
 const previewImages = [
@@ -16,7 +16,6 @@ const previewImages = [
 
 export default function HeroSection() {
   const [slide, setSlide] = useState(0);
-  const [auditUrl, setAuditUrl] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,7 +43,7 @@ export default function HeroSection() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
           </span>
           <span className="text-xs sm:text-sm font-medium tracking-wide text-white/90">
-            Mowglai Enterprise OS <span className="text-primary font-semibold">v0.2.0 Live</span> · NCR • Delhi • Noida • Kanpur
+            Mowglai Frontier Engineering <span className="text-primary font-semibold">v0.2.0 Live</span> · NCR • Delhi • Noida • Kanpur
           </span>
           <ChevronRight className="w-3.5 h-3.5 text-white/50" />
         </motion.div>
@@ -70,8 +69,7 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl leading-relaxed mb-8 font-normal"
         >
-          Award-winning Next.js web applications, bespoke 3D brand experiences, and autonomous Reinforcement Learning
-          operating systems starting at{" "}
+          Award-winning Next.js web systems, autonomous reinforcement learning architectures, and multi-cloud runtimes starting at{" "}
           <strong className="text-white font-semibold">₹5,000 INR ($55 USD)</strong>. Built for high conversion, sub-second
           latency, and zero-compromise security.
         </motion.p>
@@ -95,20 +93,20 @@ export default function HeroSection() {
 
           <Magnetic>
             <Link
-              href="/company-os"
+              href="/client-portal?mode=demo"
               className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-white/[0.05] border border-white/15 hover:border-primary/50 text-white font-display font-semibold text-sm tracking-wide hover:bg-white/[0.08] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl"
             >
-              <Cpu className="w-4 h-4 text-primary" />
-              <span>Explore Company OS</span>
+              <Smartphone className="w-4 h-4 text-primary" />
+              <span>Interactive Client Demo</span>
             </Link>
           </Magnetic>
 
           <Link
-            href="/ai-analyze"
+            href="/developer"
             className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-transparent hover:bg-white/5 border border-white/10 text-white/80 hover:text-white text-sm font-medium transition-all"
           >
-            <Zap className="w-4 h-4 text-emerald-400" />
-            <span>AI Analyze</span>
+            <Terminal className="w-4 h-4 text-emerald-400" />
+            <span>Developer HQ</span>
           </Link>
         </motion.div>
 
@@ -145,7 +143,7 @@ export default function HeroSection() {
             </div>
             <div>
               <div className="text-xs text-white/50 uppercase font-mono">Architecture</div>
-              <div className="text-xs sm:text-sm font-bold text-white">SSRF & Zero-Trust</div>
+              <div className="text-xs sm:text-sm font-bold text-white">Zero-Trust Cloud</div>
             </div>
           </div>
 
@@ -203,7 +201,7 @@ export default function HeroSection() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Full-Stack Digital Architecture</h4>
-                  <p className="text-xs text-white/60">React 19 · Next.js 16 · Reinforcement Learning · Tailwind 4</p>
+                  <p className="text-xs text-white/60">React 19 · Next.js 16 · Multi-Cloud Runtimes · Reinforcement Learning</p>
                 </div>
               </div>
 
@@ -215,10 +213,10 @@ export default function HeroSection() {
                   Browse 50+ Templates
                 </Link>
                 <Link
-                  href="/company-os"
+                  href="/client-portal?mode=demo"
                   className="px-4 py-2 rounded-lg bg-primary text-black text-xs font-bold transition-all hover:bg-primary/90"
                 >
-                  Open Command HQ ↗
+                  Launch Client Demo ↗
                 </Link>
               </div>
             </div>

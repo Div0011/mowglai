@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Mail, Linkedin, Globe, Search, Cpu, BarChart3, Sparkles, ExternalLink, ShieldCheck } from "lucide-react";
+import { Github, Mail, Linkedin, Globe, Search, Cpu, BarChart3, Sparkles, ExternalLink, ShieldCheck, Rocket } from "lucide-react";
 import { motion } from "framer-motion";
 import NextImage from "next/image";
 import XLogo from "@/components/icons/XLogo";
@@ -24,16 +24,16 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: "Ajay Ahlawat",
-    role: "Chief Executive Officer",
-    badge: "EXECUTIVE LEADERSHIP",
-    bio: "Pioneering the intersection of next-generation digital architecture, enterprise client strategy, and frontier web acceleration.",
-    skills: ["Enterprise Strategy", "Product Vision", "Operations", "Client Scaling"],
-    image: "/team/aa.jpeg",
+    name: "Amit Sharma",
+    role: "Founder & Chief Delivery Execution Officer",
+    badge: "VISIONARY & CHIEF ARCHITECT",
+    bio: "The foundational visionary and delivery executor driving Mowglai's frontier engineering. Orchestrates full-stack digital architecture, multi-cloud runtimes, reinforcement learning policy routing, and mission-critical client deliverables from inception to global scale.",
+    skills: ["Full-Stack Architecture", "Milestone Execution", "Multi-Cloud Infrastructure", "Autonomous Systems", "Next.js 16 & React 19"],
+    image: "/team/as.jpeg",
     socials: {
-      linkedin: "https://www.linkedin.com/company/mowglai",
+      github: "https://github.com/1nsharma",
       twitter: "https://x.com/mowglai_in",
-      email: "mailto:ajay@mowglai.com",
+      email: "mailto:amit@mowglai.com",
     },
   },
   {
@@ -58,20 +58,6 @@ const teamMembers: TeamMember[] = [
   },
   {
     id: 3,
-    name: "Aryan Singh",
-    role: "Chief Technical Officer",
-    badge: "ENGINEERING ARCHITECT",
-    bio: "Architecting sub-50ms React 19 / Next.js 16 runtimes, micro-frontend performance, and autonomous reinforcement learning agent frameworks.",
-    skills: ["Next.js 16 & React 19", "Reinforcement Learning", "Edge Cloud", "Systems Design"],
-    image: "/team/aj.jpeg",
-    socials: {
-      twitter: "https://twitter.com/aryan_447",
-      github: "https://github.com/aryan447",
-      email: "mailto:singharyan4477@gmail.com",
-    },
-  },
-  {
-    id: 4,
     name: "Ankit Baghel",
     role: "Chief Marketing Officer",
     badge: "BRAND ARCHITECT",
@@ -85,7 +71,7 @@ const teamMembers: TeamMember[] = [
     },
   },
   {
-    id: 5,
+    id: 4,
     name: "Divyansh Awasthi",
     role: "Chief Financial Officer",
     badge: "FINANCIAL GOVERNANCE",
@@ -96,6 +82,20 @@ const teamMembers: TeamMember[] = [
       github: "https://github.com/div0011",
       linkedin: "https://www.linkedin.com/company/mowglai",
       email: "mailto:divyanshawasthi90@gmail.com",
+    },
+  },
+  {
+    id: 5,
+    name: "Ajay Ahlawat",
+    role: "Strategic Enterprise Advisor",
+    badge: "STRATEGIC ADVISOR",
+    bio: "Advising on high-value client alliances, enterprise roadmap expansion, and industry scaling.",
+    skills: ["Enterprise Strategy", "Client Growth", "Operations", "Market Scale"],
+    image: "/team/aa.jpeg",
+    socials: {
+      linkedin: "https://www.linkedin.com/company/mowglai",
+      twitter: "https://x.com/mowglai_in",
+      email: "mailto:ajay@mowglai.com",
     },
   },
 ];
@@ -128,8 +128,8 @@ export default function TeamSection() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className={`rounded-3xl p-6 sm:p-7 backdrop-blur-2xl border transition-all duration-300 flex flex-col justify-between group ${
-                member.id === 2
-                  ? "bg-gradient-to-b from-white/[0.06] via-white/[0.03] to-transparent border-primary/40 shadow-[0_0_35px_rgba(200,241,105,0.15)] md:col-span-2 lg:col-span-1"
+                member.id === 1 || member.id === 2
+                  ? "bg-gradient-to-b from-white/[0.06] via-white/[0.03] to-transparent border-primary/40 shadow-[0_0_35px_rgba(200,241,105,0.15)]"
                   : "bg-white/[0.02] border-white/10 hover:border-white/20 hover:bg-white/[0.04]"
               }`}
             >
