@@ -16,11 +16,37 @@ if (!is_array($payload) || empty($payload['url'])) {
 }
 
 $url = trim((string) $payload['url']);
-if (!filter_var($url, FILTER_VALIDATE_URL)) {
+function isSafeAuditTarget(string $targetUrl): bool {
+    $parts = parse_url($targetUrl);
+    if (!$parts || empty($parts['scheme']) || empty($parts['host'])) {
+        return false;
+    }
+    $scheme = strtolower($parts['scheme']);
+    if ($scheme !== 'http' && $scheme !== 'https') {
+        return false;
+    }
+    $host = strtolower($parts['host']);
+    if (in_array($host, ['localhost', '127.0.0.1', '::1', 'metadata.google.internal', 'instance-data'], true)) {
+        return false;
+    }
+    $ip = gethostbyname($host);
+    if ($ip === $host && !filter_var($host, FILTER_VALIDATE_IP)) {
+        return false;
+    }
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        return false;
+    }
+    if (str_starts_with($ip, '169.254.') || str_starts_with($ip, '127.')) {
+        return false;
+    }
+    return true;
+}
+
+if (!filter_var($url, FILTER_VALIDATE_URL) || !isSafeAuditTarget($url)) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'error' => 'Please enter a valid URL (including http:// or https://).',
+        'error' => 'Please enter a valid, publicly accessible URL (private/internal addresses are restricted).',
     ]);
     exit;
 }
@@ -30,7 +56,7 @@ $startTime = microtime(true);
 $ch = curl_init($url);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_FOLLOWLOCATION => false,
     CURLOPT_TIMEOUT => 12,
     CURLOPT_CONNECTTIMEOUT => 8,
     CURLOPT_USERAGENT => 'Mowglai-Audit-Bot/1.0',

@@ -1,0 +1,13 @@
+{
+  "name": "@mowglai/core-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared, framework-neutral contracts for the Mowglai unified product ecosystem",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "bun test"
+  }
+}
