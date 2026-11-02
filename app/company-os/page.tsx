@@ -89,7 +89,7 @@ export default function CompanyOSPage() {
     setCommandResult("");
     setRlMetadata(null);
     try {
-      const response = await fetch("/api/company-ai", {
+      const response = await fetch("/api/company-ai.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: command.trim(), task: "operations", tenantId: "mowglai-executive" }),
@@ -148,7 +148,7 @@ export default function CompanyOSPage() {
     setEvaluating(true);
     setEvaluation("");
     try {
-      const res = await fetch("/api/company-ai", {
+      const res = await fetch("/api/company-ai.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
