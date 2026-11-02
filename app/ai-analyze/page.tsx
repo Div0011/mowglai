@@ -7,7 +7,6 @@ import {
     Sparkles,
     Search,
     Zap,
-    Gauge,
     ShieldAlert,
     ShieldCheck,
     CheckCircle2,
@@ -17,9 +16,9 @@ import {
     RefreshCw,
     Layers,
     MessageCircle,
-    Globe,
-    Check
+    Globe
 } from "lucide-react";
+import PageLayout from "@/components/PageLayout";
 import { CompetitorAnalysisResult, analyzeCompetitorUrl } from "@/lib/ai/analyzer";
 
 const SAMPLE_URLS = [
@@ -102,107 +101,68 @@ export default function AiAnalyzePage() {
     };
 
     const generateWhatsAppUrl = () => {
-        if (!result) return "#";
-        const msg = `Hello Mowglai! 👋
-I analyzed this competitor website on your AI Decompiler:
-• Competitor URL: ${result.targetUrl}
-• Industry: ${result.detectedSector}
+        if (!result) return "https://wa.me/919452476331";
+        const msg = `Hi Mowglai team! I just ran a competitor audit on ${result.domain}:
 • Speed Gap: Their score is ${result.performanceComparison.competitorScore} vs Mowglai 98/100
 • Matched Template: ${result.matchedTemplate.title} (${result.matchedTemplate.previewUrl})
 
-I want to build my own 3x faster version with Mowglai. Please share scope & delivery!`;
+I want to build an original, 3x faster platform with Mowglai. Please share project scope & timeline!`;
         return `https://wa.me/919452476331?text=${encodeURIComponent(msg)}`;
     };
 
     return (
-        <div className="min-h-screen bg-[#060a08] text-white flex flex-col selection:bg-emerald-500/30">
-            {/* Header */}
-            <header className="border-b border-emerald-950/60 bg-[#060a08]/80 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <Link
-                        href="/"
-                        className="text-xl font-bold tracking-wider text-emerald-400 flex items-center gap-2 hover:opacity-80 transition"
-                    >
-                        <span className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                            🌿
-                        </span>
-                        MOWGLAI
-                    </Link>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hidden sm:inline-flex items-center gap-1">
-                        <Zap className="w-3 h-3 text-emerald-400" /> AI Competitor Decompiler
-                    </span>
-                </div>
-
-                <div className="flex items-center gap-3">
-                    <Link
-                        href="/ai-onboard"
-                        className="text-xs font-semibold px-3 py-1.5 rounded-md bg-zinc-800 text-zinc-300 hover:text-white transition"
-                    >
-                        AI Onboarder
-                    </Link>
-                    <a
-                        href="https://wa.me/919452476331"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-semibold px-3 py-1.5 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5"
-                    >
-                        <MessageCircle className="w-3.5 h-3.5" /> Direct Support
-                    </a>
-                </div>
-            </header>
-
-            {/* Main Content */}
-            <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 md:py-12 flex flex-col justify-center">
+        <PageLayout>
+            <main className="min-h-screen bg-transparent relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
                 {/* Clean-Room Legal Alert */}
-                <div className="mb-6 p-3 sm:p-4 rounded-xl border border-zinc-800 bg-zinc-950/60 flex items-start gap-3 text-xs text-zinc-400 leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="mb-8 p-4 rounded-2xl border border-primary/20 bg-primary/5 backdrop-blur-md flex items-start gap-3 text-xs text-foreground/80 leading-relaxed">
+                    <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <div>
-                        <strong className="text-zinc-200">Clean-Room Architectural Policy:</strong> We do not copy code or proprietary assets. Our AI analyzes public layout intent, diagnoses performance bottlenecks, and builds an original, 3x faster version with Mowglai&apos;s Next.js & Tailwind stack.
+                        <strong className="text-foreground">Clean-Room Architectural Policy:</strong> We do not copy code or proprietary assets. Our AI inspects public layout hierarchy, identifies performance bottlenecks, and builds an original, 3x faster version with Mowglai&apos;s Next.js &amp; Tailwind architecture.
                     </div>
                 </div>
 
                 {/* Input & Hero Banner */}
                 {!result && !isAnalyzing && (
-                    <div className="text-center max-w-2xl mx-auto my-6">
-                        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-flex items-center gap-1.5 mb-3">
-                            <Sparkles className="w-3.5 h-3.5" /> REVERSE-ENGINEER ANY INSPIRATION
+                    <div className="text-center max-w-2xl mx-auto my-8">
+                        <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-flex items-center gap-1.5 mb-4">
+                            <Sparkles className="w-4 h-4 text-primary" /> REVERSE-ENGINEER ANY INSPIRATION
                         </span>
-                        <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-                            Kisi Bhi Competitor Ki Site Daalo. <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200">
-                                AI Uska 3x Faster Version Dega.
+                        <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-black text-foreground uppercase tracking-tight mb-4">
+                            Analyze Any Competitor. <br />
+                            <span className="text-primary italic">
+                                We Engineer A 3x Faster Version.
                             </span>
                         </h1>
-                        <p className="text-zinc-400 text-sm max-w-lg mx-auto mb-8">
-                            Sections, tech stack, speed gaps, aur templates — 30 seconds me deconstruct karein.
+                        <p className="text-foreground/75 text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
+                            Decompile layout architecture, speed gaps, and technology stacks in 30 seconds.
                         </p>
 
                         {/* Input Box */}
-                        <div className="bg-[#0b120e] border-2 border-emerald-500/30 p-2 sm:p-3 rounded-2xl shadow-2xl flex flex-col sm:flex-row gap-2 mb-4">
-                            <div className="flex-1 flex items-center px-3 bg-zinc-900/60 rounded-xl border border-zinc-800">
-                                <Globe className="w-4 h-4 text-zinc-400 mr-2 shrink-0" />
+                        <div className="bg-card/40 border-2 border-primary/30 p-2 sm:p-3 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col sm:flex-row gap-2 mb-4">
+                            <div className="flex-1 flex items-center px-4 bg-background/50 rounded-xl border border-primary/20">
+                                <Globe className="w-4 h-4 text-foreground/50 mr-2.5 shrink-0" />
                                 <input
                                     type="text"
                                     placeholder="Enter competitor URL (e.g. cult.fit, mycompetitor.in)"
                                     value={targetUrl}
                                     onChange={(e) => setTargetUrl(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
-                                    className="w-full py-3 bg-transparent text-white placeholder-zinc-500 text-sm focus:outline-none"
+                                    className="w-full py-3.5 bg-transparent text-foreground placeholder-foreground/40 text-sm focus:outline-none"
                                 />
                             </div>
                             <button
                                 type="button"
                                 onClick={() => handleAnalyze()}
                                 disabled={!targetUrl.trim()}
-                                className="py-3.5 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-black font-extrabold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                className="py-3.5 px-8 rounded-xl bg-primary hover:bg-primary/90 disabled:opacity-40 text-primary-foreground font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg hover:scale-[1.02]"
                             >
                                 <Search className="w-4 h-4" /> Decompile Now
                             </button>
                         </div>
 
                         {/* Quick Samples */}
-                        <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-zinc-400">
-                            <span className="text-zinc-500 text-[11px]">Or test sample:</span>
+                        <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-foreground/60">
+                            <span className="text-foreground/40 text-[11px]">Or test sample:</span>
                             {SAMPLE_URLS.map((s) => (
                                 <button
                                     key={s.url}
@@ -211,7 +171,7 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                                         setTargetUrl(s.url);
                                         handleAnalyze(s.url);
                                     }}
-                                    className="px-2.5 py-1 rounded-lg bg-zinc-900/60 border border-zinc-800 hover:border-emerald-500/40 text-zinc-300 hover:text-white transition text-[11px]"
+                                    className="px-3 py-1 rounded-lg bg-background/40 border border-primary/20 hover:border-primary text-foreground/80 hover:text-primary transition text-xs"
                                 >
                                     {s.label}
                                 </button>
@@ -222,44 +182,44 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
 
                 {/* Loading / Progress State */}
                 {isAnalyzing && (
-                    <div className="max-w-md mx-auto w-full py-16 px-6 text-center rounded-2xl border border-emerald-500/20 bg-gradient-to-b from-emerald-950/30 to-black/60 backdrop-blur-xl shadow-2xl">
-                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 mx-auto flex items-center justify-center mb-6 animate-pulse">
-                            <Zap className="w-8 h-8 text-emerald-400 animate-bounce" />
+                    <div className="max-w-md mx-auto w-full py-16 px-6 text-center rounded-2xl border border-primary/20 bg-card/40 backdrop-blur-xl shadow-2xl">
+                        <div className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 mx-auto flex items-center justify-center mb-6 animate-pulse">
+                            <Zap className="w-8 h-8 text-primary animate-bounce" />
                         </div>
-                        <h2 className="text-xl font-bold text-white mb-2">Decompiling Architecture...</h2>
-                        <p className="text-xs text-zinc-400 mb-6">{statusText}</p>
+                        <h2 className="text-xl font-display font-black text-foreground uppercase mb-2">Decompiling Architecture...</h2>
+                        <p className="text-xs text-foreground/70 mb-6">{statusText}</p>
 
-                        <div className="w-full bg-zinc-800/60 h-2 rounded-full overflow-hidden mb-3">
+                        <div className="w-full bg-background/60 h-2 rounded-full overflow-hidden mb-3 border border-primary/20">
                             <div
-                                className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300 h-full transition-all duration-400 ease-out"
+                                className="bg-primary h-full transition-all duration-300 ease-out"
                                 style={{ width: `${analysisProgress}%` }}
                             />
                         </div>
-                        <span className="text-[11px] font-mono text-emerald-400">{analysisProgress}% Complete</span>
+                        <span className="text-xs font-mono font-bold text-primary">{analysisProgress}% Complete</span>
                     </div>
                 )}
 
                 {/* Audit Result Display */}
                 {!isAnalyzing && result && (
-                    <div className="space-y-8 animate-fadeIn">
+                    <div className="space-y-8">
                         {/* Top Result Banner */}
-                        <div className="flex flex-wrap items-center justify-between gap-4 bg-[#0b120e] border border-emerald-950/80 p-4 sm:p-6 rounded-2xl">
+                        <div className="flex flex-wrap items-center justify-between gap-4 bg-card/40 border border-primary/20 p-6 rounded-2xl backdrop-blur-md">
                             <div>
-                                <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider">
+                                <span className="text-xs font-mono text-primary uppercase tracking-wider">
                                     AUDIT TARGET: {result.domain}
                                 </span>
-                                <h2 className="text-2xl font-black text-white mt-1">
+                                <h2 className="text-2xl font-display font-black text-foreground uppercase mt-1">
                                     {result.domain} Architectural Breakdown
                                 </h2>
-                                <p className="text-xs text-zinc-400 mt-0.5">
-                                    Detected Sector: <strong className="text-emerald-400 uppercase">{result.detectedSector}</strong>
+                                <p className="text-xs text-foreground/70 mt-1">
+                                    Detected Sector: <strong className="text-primary uppercase">{result.detectedSector}</strong>
                                 </p>
                             </div>
 
                             <button
                                 type="button"
                                 onClick={() => setResult(null)}
-                                className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800/40 transition"
+                                className="text-xs text-foreground/70 hover:text-foreground flex items-center gap-1.5 px-4 py-2 rounded-lg border border-primary/20 hover:bg-primary/10 transition"
                             >
                                 <RefreshCw className="w-3.5 h-3.5" /> Analyze Another URL
                             </button>
@@ -268,12 +228,12 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                         {/* Performance & Speed Comparison Matrix */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Competitor Score */}
-                            <div className="bg-gradient-to-b from-red-950/20 to-[#0b120e] border border-red-900/40 p-5 rounded-2xl">
+                            <div className="bg-red-950/20 border border-red-500/30 p-6 rounded-2xl backdrop-blur-sm">
                                 <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-semibold text-red-400 uppercase tracking-wider flex items-center gap-1">
+                                    <span className="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
                                         <ShieldAlert className="w-4 h-4" /> Competitor Current State
                                     </span>
-                                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-red-950/60 text-red-300 border border-red-900/40">
+                                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-red-950/60 text-red-300 border border-red-500/30">
                                         Slow / Bloated
                                     </span>
                                 </div>
@@ -281,54 +241,54 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                                     <span className="text-4xl font-black text-red-400">
                                         {result.performanceComparison.competitorScore}
                                     </span>
-                                    <span className="text-xs text-zinc-500 font-mono">/ 100 Mobile PageSpeed</span>
+                                    <span className="text-xs text-foreground/50 font-mono">/ 100 Mobile PageSpeed</span>
                                 </div>
-                                <div className="text-xs text-zinc-400 space-y-1 mt-3">
-                                    <div>• LCP Speed: <strong className="text-zinc-200">{result.performanceComparison.competitorLcp}</strong> (High mobile bounce)</div>
-                                    <div>• Third-Party Scripts: <strong className="text-zinc-200">Heavy trackers & unminified bundles</strong></div>
+                                <div className="text-xs text-foreground/70 space-y-1 mt-3">
+                                    <div>• LCP Speed: <strong className="text-foreground">{result.performanceComparison.competitorLcp}</strong> (High mobile bounce)</div>
+                                    <div>• Third-Party Scripts: <strong className="text-foreground">Heavy trackers &amp; unminified bundles</strong></div>
                                 </div>
                             </div>
 
                             {/* Mowglai Re-Engineered Advantage */}
-                            <div className="bg-gradient-to-b from-emerald-950/40 to-[#0b120e] border-2 border-emerald-500/40 p-5 rounded-2xl shadow-xl shadow-emerald-950/20">
+                            <div className="bg-primary/10 border-2 border-primary/40 p-6 rounded-2xl backdrop-blur-sm shadow-xl shadow-primary/5">
                                 <div className="flex items-center justify-between mb-3">
-                                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                                        <Zap className="w-4 h-4" /> Mowglai Next.js Guarantee
+                                    <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                                        <Zap className="w-4 h-4 text-primary" /> Mowglai Next.js Guarantee
                                     </span>
-                                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30">
                                         {result.performanceComparison.speedAdvantage}
                                     </span>
                                 </div>
                                 <div className="flex items-baseline gap-3 my-2">
-                                    <span className="text-4xl font-black text-emerald-400">
+                                    <span className="text-4xl font-black text-primary">
                                         {result.performanceComparison.mowglaiScore}
                                     </span>
-                                    <span className="text-xs text-emerald-500/80 font-mono">/ 100 Sub-second LCP</span>
+                                    <span className="text-xs text-primary/80 font-mono">/ 100 Sub-second LCP</span>
                                 </div>
-                                <div className="text-xs text-zinc-300 space-y-1 mt-3">
-                                    <div>• Guaranteed LCP: <strong className="text-emerald-300">{result.performanceComparison.mowglaiLcp}</strong> (0.6s instant load)</div>
-                                    <div>• Stack: <strong className="text-emerald-300">Next.js 16 + Tailwind + Zero Layout Shift</strong></div>
+                                <div className="text-xs text-foreground/80 space-y-1 mt-3">
+                                    <div>• Guaranteed LCP: <strong className="text-primary">{result.performanceComparison.mowglaiLcp}</strong> (0.6s instant load)</div>
+                                    <div>• Stack: <strong className="text-primary">Next.js 16 + Tailwind + Zero Layout Shift</strong></div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Matched Template Banner with Primary CTA */}
-                        <div className="rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-950/50 via-[#0a120e] to-black p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl">
+                        <div className="rounded-2xl border-2 border-primary/40 bg-card/60 p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl backdrop-blur-md">
                             <div className="space-y-3 max-w-xl">
-                                <span className="text-xs font-mono uppercase tracking-widest text-emerald-400">
+                                <span className="text-xs font-mono uppercase tracking-widest text-primary font-bold">
                                     MATCHED TEMPLATE INSPIRATION
                                 </span>
-                                <h3 className="text-2xl sm:text-3xl font-black text-white">
+                                <h3 className="text-2xl sm:text-3xl font-display font-black text-foreground uppercase">
                                     {result.matchedTemplate.title} ({result.matchedTemplate.id}.html)
                                 </h3>
-                                <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed">
+                                <p className="text-foreground/75 text-xs sm:text-sm leading-relaxed">
                                     This template mirrors the core conversion architecture of {result.domain} without any legacy code bloat. Tested for 98+ PageSpeed and direct WhatsApp leads.
                                 </p>
                                 <div className="flex flex-wrap gap-2 pt-1">
                                     {result.matchedTemplate.features.map((feat, idx) => (
                                         <span
                                             key={idx}
-                                            className="text-[11px] px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
+                                            className="text-[11px] px-2.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20 font-bold"
                                         >
                                             {feat}
                                         </span>
@@ -341,7 +301,7 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                                 <button
                                     type="button"
                                     onClick={handleBuildMyVersion}
-                                    className="w-full py-4 px-5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-black text-sm flex items-center justify-center gap-2 transition shadow-xl shadow-emerald-500/30 text-center"
+                                    className="w-full py-4 px-5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-xl hover:scale-105"
                                 >
                                     Build My Version (from ₹5,000) <ArrowRight className="w-4 h-4" />
                                 </button>
@@ -349,7 +309,7 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                                 <button
                                     type="button"
                                     onClick={() => setActivePreviewUrl(result.matchedTemplate.previewUrl)}
-                                    className="w-full py-2.5 px-4 rounded-xl border border-emerald-500/30 text-emerald-300 text-xs font-bold hover:bg-emerald-500/10 flex items-center justify-center gap-1.5 transition"
+                                    className="w-full py-2.5 px-4 rounded-full border border-primary/30 text-foreground text-xs font-bold hover:bg-primary/10 flex items-center justify-center gap-1.5 transition"
                                 >
                                     <Eye className="w-3.5 h-3.5" /> View Live Demo
                                 </button>
@@ -358,9 +318,9 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                                     href={generateWhatsAppUrl()}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="text-xs text-zinc-400 hover:text-emerald-400 text-center py-1 flex items-center justify-center gap-1 transition"
+                                    className="text-xs text-foreground/60 hover:text-primary text-center py-1 flex items-center justify-center gap-1.5 transition"
                                 >
-                                    <MessageCircle className="w-3 h-3 text-[#25D366]" /> Or discuss on WhatsApp
+                                    <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" /> Or discuss on WhatsApp
                                 </a>
                             </div>
                         </div>
@@ -368,20 +328,20 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                         {/* Deconstructed Sections & SEO Gaps */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Deconstructed Sections */}
-                            <div className="bg-[#0b120e] border border-emerald-950/80 p-5 rounded-2xl">
-                                <div className="flex items-center gap-2 text-emerald-400 mb-4">
+                            <div className="bg-card/40 border border-primary/20 p-6 rounded-2xl backdrop-blur-md">
+                                <div className="flex items-center gap-2 text-primary mb-4">
                                     <Layers className="w-4 h-4" />
-                                    <h4 className="text-sm font-bold uppercase tracking-wider">Deconstructed Sections</h4>
+                                    <h4 className="text-sm font-display font-black uppercase tracking-wider">Deconstructed Sections</h4>
                                 </div>
                                 <div className="space-y-3">
                                     {result.detectedSections.map((sec, idx) => (
-                                        <div key={idx} className="bg-zinc-900/60 p-3 rounded-xl border border-zinc-800/80">
-                                            <div className="text-xs font-bold text-white flex items-center justify-between">
+                                        <div key={idx} className="bg-background/40 p-3.5 rounded-xl border border-primary/15">
+                                            <div className="text-xs font-bold text-foreground flex items-center justify-between">
                                                 <span>{sec.name}</span>
-                                                <span className="text-[10px] text-zinc-500">Step 0{idx + 1}</span>
+                                                <span className="text-[10px] text-foreground/50 font-mono">Step 0{idx + 1}</span>
                                             </div>
-                                            <div className="text-[11px] text-zinc-400 mt-1">{sec.purpose}</div>
-                                            <div className="text-[11px] text-emerald-400 mt-1.5 font-medium">
+                                            <div className="text-[11px] text-foreground/70 mt-1">{sec.purpose}</div>
+                                            <div className="text-[11px] text-primary mt-1.5 font-medium">
                                                 ✨ Mowglai Fix: {sec.mowglaiEnhancement}
                                             </div>
                                         </div>
@@ -390,30 +350,29 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                             </div>
 
                             {/* SEO & Conversion Gaps */}
-                            <div className="bg-[#0b120e] border border-emerald-950/80 p-5 rounded-2xl flex flex-col justify-between">
+                            <div className="bg-card/40 border border-primary/20 p-6 rounded-2xl backdrop-blur-md flex flex-col justify-between">
                                 <div>
-                                    <div className="flex items-center gap-2 text-teal-400 mb-4">
+                                    <div className="flex items-center gap-2 text-emerald-400 mb-4">
                                         <Globe className="w-4 h-4" />
-                                        <h4 className="text-sm font-bold uppercase tracking-wider">Competitor Gaps to Exploit</h4>
+                                        <h4 className="text-sm font-display font-black uppercase tracking-wider">Competitor Gaps to Exploit</h4>
                                     </div>
                                     <div className="space-y-2.5">
                                         {result.seoAndConversionGaps.map((gap, idx) => (
-                                            <div key={idx} className="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800 text-xs text-zinc-300 flex items-start gap-2">
-                                                <CheckCircle2 className="w-3.5 h-3.5 text-teal-400 shrink-0 mt-0.5" />
+                                            <div key={idx} className="bg-background/40 p-3 rounded-xl border border-primary/15 text-xs text-foreground/80 flex items-start gap-2">
+                                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                                                 <span>{gap}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div className="pt-4 mt-4 border-t border-zinc-800/80">
-                                    <button
-                                        type="button"
-                                        onClick={handleBuildMyVersion}
-                                        className="w-full py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition"
+                                <div className="pt-4 mt-6 border-t border-primary/20">
+                                    <Link
+                                        href="/ai-onboard"
+                                        className="w-full py-3.5 rounded-full bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition"
                                     >
                                         Auto-Fill /ai-onboard With This Spec <ArrowRight className="w-3.5 h-3.5" />
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -423,18 +382,18 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
 
             {/* Embedded Live Preview Modal */}
             {activePreviewUrl && (
-                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col p-4 sm:p-6 animate-fadeIn">
-                    <div className="flex items-center justify-between pb-3 border-b border-zinc-800 max-w-7xl w-full mx-auto">
+                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col p-4 sm:p-6">
+                    <div className="flex items-center justify-between pb-3 border-b border-primary/20 max-w-7xl w-full mx-auto">
                         <div className="flex items-center gap-2">
                             <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-xs font-mono text-zinc-300">Live Preview: {activePreviewUrl}</span>
+                            <span className="text-xs font-mono text-foreground/80">Live Preview: {activePreviewUrl}</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <a
                                 href={activePreviewUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-xs font-semibold px-3 py-1.5 rounded-md bg-zinc-800 text-zinc-200 hover:text-white flex items-center gap-1.5"
+                                className="text-xs font-semibold px-3 py-1.5 rounded-md bg-background/80 text-foreground hover:text-primary flex items-center gap-1.5 border border-primary/20"
                             >
                                 Open in New Tab <ExternalLink className="w-3 h-3" />
                             </a>
@@ -448,7 +407,7 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                         </div>
                     </div>
 
-                    <div className="flex-1 w-full max-w-7xl mx-auto mt-4 rounded-xl overflow-hidden border border-zinc-800 bg-white">
+                    <div className="flex-1 w-full max-w-7xl mx-auto mt-4 rounded-xl overflow-hidden border border-primary/20 bg-background">
                         <iframe
                             src={activePreviewUrl}
                             className="w-full h-full border-0"
@@ -457,6 +416,6 @@ I want to build my own 3x faster version with Mowglai. Please share scope & deli
                     </div>
                 </div>
             )}
-        </div>
+        </PageLayout>
     );
 }

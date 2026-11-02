@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
     Sparkles,
@@ -9,19 +9,17 @@ import {
     ArrowLeft,
     Eye,
     RefreshCw,
-    Zap,
     Globe,
     MapPin,
-    Building2,
-    ShieldCheck,
-    MessageCircle,
     Copy,
     Check,
     ExternalLink,
     Code,
     CreditCard,
-    ChevronRight
+    ChevronRight,
+    MessageCircle
 } from "lucide-react";
+import PageLayout from "@/components/PageLayout";
 import { OnboardingInput, OnboardingAnalysisResult, BusinessSector } from "@/lib/ai/types";
 import { analyzeClientOnboarding } from "@/lib/ai/matcher";
 
@@ -36,7 +34,17 @@ const SECTORS: { id: BusinessSector; label: string; icon: string; example: strin
     { id: "portfolio", label: "Agency & Portfolio", icon: "🎨", example: "Creator, Studio, Consultant" }
 ];
 
-const POPULAR_CITIES = ["Delhi NCR", "Noida", "Kanpur", "Mumbai", "Bengaluru", "Dubai", "Global / Remote"];
+const POPULAR_CITIES = [
+    "Bangalore",
+    "Chennai",
+    "Delhi NCR",
+    "Noida",
+    "Pune",
+    "Lucknow",
+    "Kanpur",
+    "Mumbai",
+    "Global / International"
+];
 
 const BUDGET_OPTIONS = [
     {
@@ -119,19 +127,18 @@ export default function AiOnboardingPage() {
         const step1 = setTimeout(() => {
             setAnalysisProgress(45);
             setAnalysisStatus("Scanning public/previews template registry...");
-        }, 600);
+        }, 500);
 
         const step2 = setTimeout(() => {
             setAnalysisProgress(75);
             setAnalysisStatus("Generating Local SEO schema & GEO search questions...");
-        }, 1200);
+        }, 1000);
 
         const step3 = setTimeout(async () => {
             setAnalysisProgress(100);
             setAnalysisStatus("Finalizing tailored specifications...");
 
             try {
-                // Try fetching from public/api/ai-onboard.php
                 const response = await fetch("/api/ai-onboard.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -140,23 +147,18 @@ export default function AiOnboardingPage() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    // Merge with client deterministic matcher to guarantee all fields are rich
-                    const localResult = analyzeClientOnboarding(formData);
-                    setResult({ ...localResult, ...data });
+                    const localFallback = analyzeClientOnboarding(formData);
+                    setResult({ ...localFallback, ...data });
                 } else {
-                    // Fallback to client matcher
-                    const localResult = analyzeClientOnboarding(formData);
-                    setResult(localResult);
+                    setResult(analyzeClientOnboarding(formData));
                 }
             } catch {
-                // Fallback to client matcher
-                const localResult = analyzeClientOnboarding(formData);
-                setResult(localResult);
+                setResult(analyzeClientOnboarding(formData));
             } finally {
                 setIsAnalyzing(false);
                 setStep(5);
             }
-        }, 1800);
+        }, 1500);
 
         return () => {
             clearTimeout(step1);
@@ -167,79 +169,42 @@ export default function AiOnboardingPage() {
 
     const handleCopySchema = () => {
         if (!result) return;
-        navigator.clipboard.writeText(JSON.stringify(result.seoStrategy.schemaJsonLd, null, 2));
+        navigator.clipboard.writeText(JSON.stringify(result.seoStrategy.jsonLdSchema, null, 2));
         setCopiedSchema(true);
         setTimeout(() => setCopiedSchema(false), 2500);
     };
 
     const generateWhatsAppUrl = () => {
-        if (!result) return "#";
-        const message = `Hello Mowglai! 👋
-I just used your AI Onboarder for my business:
-• Name: ${result.businessProfile.name}
+        if (!result) return "https://wa.me/919452476331";
+        const message = `Hi Mowglai team! I just completed the AI Project Planner:
+• Brand Name: ${result.businessProfile.name}
 • Category: ${result.businessProfile.sector}
 • City: ${result.businessProfile.city}
 • Recommended Template: ${result.primaryTemplate.title} (${result.primaryTemplate.previewUrl})
 • Budget Tier: ${result.pricingSuggestion.priceInr} (${result.pricingSuggestion.tierName})
 
-I want to lock this design and launch my website. Please assist!`;
+I want to lock this architectural specification and launch my project. Please connect!`;
         return `https://wa.me/919452476331?text=${encodeURIComponent(message)}`;
     };
 
     return (
-        <div className="min-h-screen bg-[#070b09] text-white flex flex-col selection:bg-emerald-500/30">
-            {/* Header / Nav */}
-            <header className="border-b border-emerald-950/60 bg-[#070b09]/80 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <Link
-                        href="/"
-                        className="text-xl font-bold tracking-wider text-emerald-400 flex items-center gap-2 hover:opacity-80 transition"
-                    >
-                        <span className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                            🌿
-                        </span>
-                        MOWGLAI
-                    </Link>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hidden sm:inline-flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" /> AI Onboarder
-                    </span>
-                </div>
-
-                <div className="flex items-center gap-3">
-                    <Link
-                        href="/explore"
-                        className="text-xs text-zinc-400 hover:text-white transition px-3 py-1.5 rounded-md hover:bg-zinc-800/40"
-                    >
-                        Browse All Previews
-                    </Link>
-                    <a
-                        href="https://wa.me/919452476331"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-semibold px-3 py-1.5 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5"
-                    >
-                        <MessageCircle className="w-3.5 h-3.5" /> Direct Support
-                    </a>
-                </div>
-            </header>
-
-            {/* Main Container */}
-            <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 md:py-12 flex flex-col justify-center">
+        <PageLayout>
+            <main className="min-h-screen bg-transparent relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
                 {/* Stepper Header (Only shown during steps 1-4) */}
                 {step < 5 && !isAnalyzing && (
-                    <div className="mb-8">
-                        <div className="flex items-center justify-between max-w-md mx-auto mb-4 text-xs font-medium text-zinc-400">
-                            <span className={step >= 1 ? "text-emerald-400 font-semibold" : ""}>1. Business</span>
-                            <ChevronRight className="w-3 h-3 text-zinc-600" />
-                            <span className={step >= 2 ? "text-emerald-400 font-semibold" : ""}>2. Location</span>
-                            <ChevronRight className="w-3 h-3 text-zinc-600" />
-                            <span className={step >= 3 ? "text-emerald-400 font-semibold" : ""}>3. Budget</span>
-                            <ChevronRight className="w-3 h-3 text-zinc-600" />
-                            <span className={step >= 4 ? "text-emerald-400 font-semibold" : ""}>4. Objective</span>
+                    <div className="mb-8 max-w-md mx-auto">
+                        <div className="flex items-center justify-between mb-4 text-xs font-mono font-bold text-foreground/60 uppercase tracking-wider">
+                            <span className={step >= 1 ? "text-primary" : ""}>1. Business</span>
+                            <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
+                            <span className={step >= 2 ? "text-primary" : ""}>2. Location</span>
+                            <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
+                            <span className={step >= 3 ? "text-primary" : ""}>3. Budget</span>
+                            <ChevronRight className="w-3.5 h-3.5 text-primary" />
+                            <span className={step >= 4 ? "text-primary" : ""}>4. Objective</span>
                         </div>
-                        <div className="w-full bg-zinc-800/40 h-1.5 rounded-full overflow-hidden max-w-md mx-auto">
+                        <div className="w-full bg-background/60 h-1.5 rounded-full overflow-hidden border border-primary/20">
                             <div
-                                className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full transition-all duration-300"
+                                className="bg-primary h-full transition-all duration-300"
                                 style={{ width: `${(step / 4) * 100}%` }}
                             />
                         </div>
@@ -248,20 +213,20 @@ I want to lock this design and launch my website. Please assist!`;
 
                 {/* Loading / AI Processing State */}
                 {isAnalyzing && (
-                    <div className="max-w-md mx-auto w-full py-16 px-6 text-center rounded-2xl border border-emerald-500/20 bg-gradient-to-b from-emerald-950/30 to-black/60 backdrop-blur-xl shadow-2xl">
-                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 mx-auto flex items-center justify-center mb-6 animate-pulse">
-                            <Sparkles className="w-8 h-8 text-emerald-400 animate-spin" style={{ animationDuration: "3s" }} />
+                    <div className="max-w-md mx-auto w-full py-16 px-6 text-center rounded-2xl border border-primary/20 bg-card/40 backdrop-blur-xl shadow-2xl">
+                        <div className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 mx-auto flex items-center justify-center mb-6 animate-pulse">
+                            <Sparkles className="w-8 h-8 text-primary animate-spin" style={{ animationDuration: "3s" }} />
                         </div>
-                        <h2 className="text-xl font-bold text-white mb-2">Mowglai AI Synthesizing...</h2>
-                        <p className="text-xs text-zinc-400 mb-6">{analysisStatus}</p>
+                        <h2 className="text-xl font-display font-black text-foreground uppercase mb-2">Mowglai AI Synthesizing...</h2>
+                        <p className="text-xs text-foreground/70 mb-6">{analysisStatus}</p>
 
-                        <div className="w-full bg-zinc-800/60 h-2 rounded-full overflow-hidden mb-3">
+                        <div className="w-full bg-background/60 h-2 rounded-full overflow-hidden mb-3 border border-primary/20">
                             <div
-                                className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300 h-full transition-all duration-500 ease-out"
+                                className="bg-primary h-full transition-all duration-300 ease-out"
                                 style={{ width: `${analysisProgress}%` }}
                             />
                         </div>
-                        <span className="text-[11px] font-mono text-emerald-400">{analysisProgress}% Complete</span>
+                        <span className="text-xs font-mono font-bold text-primary">{analysisProgress}% Complete</span>
                     </div>
                 )}
 
@@ -269,35 +234,35 @@ I want to lock this design and launch my website. Please assist!`;
                 {!isAnalyzing && step === 1 && (
                     <div className="max-w-2xl mx-auto w-full">
                         <div className="text-center mb-8">
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-block mb-3">
-                                STEP 1 OF 4
+                            <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-block mb-4">
+                                STEP 1 OF 4 • BRAND PROFILE
                             </span>
-                            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
-                                Aapka Business Kya Hai?
+                            <h1 className="text-3xl sm:text-5xl font-display font-black text-foreground uppercase tracking-tight mb-3">
+                                Tell Us About Your Business
                             </h1>
-                            <p className="text-zinc-400 text-sm">
-                                AI isse aapke brand ke liye exact template aur conversion structure pick karega.
+                            <p className="text-foreground/75 text-sm sm:text-base leading-relaxed">
+                                Our AI selects the optimal high-performance Next.js template and local conversion structure for your brand.
                             </p>
                         </div>
 
-                        <div className="bg-[#0b120e] border border-emerald-950/80 p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div className="bg-card/40 border border-primary/20 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md">
                             <div className="mb-6">
-                                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">
+                                <label className="block text-xs font-bold text-foreground/80 uppercase tracking-wider mb-2">
                                     Business / Brand Name
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="e.g. Apex Dental Clinic, IronForge Gym, Urban Chai"
+                                    placeholder="e.g. Apex Health Clinic, Urban Roast, Nova SaaS"
                                     value={formData.businessName}
                                     onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-zinc-700/60 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                                    className="w-full px-4 py-3.5 rounded-xl bg-background/50 border border-primary/20 text-foreground placeholder-foreground/40 focus:outline-none focus:border-primary transition text-sm"
                                     autoFocus
                                 />
                             </div>
 
                             <div className="mb-6">
-                                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">
-                                    Industry / Sector Select Karein
+                                <label className="block text-xs font-bold text-foreground/80 uppercase tracking-wider mb-2">
+                                    Select Industry Sector
                                 </label>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                                     {SECTORS.map((sec) => (
@@ -307,14 +272,14 @@ I want to lock this design and launch my website. Please assist!`;
                                             onClick={() => setFormData({ ...formData, businessSector: sec.id })}
                                             className={`p-3 rounded-xl border text-left flex flex-col justify-between transition ${
                                                 formData.businessSector === sec.id
-                                                    ? "bg-emerald-500/15 border-emerald-400 text-white shadow-lg shadow-emerald-500/10"
-                                                    : "bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+                                                    ? "bg-primary/15 border-primary text-foreground shadow-lg shadow-primary/10"
+                                                    : "bg-background/40 border-primary/15 text-foreground/70 hover:border-primary/40 hover:text-foreground"
                                             }`}
                                         >
                                             <span className="text-2xl mb-1">{sec.icon}</span>
                                             <div>
-                                                <div className="text-xs font-semibold text-white">{sec.label}</div>
-                                                <div className="text-[10px] text-zinc-400 truncate">{sec.example}</div>
+                                                <div className="text-xs font-bold text-foreground">{sec.label}</div>
+                                                <div className="text-[10px] text-foreground/60 truncate">{sec.example}</div>
                                             </div>
                                         </button>
                                     ))}
@@ -325,9 +290,9 @@ I want to lock this design and launch my website. Please assist!`;
                                 type="button"
                                 onClick={() => setStep(2)}
                                 disabled={!formData.businessName.trim()}
-                                className="w-full py-3.5 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed text-black font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                className="w-full py-4 px-6 rounded-full bg-primary hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground font-black uppercase tracking-wider text-sm flex items-center justify-center gap-2 transition shadow-xl hover:scale-105"
                             >
-                                Next: Target City <ArrowRight className="w-4 h-4" />
+                                Next: Target Location <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
                     </div>
@@ -337,21 +302,21 @@ I want to lock this design and launch my website. Please assist!`;
                 {!isAnalyzing && step === 2 && (
                     <div className="max-w-xl mx-auto w-full">
                         <div className="text-center mb-8">
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-block mb-3">
-                                STEP 2 OF 4
+                            <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-block mb-4">
+                                STEP 2 OF 4 • TARGET MARKET
                             </span>
-                            <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-                                Kaunse City / Area Ko Target Kar Rahe Ho?
+                            <h2 className="text-3xl sm:text-4xl font-display font-black text-foreground uppercase tracking-tight mb-3">
+                                Which Region Are You Targeting?
                             </h2>
-                            <p className="text-zinc-400 text-sm">
-                                Local SEO aur Google Maps ranking ke liye yeh critical hai.
+                            <p className="text-foreground/75 text-sm sm:text-base leading-relaxed">
+                                Critical for 48-Hour Google Business Profile (GMB) optimization and localized search rankings.
                             </p>
                         </div>
 
-                        <div className="bg-[#0b120e] border border-emerald-950/80 p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div className="bg-card/40 border border-primary/20 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md">
                             <div className="mb-6">
-                                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">
-                                    Select or Type City
+                                <label className="block text-xs font-bold text-foreground/80 uppercase tracking-wider mb-2">
+                                    Select or Type Target City
                                 </label>
                                 <div className="flex flex-wrap gap-2 mb-4">
                                     {POPULAR_CITIES.map((c) => (
@@ -361,8 +326,8 @@ I want to lock this design and launch my website. Please assist!`;
                                             onClick={() => setFormData({ ...formData, city: c })}
                                             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
                                                 formData.city === c
-                                                    ? "bg-emerald-500/20 border-emerald-400 text-emerald-300"
-                                                    : "bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:text-white"
+                                                    ? "bg-primary/20 border-primary text-primary font-bold"
+                                                    : "bg-background/40 border-primary/15 text-foreground/70 hover:text-foreground hover:border-primary/40"
                                             }`}
                                         >
                                             <MapPin className="w-3 h-3 inline mr-1" />
@@ -373,10 +338,10 @@ I want to lock this design and launch my website. Please assist!`;
 
                                 <input
                                     type="text"
-                                    placeholder="Or type custom city (e.g. Pune, Jaipur, Lucknow, Gurgaon)"
+                                    placeholder="Or type custom city (e.g. Pune, Bangalore, Lucknow, Gurgaon)"
                                     value={formData.city}
                                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-zinc-700/60 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                                    className="w-full px-4 py-3.5 rounded-xl bg-background/50 border border-primary/20 text-foreground placeholder-foreground/40 focus:outline-none focus:border-primary transition text-sm"
                                 />
                             </div>
 
@@ -384,7 +349,7 @@ I want to lock this design and launch my website. Please assist!`;
                                 <button
                                     type="button"
                                     onClick={() => setStep(1)}
-                                    className="py-3.5 px-5 rounded-xl border border-zinc-700 text-zinc-300 hover:bg-zinc-800/40 text-sm font-semibold transition"
+                                    className="py-3.5 px-5 rounded-full border border-primary/20 text-foreground/80 hover:bg-primary/10 text-sm font-semibold transition"
                                 >
                                     <ArrowLeft className="w-4 h-4" />
                                 </button>
@@ -392,9 +357,9 @@ I want to lock this design and launch my website. Please assist!`;
                                     type="button"
                                     onClick={() => setStep(3)}
                                     disabled={!formData.city.trim()}
-                                    className="flex-1 py-3.5 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-black font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                    className="flex-1 py-4 px-6 rounded-full bg-primary hover:bg-primary/90 disabled:opacity-40 text-primary-foreground font-black uppercase tracking-wider text-sm flex items-center justify-center gap-2 transition shadow-xl hover:scale-105"
                                 >
-                                    Next: Budget & Packages <ArrowRight className="w-4 h-4" />
+                                    Next: Budget &amp; Tiers <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
@@ -405,18 +370,18 @@ I want to lock this design and launch my website. Please assist!`;
                 {!isAnalyzing && step === 3 && (
                     <div className="max-w-2xl mx-auto w-full">
                         <div className="text-center mb-8">
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-block mb-3">
-                                STEP 3 OF 4
+                            <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-block mb-4">
+                                STEP 3 OF 4 • INVESTMENT
                             </span>
-                            <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-                                Aapka Expected Budget Range?
+                            <h2 className="text-3xl sm:text-4xl font-display font-black text-foreground uppercase tracking-tight mb-3">
+                                Choose Your Investment Tier
                             </h2>
-                            <p className="text-zinc-400 text-sm">
-                                Mowglai ke transparent upfront packages me se choose karein (No hidden cost).
+                            <p className="text-foreground/75 text-sm sm:text-base leading-relaxed">
+                                Transparent milestone pricing starting at ₹5,000 INR ($55 USD) with zero recurring lock-ins.
                             </p>
                         </div>
 
-                        <div className="bg-[#0b120e] border border-emerald-950/80 p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div className="bg-card/40 border border-primary/20 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md">
                             <div className="grid gap-3.5 mb-6">
                                 {BUDGET_OPTIONS.map((opt) => (
                                     <button
@@ -425,24 +390,24 @@ I want to lock this design and launch my website. Please assist!`;
                                         onClick={() => setFormData({ ...formData, budget: opt.tier })}
                                         className={`p-4 rounded-xl border text-left flex items-center justify-between transition ${
                                             formData.budget === opt.tier
-                                                ? "bg-emerald-500/15 border-emerald-400 text-white shadow-lg shadow-emerald-500/10"
-                                                : "bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:border-zinc-700"
+                                                ? "bg-primary/15 border-primary text-foreground shadow-lg shadow-primary/10"
+                                                : "bg-background/40 border-primary/15 text-foreground/70 hover:border-primary/40"
                                         }`}
                                     >
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-base font-bold text-white">{opt.tier}</span>
-                                                <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-300">
+                                                <span className="text-base font-bold text-foreground">{opt.tier}</span>
+                                                <span className="text-xs px-2 py-0.5 rounded bg-background/80 text-foreground/70 font-mono border border-primary/20">
                                                     {opt.usd}
                                                 </span>
-                                                <span className="text-xs font-semibold text-emerald-400">
+                                                <span className="text-xs font-bold text-primary">
                                                     {opt.label}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-zinc-400 mt-1">{opt.desc}</p>
+                                            <p className="text-xs text-foreground/70 mt-1">{opt.desc}</p>
                                         </div>
                                         <div className="text-right pl-4">
-                                            <span className="text-[11px] px-2 py-1 rounded-md bg-zinc-800/80 text-zinc-300 whitespace-nowrap">
+                                            <span className="text-[11px] px-2.5 py-1 rounded-md bg-background/80 text-foreground/80 whitespace-nowrap font-mono border border-primary/20">
                                                 ⏱️ {opt.time}
                                             </span>
                                         </div>
@@ -454,14 +419,14 @@ I want to lock this design and launch my website. Please assist!`;
                                 <button
                                     type="button"
                                     onClick={() => setStep(2)}
-                                    className="py-3.5 px-5 rounded-xl border border-zinc-700 text-zinc-300 hover:bg-zinc-800/40 text-sm font-semibold transition"
+                                    className="py-3.5 px-5 rounded-full border border-primary/20 text-foreground/80 hover:bg-primary/10 text-sm font-semibold transition"
                                 >
                                     <ArrowLeft className="w-4 h-4" />
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setStep(4)}
-                                    className="flex-1 py-3.5 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                    className="flex-1 py-4 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-black uppercase tracking-wider text-sm flex items-center justify-center gap-2 transition shadow-xl hover:scale-105"
                                 >
                                     Next: Core Objective <ArrowRight className="w-4 h-4" />
                                 </button>
@@ -474,18 +439,18 @@ I want to lock this design and launch my website. Please assist!`;
                 {!isAnalyzing && step === 4 && (
                     <div className="max-w-xl mx-auto w-full">
                         <div className="text-center mb-8">
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-block mb-3">
-                                STEP 4 OF 4
+                            <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-block mb-4">
+                                STEP 4 OF 4 • CONVERSION GOAL
                             </span>
-                            <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-                                Website Se Sabse Bada Goal Kya Hai?
+                            <h2 className="text-3xl sm:text-4xl font-display font-black text-foreground uppercase tracking-tight mb-3">
+                                What Is Your Primary Objective?
                             </h2>
-                            <p className="text-zinc-400 text-sm">
-                                AI is goal ke hisaab se call-to-actions aur lead capture layout karega.
+                            <p className="text-foreground/75 text-sm sm:text-base leading-relaxed">
+                                Our AI structures the user journey, lead-capture forms, and call-to-actions around this goal.
                             </p>
                         </div>
 
-                        <div className="bg-[#0b120e] border border-emerald-950/80 p-6 sm:p-8 rounded-2xl shadow-xl">
+                        <div className="bg-card/40 border border-primary/20 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md">
                             <div className="grid gap-2.5 mb-6">
                                 {GOAL_OPTIONS.map((g) => (
                                     <button
@@ -494,26 +459,26 @@ I want to lock this design and launch my website. Please assist!`;
                                         onClick={() => setFormData({ ...formData, primaryGoal: g })}
                                         className={`p-3.5 rounded-xl border text-left text-xs font-medium flex items-center justify-between transition ${
                                             formData.primaryGoal === g
-                                                ? "bg-emerald-500/20 border-emerald-400 text-emerald-300"
-                                                : "bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-white"
+                                                ? "bg-primary/20 border-primary text-primary font-bold"
+                                                : "bg-background/40 border-primary/15 text-foreground/70 hover:border-primary/40 hover:text-foreground"
                                         }`}
                                     >
                                         <span>{g}</span>
-                                        {formData.primaryGoal === g && <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
+                                        {formData.primaryGoal === g && <CheckCircle2 className="w-4 h-4 text-primary" />}
                                     </button>
                                 ))}
                             </div>
 
                             <div className="mb-6">
-                                <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">
-                                    WhatsApp Number (Optional - To receive full spec)
+                                <label className="block text-xs font-bold text-foreground/80 uppercase tracking-wider mb-2">
+                                    WhatsApp Number (Optional - To receive architecture spec)
                                 </label>
                                 <input
                                     type="tel"
-                                    placeholder="+91 98765 43210"
+                                    placeholder="+91 94524 76331"
                                     value={formData.phone}
                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-zinc-700/60 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition text-sm"
+                                    className="w-full px-4 py-3.5 rounded-xl bg-background/50 border border-primary/20 text-foreground placeholder-foreground/40 focus:outline-none focus:border-primary transition text-sm"
                                 />
                             </div>
 
@@ -521,16 +486,16 @@ I want to lock this design and launch my website. Please assist!`;
                                 <button
                                     type="button"
                                     onClick={() => setStep(3)}
-                                    className="py-3.5 px-5 rounded-xl border border-zinc-700 text-zinc-300 hover:bg-zinc-800/40 text-sm font-semibold transition"
+                                    className="py-3.5 px-5 rounded-full border border-primary/20 text-foreground/80 hover:bg-primary/10 text-sm font-semibold transition"
                                 >
                                     <ArrowLeft className="w-4 h-4" />
                                 </button>
                                 <button
                                     type="button"
                                     onClick={handleStartAnalysis}
-                                    className="flex-1 py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-extrabold flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                    className="flex-1 py-4 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-black uppercase tracking-wider text-sm flex items-center justify-center gap-2 transition shadow-xl hover:scale-105"
                                 >
-                                    <Sparkles className="w-4 h-4" /> Generate AI Match & Demo
+                                    <Sparkles className="w-4 h-4" /> Generate AI Match &amp; Demo
                                 </button>
                             </div>
                         </div>
@@ -539,23 +504,23 @@ I want to lock this design and launch my website. Please assist!`;
 
                 {/* STEP 5: THE AI RESULT DASHBOARD */}
                 {!isAnalyzing && step === 5 && result && (
-                    <div className="space-y-8 animate-fadeIn">
+                    <div className="space-y-8">
                         {/* Top Celebration Banner */}
                         <div className="text-center max-w-2xl mx-auto">
-                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-flex items-center gap-1.5 mb-3">
-                                <Sparkles className="w-3.5 h-3.5" /> AI SPECIFICATION READY
+                            <span className="text-xs font-semibold px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 inline-flex items-center gap-1.5 mb-3">
+                                <Sparkles className="w-4 h-4 text-primary" /> AI SPECIFICATION READY
                             </span>
-                            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                                {result.businessProfile.name} ke Liye Perfect Match
+                            <h1 className="text-3xl sm:text-5xl font-display font-black text-foreground uppercase tracking-tight">
+                                Tailored Architecture for {result.businessProfile.name}
                             </h1>
-                            <p className="text-zinc-400 text-sm mt-1">
-                                AI ne aapke business ({result.businessProfile.city}) ke liye live template match kiya hai.
+                            <p className="text-foreground/75 text-sm sm:text-base mt-2">
+                                Matched for {result.businessProfile.city} with verified sub-second speed benchmarks.
                             </p>
                         </div>
 
                         {/* Primary Recommendation Showcase Card */}
-                        <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-emerald-950/40 via-[#0a120e] to-black p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 bg-emerald-500 text-black text-[11px] font-black uppercase tracking-wider px-4 py-1 rounded-bl-xl shadow-md">
+                        <div className="rounded-2xl border-2 border-primary/40 bg-card/60 p-6 sm:p-8 shadow-2xl relative overflow-hidden backdrop-blur-md">
+                            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-black uppercase tracking-wider px-4 py-1.5 rounded-bl-xl shadow-md">
                                 {result.primaryTemplate.matchScore}% AI Match
                             </div>
 
@@ -563,27 +528,27 @@ I want to lock this design and launch my website. Please assist!`;
                                 {/* Left Info */}
                                 <div className="lg:col-span-7 space-y-4">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xs font-mono uppercase tracking-widest text-emerald-400">
+                                        <span className="text-xs font-mono uppercase tracking-widest text-primary font-bold">
                                             {result.primaryTemplate.sector}
                                         </span>
-                                        <span className="text-zinc-600">•</span>
-                                        <span className="text-xs text-zinc-400">
+                                        <span className="text-foreground/30">•</span>
+                                        <span className="text-xs text-foreground/70">
                                             {result.primaryTemplate.structure}
                                         </span>
                                     </div>
 
-                                    <h2 className="text-2xl sm:text-3xl font-black text-white">
+                                    <h2 className="text-2xl sm:text-3xl font-display font-black text-foreground uppercase">
                                         {result.primaryTemplate.title}
                                     </h2>
-                                    <p className="text-zinc-300 text-sm leading-relaxed">
+                                    <p className="text-foreground/80 text-sm leading-relaxed">
                                         {result.primaryTemplate.description}
                                     </p>
 
                                     {/* Match reasons */}
                                     <div className="space-y-1.5 pt-2">
                                         {result.primaryTemplate.matchedReasons.map((reason, idx) => (
-                                            <div key={idx} className="flex items-start gap-2 text-xs text-zinc-300">
-                                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" />
+                                            <div key={idx} className="flex items-start gap-2 text-xs text-foreground/80">
+                                                <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                                                 <span>{reason}</span>
                                             </div>
                                         ))}
@@ -594,7 +559,7 @@ I want to lock this design and launch my website. Please assist!`;
                                         {result.primaryTemplate.features.map((feat, idx) => (
                                             <span
                                                 key={idx}
-                                                className="text-[11px] px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
+                                                className="text-[11px] px-3 py-1 rounded-md bg-primary/10 text-primary border border-primary/20 font-bold"
                                             >
                                                 {feat}
                                             </span>
@@ -603,9 +568,9 @@ I want to lock this design and launch my website. Please assist!`;
                                 </div>
 
                                 {/* Right Actions & Direct Live Demo */}
-                                <div className="lg:col-span-5 flex flex-col gap-3 justify-center bg-black/40 border border-emerald-950/60 p-6 rounded-xl text-center">
-                                    <div className="text-xs text-zinc-400 mb-1">Live Bespoke Preview</div>
-                                    <div className="text-xl font-bold text-white mb-2 font-mono">
+                                <div className="lg:col-span-5 flex flex-col gap-3 justify-center bg-background/50 border border-primary/20 p-6 rounded-2xl text-center">
+                                    <div className="text-xs text-foreground/60 mb-1 uppercase tracking-wider font-bold">Live Bespoke Preview</div>
+                                    <div className="text-xl font-display font-black text-foreground mb-2 font-mono">
                                         {result.primaryTemplate.id}.html
                                     </div>
 
@@ -613,9 +578,9 @@ I want to lock this design and launch my website. Please assist!`;
                                     <button
                                         type="button"
                                         onClick={() => setActivePreviewUrl(result.primaryTemplate.previewUrl)}
-                                        className="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
+                                        className="w-full py-3.5 px-5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg hover:scale-105"
                                     >
-                                        <Eye className="w-4 h-4" /> Live Demo Dekho
+                                        <Eye className="w-4 h-4" /> View Live Demo
                                     </button>
 
                                     {/* Open in new tab fallback */}
@@ -623,21 +588,21 @@ I want to lock this design and launch my website. Please assist!`;
                                         href={result.primaryTemplate.previewUrl}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="text-xs text-emerald-400 hover:text-emerald-300 inline-flex items-center justify-center gap-1 py-1"
+                                        className="text-xs text-primary hover:underline inline-flex items-center justify-center gap-1 py-1"
                                     >
                                         Open in Fullscreen Tab <ExternalLink className="w-3 h-3" />
                                     </a>
 
-                                    <div className="border-t border-zinc-800 my-1" />
+                                    <div className="border-t border-primary/20 my-1" />
 
                                     {/* Button 2: WhatsApp Lock */}
                                     <a
                                         href={generateWhatsAppUrl()}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black font-bold flex items-center justify-center gap-2 transition"
+                                        className="w-full py-3.5 px-5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg"
                                     >
-                                        <MessageCircle className="w-4 h-4 fill-black" /> Lock This Design on WhatsApp
+                                        <MessageCircle className="w-4 h-4 fill-white" /> Lock Design on WhatsApp
                                     </a>
                                 </div>
                             </div>
@@ -646,23 +611,23 @@ I want to lock this design and launch my website. Please assist!`;
                         {/* Alternative Templates */}
                         {result.alternativeTemplates.length > 0 && (
                             <div>
-                                <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider mb-3">
+                                <h3 className="text-sm font-display font-black text-foreground uppercase tracking-wider mb-3">
                                     Alternative Verified Designs
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {result.alternativeTemplates.map((alt) => (
                                         <div
                                             key={alt.id}
-                                            className="bg-[#0b120e] border border-zinc-800 p-4 rounded-xl flex items-center justify-between hover:border-emerald-500/40 transition"
+                                            className="bg-card/40 border border-primary/20 p-4 rounded-xl flex items-center justify-between hover:border-primary transition backdrop-blur-sm"
                                         >
                                             <div>
-                                                <div className="text-sm font-bold text-white">{alt.title}</div>
-                                                <div className="text-xs text-zinc-400">{alt.id}.html • {alt.type}</div>
+                                                <div className="text-sm font-bold text-foreground">{alt.title}</div>
+                                                <div className="text-xs text-foreground/60">{alt.id}.html • {alt.type}</div>
                                             </div>
                                             <button
                                                 type="button"
                                                 onClick={() => setActivePreviewUrl(alt.previewUrl)}
-                                                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/10 flex items-center gap-1 transition"
+                                                className="px-3 py-1.5 rounded-lg border border-primary/30 text-primary text-xs font-semibold hover:bg-primary/10 flex items-center gap-1 transition"
                                             >
                                                 <Eye className="w-3 h-3" /> Preview
                                             </button>
@@ -675,23 +640,23 @@ I want to lock this design and launch my website. Please assist!`;
                         {/* 3-Column Strategy Matrix */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* Column 1: Website Architecture */}
-                            <div className="bg-[#0b120e] border border-emerald-950/80 p-5 rounded-2xl flex flex-col justify-between">
+                            <div className="bg-card/40 border border-primary/20 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md">
                                 <div>
-                                    <div className="flex items-center gap-2 text-emerald-400 mb-3">
+                                    <div className="flex items-center gap-2 text-primary mb-3">
                                         <Code className="w-4 h-4" />
-                                        <h3 className="text-sm font-bold uppercase tracking-wider">Site Blueprint</h3>
+                                        <h3 className="text-sm font-display font-black uppercase tracking-wider">Site Blueprint</h3>
                                     </div>
-                                    <div className="text-xs text-zinc-400 mb-4">
-                                        Type: <strong className="text-white">{result.websiteStructure.recommendedType}</strong>
+                                    <div className="text-xs text-foreground/70 mb-4">
+                                        Type: <strong className="text-foreground">{result.websiteStructure.recommendedType}</strong>
                                     </div>
                                     <div className="space-y-3">
                                         {result.websiteStructure.pages.map((p, idx) => (
-                                            <div key={idx} className="bg-zinc-900/60 p-2.5 rounded-lg border border-zinc-800/80">
-                                                <div className="text-xs font-semibold text-white flex justify-between">
+                                            <div key={idx} className="bg-background/40 p-3 rounded-lg border border-primary/15">
+                                                <div className="text-xs font-semibold text-foreground flex justify-between">
                                                     <span>{p.name}</span>
-                                                    <span className="font-mono text-[10px] text-zinc-500">{p.slug}</span>
+                                                    <span className="font-mono text-[10px] text-foreground/50">{p.slug}</span>
                                                 </div>
-                                                <div className="text-[11px] text-zinc-400 mt-1">{p.purpose}</div>
+                                                <div className="text-[11px] text-foreground/70 mt-1">{p.purpose}</div>
                                             </div>
                                         ))}
                                     </div>
@@ -699,18 +664,18 @@ I want to lock this design and launch my website. Please assist!`;
                             </div>
 
                             {/* Column 2: Local SEO & GEO Questions */}
-                            <div className="bg-[#0b120e] border border-emerald-950/80 p-5 rounded-2xl flex flex-col justify-between">
+                            <div className="bg-card/40 border border-primary/20 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md">
                                 <div>
-                                    <div className="flex items-center gap-2 text-teal-400 mb-3">
+                                    <div className="flex items-center gap-2 text-emerald-400 mb-3">
                                         <Globe className="w-4 h-4" />
-                                        <h3 className="text-sm font-bold uppercase tracking-wider">SEO & GEO Engine</h3>
+                                        <h3 className="text-sm font-display font-black uppercase tracking-wider">SEO &amp; GEO Engine</h3>
                                     </div>
-                                    <div className="text-xs text-zinc-400 mb-3">
-                                        What Gemini & ChatGPT will answer:
+                                    <div className="text-xs text-foreground/70 mb-3">
+                                        What Gemini &amp; ChatGPT will answer:
                                     </div>
                                     <div className="space-y-2 mb-4">
                                         {result.seoStrategy.geoSearchQuestions.slice(0, 3).map((q, idx) => (
-                                            <div key={idx} className="text-xs text-zinc-300 bg-zinc-900/40 p-2 rounded-md border border-zinc-800">
+                                            <div key={idx} className="text-xs text-foreground/80 bg-background/40 p-2.5 rounded-md border border-primary/15">
                                                 💬 &ldquo;{q}&rdquo;
                                             </div>
                                         ))}
@@ -719,37 +684,37 @@ I want to lock this design and launch my website. Please assist!`;
                                 <button
                                     type="button"
                                     onClick={handleCopySchema}
-                                    className="w-full py-2 px-3 rounded-lg border border-zinc-700 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 flex items-center justify-center gap-1.5 transition"
+                                    className="w-full py-2.5 px-3 rounded-full border border-primary/30 text-xs font-semibold text-foreground hover:bg-primary/10 flex items-center justify-center gap-1.5 transition"
                                 >
-                                    {copiedSchema ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                                    {copiedSchema ? <Check className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5" />}
                                     {copiedSchema ? "Schema JSON Copied!" : "Copy JSON-LD Schema"}
                                 </button>
                             </div>
 
                             {/* Column 3: Recommended Pricing & Checkout */}
-                            <div className="bg-gradient-to-b from-emerald-950/50 to-[#0b120e] border border-emerald-500/30 p-5 rounded-2xl flex flex-col justify-between">
+                            <div className="bg-primary/10 border-2 border-primary/30 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md shadow-xl shadow-primary/5">
                                 <div>
-                                    <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                                    <div className="flex items-center gap-2 text-primary mb-2">
                                         <CreditCard className="w-4 h-4" />
-                                        <h3 className="text-sm font-bold uppercase tracking-wider">Recommended Tier</h3>
+                                        <h3 className="text-sm font-display font-black uppercase tracking-wider">Recommended Tier</h3>
                                     </div>
-                                    <div className="text-2xl font-black text-white mt-1">
+                                    <div className="text-2xl font-black text-foreground mt-1">
                                         {result.pricingSuggestion.priceInr}
-                                        <span className="text-xs font-normal text-zinc-400 ml-1.5">
+                                        <span className="text-xs font-normal text-foreground/70 ml-1.5 font-mono">
                                             ({result.pricingSuggestion.priceUsd})
                                         </span>
                                     </div>
-                                    <div className="text-xs font-semibold text-emerald-400 mt-0.5">
+                                    <div className="text-xs font-bold text-primary mt-0.5">
                                         {result.pricingSuggestion.tierName}
                                     </div>
-                                    <div className="text-[11px] text-zinc-400 mt-1 mb-4">
+                                    <div className="text-[11px] text-foreground/70 mt-1 mb-4">
                                         Delivery: {result.pricingSuggestion.deliveryTime}
                                     </div>
 
-                                    <ul className="space-y-1.5 mb-4 text-xs text-zinc-300">
+                                    <ul className="space-y-1.5 mb-4 text-xs text-foreground/80">
                                         {result.pricingSuggestion.features.map((feat, idx) => (
                                             <li key={idx} className="flex items-center gap-1.5">
-                                                <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+                                                <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
                                                 <span>{feat}</span>
                                             </li>
                                         ))}
@@ -758,7 +723,7 @@ I want to lock this design and launch my website. Please assist!`;
 
                                 <Link
                                     href="/investment"
-                                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-lg shadow-emerald-500/10"
+                                    className="w-full py-3 px-4 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition text-center shadow-lg hover:scale-105"
                                 >
                                     Book via Razorpay / Card <ArrowRight className="w-3.5 h-3.5" />
                                 </Link>
@@ -766,19 +731,19 @@ I want to lock this design and launch my website. Please assist!`;
                         </div>
 
                         {/* Bottom Action Footer */}
-                        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-zinc-800">
+                        <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-primary/20">
                             <button
                                 type="button"
                                 onClick={() => {
                                     setStep(1);
                                     setResult(null);
                                 }}
-                                className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 transition"
+                                className="text-xs text-foreground/70 hover:text-foreground flex items-center gap-1.5 transition"
                             >
                                 <RefreshCw className="w-3.5 h-3.5" /> Start New AI Onboarding
                             </button>
 
-                            <div className="text-xs text-zinc-500 font-mono">
+                            <div className="text-xs text-foreground/50 font-mono">
                                 ID: {result.id} • Mowglai AI v2.5 Engine
                             </div>
                         </div>
@@ -788,18 +753,18 @@ I want to lock this design and launch my website. Please assist!`;
 
             {/* Embedded Live Preview Modal */}
             {activePreviewUrl && (
-                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col p-4 sm:p-6 animate-fadeIn">
-                    <div className="flex items-center justify-between pb-3 border-b border-zinc-800 max-w-7xl w-full mx-auto">
+                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col p-4 sm:p-6">
+                    <div className="flex items-center justify-between pb-3 border-b border-primary/20 max-w-7xl w-full mx-auto">
                         <div className="flex items-center gap-2">
                             <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-xs font-mono text-zinc-300">Live Preview: {activePreviewUrl}</span>
+                            <span className="text-xs font-mono text-foreground/80">Live Preview: {activePreviewUrl}</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <a
                                 href={activePreviewUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-xs font-semibold px-3 py-1.5 rounded-md bg-zinc-800 text-zinc-200 hover:text-white flex items-center gap-1.5"
+                                className="text-xs font-semibold px-3 py-1.5 rounded-md bg-background/80 text-foreground hover:text-primary flex items-center gap-1.5 border border-primary/20"
                             >
                                 Open in New Tab <ExternalLink className="w-3 h-3" />
                             </a>
@@ -813,7 +778,7 @@ I want to lock this design and launch my website. Please assist!`;
                         </div>
                     </div>
 
-                    <div className="flex-1 w-full max-w-7xl mx-auto mt-4 rounded-xl overflow-hidden border border-zinc-800 bg-white">
+                    <div className="flex-1 w-full max-w-7xl mx-auto mt-4 rounded-xl overflow-hidden border border-primary/20 bg-background">
                         <iframe
                             src={activePreviewUrl}
                             className="w-full h-full border-0"
@@ -822,7 +787,6 @@ I want to lock this design and launch my website. Please assist!`;
                     </div>
                 </div>
             )}
-        </div>
+        </PageLayout>
     );
 }
-
