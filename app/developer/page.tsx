@@ -174,7 +174,7 @@ export default function DeveloperAdminPage() {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as "apis" | "clouds" | "models" | "telemetry")}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 activeTab === tab.id
                   ? "bg-white/10 text-primary border border-primary/30"
