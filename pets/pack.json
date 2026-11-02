@@ -1,0 +1,149 @@
+{
+  "name": "OpenPets Halloween",
+  "pets": [
+    {
+      "id": "halloween-pumpkin",
+      "name": "Pumpkin",
+      "file": "pets/pumpkin.zip",
+      "sha256": "2e96af493a9ee88648dc4850bde79fb7c9129fe91e11a1a49b45779193fe853b"
+    },
+    {
+      "id": "halloween-black-cat",
+      "name": "Black Cat",
+      "file": "pets/black-cat.zip",
+      "sha256": "a3f12fd7e0be1c19db3ce3d19f980ef3fe885af684c277078314f5a2cdfc45b1"
+    },
+    {
+      "id": "halloween-ghost",
+      "name": "Ghost",
+      "file": "pets/ghost.zip",
+      "sha256": "01ed67c3817ec0634e369e2c56af5e6d8b84e6aebae8ef4dbcdcd94eac44f1fc"
+    },
+    {
+      "id": "halloween-bat",
+      "name": "Bat",
+      "file": "pets/bat.zip",
+      "sha256": "55d1937baaed0abab2c0f073d4345742f5fa11e4fe90bfad925d0d828bdf0312"
+    },
+    {
+      "id": "halloween-witch-hat",
+      "name": "Witch Hat",
+      "file": "pets/witch-hat.zip",
+      "sha256": "268395613df1016d68821b8a7d80abd7915bd6ac1d3ef5736d6a8e773018f03d"
+    },
+    {
+      "id": "halloween-candy-corn",
+      "name": "Candy Corn",
+      "file": "pets/candy-corn.zip",
+      "sha256": "e1ede84fcc905751a700ec2ddb8bf359687fff315ada988161ef35641e12ead4"
+    },
+    {
+      "id": "halloween-cauldron",
+      "name": "Cauldron",
+      "file": "pets/cauldron.zip",
+      "sha256": "e4ead246d8fc88698fe3b791ad3de1f39cc57f2dfc919846c10127c78ea75227"
+    },
+    {
+      "id": "halloween-skeleton",
+      "name": "Skeleton",
+      "file": "pets/skeleton.zip",
+      "sha256": "2dbacc719e9a930a8347ca7a15e6e59fc0a52680f7960c469dbc75e76b171cc8"
+    },
+    {
+      "id": "halloween-spider",
+      "name": "Spider",
+      "file": "pets/spider.zip",
+      "sha256": "4f84bcead98799bc497870b5882158c7fda1213a5abf4c9b2b0fed110abf6ae6"
+    },
+    {
+      "id": "halloween-broom-rider",
+      "name": "Broom Rider",
+      "file": "pets/broom-rider.zip",
+      "sha256": "7254385195440220903d89ece6d43aab71c2edf9bb835c5db475a8167d67fe89"
+    },
+    {
+      "id": "halloween-potion",
+      "name": "Potion",
+      "file": "pets/potion.zip",
+      "sha256": "4cbaa32681f5d0f0a111797624561277e38d8cf29078c8f2ee1fdb9fa724c57f"
+    },
+    {
+      "id": "halloween-vampire",
+      "name": "Vampire",
+      "file": "pets/vampire.zip",
+      "sha256": "82f09106dcdb828bae6ae565003b0b205925a3f6979bb4203a216a454bab7813"
+    },
+    {
+      "id": "halloween-mummy",
+      "name": "Mummy",
+      "file": "pets/mummy.zip",
+      "sha256": "bb6c6ef6b9efcec9a77a1d6f8bb860e86d0b063fd12b403aab13e0ab55fa1d36"
+    },
+    {
+      "id": "halloween-eyeball",
+      "name": "Eyeball",
+      "file": "pets/eyeball.zip",
+      "sha256": "ff326ad29880a709a90b0e77ebcb3d8ca14538eac05453dd16c99e160aa60ff8"
+    },
+    {
+      "id": "halloween-haunted-house",
+      "name": "Haunted House",
+      "file": "pets/haunted-house.zip",
+      "sha256": "aab3e867037d52e0bc1bf7d19f3b5a51d58f9a8fe3460c6397b41ca81f74bda3"
+    },
+    {
+      "id": "halloween-gravestone",
+      "name": "Gravestone",
+      "file": "pets/gravestone.zip",
+      "sha256": "c2a627ff272b5660ef0a3e321264bc87d6e4707cbcda8ab7c2cc4dd02477d305"
+    },
+    {
+      "id": "halloween-moon",
+      "name": "Moon",
+      "file": "pets/moon.zip",
+      "sha256": "52930d081fa421e0bcd2bf2246ab592d8629d8ab4643ac00f17aa859ee37f469"
+    },
+    {
+      "id": "halloween-candle",
+      "name": "Candle",
+      "file": "pets/candle.zip",
+      "sha256": "787eb51ec462aef1c8f26125679cc91dcfd134e3b0a23c20ae989ce0c3d753a1"
+    },
+    {
+      "id": "halloween-raven",
+      "name": "Raven",
+      "file": "pets/raven.zip",
+      "sha256": "c98db00d7dd6a268869e8849bcb7817a1324f8a04b41f563a75663acb24888d5"
+    },
+    {
+      "id": "halloween-frankenstein",
+      "name": "Frankenstein",
+      "file": "pets/frankenstein.zip",
+      "sha256": "9b7d6e7747c26d41b286afe2abd6ab199870e8b638560f1eeef0723d46deb2ef"
+    },
+    {
+      "id": "halloween-skull",
+      "name": "Skull",
+      "file": "pets/skull.zip",
+      "sha256": "305004e3f9c2102bfa59ae73b2a1fe60d6807d20857c4b980c9f919eb306c026"
+    },
+    {
+      "id": "halloween-spellbook",
+      "name": "Spellbook",
+      "file": "pets/spellbook.zip",
+      "sha256": "37e87527940969d863e53c34793e34b45b9ccbdb2c718cf8ac54f28024eae61b"
+    },
+    {
+      "id": "halloween-cupcake",
+      "name": "Monster Cupcake",
+      "file": "pets/cupcake.zip",
+      "sha256": "d0a556fbc7ce0bc9cc59a11c8140c030f71b8b73959ddcc95e8b238e46e55b6a"
+    },
+    {
+      "id": "halloween-candy-bucket",
+      "name": "Candy Bucket",
+      "file": "pets/candy-bucket.zip",
+      "sha256": "f78155bcbf62b9038b8074040874404bc6aebce014f4c81bc4303d02efed8c6b"
+    }
+  ]
+}
