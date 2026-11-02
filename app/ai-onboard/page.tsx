@@ -169,7 +169,7 @@ export default function AiOnboardingPage() {
 
     const handleCopySchema = () => {
         if (!result) return;
-        navigator.clipboard.writeText(JSON.stringify(result.seoStrategy.jsonLdSchema, null, 2));
+        navigator.clipboard.writeText(JSON.stringify(result.seoStrategy.schemaJsonLd || result.seoStrategy, null, 2));
         setCopiedSchema(true);
         setTimeout(() => setCopiedSchema(false), 2500);
     };

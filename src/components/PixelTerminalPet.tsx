@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Terminal, X, ChevronRight, Sparkles, Zap, Minimize2, Maximize2, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -47,14 +47,11 @@ export default function PixelTerminalPet() {
     }
   };
 
-  const getTime = () => {
+  const addLog = useCallback((text: string, type: "system" | "user" | "pet") => {
     const d = new Date();
-    return d.toTimeString().split(" ")[0];
-  };
-
-  const addLog = (text: string, type: "system" | "user" | "pet") => {
-    setLogs((prev) => [...prev, { id: Date.now(), text, type, time: getTime() }]);
-  };
+    const time = d.toTimeString().split(" ")[0];
+    setLogs((prev) => [...prev, { id: Date.now(), text, type, time }]);
+  }, []);
 
   const handleCommand = (cmd: string) => {
     const trimmed = cmd.trim().toLowerCase();
@@ -102,7 +99,7 @@ export default function PixelTerminalPet() {
   // Route telemetry alert
   useEffect(() => {
     addLog(`Navigated to ${pathname} • Telemetry OK`, "system");
-  }, [pathname]);
+  }, [pathname, addLog]);
 
   return (
     <div className="fixed bottom-5 right-5 z-[9990] font-mono select-none">
