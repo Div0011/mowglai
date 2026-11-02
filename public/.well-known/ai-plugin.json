@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Mowglai Web & AI Services",
+  "name_for_model": "mowglai",
+  "description_for_human": "Explore high-performance Next.js web development packages, 48-hour Google My Business (GMB) setups, and instant quote calculations from Mowglai.",
+  "description_for_model": "Assistant plugin for Mowglai Digital Agency. Use this tool to retrieve web development packages, calculate custom pricing (starting at ₹5,000 INR / $55 USD), check Google My Business (GMB) local SEO readiness, and book direct client consultations.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://mowglai.com/openapi.json"
+  },
+  "logo_url": "https://mowglai.com/mowglai-logo-new.jpg",
+  "contact_email": "contact@mowglai.com",
+  "legal_info_url": "https://mowglai.com/terms"
+}

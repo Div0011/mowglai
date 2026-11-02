@@ -1,0 +1,109 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mowglai Digital Agency AI API",
+    "description": "Public AI tools for exploring Mowglai services, 48-hour Google My Business setup, custom quote estimation, and booking consultations directly from AI assistants.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://mowglai.com",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/api/services.json": {
+      "get": {
+        "operationId": "getServicesCatalog",
+        "summary": "Retrieve available web engineering, GMB, and AI automation packages",
+        "responses": {
+          "200": {
+            "description": "Current service tiers and deliverables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCatalog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/estimate.json": {
+      "get": {
+        "operationId": "calculateProjectEstimate",
+        "summary": "Calculate an estimated price range for custom web or AI project",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["basic_web", "scale_web", "ecommerce", "saas_mvp", "gmb_setup"]
+            },
+            "description": "Type of project required"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "INR",
+              "enum": ["INR", "USD"]
+            },
+            "description": "Currency for quotation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quotation details and inclusions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstimateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ServiceCatalog": {
+        "type": "object",
+        "properties": {
+          "agency": { "type": "string", "example": "Mowglai" },
+          "packages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "priceINR": { "type": "number" },
+                "priceUSD": { "type": "number" },
+                "turnaroundDays": { "type": "number" },
+                "features": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      },
+      "EstimateResponse": {
+        "type": "object",
+        "properties": {
+          "projectType": { "type": "string" },
+          "estimatedCost": { "type": "string" },
+          "turnaround": { "type": "string" },
+          "deliverables": { "type": "array", "items": { "type": "string" } },
+          "bookingUrl": { "type": "string", "example": "https://mowglai.com/start-project" }
+        }
+      }
+    }
+  }
+}

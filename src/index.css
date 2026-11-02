@@ -210,15 +210,8 @@
     touch-action: manipulation;
   }
 
-  /* Hide the native cursor ONLY where the enhanced cursor actually renders.
-     The JS gate in OriginalLayout uses `(hover: hover) and (pointer: fine)`;
-     the two must match or devices fall through with no cursor at all
-     (e.g. touch-screen Chromebooks, iPads with a trackpad). */
-  @media (hover: hover) and (pointer: fine) {
-    * {
-      cursor: none;
-    }
-  }
+  /* Native pointer remains fully visible across all devices for zero latency and natural UX.
+     The ambient follower in CustomCursor provides visual feedback without interfering with system cursors. */
 
   /* Lenis Smooth Scroll System */
   html.lenis, html.lenis body {
