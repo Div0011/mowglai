@@ -8,7 +8,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint .",
-		"test": "bun test"
+		"test": "bun test",
+		"pet:notify": "node scripts/pixel-pet-notify.mjs"
 	},
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
