@@ -128,54 +128,6 @@ const jsonLdFaq = {
   ]
 };
 
-const jsonLdTeam = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Mowglai Digital Agency",
-  "url": "https://mowglai.com",
-  "employee": [
-    {
-      "@type": "Person",
-      "name": "Amit Sharma",
-      "jobTitle": "Founder & Chief Delivery Execution Officer",
-      "sameAs": ["https://github.com/1nsharma", "https://x.com/mowglai_in"],
-      "knowsAbout": [
-        "Full-Stack Architecture",
-        "Milestone Execution",
-        "Multi-Cloud Infrastructure",
-        "Autonomous Systems",
-        "Next.js 16"
-      ]
-    },
-    {
-      "@type": "Person",
-      "name": "Nikhil Sharma",
-      "jobTitle": "Head of AIO, SEO & Search Intelligence",
-      "sameAs": ["https://github.com/1nsharma", "https://x.com/1nsharma"],
-      "knowsAbout": [
-        "AIO",
-        "Generative Engine Optimization (GEO)",
-        "Keyword Research",
-        "SERP Ranking",
-        "On-Page SEO",
-        "Off-Page SEO",
-        "GA4 Analytics",
-        "Google Analytics 4 Tagging"
-      ]
-    },
-    {
-      "@type": "Person",
-      "name": "Ankit Baghel",
-      "jobTitle": "Chief Marketing Officer"
-    },
-    {
-      "@type": "Person",
-      "name": "Divyansh Awasthi",
-      "jobTitle": "Chief Financial Officer"
-    }
-  ]
-};
-
 import OriginalHome from "@/styles/original/Home";
 
 export default function Home() {
@@ -192,10 +144,6 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdTeam) }}
       />
       <OriginalHome />
     </>

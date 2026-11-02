@@ -6,7 +6,6 @@ import NextPageButton from "@/components/NextPageButton";
 import PageLayout from "@/components/PageLayout";
 import dynamic from "next/dynamic";
 
-import TeamSection from "@/components/TeamSection";
 const HowWeBuiltSection = dynamic(() => import("@/components/HowWeBuiltSection"), { ssr: false });
 const FaqSection = dynamic(() => import("@/components/FaqSection"), { ssr: false });
 
@@ -15,7 +14,6 @@ export default function OriginalAbout() {
         <PageLayout>
             <AboutSection />
             <MissionSection />
-            <TeamSection />
             <HowWeBuiltSection />
 
             {/* FAQ Section */}

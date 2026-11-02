@@ -28,9 +28,7 @@ import {
     Crown,
     Cpu,
     Zap,
-    FileText,
-    Smartphone,
-    Terminal
+    FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
@@ -49,9 +47,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
-    { icon: Cpu, label: "COMPANY OS", href: "/company-os" },
-    { icon: Terminal, label: "DEV OPS", href: "/developer" },
-    { icon: Smartphone, label: "CLIENT DEMO", href: "/client-portal?mode=demo" },
+    { icon: Zap, label: "AI ANALYZE", href: "/ai-analyze" },
     { icon: Sparkles, label: "AI ONBOARD", href: "/ai-onboard" },
     { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
     { icon: DollarSign, label: "PRICING", href: "/investment", hasSubmenu: true },
@@ -159,7 +155,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
             {/* Decorative marquee strips */}
             <div
                 className={cn(
-                    "hidden md:block fixed z-[50] pointer-events-none md:top-[calc(2.3rem+env(safe-area-inset-top))] md:left-0 md:w-auto md:right-0 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
+                    "fixed z-[50] pointer-events-none bottom-[8dvh] md:bottom-auto md:top-[calc(2.3rem+env(safe-area-inset-top))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 -rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
                     !showStrips && "opacity-0 pointer-events-none !hidden"
                 )}
             >
@@ -179,7 +175,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
             <div
                 className={cn(
-                    "hidden md:block fixed z-[49] pointer-events-none md:bottom-[calc(2.2rem+env(safe-area-inset-bottom))] md:left-0 md:w-auto md:right-0 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
+                    "fixed z-[49] pointer-events-none bottom-[8dvh] md:bottom-[calc(2.2rem+env(safe-area-inset-bottom))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
                     !showStrips && "opacity-0 pointer-events-none !hidden"
                 )}
             >

@@ -8,11 +8,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint .",
-		"test": "node --test packages/core-contracts/src/index.test.ts packages/ai-core/src/index.test.ts packages/ai-core/src/retrieval.test.ts packages/ai-core/src/rl/index.test.ts",
-		"test:contracts": "node --test packages/core-contracts/src/index.test.ts",
-		"test:ai": "node --test packages/ai-core/src/index.test.ts packages/ai-core/src/retrieval.test.ts packages/ai-core/src/rl/index.test.ts",
-		"test:rl": "node --test packages/ai-core/src/rl/index.test.ts",
-		"test:bun": "bun test"
+		"test": "bun test"
 	},
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
