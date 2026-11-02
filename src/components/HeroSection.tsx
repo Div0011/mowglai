@@ -2,538 +2,229 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import Magnetic from "./Magnetic";
-import { useLanguage } from "../context/LanguageContext";
-import { ArrowRight, ScanLine } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Sparkles, Zap, Shield, Cpu, ChevronRight, Activity, CheckCircle2, Bot } from "lucide-react";
+import { motion } from "framer-motion";
 
-const box1Images = [
-    "/images/templates/portfolio/port1-1.webp",
-    "/images/templates/portfolio/port2-2.webp",
-    "/images/templates/real-estate/re1-1.webp",
-    "/images/templates/real-estate/re2-2.webp",
+const previewImages = [
+  "/images/templates/portfolio/port1-1.webp",
+  "/images/templates/real-estate/re1-1.webp",
+  "/images/templates/ecommerce/ecom1-1.webp",
+  "/images/templates/yoga/yoga1-1.webp",
 ];
 
-const box2Images = [
-    "/images/templates/yoga/yoga1-1.webp",
-    "/images/templates/yoga/yoga4-3.webp",
-    "/images/templates/gym/gym1-1.webp",
-    "/images/templates/gym/gym3-2.webp",
-];
+export default function HeroSection() {
+  const [slide, setSlide] = useState(0);
+  const [auditUrl, setAuditUrl] = useState("");
 
-const box4Images = [
-    "/images/templates/school/school2-3.webp",
-    "/images/templates/school/school1-1.webp",
-    "/images/templates/ecommerce/ecom1-1.webp",
-    "/images/templates/ecommerce/ecom2-3.webp",
-];
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlide((prev) => (prev + 1) % previewImages.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
-import { useNetwork } from "@/context/NetworkContext";
+  return (
+    <section className="relative w-full min-h-[92dvh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-24 pb-16 overflow-hidden">
+      {/* Subtle Radial Glow in Background */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-primary/10 blur-[140px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-emerald-500/5 blur-[120px] pointer-events-none rounded-full" />
 
-const HeroSection = () => {
-    const { t, language } = useLanguage();
-    const { effectiveDataSaver, isLowNetwork } = useNetwork();
-    const sectionRef = useRef<HTMLElement>(null);
-    const [slideIndex, setSlideIndex] = useState(0);
-    const [tick, setTick] = useState(0);
-
-    // Automatic slideshow timer - paused on low network / data saver to conserve bandwidth
-    useEffect(() => {
-        if (effectiveDataSaver || isLowNetwork) {
-            setSlideIndex(0);
-            return;
-        }
-
-        const interval = setInterval(() => {
-            setSlideIndex((prev) => (prev + 1) % 4);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [effectiveDataSaver, isLowNetwork]);
-
-    // 3-second interval timer for revolving texts
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTick((prev) => prev + 1);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
-
-    // Direct CSS transform updater via element ref: avoids triggering React state updates on every scroll frame
-    useEffect(() => {
-        const el = sectionRef.current;
-        if (!el) return;
-        let rAF = 0;
-        const handleScroll = () => {
-            if (!rAF) {
-                rAF = requestAnimationFrame(() => {
-                    const y = window.scrollY;
-                    if (y <= 500) {
-                        const opacity = Math.max(0, 1 - y / 400);
-                        el.style.setProperty("--hero-scroll", `${y}px`);
-                        el.style.setProperty("--hero-opacity", `${opacity}`);
-                        el.style.setProperty("--hero-pe", opacity === 0 ? "none" : "auto");
-                    }
-                    rAF = 0;
-                });
-            }
-        };
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            if (rAF) cancelAnimationFrame(rAF);
-        };
-    }, []);
-
-    const fontStyles = [
-        "font-sans font-black tracking-tighter uppercase",
-        "font-serif italic font-light tracking-wide",
-        "font-mono tracking-widest uppercase font-medium",
-        "font-serif font-extrabold uppercase tracking-tight",
-    ];
-
-    const getAlternates = (rowNum: number, index: number) => {
-        // index is 0 or 1
-        switch (language) {
-            case "hi":
-                if (rowNum === 1) return index === 0 ? "आपकी वेबसाइट" : "आपका मंच";
-                if (rowNum === 2) return index === 0 ? "है आपकी" : "बनाता है";
-                if (rowNum === 3) return index === 0 ? "खिड़की" : "द्वार";
-                return index === 0 ? "दुनिया के लिए" : "भविष्य के लिए";
-            case "es":
-                if (rowNum === 1) return index === 0 ? "TU SITIO WEB" : "TU PLATAFORMA";
-                if (rowNum === 2) return index === 0 ? "ES TU" : "DEFINE";
-                if (rowNum === 3) return index === 0 ? "VENTANA AL" : "PORTAL AL";
-                return index === 0 ? "MUNDO." : "FUTURO.";
-            case "fr":
-                if (rowNum === 1) return index === 0 ? "VOTRE SITE WEB" : "VOTRE PLATEFORME";
-                if (rowNum === 2) return index === 0 ? "EST VOTRE" : "DÉFINIT";
-                if (rowNum === 3) return index === 0 ? "FENÊTRE SUR LE" : "PORTAIL VERS LE";
-                return index === 0 ? "MONDE." : "AVENIR.";
-            case "ja":
-                if (rowNum === 1) return index === 0 ? "あなたのウェブサイトは" : "あなたのプラットフォームは";
-                if (rowNum === 2) return index === 0 ? "あなたの" : "象徴する";
-                if (rowNum === 3) return index === 0 ? "世界への窓" : "未来への扉";
-                return index === 0 ? "です。" : "になります。";
-            case "en":
-            default:
-                if (rowNum === 1) return index === 0 ? "YOUR WEBSITE" : "YOUR PLATFORM";
-                if (rowNum === 2) return index === 0 ? "IS YOUR" : "DEFINES";
-                if (rowNum === 3) return index === 0 ? "WINDOW TO" : "PORTAL TO";
-                return index === 0 ? "THE WORLD." : "THE FUTURE.";
-        }
-    };
-
-    const getLineState = (lineNum: number) => {
-        // Synchronized trigger: all rows update on the same tick
-        const updatesCount = tick;
-        const alternateIndex = updatesCount % 2;
-        const fontIndex = updatesCount % 4;
-
-        return {
-            text: getAlternates(lineNum, alternateIndex),
-            fontClass: fontStyles[fontIndex],
-            key: `${lineNum}-${updatesCount}`,
-        };
-    };
-
-    const lineState1 = getLineState(1);
-    const lineState2 = getLineState(2);
-    const lineState3 = getLineState(3);
-    const lineState4 = getLineState(4);
-
-    // Zero-state CSS parallax style powered by compositor variable
-    const slideshowStyle: React.CSSProperties = {
-        transform: "translateY(var(--hero-scroll, 0px)) translateZ(0)",
-        opacity: "var(--hero-opacity, 1)" as unknown as number,
-        pointerEvents: "var(--hero-pe, auto)" as unknown as "auto" | "none",
-    };
-
-    return (
-        <section
-            ref={sectionRef}
-            id="home"
-            className="relative w-full h-[100dvh] z-10 overflow-hidden flex flex-col items-center justify-center border-none py-6 px-4 md:px-8 select-none"
+      <div className="container max-w-6xl mx-auto flex flex-col items-center text-center relative z-10">
+        {/* Top Floating Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-xl mb-6 shadow-[0_0_25px_rgba(200,241,105,0.06)] hover:border-primary/40 transition-colors"
         >
-            {/* Main Content Container - Flex layout sized to prevent scrollbars */}
-            {/* max-h-[72dvh] reserves vertical space for the buttons at the bottom on mobile */}
-            {/* z-30 and mix-blend-difference allows expanded hover circles to invert the text to black */}
-            <div 
-                className="container mx-auto relative z-30 flex flex-col items-center justify-center h-full max-h-[72dvh] md:max-h-[85dvh] w-full max-w-6xl border-none pointer-events-none mix-blend-difference"
-                style={{ mixBlendMode: "difference" }}
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+          </span>
+          <span className="text-xs sm:text-sm font-medium tracking-wide text-white/90">
+            Mowglai Enterprise OS <span className="text-primary font-semibold">v0.2.0 Live</span> · NCR • Delhi • Noida • Kanpur
+          </span>
+          <ChevronRight className="w-3.5 h-3.5 text-white/50" />
+        </motion.div>
+
+        {/* Main High-Impact Typography Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black tracking-tight text-white uppercase leading-[1.08] max-w-5xl mb-6"
+        >
+          We Engineer <br className="hidden sm:inline" />
+          <span className="bg-gradient-to-r from-primary via-emerald-300 to-lime-200 bg-clip-text text-transparent">
+            Intelligent Digital Platforms
+          </span>{" "}
+          & AI Growth.
+        </motion.h1>
+
+        {/* Subtitle with Clear Value Proposition */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl leading-relaxed mb-8 font-normal"
+        >
+          Award-winning Next.js web applications, bespoke 3D brand experiences, and autonomous Reinforcement Learning
+          operating systems starting at{" "}
+          <strong className="text-white font-semibold">₹5,000 INR ($55 USD)</strong>. Built for high conversion, sub-second
+          latency, and zero-compromise security.
+        </motion.p>
+
+        {/* Interactive Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="flex flex-wrap items-center justify-center gap-4 w-full max-w-md sm:max-w-none mb-12"
+        >
+          <Magnetic>
+            <Link
+              href="/start-project"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-primary text-black font-display font-bold text-sm tracking-wider uppercase shadow-[0_0_40px_rgba(200,241,105,0.35)] hover:shadow-[0_0_60px_rgba(200,241,105,0.6)] hover:scale-105 active:scale-95 transition-all duration-300"
             >
-                
-                {/* 1. DESKTOP ONLY: 4-Row Uniform Font Editorial Grid */}
-                <div className="hidden md:flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10 select-none my-auto w-full max-w-5xl text-white">
-                    
-                    {/* Row 1: YOUR WEBSITE [Laptop Slideshow Box] */}
-                    <div className="flex items-center justify-between w-full pl-[4%] pr-[6%]">
-                        {/* Text wrapper with absolute anchoring to lock slideshow position */}
-                        <div className="relative h-[1.4em] flex items-center flex-1 justify-start z-20 mix-blend-difference">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={lineState1.key}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute left-0 flex items-center gap-[0.3em] origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[8.2vw] lg:text-[8.5vw] ${lineState1.fontClass}`}
-                                    style={{ lineHeight: "1", whiteSpace: "nowrap" }}
-                                >
-                                    {lineState1.text.split(" ").map((word, idx) => (
-                                        <span key={idx} className="inline-block">{word}</span>
-                                    ))}
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
+              <span>Launch Your Project</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Magnetic>
 
-                        {/* Laptop slideshow box */}
-                        <div 
-                            className="relative aspect-[4/3] w-[24%] lg:w-[13vw] rounded-xl border border-white/10 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.15)] bg-card hover:scale-105 transition-transform duration-500 ease-out pointer-events-auto z-10 transform-gpu"
-                            style={slideshowStyle}
-                        >
-                            <AnimatePresence initial={false}>
-                                <motion.div
-                                    key={box1Images[slideIndex]}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                                    className="absolute inset-0 w-full h-full"
-                                >
-                                    <Image 
-                                        src={box1Images[slideIndex]} 
-                                        alt="Website Preview Laptop" 
-                                        fill 
-                                        priority={slideIndex === 0} 
-                                        className="object-cover object-top" 
-                                    />
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-                    </div>
+          <Magnetic>
+            <Link
+              href="/company-os"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-white/[0.05] border border-white/15 hover:border-primary/50 text-white font-display font-semibold text-sm tracking-wide hover:bg-white/[0.08] hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-xl"
+            >
+              <Cpu className="w-4 h-4 text-primary" />
+              <span>Explore Company OS</span>
+            </Link>
+          </Magnetic>
 
-                    {/* Row 2: [Wave Slideshow Box] IS YOUR */}
-                    <div className="flex items-center justify-between w-full pl-[6%] pr-[4%] -mt-2">
-                        {/* Wave slideshow box (offset exactly 4px to the right via translate-x-[4px]) */}
-                        <div 
-                            className="relative aspect-[4/3] w-[24%] lg:w-[13vw] rounded-xl border border-white/10 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.15)] bg-card hover:scale-105 transition-transform duration-500 ease-out pointer-events-auto z-10 transform-gpu translate-x-[4px]"
-                            style={slideshowStyle}
-                        >
-                            <AnimatePresence initial={false}>
-                                <motion.div
-                                    key={box2Images[slideIndex]}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                                    className="absolute inset-0 w-full h-full"
-                                >
-                                    <Image 
-                                        src={box2Images[slideIndex]} 
-                                        alt="Website Preview Wave" 
-                                        fill 
-                                        unoptimized 
-                                        className="object-cover object-top" 
-                                    />
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
+          <Link
+            href="/ai-analyze"
+            className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-transparent hover:bg-white/5 border border-white/10 text-white/80 hover:text-white text-sm font-medium transition-all"
+          >
+            <Zap className="w-4 h-4 text-emerald-400" />
+            <span>AI Analyze</span>
+          </Link>
+        </motion.div>
 
-                        {/* Text wrapper with absolute right-0 anchoring */}
-                        <div className="relative h-[1.4em] flex items-center flex-1 justify-end z-20 mix-blend-difference">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={lineState2.key}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute right-0 flex items-center gap-[0.3em] origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[8.2vw] lg:text-[8.5vw] ${lineState2.fontClass}`}
-                                    style={{ lineHeight: "1", whiteSpace: "nowrap" }}
-                                >
-                                    {lineState2.text.split(" ").map((word, idx) => (
-                                        <span key={idx} className="inline-block">{word}</span>
-                                    ))}
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
-                    </div>
+        {/* Live System Capabilities Pill Bar */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-4xl pt-6 border-t border-white/10 text-left"
+        >
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <Zap className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs text-white/50 uppercase font-mono">Performance</div>
+              <div className="text-xs sm:text-sm font-bold text-white">100/100 Lighthouse</div>
+            </div>
+          </div>
 
-                    {/* Row 3: WINDOW TO (Centered, no slideshow box) */}
-                    <div className="flex items-center justify-center w-full">
-                        {/* Text wrapper centered via left-1/2 -translate-x-1/2 */}
-                        <div className="relative h-[1.4em] flex items-center justify-center w-full z-20 mix-blend-difference">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={lineState3.key}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-[0.3em] origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[8.2vw] lg:text-[8.5vw] ${lineState3.fontClass}`}
-                                    style={{ lineHeight: "1", whiteSpace: "nowrap" }}
-                                >
-                                    {lineState3.text.split(" ").map((word, idx) => (
-                                        <span key={idx} className="inline-block">{word}</span>
-                                    ))}
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
-                    </div>
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <Bot className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs text-white/50 uppercase font-mono">Intelligence</div>
+              <div className="text-xs sm:text-sm font-bold text-white">RL Policy Engine</div>
+            </div>
+          </div>
 
-                    {/* Row 4: THE WORLD. [Mobile Slideshow Box] [Down Arrow] */}
-                    <div className="flex items-center justify-between w-full pl-[6%] pr-[4%]">
-                        {/* Text wrapper with absolute left-0 anchoring */}
-                        <div className="relative h-[1.4em] flex items-center flex-1 justify-start z-20 mix-blend-difference">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={lineState4.key}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute left-0 flex items-center gap-[0.3em] origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[8.2vw] lg:text-[8.5vw] ${lineState4.fontClass}`}
-                                    style={{ lineHeight: "1", whiteSpace: "nowrap" }}
-                                >
-                                    {lineState4.text.split(" ").map((word, idx) => (
-                                        <span key={idx} className="inline-block">{word}</span>
-                                    ))}
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs text-white/50 uppercase font-mono">Architecture</div>
+              <div className="text-xs sm:text-sm font-bold text-white">SSRF & Zero-Trust</div>
+            </div>
+          </div>
 
-                        <div className="flex items-center gap-8 z-10">
-                            {/* Mobile inline slideshow box */}
-                            <div 
-                                className="relative aspect-[3/4] w-[16%] lg:w-[9vw] rounded-xl border border-white/10 overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.15)] bg-card hover:scale-105 transition-transform duration-500 ease-out pointer-events-auto z-10 transform-gpu"
-                                style={slideshowStyle}
-                            >
-                                <AnimatePresence initial={false}>
-                                    <motion.div
-                                        key={box4Images[slideIndex]}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                                        className="absolute inset-0 w-full h-full"
-                                    >
-                                        <Image 
-                                            src={box4Images[slideIndex]} 
-                                            alt="Website Preview Mobile" 
-                                            fill 
-                                            unoptimized 
-                                            className="object-cover object-top" 
-                                        />
-                                    </motion.div>
-                                </AnimatePresence>
-                            </div>
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+              <Activity className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs text-white/50 uppercase font-mono">Delivery</div>
+              <div className="text-xs sm:text-sm font-bold text-white">7-Day Turnaround</div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
 
-                            {/* Down Arrow indicator */}
-                            <svg className="w-[6vw] h-[6vw] max-w-[80px] max-h-[80px] text-white rotate-0 translate-y-[0.8vw] animate-bounce pointer-events-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </svg>
-                        </div>
-                    </div>
+      {/* Floating Interactive Live Preview Showcase */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="w-full max-w-5xl mx-auto mt-14 relative rounded-2xl p-2 bg-gradient-to-b from-white/15 via-white/5 to-transparent border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+      >
+        <div className="rounded-xl overflow-hidden bg-[#0c0d12] border border-white/10 relative">
+          {/* Top Browser Bar */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
+              <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
+              <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
+              <span className="ml-3 font-mono text-xs text-white/50 flex items-center gap-1.5">
+                <Shield className="w-3 h-3 text-emerald-400" /> https://mowglai.com/live-architecture
+              </span>
+            </div>
+            <div className="flex items-center gap-2 font-mono text-xs text-primary">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> SYSTEM ONLINE · 48ms
+            </div>
+          </div>
 
+          {/* Interactive Screen Preview with Dynamic Slideshow */}
+          <div className="relative aspect-[16/9] w-full overflow-hidden group">
+            <Image
+              src={previewImages[slide]}
+              alt="Mowglai Live Product Showcase"
+              fill
+              className="object-cover object-top transition-all duration-700 group-hover:scale-102"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d12] via-transparent to-transparent opacity-80" />
+
+            {/* Floating Live Telemetry Badge inside image */}
+            <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-black/60 border border-white/10 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold">
+                  M
                 </div>
-
-                {/* 2. MOBILE ONLY: Structured Editorial Grid */}
-                <div className="flex md:hidden flex-col gap-4 select-none -mt-[16dvh] mb-[12dvh] w-full text-white px-2">
-                    
-                    {/* Row 1: Slideshow 1 (Centered at top) */}
-                    <div className="w-full flex justify-center pointer-events-auto">
-                        <div 
-                            className="relative aspect-[4/3] w-[38vw] rounded-lg border border-white/10 overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.15)] bg-card transform-gpu z-10"
-                            style={slideshowStyle}
-                        >
-                            <AnimatePresence initial={false}>
-                                <motion.div
-                                    key={box1Images[slideIndex]}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                                    className="absolute inset-0 w-full h-full"
-                                >
-                                    <Image 
-                                        src={box1Images[slideIndex]} 
-                                        alt="Website Preview Laptop Mobile" 
-                                        fill 
-                                        unoptimized 
-                                        className="object-cover object-top" 
-                                    />
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-                    </div>
-
-                    {/* Row 2: Text 1 (YOUR WEBSITE) */}
-                    <div className="relative h-[1.2em] flex items-center justify-center z-20 mix-blend-difference text-center">
-                        <AnimatePresence initial={false}>
-                            <motion.span
-                                key={lineState1.key}
-                                initial={{ opacity: 0, y: "-30%" }}
-                                animate={{ opacity: 1, y: "0%" }}
-                                exit={{ opacity: 0, y: "30%" }}
-                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className={`absolute flex items-center gap-[0.3em] origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[8.2vw] ${lineState1.fontClass}`}
-                                style={{ lineHeight: "1", whiteSpace: "nowrap" }}
-                            >
-                                {lineState1.text.split(" ").map((word, idx) => (
-                                    <span key={idx} className="inline-block">{word}</span>
-                                ))}
-                            </motion.span>
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Row 3: Split (Left: IS THE WINDOW text / Right: Slideshow 2) */}
-                    <div className="flex items-center justify-between gap-2 w-full px-4">
-                        <div className="relative h-[2.2em] flex-1 flex items-center justify-start z-20 mix-blend-difference">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={`combined-${slideIndex}`}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute left-0 flex flex-col justify-center items-start text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[6.5vw] leading-tight ${lineState2.fontClass}`}
-                                >
-                                    <span>{lineState2.text}</span>
-                                    <span className={lineState3.fontClass}>{lineState3.text}</span>
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
-                        <div className="pointer-events-auto shrink-0">
-                            <div 
-                                className="relative aspect-[4/3] w-[32vw] rounded-lg border border-white/10 overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.15)] bg-card transform-gpu z-10 translate-x-[4px]"
-                                style={slideshowStyle}
-                            >
-                                <AnimatePresence initial={false}>
-                                    <motion.div
-                                        key={box2Images[slideIndex]}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                                        className="absolute inset-0 w-full h-full"
-                                    >
-                                        <Image 
-                                            src={box2Images[slideIndex]} 
-                                            alt="Website Preview Wave Mobile" 
-                                            fill 
-                                            unoptimized 
-                                            className="object-cover object-top" 
-                                        />
-                                    </motion.div>
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Row 4: Split (Left: Slideshow 3 / Right: TO THE WORLD text) */}
-                    <div className="flex items-center justify-between gap-2 w-full px-4">
-                        <div className="pointer-events-auto shrink-0">
-                            <div 
-                                className="relative aspect-[3/4] w-[24vw] rounded-lg border border-white/10 overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.15)] bg-card transform-gpu z-10"
-                                style={slideshowStyle}
-                            >
-                                <AnimatePresence initial={false}>
-                                    <motion.div
-                                        key={box4Images[slideIndex]}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                                        className="absolute inset-0 w-full h-full"
-                                    >
-                                        <Image 
-                                            src={box4Images[slideIndex]} 
-                                            alt="Website Preview Mobile Mobile" 
-                                            fill 
-                                            unoptimized 
-                                            className="object-cover object-top" 
-                                        />
-                                    </motion.div>
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                        <div className="relative h-[2.2em] flex-1 flex items-center justify-end z-20 mix-blend-difference pr-2">
-                            <AnimatePresence initial={false}>
-                                <motion.span
-                                    key={lineState4.key}
-                                    initial={{ opacity: 0, y: "-30%" }}
-                                    animate={{ opacity: 1, y: "0%" }}
-                                    exit={{ opacity: 0, y: "30%" }}
-                                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={`absolute right-0 flex items-center gap-2 text-right origin-center transform-gpu text-white tracking-tighter hover:text-primary transition-colors duration-300 mix-blend-difference text-[6.5vw] ${lineState4.fontClass}`}
-                                    style={{ lineHeight: "1" }}
-                                >
-                                    <span>{lineState4.text}</span>
-                                    <svg className="w-5 h-5 text-white animate-bounce shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                                    </svg>
-                                </motion.span>
-                            </AnimatePresence>
-                        </div>
-                    </div>
-
+                <div>
+                  <h4 className="text-sm font-bold text-white">Full-Stack Digital Architecture</h4>
+                  <p className="text-xs text-white/60">React 19 · Next.js 16 · Reinforcement Learning · Tailwind 4</p>
                 </div>
+              </div>
 
-            </div>
-
-            {/* Floating Circular CTA Buttons at z-10 (AI ANALYZE Left, AI ONBOARD Right) */}
-            {/* Positioned side-by-side at bottom-8 on mobile, and vertically centered on desktop/laptop */}
-            
-            {/* Left Edge / Bottom Left: AI ANALYZE Circle */}
-            <div className="hidden md:block absolute bottom-8 left-[8%] top-auto translate-y-0 md:top-1/2 md:-translate-y-1/2 md:left-8 md:bottom-auto z-10 opacity-0 animate-fade-in animate-duration-1000" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
-                <Magnetic>
-                    <Link
-                        href="/ai-analyze"
-                        className="group relative flex flex-col items-center justify-center text-center w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full transition-all duration-500 hover:scale-110"
-                    >
-                        {/* 10x Scaling background mask */}
-                        <div className="absolute inset-0 rounded-full bg-background/5 backdrop-blur-3xl border border-primary/20 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] group-hover:scale-[10] group-hover:bg-white z-10" />
-                        
-                        <span className="relative z-20 flex flex-col items-center justify-center gap-0.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] leading-tight text-white transition-colors duration-500 group-hover:text-black">
-                            <span>AI</span>
-                            <span>ANALYZE</span>
-                            <ScanLine className="w-3 h-3 md:w-4 md:h-4 mt-0.5 transition-all duration-500 group-hover:rotate-180 group-hover:text-black group-hover:stroke-black" />
-                        </span>
-                    </Link>
-                </Magnetic>
-            </div>
-
-            {/* Right Edge / Bottom Right: AI ONBOARD Circle */}
-            <div className="hidden md:block absolute bottom-8 right-[8%] top-auto translate-y-0 md:top-1/2 md:-translate-y-1/2 md:right-8 md:bottom-auto z-10 opacity-0 animate-fade-in animate-duration-1000" style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}>
-                <Magnetic>
-                    <Link
-                        href="/ai-onboard"
-                        className="group relative flex flex-col items-center justify-center text-center w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full transition-all duration-500 hover:scale-110"
-                    >
-                        {/* 10x Scaling background mask */}
-                        <div className="absolute inset-0 rounded-full bg-primary transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] group-hover:scale-[10] group-hover:bg-white z-10" />
-                        
-                        <span className="relative z-20 flex flex-col items-center justify-center gap-0.5 text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] leading-tight text-white transition-colors duration-500 group-hover:text-black">
-                            <span>AI</span>
-                            <span>ONBOARD</span>
-                            <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-0.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-black" />
-                        </span>
-                    </Link>
-                </Magnetic>
-            </div>
-            {/* Mobile stacked CTAs inside hero: placed just below the hero content */}
-            <div className="md:hidden absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 w-[90%] z-[100000]"
-                 style={{ bottom: "22dvh" }}>
-                <Link href="/ai-analyze" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 rounded-full text-sm font-bold shadow-md">
-                    AI ANALYZE
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/explore"
+                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition-colors"
+                >
+                  Browse 50+ Templates
                 </Link>
-                <Link href="/ai-onboard" className="w-[80%] text-center inline-flex items-center justify-center gap-2 bg-background border border-primary/20 text-primary px-4 py-3 rounded-full text-sm font-bold shadow-md">
-                    AI ONBOARD
+                <Link
+                  href="/company-os"
+                  className="px-4 py-2 rounded-lg bg-primary text-black text-xs font-bold transition-all hover:bg-primary/90"
+                >
+                  Open Command HQ ↗
                 </Link>
+              </div>
             </div>
-        </section>
-    );
-};
-
-export default HeroSection;
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
