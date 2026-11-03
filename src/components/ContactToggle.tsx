@@ -21,7 +21,7 @@ const ContactToggle = () => {
     const isMenuOpen = useMenuOpen();
 
     const phoneNumber = "919452476331";
-    const email = "amitsharmaanxt@gmail.com";
+    const email = "tech@mowglai.com";
     const message = "Hi, I'm interested in Mowglai's web & digital experience services. I'd like a quote and next steps.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     const telUrl = `tel:+${phoneNumber}`;

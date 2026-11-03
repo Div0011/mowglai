@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ── Configuration ──────────────────────────────────────────────
-$ADMIN_EMAIL  = "info@mowglai.com";
+$ADMIN_EMAIL  = mowglai_get_env('ADMIN_EMAIL', 'tech@mowglai.com');
 $FROM_NAME    = "Mowglai Website";
-$FROM_ADDRESS = "info@mowglai.com";
+$FROM_ADDRESS = mowglai_get_env('FROM_ADDRESS', 'tech@mowglai.com');
 
 /**
  * The mailbox password is read from the environment only.
