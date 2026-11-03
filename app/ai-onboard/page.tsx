@@ -17,7 +17,11 @@ import {
     Code,
     CreditCard,
     ChevronRight,
-    MessageCircle
+    MessageCircle,
+    Download,
+    Smartphone,
+    Tablet,
+    Monitor
 } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import { OnboardingInput, OnboardingAnalysisResult, BusinessSector } from "@/lib/ai/types";

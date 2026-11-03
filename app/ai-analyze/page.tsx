@@ -16,7 +16,13 @@ import {
     RefreshCw,
     Layers,
     MessageCircle,
-    Globe
+    Globe,
+    Download,
+    Smartphone,
+    Tablet,
+    Monitor,
+    Copy,
+    Check
 } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import { CompetitorAnalysisResult, analyzeCompetitorUrl } from "@/lib/ai/analyzer";
