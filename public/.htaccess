@@ -24,6 +24,11 @@ Options -Indexes
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.*)$ $1.html [L]
   
+  # Do not rewrite missing API or PHP scripts to index.html (return clean 404)
+  RewriteCond %{REQUEST_URI} ^/api/ [OR]
+  RewriteCond %{REQUEST_URI} \.php$
+  RewriteRule ^ - [L,R=404]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

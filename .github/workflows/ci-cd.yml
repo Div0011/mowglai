@@ -29,7 +29,7 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Lint
         run: bun run lint
@@ -45,15 +45,21 @@ jobs:
           RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
         run: |
           echo "" >> ./out/.htaccess
           echo "# Injected by CI/CD" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET" >> ./out/.htaccess
-          # Consumed by public/send_email.php via getenv(). The password is
-          # never committed; without this secret the contact form returns 503.
-          echo "SetEnv SMTP_USER $SMTP_USER" >> ./out/.htaccess
-          echo "SetEnv SMTP_PASS $SMTP_PASS" >> ./out/.htaccess
+          if [ -n "$RAZORPAY_KEY_ID" ]; then echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID" >> ./out/.htaccess; fi
+          if [ -n "$RAZORPAY_KEY_SECRET" ]; then echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET" >> ./out/.htaccess; fi
+          if [ -n "$SMTP_USER" ]; then echo "SetEnv SMTP_USER $SMTP_USER" >> ./out/.htaccess; fi
+          if [ -n "$SMTP_PASS" ]; then echo "SetEnv SMTP_PASS $SMTP_PASS" >> ./out/.htaccess; fi
+          if [ -n "$DB_HOST" ]; then echo "SetEnv DB_HOST $DB_HOST" >> ./out/.htaccess; fi
+          if [ -n "$DB_NAME" ]; then echo "SetEnv DB_NAME $DB_NAME" >> ./out/.htaccess; fi
+          if [ -n "$DB_USER" ]; then echo "SetEnv DB_USER $DB_USER" >> ./out/.htaccess; fi
+          if [ -n "$DB_PASS" ]; then echo "SetEnv DB_PASS $DB_PASS" >> ./out/.htaccess; fi
         shell: bash
 
       # ==========================================
@@ -64,7 +70,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: burnett01/rsync-deployments@8.0.4
         with:
-          switches: "-avzr --exclude '.next' --exclude 'node_modules' --exclude '.git'"
+          switches: "-avzr --chmod=D755,F644 --exclude '.next' --exclude 'node_modules' --exclude '.git'"
           path: ./out/
           remote_path: ${{ secrets.REMOTE_PATH }}
           remote_host: ${{ secrets.SSH_HOST }}

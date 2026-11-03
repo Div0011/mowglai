@@ -3,6 +3,24 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$isAllowedOrigin = (
+    preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?mowglai\.(com|tech)$/i', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?vercel\.app$/i', $origin)
+);
+
+if ($isAllowedOrigin) {
+    header("Access-Control-Allow-Origin: $origin");
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 $rawBody = file_get_contents('php://input');
 $payload = json_decode($rawBody, true);
 
