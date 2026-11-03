@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/html-generator.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -158,6 +159,13 @@ $response = [
         'features' => ['Next.js 16 Ready', 'Sub-second LCP', 'Direct WhatsApp Integration', 'SEO Optimized']
     ],
     'suggestedStartingPrice' => '₹5,000',
+    'generatedHtml' => mowglai_generate_html(
+        $namePart . ' Pro',
+        $cleanSector,
+        'Metro Hub',
+        '919452476331',
+        "Re-engineered $cleanSector platform for $domain with 0.6s instant load and zero layout shifts."
+    ),
     'prefillOnboardQuery' => [
         'businessName' => "$namePart Inspired",
         'businessSector' => $sector,
