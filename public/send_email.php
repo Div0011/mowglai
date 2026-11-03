@@ -37,7 +37,25 @@ $FROM_ADDRESS = "info@mowglai.com";
  * and is served from the site root, so a literal fallback here would publish
  * the credential.
  */
-$SMTP_PASSWORD = getenv('SMTP_PASS');
+if (!function_exists('mowglai_get_env')) {
+    function mowglai_get_env(string $key, string $default = ''): string {
+        if (!empty($_SERVER[$key])) {
+            return (string)$_SERVER[$key];
+        }
+        if (!empty($_SERVER['REDIRECT_' . $key])) {
+            return (string)$_SERVER['REDIRECT_' . $key];
+        }
+        if (!empty($_ENV[$key])) {
+            return (string)$_ENV[$key];
+        }
+        $val = getenv($key);
+        if ($val !== false && $val !== '') {
+            return (string)$val;
+        }
+        return $default;
+    }
+}
+$SMTP_PASSWORD = mowglai_get_env('SMTP_PASS');
 
 if (empty($SMTP_PASSWORD)) {
     log_email('CONFIG_ERROR', 'SMTP_PASS is not set; email delivery is disabled.');
@@ -53,9 +71,9 @@ if (empty($SMTP_PASSWORD)) {
 // Hostinger SMTP configuration
 $SMTP_CONFIG = [
     'enabled'  => true,
-    'host'     => getenv('SMTP_HOST') ?: 'ssl://smtp.hostinger.com',
-    'port'     => (int)(getenv('SMTP_PORT') ?: 465),
-    'username' => getenv('SMTP_USER') ?: 'info@mowglai.com',
+    'host'     => mowglai_get_env('SMTP_HOST', 'ssl://smtp.hostinger.com'),
+    'port'     => (int)mowglai_get_env('SMTP_PORT', '465'),
+    'username' => mowglai_get_env('SMTP_USER', 'info@mowglai.com'),
     'password' => $SMTP_PASSWORD,
     'timeout'  => 10
 ];

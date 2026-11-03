@@ -1,7 +1,44 @@
 <?php
 declare(strict_types=1);
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=UTF-8');
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$isAllowedOrigin = (
+    preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?mowglai\.(com|tech)$/i', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?vercel\.app$/i', $origin)
+);
+
+if ($isAllowedOrigin) {
+    header("Access-Control-Allow-Origin: $origin");
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+if (!function_exists('mowglai_get_env')) {
+    function mowglai_get_env(string $key, string $default = ''): string {
+        if (!empty($_SERVER[$key])) {
+            return (string)$_SERVER[$key];
+        }
+        if (!empty($_SERVER['REDIRECT_' . $key])) {
+            return (string)$_SERVER['REDIRECT_' . $key];
+        }
+        if (!empty($_ENV[$key])) {
+            return (string)$_ENV[$key];
+        }
+        $val = getenv($key);
+        if ($val !== false && $val !== '') {
+            return (string)$val;
+        }
+        return $default;
+    }
+}
 
 function log_event(string $message): void {
     $timestamp = gmdate('Y-m-d H:i:s');
@@ -34,13 +71,13 @@ if ($planId === '' || !in_array($planId, $allowedPlans, true)) {
     exit;
 }
 
-$razorpayKeyId = getenv('RAZORPAY_KEY_ID') ?: '';
-$razorpayKeySecret = getenv('RAZORPAY_KEY_SECRET') ?: '';
+$razorpayKeyId = mowglai_get_env('RAZORPAY_KEY_ID');
+$razorpayKeySecret = mowglai_get_env('RAZORPAY_KEY_SECRET');
 
 if ($razorpayKeyId === '' || $razorpayKeySecret === '') {
     http_response_code(500);
     log_event('Missing Razorpay credentials');
-    echo json_encode(['error' => 'Razorpay credentials not configured']);
+    echo json_encode(['error' => 'Razorpay credentials not configured in server environment']);
     exit;
 }
 
@@ -97,3 +134,4 @@ if ($subscriptionId === '') {
 
 log_event('Subscription created: ' . $subscriptionId . ' for plan ' . $planId);
 echo json_encode(['subscription_id' => $subscriptionId]);
+?>
