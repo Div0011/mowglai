@@ -77,3 +77,63 @@ jobs:
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_port: ${{ secrets.SSH_PORT }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Ensure Dual Document Root Sync & Permissions on Hostinger
+        # Ensures files are present in both /home/u707591712/public_html/ and /home/u707591712/domains/mowglai.com/public_html/
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh -o StrictHostKeyChecking=no -p "$SSH_PORT" -i ~/.ssh/deploy_key "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
+            set -e
+            echo "=== Hostinger Web Root Synchronization ==="
+            VHOST_DIR="/home/u707591712/domains/mowglai.com/public_html"
+            ACCOUNT_DIR="/home/u707591712/public_html"
+
+            echo "Current user: $(whoami)"
+
+            # Ensure VHOST_DIR exists if domains/mowglai.com exists
+            if [ -d "/home/u707591712/domains/mowglai.com" ] && [ ! -d "$VHOST_DIR" ]; then
+              mkdir -p "$VHOST_DIR"
+            fi
+
+            # Mirror from whichever directory got the fresh build to the other
+            if [ -f "$ACCOUNT_DIR/index.html" ] && [ -d "$VHOST_DIR" ]; then
+              echo "Mirroring from $ACCOUNT_DIR to $VHOST_DIR..."
+              rsync -av --chmod=D755,F644 "$ACCOUNT_DIR/" "$VHOST_DIR/"
+            elif [ -f "$VHOST_DIR/index.html" ] && [ -d "$ACCOUNT_DIR" ]; then
+              echo "Mirroring from $VHOST_DIR to $ACCOUNT_DIR..."
+              rsync -av --chmod=D755,F644 "$VHOST_DIR/" "$ACCOUNT_DIR/"
+            fi
+
+            # Fix permissions in both directories
+            for DIR in "$ACCOUNT_DIR" "$VHOST_DIR"; do
+              if [ -d "$DIR" ]; then
+                echo "Setting permissions in $DIR..."
+                find "$DIR" -type d -exec chmod 755 {} + 2>/dev/null || true
+                find "$DIR" -type f -exec chmod 644 {} + 2>/dev/null || true
+              fi
+            done
+
+            echo "=== Verification ==="
+            if [ -f "$ACCOUNT_DIR/index.html" ]; then
+              echo "SUCCESS: index.html exists in $ACCOUNT_DIR"
+            else
+              echo "WARNING: index.html not found in $ACCOUNT_DIR"
+            fi
+
+            if [ -f "$VHOST_DIR/index.html" ]; then
+              echo "SUCCESS: index.html exists in $VHOST_DIR"
+            else
+              echo "WARNING: index.html not found in $VHOST_DIR"
+            fi
+            echo "Hostinger LiteSpeed sync complete!"
+          EOF
+          rm -f ~/.ssh/deploy_key
+        shell: bash
