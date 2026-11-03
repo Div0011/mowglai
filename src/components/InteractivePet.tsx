@@ -18,7 +18,9 @@ import {
   Coins,
   ShieldCheck,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  Smile,
+  Star
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCurrency, CurrencyType } from "@/context/CurrencyContext";
@@ -53,7 +55,7 @@ interface ValueThought {
   actionHref: string;
 }
 
-// Consumer-focused, client-friendly insights (NO internal engineering/agent jargon)
+// Consumer-focused, client-friendly insights
 const CONSUMER_VALUE_STREAM: ValueThought[] = [
   {
     id: "why-mowglai",
@@ -115,7 +117,7 @@ interface QuickQnA {
 const CONSUMER_FAQS: QuickQnA[] = [
   {
     q: "Why Mowglai over an agency?",
-    a: "Agencies charge heavy monthly retainers and drag projects for months. Mowglai gives you transparent flat rates starting at ₹5,000 ($55), 5-day delivery, and 100% ownership.",
+    a: "Agencies charge heavy monthly retainers and drag projects for months. Mowglai gives you transparent flat rates starting at ₹5,000 ($55), 5-day delivery, and 100% code ownership.",
     actionText: "See Pricing",
     actionHref: "/investment"
   },
@@ -139,6 +141,13 @@ const CONSUMER_FAQS: QuickQnA[] = [
   }
 ];
 
+interface FloatingParticle {
+  id: number;
+  x: number;
+  icon: "heart" | "star" | "sparkle" | "zap";
+  label?: string;
+}
+
 export default function InteractivePet() {
   const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -154,7 +163,7 @@ export default function InteractivePet() {
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeTab, setActiveTab] = useState<"advice" | "contact" | "settings">("advice");
-  const [hearts, setHearts] = useState<{ id: number; x: number }[]>([]);
+  const [particles, setParticles] = useState<FloatingParticle[]>([]);
 
   // Smooth position physics
   const [posX, setPosX] = useState(24);
@@ -171,6 +180,10 @@ export default function InteractivePet() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("Welcome");
 
+  // Click combo tracking
+  const clickCountRef = useRef(0);
+  const lastClickTimeRef = useRef(0);
+
   const lastScrollY = useRef(0);
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null);
   const autoPopTimer = useRef<NodeJS.Timeout | null>(null);
@@ -178,10 +191,27 @@ export default function InteractivePet() {
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
   const phoneNumber = "919452476331";
-  const email = "amitsharmaanxt@gmail.com";
+  const email = "tech@mowglai.com";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Hi Mowglai, I'm interested in your web services. I'd like a quote and next steps.")}`;
   const telUrl = `tel:+${phoneNumber}`;
   const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent("Inquiry regarding Mowglai Services")}`;
+
+  // Helper: spawn floating particle reactions
+  const spawnParticles = useCallback((count = 1, icon: "heart" | "star" | "sparkle" | "zap" = "heart", label?: string) => {
+    const newItems: FloatingParticle[] = [];
+    for (let i = 0; i < count; i++) {
+      newItems.push({
+        id: Date.now() + Math.random(),
+        x: posX + 20 + (Math.random() * 24 - 12),
+        icon,
+        label: i === 0 ? label : undefined
+      });
+    }
+    setParticles((prev) => [...prev, ...newItems]);
+    setTimeout(() => {
+      setParticles((prev) => prev.filter((p) => !newItems.some((n) => n.id === p.id)));
+    }, 1200);
+  }, [posX]);
 
   // 1. Load Spritesheet
   useEffect(() => {
@@ -193,7 +223,7 @@ export default function InteractivePet() {
     };
   }, []);
 
-  // 2. Sprite Canvas Animation Loop (Cycles 8 frames at 8-12 FPS)
+  // 2. Sprite Canvas Animation Loop (Cycles 8 frames with state-adaptive frame rate)
   useEffect(() => {
     if (!isLoaded || isMinimized) return;
 
@@ -230,7 +260,15 @@ export default function InteractivePet() {
       );
 
       frame = (frame + 1) % NUM_COLS;
-      const fpsDelay = petState === "runAlt" ? 75 : 120;
+
+      // Adjust FPS delay based on expression state
+      let fpsDelay = 120;
+      if (petState === "runAlt") fpsDelay = 70;
+      else if (petState === "celebrate") fpsDelay = 90;
+      else if (petState === "jump") fpsDelay = 95;
+      else if (petState === "error") fpsDelay = 80;
+      else if (petState === "thinking") fpsDelay = 140;
+
       timer = setTimeout(render, fpsDelay);
     };
 
@@ -252,7 +290,7 @@ export default function InteractivePet() {
           return targetX;
         }
 
-        const step = speed === "run" ? 8 : 3.5;
+        const step = speed === "run" ? 7 : 3.2;
         const next = diff > 0 ? current + Math.min(diff, step) : current - Math.min(Math.abs(diff), step);
         return Math.round(next);
       });
@@ -267,10 +305,9 @@ export default function InteractivePet() {
 
     const winWidth = window.innerWidth;
     const safeLeft = 24;
-    // Keep pet within clean boundary
     const safeRight = Math.max(safeLeft + 60, winWidth - 140);
 
-    // On wide desktop screens (>1280px), centered content leaves wide empty gutters!
+    // On wide desktop screens (>1280px), centered content leaves wide empty gutters
     if (winWidth > 1280) {
       const margin = Math.max(28, (winWidth - 1180) / 2 - 80);
       if (preferredRatio < 0.5) {
@@ -284,7 +321,7 @@ export default function InteractivePet() {
   }, []);
 
   // 5. Thought Auto-Pop & Auto-Fade Controller
-  const triggerThoughtPopup = useCallback((thought: ValueThought, durationMs = 7500) => {
+  const triggerThoughtPopup = useCallback((thought: ValueThought, durationMs = 8000) => {
     setCurrentThought(thought);
     setIsBubbleVisible(true);
     setStreamProgress(100);
@@ -310,7 +347,7 @@ export default function InteractivePet() {
     }, durationMs);
   }, []);
 
-  // Auto-rotate value thoughts every 18 seconds
+  // Auto-rotate value thoughts every 22 seconds
   useEffect(() => {
     if (isMinimized) return;
 
@@ -323,7 +360,7 @@ export default function InteractivePet() {
           return nextIdx;
         });
         scheduleNextThought();
-      }, 18000);
+      }, 22000);
     };
 
     scheduleNextThought();
@@ -334,7 +371,34 @@ export default function InteractivePet() {
     };
   }, [triggerThoughtPopup, isMinimized]);
 
-  // 6. Gesture & Scroll Listener (Wheel, Touch, Scroll)
+  // 6. Autonomous lively idle reactions (peeking, small hop, curious glance)
+  useEffect(() => {
+    if (isMinimized) return;
+
+    const idleReactionTimer = setInterval(() => {
+      setPetState((current) => {
+        if (current === "idle" && !isBubbleVisible) {
+          const rand = Math.random();
+          if (rand < 0.4) {
+            setTimeout(() => setPetState("idle"), 1200);
+            return "wave";
+          } else if (rand < 0.7) {
+            setTimeout(() => setPetState("idle"), 1100);
+            return "thinking";
+          } else {
+            spawnParticles(1, "sparkle");
+            setTimeout(() => setPetState("idle"), 700);
+            return "jump";
+          }
+        }
+        return current;
+      });
+    }, 15000);
+
+    return () => clearInterval(idleReactionTimer);
+  }, [isMinimized, isBubbleVisible, spawnParticles]);
+
+  // 7. Gesture & Scroll Listener (Wheel, Touch, Scroll)
   useEffect(() => {
     const handleScrollOrGesture = () => {
       const scrollY = window.scrollY;
@@ -379,6 +443,7 @@ export default function InteractivePet() {
 
         if (progress >= 95) {
           setPetState("celebrate");
+          spawnParticles(3, "star", "Finish!");
           triggerThoughtPopup({
             id: "finished",
             badge: "🎉 Let's Connect",
@@ -386,7 +451,7 @@ export default function InteractivePet() {
             thought: "You've reviewed our plans! Contact us directly on WhatsApp for an instant free consultation.",
             actionText: "Chat on WhatsApp",
             actionHref: whatsappUrl
-          }, 8000);
+          }, 8500);
         } else {
           setPetState("idle");
         }
@@ -403,9 +468,9 @@ export default function InteractivePet() {
       window.removeEventListener("wheel", handleScrollOrGesture);
       if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
     };
-  }, [findSafeEmptySpace, triggerThoughtPopup, whatsappUrl]);
+  }, [findSafeEmptySpace, triggerThoughtPopup, whatsappUrl, spawnParticles]);
 
-  // 7. Route Changes: Friendly greeting
+  // 8. Route Changes: Friendly greeting
   useEffect(() => {
     let thought: ValueThought;
     if (pathname === "/investment") {
@@ -431,7 +496,7 @@ export default function InteractivePet() {
         id: "route-contact",
         badge: "📞 Quick Connect",
         title: "We're Here to Help",
-        thought: "Reach out via WhatsApp or call us directly. We respond promptly with clear pricing and delivery timelines.",
+        thought: "Reach out via WhatsApp or email us directly at tech@mowglai.com for clear pricing and delivery timelines.",
         actionText: "Direct Call",
         actionHref: telUrl
       };
@@ -445,38 +510,87 @@ export default function InteractivePet() {
     return () => clearTimeout(t);
   }, [pathname, triggerThoughtPopup, whatsappUrl, telUrl]);
 
-  // Click handler
+  // 9. Interactive Click Reactions with Combo Detection
   const handlePetClick = useCallback(() => {
-    const heartId = Date.now();
-    setHearts((prev) => [...prev, { id: heartId, x: posX + 30 }]);
-    setTimeout(() => {
-      setHearts((prev) => prev.filter((h) => h.id !== heartId));
-    }, 1000);
+    const now = Date.now();
+    const timeSinceLast = now - lastClickTimeRef.current;
+    lastClickTimeRef.current = now;
 
-    setPetState("jump");
+    if (timeSinceLast < 450) {
+      clickCountRef.current += 1;
+    } else {
+      clickCountRef.current = 1;
+    }
+
+    // Fast click combo (3+ rapid clicks)
+    if (clickCountRef.current >= 3) {
+      clickCountRef.current = 0;
+      spawnParticles(3, "zap", "⚡ Turbo Speed!");
+      setPetState("error");
+      triggerThoughtPopup({
+        id: "turbo-combo",
+        badge: "⚡ Lightning Reflexes!",
+        title: "Fast Hands, Fast Websites!",
+        thought: "Mowglai builds websites just as fast! We deliver your production-ready business site in just 5 days.",
+        actionText: "Chat on WhatsApp",
+        actionHref: whatsappUrl
+      }, 7500);
+
+      setTimeout(() => {
+        setPetState("celebrate");
+        setTimeout(() => setPetState("idle"), 1400);
+      }, 900);
+      return;
+    }
+
+    // Multi-expression cycle for single clicks
+    const reactionCycle = thoughtIndex % 3;
+    if (reactionCycle === 0) {
+      spawnParticles(1, "heart", "+1 Love");
+      setPetState("jump");
+      setTimeout(() => {
+        setPetState("celebrate");
+        setTimeout(() => setPetState("idle"), 1200);
+      }, 550);
+    } else if (reactionCycle === 1) {
+      spawnParticles(1, "sparkle", "✨ Hello!");
+      setPetState("wave");
+      setTimeout(() => {
+        setPetState("celebrate");
+        setTimeout(() => setPetState("idle"), 1200);
+      }, 650);
+    } else {
+      spawnParticles(1, "star", "⭐ Aha!");
+      setPetState("thinking");
+      setTimeout(() => {
+        setPetState("jump");
+        setTimeout(() => setPetState("idle"), 800);
+      }, 700);
+    }
+
     const nextIdx = (thoughtIndex + 1) % CONSUMER_VALUE_STREAM.length;
     setThoughtIndex(nextIdx);
-    triggerThoughtPopup(CONSUMER_VALUE_STREAM[nextIdx], 8000);
-
-    setTimeout(() => {
-      setPetState("celebrate");
-      setTimeout(() => setPetState("idle"), 1400);
-    }, 600);
-  }, [posX, thoughtIndex, triggerThoughtPopup]);
+    triggerThoughtPopup(CONSUMER_VALUE_STREAM[nextIdx], 8500);
+  }, [thoughtIndex, triggerThoughtPopup, whatsappUrl, spawnParticles]);
 
   // Handle Q&A chip click
   const handleSelectQuestion = (item: QuickQnA) => {
-    triggerThoughtPopup({
-      id: "answer",
-      badge: "💡 Mowglai Guide",
-      title: item.q,
-      thought: item.a,
-      actionText: item.actionText || "Chat on WhatsApp",
-      actionHref: item.actionHref || whatsappUrl
-    }, 9000);
     setPetState("thinking");
-    setTimeout(() => setPetState("celebrate"), 1200);
-    setTimeout(() => setPetState("idle"), 2400);
+    spawnParticles(1, "sparkle", "Thinking...");
+
+    setTimeout(() => {
+      triggerThoughtPopup({
+        id: "answer",
+        badge: "💡 Mowglai Guide",
+        title: item.q,
+        thought: item.a,
+        actionText: item.actionText || "Chat on WhatsApp",
+        actionHref: item.actionHref || whatsappUrl
+      }, 9000);
+      setPetState("celebrate");
+      spawnParticles(2, "star", "Got it!");
+      setTimeout(() => setPetState("idle"), 1600);
+    }, 600);
   };
 
   if (!isLoaded) return null;
@@ -486,15 +600,18 @@ export default function InteractivePet() {
 
   return (
     <>
-      {/* Floating Heart Particles */}
-      {hearts.map((h) => (
+      {/* Floating Particle Reactions */}
+      {particles.map((p) => (
         <div
-          key={h.id}
-          className="fixed bottom-20 z-[56] pointer-events-none animate-in fade-in zoom-in duration-300 transition-all text-primary flex items-center gap-1 font-mono text-[11px] font-bold"
-          style={{ left: `${h.x}px` }}
+          key={p.id}
+          className="fixed bottom-20 z-[56] pointer-events-none animate-in fade-in zoom-in duration-300 transition-all flex items-center gap-1 font-mono text-[11px] font-bold"
+          style={{ left: `${p.x}px` }}
         >
-          <Heart className="w-4 h-4 fill-primary text-primary animate-bounce" />
-          <span>+1</span>
+          {p.icon === "heart" && <Heart className="w-4 h-4 fill-primary text-primary animate-bounce" />}
+          {p.icon === "star" && <Star className="w-4 h-4 fill-amber-400 text-amber-400 animate-spin" />}
+          {p.icon === "sparkle" && <Sparkles className="w-4 h-4 text-primary animate-pulse" />}
+          {p.icon === "zap" && <Zap className="w-4 h-4 fill-amber-400 text-amber-400 animate-bounce" />}
+          {p.label && <span className="text-primary bg-background/90 px-1.5 py-0.5 rounded-full border border-primary/20 text-[10px] shadow-sm">{p.label}</span>}
         </div>
       ))}
 
@@ -508,12 +625,12 @@ export default function InteractivePet() {
         {/* Dynamic Thought & Action Hub Bubble */}
         {isBubbleVisible && !isMinimized && (
           <div
-            className={`mb-2.5 w-[290px] sm:w-[315px] max-w-[calc(100vw-32px)] bg-card/95 border border-primary/30 backdrop-blur-xl p-3.5 rounded-2xl shadow-[0_0_30px_rgba(200,241,105,0.2)] animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+            className={`mb-2.5 w-[320px] sm:w-[355px] max-w-[calc(100vw-24px)] max-h-[min(540px,78vh)] flex flex-col bg-card/95 border border-primary/30 backdrop-blur-2xl p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.35),0_0_25px_rgba(200,241,105,0.2)] animate-in fade-in slide-in-from-bottom-2 duration-300 ${
               isRightSide ? "origin-bottom-right -translate-x-[calc(100%-70px)]" : "origin-bottom-left"
             }`}
           >
             {/* Top Countdown Progress Bar */}
-            <div className="w-full h-1 bg-primary/10 rounded-full mb-2.5 overflow-hidden">
+            <div className="w-full h-1 bg-primary/10 rounded-full mb-3 overflow-hidden shrink-0">
               <div
                 className="h-full bg-primary transition-all duration-100 ease-linear rounded-full"
                 style={{ width: `${streamProgress}%` }}
@@ -521,21 +638,22 @@ export default function InteractivePet() {
             </div>
 
             {/* Bubble Navigation Tabs: Advice | Quick Settings | Contact */}
-            <div className="flex items-center justify-between gap-1 pb-2 border-b border-primary/15 mb-2.5">
+            <div className="flex items-center justify-between gap-1 pb-2.5 border-b border-primary/15 mb-3 shrink-0">
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setActiveTab("advice")}
-                  className={`px-2 py-0.5 rounded-md text-[10.5px] font-bold transition ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition flex items-center gap-1 ${
                     activeTab === "advice"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
                   }`}
                 >
-                  Insights
+                  <Sparkles className="w-3 h-3" />
+                  <span>Insights</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("settings")}
-                  className={`px-2 py-0.5 rounded-md text-[10.5px] font-bold flex items-center gap-1 transition ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition ${
                     activeTab === "settings"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
@@ -546,7 +664,7 @@ export default function InteractivePet() {
                 </button>
                 <button
                   onClick={() => setActiveTab("contact")}
-                  className={`px-2 py-0.5 rounded-md text-[10.5px] font-bold flex items-center gap-1 transition ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition ${
                     activeTab === "contact"
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "text-foreground/70 hover:text-foreground hover:bg-primary/10"
@@ -559,204 +677,223 @@ export default function InteractivePet() {
 
               <button
                 onClick={() => setIsBubbleVisible(false)}
-                className="text-foreground/50 hover:text-foreground p-0.5 rounded transition"
+                className="text-foreground/50 hover:text-foreground p-1 rounded-md hover:bg-primary/10 transition"
                 aria-label="Close"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* TAB 1: ADVICE & CONSUMER VALUE */}
-            {activeTab === "advice" && (
-              <div>
-                {/* Header Badge */}
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] font-bold text-primary uppercase tracking-wider font-mono">
-                    {currentThought.badge}
-                  </span>
-                  <span className="text-[10px] text-foreground/50 font-mono">
-                    {activeSection}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h4 className="text-[12.5px] font-bold text-foreground font-display mb-1">
-                  {currentThought.title}
-                </h4>
-
-                {/* Consumer-friendly thought text */}
-                <p className="text-[11.5px] text-foreground/85 leading-relaxed mb-2.5">
-                  {currentThought.thought}
-                </p>
-
-                {/* Quick Question Chips */}
-                <div className="pt-2 border-t border-primary/10 mb-2.5">
-                  <div className="text-[9.5px] uppercase font-bold text-foreground/50 mb-1 tracking-wider">
-                    Frequently Asked:
+            {/* Scrollable Hub Content Container */}
+            <div className="overflow-y-auto pr-1 space-y-2.5 flex-1 scrollbar-thin scrollbar-thumb-primary/20">
+              {/* TAB 1: ADVICE & CONSUMER VALUE */}
+              {activeTab === "advice" && (
+                <div className="space-y-2.5">
+                  {/* Header Badge */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-wider font-mono bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">
+                      {currentThought.badge}
+                    </span>
+                    <span className="text-[10.5px] text-foreground/50 font-mono">
+                      {activeSection}
+                    </span>
                   </div>
-                  <div className="flex flex-wrap gap-1">
-                    {CONSUMER_FAQS.map((faq, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSelectQuestion(faq)}
-                        className="text-[10px] py-0.5 px-2 rounded-md border border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/80 hover:text-primary transition font-medium text-left"
-                      >
-                        {faq.q}
-                      </button>
-                    ))}
+
+                  {/* Title */}
+                  <h4 className="text-[13.5px] font-bold text-foreground font-display leading-snug">
+                    {currentThought.title}
+                  </h4>
+
+                  {/* Thought text */}
+                  <p className="text-[12px] text-foreground/85 leading-relaxed">
+                    {currentThought.thought}
+                  </p>
+
+                  {/* Quick Question Chips */}
+                  <div className="pt-2 border-t border-primary/10">
+                    <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1.5 tracking-wider">
+                      Frequently Asked:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {CONSUMER_FAQS.map((faq, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleSelectQuestion(faq)}
+                          className="text-[10.5px] py-1 px-2 rounded-lg border border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/85 hover:text-primary transition font-medium text-left"
+                        >
+                          {faq.q}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Primary Action Buttons */}
+                  <div className="flex items-center gap-2 pt-2.5 border-t border-primary/15">
+                    <a
+                      href={currentThought.actionHref}
+                      target={currentThought.actionHref.startsWith("http") ? "_blank" : undefined}
+                      rel="noreferrer"
+                      className="flex-1 py-2 px-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-[11.5px] font-bold flex items-center justify-center gap-1.5 transition shadow-sm"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                      <span>{currentThought.actionText}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </a>
+                    <button
+                      onClick={() => {
+                        setPetState("celebrate");
+                        spawnParticles(3, "star", "🎉 Cheer!");
+                        setTimeout(() => setPetState("idle"), 1400);
+                      }}
+                      className="py-2 px-3 rounded-xl border border-primary/30 text-primary hover:bg-primary/10 text-[11.5px] font-bold transition flex items-center gap-1"
+                      title="Cheer Mowglai Pet!"
+                    >
+                      <Zap className="w-3.5 h-3.5 fill-primary text-primary" />
+                      <span>Cheer</span>
+                    </button>
                   </div>
                 </div>
+              )}
 
-                {/* Primary Action Button */}
-                <div className="flex items-center gap-1.5 pt-2 border-t border-primary/15">
+              {/* TAB 2: CURRENCY & TRANSLATE MODE */}
+              {activeTab === "settings" && (
+                <div className="space-y-3.5 py-1">
+                  {/* Currency Switcher */}
+                  <div>
+                    <div className="text-[10px] uppercase font-bold text-foreground/60 mb-2 tracking-wider flex items-center gap-1">
+                      <Coins className="w-3 h-3 text-primary" />
+                      <span>Select Currency:</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {(["INR", "USD", "EUR", "GBP"] as CurrencyType[]).map((cur) => (
+                        <button
+                          key={cur}
+                          onClick={() => {
+                            setCurrency(cur);
+                            setPetState("jump");
+                            spawnParticles(1, "sparkle");
+                            setTimeout(() => setPetState("idle"), 800);
+                          }}
+                          className={`py-2 px-2.5 rounded-xl text-[11px] font-bold border transition flex items-center justify-between ${
+                            currency === cur
+                              ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                              : "border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/80"
+                          }`}
+                        >
+                          <span>{cur === "INR" ? "₹ INR (India)" : cur === "USD" ? "$ USD (Global)" : cur === "EUR" ? "€ EUR" : "£ GBP"}</span>
+                          {currency === cur && <CheckCircle2 className="w-3.5 h-3.5" />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Translation / Language Switcher */}
+                  <div className="pt-2 border-t border-primary/15">
+                    <div className="text-[10px] uppercase font-bold text-foreground/60 mb-2 tracking-wider flex items-center gap-1">
+                      <Globe className="w-3 h-3 text-primary" />
+                      <span>Website Language:</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { code: "en", label: "English" },
+                        { code: "hi", label: "हिन्दी" },
+                        { code: "es", label: "Español" },
+                        { code: "fr", label: "Français" },
+                        { code: "ja", label: "日本語" },
+                      ].map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => {
+                            setLanguage(lang.code as Language);
+                            setPetState("jump");
+                            spawnParticles(1, "sparkle");
+                            setTimeout(() => setPetState("idle"), 800);
+                          }}
+                          className={`py-1.5 px-2 rounded-lg text-[11px] font-medium border text-center transition ${
+                            language === lang.code
+                              ? "bg-primary text-primary-foreground border-primary font-bold shadow-sm"
+                              : "border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/80"
+                          }`}
+                        >
+                          {lang.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Appearance Theme Toggle */}
+                  <div className="pt-2 border-t border-primary/15 flex items-center justify-between">
+                    <span className="text-[11.5px] text-foreground/80 font-medium flex items-center gap-1.5">
+                      {theme === "dark" ? <Moon className="w-3.5 h-3.5 text-primary" /> : <Sun className="w-3.5 h-3.5 text-primary" />}
+                      <span>Theme ({theme === "dark" ? "Dark" : "Light"})</span>
+                    </span>
+                    <button
+                      onClick={() => {
+                        setTheme(theme === "dark" ? "light" : "dark");
+                        setPetState("jump");
+                        setTimeout(() => setPetState("idle"), 800);
+                      }}
+                      className="text-[11px] font-bold py-1.5 px-3 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition"
+                    >
+                      Switch to {theme === "dark" ? "Light" : "Dark"}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: DIRECT CONTACT */}
+              {activeTab === "contact" && (
+                <div className="space-y-2 py-1">
+                  <div className="text-[10px] uppercase font-bold text-foreground/60 mb-1.5 tracking-wider">
+                    Connect Directly with Mowglai:
+                  </div>
+
+                  {/* WhatsApp Direct */}
                   <a
-                    href={currentThought.actionHref}
-                    target={currentThought.actionHref.startsWith("http") ? "_blank" : undefined}
-                    rel="noreferrer"
-                    className="flex-1 py-1.5 px-2.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-[11px] font-bold flex items-center justify-center gap-1 transition shadow-sm"
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-2.5 rounded-xl border border-[#25D366]/40 hover:border-[#25D366] hover:bg-[#25D366]/10 transition-all group cursor-pointer"
                   >
-                    <span>{currentThought.actionText}</span>
-                    <ArrowRight className="w-3 h-3" />
+                    <div className="w-8 h-8 rounded-full bg-[#25D366]/20 flex items-center justify-center shrink-0">
+                      <MessageCircle className="w-4 h-4 text-[#25D366] fill-current" />
+                    </div>
+                    <div className="text-left flex-1 min-w-0">
+                      <div className="font-bold text-[12px] text-foreground">WhatsApp Direct</div>
+                      <div className="text-[10.5px] text-muted-foreground truncate">Instant quotes & direct answers</div>
+                    </div>
                   </a>
-                  <button
-                    onClick={() => {
-                      setPetState("celebrate");
-                      setTimeout(() => setPetState("idle"), 1400);
-                    }}
-                    className="py-1.5 px-2.5 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 text-[11px] font-bold transition flex items-center gap-1"
-                    title="Cheer!"
+
+                  {/* Direct Call */}
+                  <a
+                    href={telUrl}
+                    className="flex items-center gap-3 p-2.5 rounded-xl border border-primary/30 hover:border-primary hover:bg-primary/10 transition-all group cursor-pointer"
                   >
-                    <Zap className="w-3 h-3 fill-primary text-primary" />
-                    <span>Cheer</span>
-                  </button>
-                </div>
-              </div>
-            )}
+                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                      <Phone className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="text-left flex-1 min-w-0">
+                      <div className="font-bold text-[12px] text-foreground">Call Direct</div>
+                      <div className="text-[10.5px] text-muted-foreground truncate">+91 94524 76331</div>
+                    </div>
+                  </a>
 
-            {/* TAB 2: CURRENCY & TRANSLATE MODE */}
-            {activeTab === "settings" && (
-              <div className="space-y-3 py-1">
-                {/* Currency Switcher */}
-                <div>
-                  <div className="text-[10px] uppercase font-bold text-foreground/60 mb-1.5 tracking-wider flex items-center gap-1">
-                    <Coins className="w-3 h-3 text-primary" />
-                    <span>Select Currency Mode:</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {(["INR", "USD", "EUR", "GBP"] as CurrencyType[]).map((cur) => (
-                      <button
-                        key={cur}
-                        onClick={() => setCurrency(cur)}
-                        className={`py-1.5 px-2 rounded-lg text-[11px] font-bold border transition flex items-center justify-between ${
-                          currency === cur
-                            ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                            : "border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/80"
-                        }`}
-                      >
-                        <span>{cur === "INR" ? "₹ INR (India)" : cur === "USD" ? "$ USD (Global)" : cur === "EUR" ? "€ EUR" : "£ GBP"}</span>
-                        {currency === cur && <CheckCircle2 className="w-3 h-3" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Translation / Language Switcher */}
-                <div className="pt-2 border-t border-primary/15">
-                  <div className="text-[10px] uppercase font-bold text-foreground/60 mb-1.5 tracking-wider flex items-center gap-1">
-                    <Globe className="w-3 h-3 text-primary" />
-                    <span>Website Language:</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-1">
-                    {[
-                      { code: "en", label: "English" },
-                      { code: "hi", label: "हिन्दी" },
-                      { code: "es", label: "Español" },
-                      { code: "fr", label: "Français" },
-                      { code: "ja", label: "日本語" },
-                    ].map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => setLanguage(lang.code as Language)}
-                        className={`py-1 px-1.5 rounded-md text-[10.5px] font-medium border text-center transition ${
-                          language === lang.code
-                            ? "bg-primary text-primary-foreground border-primary font-bold shadow-sm"
-                            : "border-primary/20 hover:border-primary hover:bg-primary/10 text-foreground/80"
-                        }`}
-                      >
-                        {lang.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Appearance Theme Toggle */}
-                <div className="pt-2 border-t border-primary/15 flex items-center justify-between">
-                  <span className="text-[11px] text-foreground/75 font-medium flex items-center gap-1.5">
-                    {theme === "dark" ? <Moon className="w-3.5 h-3.5 text-primary" /> : <Sun className="w-3.5 h-3.5 text-primary" />}
-                    <span>Theme ({theme === "dark" ? "Dark" : "Light"})</span>
-                  </span>
-                  <button
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="text-[10.5px] font-bold py-1 px-2.5 rounded-md border border-primary/30 text-primary hover:bg-primary/10 transition"
+                  {/* Email Option */}
+                  <a
+                    href={mailtoUrl}
+                    className="flex items-center gap-3 p-2.5 rounded-xl border border-primary/20 hover:border-primary hover:bg-primary/10 transition-all group cursor-pointer"
                   >
-                    Switch to {theme === "dark" ? "Light" : "Dark"}
-                  </button>
+                    <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+                      <Mail className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="text-left flex-1 min-w-0">
+                      <div className="font-bold text-[12px] text-foreground">Technical Support & Scope</div>
+                      <div className="text-[10.5px] text-muted-foreground truncate font-mono">{email}</div>
+                    </div>
+                  </a>
                 </div>
-              </div>
-            )}
-
-            {/* TAB 3: DIRECT CONTACT (TRANSFERRED FROM WEBSITE CHAT TOGGLE) */}
-            {activeTab === "contact" && (
-              <div className="space-y-2 py-1">
-                <div className="text-[10px] uppercase font-bold text-foreground/60 mb-1 tracking-wider">
-                  Connect Directly with Mowglai:
-                </div>
-
-                {/* WhatsApp Direct */}
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 p-2 rounded-xl border border-[#25D366]/40 hover:border-[#25D366] hover:bg-[#25D366]/10 transition-all group cursor-pointer"
-                >
-                  <div className="w-8 h-8 rounded-full bg-[#25D366]/20 flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-4 h-4 text-[#25D366] fill-current" />
-                  </div>
-                  <div className="text-left flex-1 min-w-0">
-                    <div className="font-bold text-[12px] text-foreground">WhatsApp Direct</div>
-                    <div className="text-[10px] text-muted-foreground truncate">Instant quotes & answers</div>
-                  </div>
-                </a>
-
-                {/* Direct Call */}
-                <a
-                  href={telUrl}
-                  className="flex items-center gap-2.5 p-2 rounded-xl border border-primary/30 hover:border-primary hover:bg-primary/10 transition-all group cursor-pointer"
-                >
-                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4 text-primary" />
-                  </div>
-                  <div className="text-left flex-1 min-w-0">
-                    <div className="font-bold text-[12px] text-foreground">Call Direct</div>
-                    <div className="text-[10px] text-muted-foreground truncate">+91 94524 76331</div>
-                  </div>
-                </a>
-
-                {/* Email Option */}
-                <a
-                  href={mailtoUrl}
-                  className="flex items-center gap-2.5 p-2 rounded-xl border border-primary/20 hover:border-primary hover:bg-primary/10 transition-all group cursor-pointer"
-                >
-                  <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4 text-primary" />
-                  </div>
-                  <div className="text-left flex-1 min-w-0">
-                    <div className="font-bold text-[12px] text-foreground">Email Project Scope</div>
-                    <div className="text-[10px] text-muted-foreground truncate">{email}</div>
-                  </div>
-                </a>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Bubble Tail */}
             <div
@@ -776,7 +913,7 @@ export default function InteractivePet() {
                 setPetState("wave");
                 setTimeout(() => setPetState("idle"), 1200);
               }}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-card/95 border border-primary/30 text-primary text-[11px] font-bold shadow-md hover:border-primary hover:scale-105 transition backdrop-blur-md"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-card/95 border border-primary/30 text-primary text-[11px] font-bold shadow-md hover:border-primary hover:scale-105 transition backdrop-blur-md"
               aria-label="Expand Pet"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -785,7 +922,7 @@ export default function InteractivePet() {
             </button>
           ) : (
             <div className="relative group flex flex-col items-center">
-              {/* Pet Canvas Button (Compact 62x68px to prevent text block) */}
+              {/* Pet Canvas Button */}
               <button
                 onClick={handlePetClick}
                 onMouseEnter={() => {
@@ -800,12 +937,15 @@ export default function InteractivePet() {
               >
                 <canvas
                   ref={canvasRef}
-                  width={62}
-                  height={68}
-                  className="w-[62px] h-[68px] drop-shadow-[0_4px_12px_rgba(200,241,105,0.35)] transition-transform duration-150"
+                  width={64}
+                  height={70}
+                  className="w-[64px] h-[70px] drop-shadow-[0_4px_14px_rgba(200,241,105,0.4)] transition-transform duration-150"
                   style={{
                     imageRendering: "pixelated",
-                    transform: direction === "left" && (petState === "walkLeft" || petState === "runAlt") ? "scaleX(-1)" : "none"
+                    transform:
+                      petState === "runAlt" && direction === "left"
+                        ? "scaleX(-1)"
+                        : "none"
                   }}
                 />
 
@@ -817,14 +957,15 @@ export default function InteractivePet() {
               </button>
 
               {/* Integrated Persistent Quick Dock: Currency | Language | WhatsApp | Min */}
-              <div className="flex items-center gap-1 mt-0.5 bg-background/95 border border-primary/25 backdrop-blur-md px-2 py-0.5 rounded-full text-[10px] text-foreground/80 shadow-md transition-all">
+              <div className="flex items-center gap-1 mt-1 bg-background/95 border border-primary/25 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] text-foreground/80 shadow-md transition-all">
                 {/* Currency quick toggle */}
                 <button
                   onClick={() => {
                     const nextCur = currency === "INR" ? "USD" : "INR";
                     setCurrency(nextCur);
-                    setActiveTab("settings");
-                    setIsBubbleVisible(true);
+                    setPetState("jump");
+                    spawnParticles(1, "sparkle");
+                    setTimeout(() => setPetState("idle"), 700);
                   }}
                   className="hover:text-primary font-bold transition flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-primary/10"
                   title="Toggle Currency (₹ INR / $ USD)"
@@ -840,8 +981,9 @@ export default function InteractivePet() {
                   onClick={() => {
                     const nextLang = language === "en" ? "hi" : "en";
                     setLanguage(nextLang as Language);
-                    setActiveTab("settings");
-                    setIsBubbleVisible(true);
+                    setPetState("jump");
+                    spawnParticles(1, "sparkle");
+                    setTimeout(() => setPetState("idle"), 700);
                   }}
                   className="hover:text-primary font-bold transition flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-primary/10"
                   title="Toggle Language (EN / हिन्दी)"
@@ -873,7 +1015,7 @@ export default function InteractivePet() {
                       setIsBubbleVisible(false);
                     } else {
                       setActiveTab("advice");
-                      triggerThoughtPopup(currentThought, 8000);
+                      triggerThoughtPopup(currentThought, 8500);
                     }
                   }}
                   className="hover:text-primary transition px-1 py-0.5 rounded hover:bg-primary/10"
