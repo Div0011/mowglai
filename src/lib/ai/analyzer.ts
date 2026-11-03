@@ -161,7 +161,7 @@ export function analyzeCompetitorUrl(rawUrl: string): CompetitorAnalysisResult {
             city: 'Metro Hub',
             budget: '₹5,000',
             primaryGoal: 'WhatsApp & Direct Phone Inquiries'
-        }, matchedT.id),
+        }),
         prefillOnboardQuery: {
             businessName: `${domainNameCapitalized} Inspired Version`,
             businessSector: sector,
