@@ -110,7 +110,7 @@ export default function ReferralPage() {
                                         </li>
                                         <li className="flex items-start gap-5">
                                             <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs text-primary font-bold shrink-0 mt-0.5">2</div>
-                                            <span className="text-foreground/70 leading-relaxed">Your submission is instantly routed to <span className="text-primary font-mono italic">info@mowglai.com</span>.</span>
+                                            <span className="text-foreground/70 leading-relaxed">Your submission is instantly routed to <span className="text-primary font-mono italic">tech@mowglai.com</span>.</span>
                                         </li>
                                         <li className="flex items-start gap-5">
                                             <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs text-primary font-bold shrink-0 mt-0.5">3</div>

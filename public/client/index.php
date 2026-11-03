@@ -15,3 +15,4 @@ if (file_exists(__DIR__ . '/index.html')) {
 }
 
 echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=https://mowglai.com/ai-onboard"></head><body>Redirecting to Mowglai Client Hub...</body></html>';
+

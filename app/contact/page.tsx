@@ -70,7 +70,7 @@ const jsonLdContactPage = {
         "@type": "Organization",
         "name": "Mowglai Digital Agency",
         "telephone": "+91-9452476331",
-        "email": "info@mowglai.com",
+        "email": "tech@mowglai.com",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Noida",

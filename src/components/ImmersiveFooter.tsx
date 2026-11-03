@@ -424,8 +424,8 @@ export default function ImmersiveFooter() {
                         MOWGLAI.COM
                     </a>
                     <span>·</span>
-                    <a href="mailto:info@mowglai.com" className="hover:text-primary transition-colors duration-150">
-                        INFO@MOWGLAI.COM
+                    <a href="mailto:tech@mowglai.com" className="hover:text-primary transition-colors duration-150">
+                        TECH@MOWGLAI.COM
                     </a>
                 </div>
 

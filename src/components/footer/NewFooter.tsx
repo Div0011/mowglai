@@ -319,7 +319,7 @@ export default function NewFooter() {
                         <span className="sep">&middot;</span>
                         <span>mowglai.com</span>
                         <span className="sep">&middot;</span>
-                        <Link href="mailto:info@mowglai.com">info@mowglai.com</Link>
+                        <Link href="mailto:tech@mowglai.com">tech@mowglai.com</Link>
                     </div>
                 </div>
 

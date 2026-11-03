@@ -834,7 +834,7 @@ export default function CatalogueView() {
                     </div>
 
                     <div className="mt-8 pt-8 border-t border-white/10 text-xs text-foreground/50 font-mono flex flex-wrap justify-center gap-6 relative z-10">
-                        <span>Email: info@mowglai.com</span>
+                        <span>Email: tech@mowglai.com</span>
                         <span>•</span>
                         <span>Location: Noida, Uttar Pradesh, India</span>
                         <span>•</span>
