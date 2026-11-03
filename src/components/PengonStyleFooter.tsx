@@ -351,11 +351,11 @@ export default function PengonStyleFooter() {
                             </p>
                             <div className="space-y-3">
                                 <a
-                                    href="mailto:info@mowglai.com"
+                                    href="mailto:tech@mowglai.com"
                                     className="flex items-center gap-2 text-[12px] text-[#6e655c] hover:text-[#2d2a26] transition-colors group w-fit"
                                 >
                                     <Mail size={13} className="shrink-0" />
-                                    <span>info@mowglai.com</span>
+                                    <span>tech@mowglai.com</span>
                                     <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 -translate-y-0.5 group-hover:translate-y-0 transition-all" />
                                 </a>
                                 <p className="text-[12px] text-[#80766a]">Noida, Uttar Pradesh — India</p>

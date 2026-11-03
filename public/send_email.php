@@ -63,7 +63,7 @@ if (empty($SMTP_PASSWORD)) {
     header('Content-Type: application/json');
     echo json_encode([
         'status'  => 'error',
-        'message' => 'Email service is not configured. Please email info@mowglai.com directly.',
+        'message' => 'Email service is not configured. Please email tech@mowglai.com directly.',
     ]);
     exit;
 }
@@ -73,7 +73,7 @@ $SMTP_CONFIG = [
     'enabled'  => true,
     'host'     => mowglai_get_env('SMTP_HOST', 'ssl://smtp.hostinger.com'),
     'port'     => (int)mowglai_get_env('SMTP_PORT', '465'),
-    'username' => mowglai_get_env('SMTP_USER', 'info@mowglai.com'),
+    'username' => mowglai_get_env('SMTP_USER', 'tech@mowglai.com'),
     'password' => $SMTP_PASSWORD,
     'timeout'  => 10
 ];
@@ -479,7 +479,7 @@ if ($sent || $submission_id) {
     http_response_code(500);
     echo json_encode([
         "status"  => "error",
-        "message" => "Submission error. Please try again or reach us at info@mowglai.com."
+        "message" => "Submission error. Please try again or reach us at tech@mowglai.com."
     ]);
 }
 ?>

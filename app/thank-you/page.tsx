@@ -276,7 +276,7 @@ function ThankYouContent() {
 
                 {/* Footer note */}
                 <p className="mt-12 text-xs font-mono text-muted-foreground/60 tracking-wider">
-                    Need urgent technical assistance? Email us directly at <a href="mailto:info@mowglai.com" className="text-primary hover:underline">info@mowglai.com</a>
+                    Need urgent technical assistance? Email us directly at <a href="mailto:tech@mowglai.com" className="text-primary hover:underline">tech@mowglai.com</a>
                 </p>
 
             </div>

@@ -30,27 +30,27 @@
 @layer base {
   :root {
     /* Brand Design Tokens (Forest, Lime, Peach) */
-    --background: 166 51% 8%;       /* Deep forest: #0A1F1A */
+    --background: 164 65% 4%;       /* Deep cosmic obsidian: #040A07 */
     --foreground: 160 15% 96%;      /* High-contrast off-white: #F4F7F5 */
     --primary: 78 82% 68%;          /* Lime action accent: #C8F169 */
     --primary-foreground: 166 51% 8%;/* Deep forest on lime */
-    --secondary: 166 45% 11%;       /* Surface forest: #102A24 */
+    --secondary: 164 42% 9%;        /* Elevated cosmic surface: #091913 */
     --secondary-foreground: 28 100% 86%; /* Soft peach: #FFDAB9 */
-    --card: 166 45% 11%;            /* Surface forest */
+    --card: 164 45% 7%;             /* Deep glassmorphism card: #07150F */
     --card-foreground: 160 15% 96%;
-    --popover: 166 45% 11%;
+    --popover: 164 45% 7%;
     --popover-foreground: 160 15% 96%;
-    --muted: 166 30% 16%;
+    --muted: 164 30% 14%;
     --muted-foreground: 160 10% 70%;
     --accent: 28 100% 86%;          /* Soft peach secondary accent: #FFDAB9 */
     --accent-foreground: 166 51% 8%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 160 15% 96%;
-    --border: 166 35% 20%;
-    --input: 166 35% 20%;
+    --border: 164 32% 18%;          /* Clean emerald border */
+    --input: 164 32% 18%;
     --ring: 78 82% 68%;             /* Lime focus ring */
 
-    --glass-bg: 16 42 36;
+    --glass-bg: 7 21 15;
     --glass-border: 200 241 105;
     --gradient-candy: linear-gradient(135deg, hsl(320 100% 60%), hsl(45 100% 60%), hsl(190 100% 50%));
   }
