@@ -5,11 +5,14 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 /** @type {import('next').NextConfig} */
+const isExport = process.env.EXPORT_MODE === 'true';
+
 const nextConfig = {
-    output: 'standalone',
+    // Hostinger deploy = static export (out/); Vercel/server deploy = standalone
+    ...(isExport ? { output: 'export' } : { output: 'standalone' }),
     trailingSlash: true,
     images: {
-        unoptimized: true,
+        unoptimized: true, // required for static export
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [
             {
@@ -17,6 +20,21 @@ const nextConfig = {
                 hostname: '**',
             },
         ],
+    },
+    // SECURITY: consistent headers on every page (server + static export)
+    async headers() {
+        return [
+            {
+                source: '/(.*)',
+                headers: [
+                    { key: 'X-Content-Type-Options', value: 'nosniff' },
+                    { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+                    { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+                    { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
+                    { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+                ],
+            },
+        ];
     },
     // Experimental optimizations for better performance
     experimental: {

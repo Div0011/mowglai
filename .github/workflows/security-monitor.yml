@@ -1,0 +1,34 @@
+name: Live Site Integrity Monitor
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # every 30 minutes
+  workflow_dispatch:
+
+jobs:
+  integrity-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check homepage for defacement / tampering
+        run: |
+          set -e
+          BODY=$(curl -sL --max-time 25 https://mowglai.com/ || true)
+          SIZE=$(printf '%s' "$BODY" | wc -c)
+          echo "Homepage size: $SIZE bytes"
+
+          if [ "$SIZE" -lt 5000 ]; then
+            echo "::error::Homepage suspiciously small ($SIZE bytes). Possible defacement or broken deploy."
+            exit 1
+          fi
+
+          if printf '%s' "$BODY" | grep -qiE "you'?ve been hacked|defaced|site is down, loser"; then
+            echo "::error::DEFACEMENT MARKER DETECTED on live homepage!"
+            exit 1
+          fi
+
+          if ! printf '%s' "$BODY" | grep -qi "<title>.*Mowglai"; then
+            echo "::error::Homepage title missing 'Mowglai' — content replaced by something else."
+            exit 1
+          fi
+
+          echo "Live site integrity OK."
