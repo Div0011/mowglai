@@ -201,7 +201,7 @@ export default function RootLayout({
                             </p>
                         </div>
                     </noscript>
-                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
                         <Providers>
                             <AOSInit />
                             <ReferralBanner />

@@ -22,6 +22,7 @@ import {
   ArrowRight,
   Smile,
   Star,
+  Flame,
   Info
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -56,6 +57,77 @@ interface ValueThought {
   actionText: string;
   actionHref: string;
 }
+
+// 5 Mythical / Cyber Pet Forms (Roop Badalna on Rage / Multi-tap)
+interface PetForm {
+  id: string;
+  name: string;
+  emoji: string;
+  badge: string;
+  glowColor: string;
+  filterStyle: string;
+  rageSound: string;
+  rageQuote: string;
+  powerTrait: string;
+}
+
+const PET_FORMS: PetForm[] = [
+  {
+    id: "mint-bot",
+    name: "Pixel Terminal",
+    emoji: "📟",
+    badge: "🌱 Mint Original",
+    glowColor: "rgba(200, 241, 105, 0.5)",
+    filterStyle: "drop-shadow(0 4px 14px rgba(200, 241, 105, 0.45))",
+    rageSound: "BEEP BEEP!",
+    rageQuote: "Calming down... Resetting to default Mowglai Mint Cyber-Bot! Ready to build fast websites.",
+    powerTrait: "5-Day High-Speed Web Launch"
+  },
+  {
+    id: "inferno-beast",
+    name: "Inferno Berserker",
+    emoji: "🔥",
+    badge: "🔥 Rage Inferno",
+    glowColor: "rgba(239, 68, 68, 0.8)",
+    filterStyle: "hue-rotate(335deg) saturate(3.5) contrast(1.3) drop-shadow(0 0 16px rgba(239, 68, 68, 0.85))",
+    rageSound: "GRRR! ROAR!",
+    rageQuote: "GRRR! Kitni baar poke karoge?! Gusse me aake Inferno Form le liya! Burning down slow websites! 🔥",
+    powerTrait: "100% Destruction of Sluggish Page Loads"
+  },
+  {
+    id: "cosmic-phantom",
+    name: "Cosmic Specter",
+    emoji: "🌌",
+    badge: "🌌 Cosmic Void",
+    glowColor: "rgba(168, 85, 247, 0.8)",
+    filterStyle: "hue-rotate(225deg) saturate(2.6) brightness(1.2) drop-shadow(0 0 16px rgba(168, 85, 247, 0.85))",
+    rageSound: "WARP!",
+    rageQuote: "You tapped across spacetime dimensions! Cosmic Void Form unlocked — bringing 3D galaxy magic to your brand!",
+    powerTrait: "Immersive 3D & Digital Galaxy Aesthetics"
+  },
+  {
+    id: "golden-overclock",
+    name: "Golden Deity",
+    emoji: "⚡",
+    badge: "⚡ Supercharged Gold",
+    glowColor: "rgba(234, 179, 8, 0.85)",
+    filterStyle: "hue-rotate(60deg) saturate(3.8) brightness(1.3) contrast(1.15) drop-shadow(0 0 18px rgba(234, 179, 8, 0.9))",
+    rageSound: "OVERCLOCK!",
+    rageQuote: "MAXIMUM OVERCLOCK! Golden Cyber Deity form activated! 100% code ownership with zero recurring traps!",
+    powerTrait: "Zero Agency Lock-ins & 100% Ownership"
+  },
+  {
+    id: "shadow-matrix",
+    name: "Shadow Matrix",
+    emoji: "👾",
+    badge: "👾 Matrix Glitch",
+    glowColor: "rgba(34, 197, 94, 0.9)",
+    filterStyle: "invert(0.85) hue-rotate(130deg) contrast(1.4) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9))",
+    rageSound: "GLITCH DETECTED!",
+    rageQuote: "SYSTEM OVERLOAD! Bypassing agency gatekeepers... Entering stealth Shadow Matrix dragon mode!",
+    powerTrait: "Unbeatable Transparent Pricing from ₹5,000"
+  }
+];
 
 // Consumer-focused, client-friendly insights
 const CONSUMER_VALUE_STREAM: ValueThought[] = [
@@ -146,7 +218,7 @@ const CONSUMER_FAQS: QuickQnA[] = [
 interface FloatingParticle {
   id: number;
   x: number;
-  icon: "heart" | "star" | "sparkle" | "zap";
+  icon: "heart" | "star" | "sparkle" | "zap" | "flame";
   label?: string;
 }
 
@@ -168,6 +240,11 @@ export default function InteractivePet() {
   const [activeTab, setActiveTab] = useState<"advice" | "contact" | "settings">("advice");
   const [particles, setParticles] = useState<FloatingParticle[]>([]);
 
+  // Mythical Roop/Form State
+  const [activeFormIndex, setActiveFormIndex] = useState(0);
+  const [isRageMorphing, setIsRageMorphing] = useState(false);
+  const currentForm = PET_FORMS[activeFormIndex];
+
   // Smooth position physics
   const [posX, setPosX] = useState(20);
   const [targetX, setTargetX] = useState(20);
@@ -183,9 +260,10 @@ export default function InteractivePet() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("Welcome");
 
-  // Click combo tracking
+  // Click combo & Rage tracking
   const clickCountRef = useRef(0);
   const lastClickTimeRef = useRef(0);
+  const comboResetTimer = useRef<NodeJS.Timeout | null>(null);
 
   const lastScrollY = useRef(0);
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null);
@@ -200,7 +278,7 @@ export default function InteractivePet() {
   const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent("Inquiry regarding Mowglai Services")}`;
 
   // Helper: spawn floating particle reactions
-  const spawnParticles = useCallback((count = 1, icon: "heart" | "star" | "sparkle" | "zap" = "heart", label?: string) => {
+  const spawnParticles = useCallback((count = 1, icon: "heart" | "star" | "sparkle" | "zap" | "flame" = "heart", label?: string) => {
     const newItems: FloatingParticle[] = [];
     for (let i = 0; i < count; i++) {
       newItems.push({
@@ -226,7 +304,7 @@ export default function InteractivePet() {
     };
   }, []);
 
-  // 2. Sprite Canvas Animation Loop (Cycles 8 frames with state-adaptive frame rate)
+  // 2. Sprite Canvas Animation Loop
   useEffect(() => {
     if (!isLoaded || isMinimized) return;
 
@@ -269,6 +347,8 @@ export default function InteractivePet() {
           ? 70
           : petState === "celebrate" || petState === "jump"
           ? 90
+          : petState === "error"
+          ? 60
           : petState === "walkRight" || petState === "walkLeft"
           ? 110
           : 140;
@@ -303,13 +383,11 @@ export default function InteractivePet() {
     return () => clearInterval(interval);
   }, [targetX, petState, speed, isMinimized]);
 
-  // 4. Empty-Space Locator with strict Mobile Protection (Avoid Text Overlap)
+  // 4. Empty-Space Locator with strict Mobile Protection
   const findSafeEmptySpace = useCallback((preferredRatio: number) => {
     if (typeof window === "undefined") return 20;
 
     const winWidth = window.innerWidth;
-    
-    // On mobile devices (< 768px), pin pet strictly to corner gutter so it NEVER crosses centered hero copy
     if (winWidth < 768) {
       return 16;
     }
@@ -317,7 +395,6 @@ export default function InteractivePet() {
     const safeLeft = 24;
     const safeRight = Math.max(safeLeft + 60, winWidth - 140);
 
-    // On wide desktop screens (>1280px), centered content leaves wide empty gutters
     if (winWidth > 1280) {
       const margin = Math.max(28, (winWidth - 1180) / 2 - 80);
       if (preferredRatio < 0.5) {
@@ -330,9 +407,8 @@ export default function InteractivePet() {
     return preferredRatio > 0.5 ? safeRight : safeLeft;
   }, []);
 
-  // 5. Thought Auto-Pop & Auto-Fade Controller (Compact Speech Bubble)
+  // 5. Thought Auto-Pop & Auto-Fade Controller
   const triggerThoughtPopup = useCallback((thought: ValueThought, durationMs = 6500) => {
-    // If user has full hub open or minimized, do not auto-pop speech bubble
     if (isHubOpen || isMinimized) return;
 
     setCurrentThought(thought);
@@ -360,9 +436,45 @@ export default function InteractivePet() {
     }, durationMs);
   }, [isHubOpen, isMinimized]);
 
-  // Auto-rotate value thoughts gently every 28 seconds (less intrusive)
+  // 6. RAGE MORPHING / ROOP BADALNA TRIGGER
+  // Triggered when user rapidly taps the pet 3+ times
+  const triggerRageMorph = useCallback(() => {
+    const nextIndex = (activeFormIndex + 1) % PET_FORMS.length;
+    const nextForm = PET_FORMS[nextIndex];
+
+    setIsRageMorphing(true);
+    setPetState("error");
+    setIsHubOpen(false);
+
+    // Spawn dramatic fury particles
+    spawnParticles(4, "flame", `🔥 ${nextForm.rageSound}`);
+
+    // Trigger rage / morph announcement bubble
+    triggerThoughtPopup({
+      id: `morph-${nextForm.id}`,
+      badge: `💢 Gussa Aaya! → ${nextForm.emoji} ${nextForm.name}`,
+      title: `${nextForm.emoji} Roop Badal Gaya: ${nextForm.name}!`,
+      thought: nextForm.rageQuote,
+      actionText: "Chat on WhatsApp",
+      actionHref: whatsappUrl
+    }, 8500);
+
+    // Dramatic transform sequence
+    setTimeout(() => {
+      setActiveFormIndex(nextIndex);
+      setPetState("celebrate");
+      spawnParticles(3, "star", `✨ ${nextForm.badge}`);
+    }, 600);
+
+    setTimeout(() => {
+      setIsRageMorphing(false);
+      setPetState("idle");
+    }, 1800);
+  }, [activeFormIndex, spawnParticles, triggerThoughtPopup, whatsappUrl]);
+
+  // Auto-rotate value thoughts gently every 28 seconds
   useEffect(() => {
-    if (isMinimized || isHubOpen) return;
+    if (isMinimized || isHubOpen || isRageMorphing) return;
 
     const scheduleNextThought = () => {
       autoPopTimer.current = setTimeout(() => {
@@ -382,9 +494,9 @@ export default function InteractivePet() {
       if (autoHideTimer.current) clearTimeout(autoHideTimer.current);
       if (progressInterval.current) clearInterval(progressInterval.current);
     };
-  }, [triggerThoughtPopup, isMinimized, isHubOpen]);
+  }, [triggerThoughtPopup, isMinimized, isHubOpen, isRageMorphing]);
 
-  // 6. Section & Scroll Listener
+  // 7. Section & Scroll Listener
   useEffect(() => {
     const handleScrollOrGesture = () => {
       const scrollY = window.scrollY;
@@ -395,7 +507,6 @@ export default function InteractivePet() {
       const delta = scrollY - lastScrollY.current;
       lastScrollY.current = scrollY;
 
-      // Section tracking
       if (progress < 25) {
         setActiveSection("Overview");
       } else if (progress < 50) {
@@ -406,7 +517,6 @@ export default function InteractivePet() {
         setActiveSection("Ready to Launch");
       }
 
-      // Physics based on scroll direction - only on desktop screens
       if (typeof window !== "undefined" && window.innerWidth >= 768) {
         if (Math.abs(delta) > 10) {
           setSpeed("run");
@@ -460,7 +570,7 @@ export default function InteractivePet() {
     };
   }, [findSafeEmptySpace, triggerThoughtPopup, whatsappUrl, spawnParticles, isHubOpen]);
 
-  // 7. Route Changes: Friendly greeting (compact bubble, not modal)
+  // 8. Route Changes: Friendly greeting
   useEffect(() => {
     let thought: ValueThought;
     if (pathname === "/investment") {
@@ -495,37 +605,53 @@ export default function InteractivePet() {
     }
 
     const timer = setTimeout(() => {
-      if (!isMinimized && !isHubOpen) {
+      if (!isMinimized && !isHubOpen && !isRageMorphing) {
         triggerThoughtPopup(thought, 6500);
       }
     }, 2500);
 
     return () => clearTimeout(timer);
-  }, [pathname, triggerThoughtPopup, whatsappUrl, telUrl, isMinimized, isHubOpen]);
+  }, [pathname, triggerThoughtPopup, whatsappUrl, telUrl, isMinimized, isHubOpen, isRageMorphing]);
 
-  // 8. Pet Click Handler (Toggles Hub Modal)
+  // 9. Pet Click & Rapid Tap (Rage Morph) Handler
   const handlePetClick = useCallback(() => {
     const now = Date.now();
-    if (now - lastClickTimeRef.current < 450) {
+    const timeSinceLastClick = now - lastClickTimeRef.current;
+
+    if (comboResetTimer.current) clearTimeout(comboResetTimer.current);
+
+    if (timeSinceLastClick < 500) {
       clickCountRef.current += 1;
     } else {
       clickCountRef.current = 1;
     }
     lastClickTimeRef.current = now;
 
-    // Toggle full Hub modal on direct click
+    // Reset counter if user stops tapping for 600ms
+    comboResetTimer.current = setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 600);
+
+    // RAGE MORPH TRIGGER: 3 or more rapid clicks!
+    if (clickCountRef.current >= 3) {
+      clickCountRef.current = 0;
+      triggerRageMorph();
+      return;
+    }
+
+    // Normal single click: toggle full Hub modal
     if (!isHubOpen) {
       setIsHubOpen(true);
       setIsBubbleVisible(false);
       setPetState("celebrate");
-      spawnParticles(2, "sparkle", "✨ Welcome!");
+      spawnParticles(2, "sparkle", `✨ ${currentForm.name}`);
       setTimeout(() => setPetState("idle"), 1200);
     } else {
       setIsHubOpen(false);
       setPetState("wave");
       setTimeout(() => setPetState("idle"), 800);
     }
-  }, [isHubOpen, spawnParticles]);
+  }, [isHubOpen, triggerRageMorph, spawnParticles, currentForm]);
 
   // Handle Q&A chip click inside Hub
   const handleSelectQuestion = (item: QuickQnA) => {
@@ -565,6 +691,7 @@ export default function InteractivePet() {
           {p.icon === "star" && <Star className="w-4 h-4 fill-amber-400 text-amber-400 animate-spin" />}
           {p.icon === "sparkle" && <Sparkles className="w-4 h-4 text-primary animate-pulse" />}
           {p.icon === "zap" && <Zap className="w-4 h-4 fill-amber-400 text-amber-400 animate-bounce" />}
+          {p.icon === "flame" && <Flame className="w-4 h-4 fill-red-500 text-red-500 animate-bounce" />}
           {p.label && <span className="text-primary bg-background/95 px-1.5 py-0.5 rounded-full border border-primary/20 text-[10px] shadow-sm">{p.label}</span>}
         </div>
       ))}
@@ -576,7 +703,7 @@ export default function InteractivePet() {
           transform: `translate3d(${posX}px, 0, 0)`,
         }}
       >
-        {/* COMPACT AUTO-THOUGHT SPEECH BUBBLE (Non-Intrusive, does not block Hero Headline) */}
+        {/* COMPACT AUTO-THOUGHT SPEECH BUBBLE */}
         {isBubbleVisible && !isHubOpen && !isMinimized && (
           <div
             className={`mb-2 w-[270px] sm:w-[310px] max-w-[calc(100vw-36px)] bg-card/95 border border-primary/30 backdrop-blur-xl p-3 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.35),0_0_20px_rgba(200,241,105,0.15)] animate-in fade-in slide-in-from-bottom-2 duration-200 ${
@@ -649,13 +776,29 @@ export default function InteractivePet() {
           </div>
         )}
 
-        {/* FULL EXPANDED HUB MODAL (Clean, User-Triggered, Responsive) */}
+        {/* FULL EXPANDED HUB MODAL */}
         {isHubOpen && !isMinimized && (
           <div
             className={`mb-2.5 w-[330px] sm:w-[360px] max-w-[calc(100vw-32px)] max-h-[min(520px,76vh)] flex flex-col bg-card/98 border border-primary/35 backdrop-blur-2xl p-4 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.5),0_0_30px_rgba(200,241,105,0.2)] animate-in fade-in zoom-in-95 duration-200 ${
               isRightSide ? "origin-bottom-right -translate-x-[calc(100%-70px)]" : "origin-bottom-left"
             }`}
           >
+            {/* Form Title Banner */}
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-primary/15 text-[10.5px] font-mono">
+              <span className="flex items-center gap-1.5 font-bold text-primary">
+                <span>{currentForm.emoji}</span>
+                <span>Active Form: {currentForm.name}</span>
+              </span>
+              <button
+                onClick={triggerRageMorph}
+                className="text-[9.5px] px-2 py-0.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 font-bold transition flex items-center gap-1"
+                title="Click to force-morph pet into another form"
+              >
+                <Flame className="w-2.5 h-2.5 text-amber-400" />
+                <span>Morph Roop</span>
+              </button>
+            </div>
+
             {/* Hub Header & Navigation Tabs */}
             <div className="flex items-center justify-between gap-1 pb-2.5 border-b border-primary/15 mb-3 shrink-0">
               <div className="flex items-center gap-1">
@@ -796,7 +939,7 @@ export default function InteractivePet() {
                           }`}
                         >
                           <span>{cur === "INR" ? "₹ INR (India)" : cur === "USD" ? "$ USD (Global)" : cur === "EUR" ? "€ EUR" : "£ GBP"}</span>
-                          {currency === cur && <CheckCircle2 className="w-3 h-3" />}
+                          {currency === cur && <CheckCircle2 className="w-3.5 h-3.5" />}
                         </button>
                       ))}
                     </div>
@@ -930,12 +1073,12 @@ export default function InteractivePet() {
               aria-label="Expand AI Assistant"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-mono text-[10.5px]">AI Assistant</span>
+              <span className="font-mono text-[10.5px]">AI {currentForm.emoji}</span>
               <ChevronUp className="w-3 h-3" />
             </button>
           ) : (
             <div className="relative group flex flex-col items-center">
-              {/* Pet Canvas Button */}
+              {/* Pet Canvas Button - Repeated Taps Trigger Rage Morph! */}
               <button
                 onClick={handlePetClick}
                 onMouseEnter={() => {
@@ -944,33 +1087,56 @@ export default function InteractivePet() {
                 onMouseLeave={() => {
                   if (petState === "wave") setPetState("idle");
                 }}
-                className="relative cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95 focus:outline-none block"
-                aria-label="Interact with Mowglai Pet"
-                title="Click me to open Insights, Currency, or Contact!"
+                className={`relative cursor-pointer transition-all duration-200 hover:scale-110 active:scale-90 focus:outline-none block ${
+                  isRageMorphing ? "animate-bounce scale-125" : ""
+                }`}
+                aria-label={`Interact with Mowglai Pet (${currentForm.name})`}
+                title={`Click me to open Hub! Rapidly tap 3+ times to make me angry and morph roop!`}
               >
                 <canvas
                   ref={canvasRef}
                   width={56}
                   height={62}
-                  className="w-[52px] h-[58px] sm:w-[58px] sm:h-[64px] drop-shadow-[0_4px_12px_rgba(200,241,105,0.35)] transition-transform duration-150"
+                  className="w-[52px] h-[58px] sm:w-[58px] sm:h-[64px] transition-all duration-300"
                   style={{
                     imageRendering: "pixelated",
+                    filter: currentForm.filterStyle,
                     transform:
                       petState === "runAlt" && direction === "left"
                         ? "scaleX(-1)"
+                        : isRageMorphing
+                        ? "scale(1.2) rotate(12deg)"
                         : "none"
                   }}
                 />
 
                 {/* State Glow Badge */}
                 <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ backgroundColor: currentForm.glowColor }}
+                  />
+                  <span
+                    className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ backgroundColor: currentForm.glowColor }}
+                  />
                 </span>
               </button>
 
-              {/* Integrated Persistent Quick Dock */}
+              {/* Integrated Persistent Quick Dock with Active Form Badge */}
               <div className="flex items-center gap-1 mt-1 bg-background/95 border border-primary/25 backdrop-blur-md px-2 py-0.5 rounded-full text-[9.5px] text-foreground/80 shadow-md transition-all">
+                {/* Form Roop Badge (Click to trigger rage morph directly) */}
+                <button
+                  onClick={triggerRageMorph}
+                  className="hover:text-primary font-bold transition flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-primary/10 text-primary"
+                  title={`Form: ${currentForm.name} (Rapid click pet to morph!)`}
+                >
+                  <span>{currentForm.emoji}</span>
+                  <span className="font-mono text-[9px]">{currentForm.name.split(" ")[0]}</span>
+                </button>
+
+                <span className="text-foreground/30">•</span>
+
                 {/* Currency quick toggle */}
                 <button
                   onClick={() => {
@@ -984,7 +1150,7 @@ export default function InteractivePet() {
                   title="Toggle Currency"
                 >
                   <Coins className="w-2.5 h-2.5 text-primary" />
-                  <span>{currency === "INR" ? "₹ INR" : "$ USD"}</span>
+                  <span>{currency === "INR" ? "₹" : "$"}</span>
                 </button>
 
                 <span className="text-foreground/30">•</span>
@@ -1013,7 +1179,6 @@ export default function InteractivePet() {
                   title={isHubOpen ? "Close Hub" : "Open Insights & Help"}
                 >
                   <Sparkles className="w-2.5 h-2.5 text-primary" />
-                  <span>Hub</span>
                 </button>
 
                 <span className="text-foreground/30">•</span>
