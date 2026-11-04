@@ -1,38 +1,112 @@
 "use client";
 
+import { useEffect, useState, useCallback } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Engine } from "@tsparticles/engine";
+
 const JungleBackground = () => {
+    const [init, setInit] = useState(false);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        // Defer particle engine init to idle time — don't block first paint
+        const initEngine = async () => {
+            await initParticlesEngine(async (engine: Engine) => {
+                await loadSlim(engine);
+            });
+            if (!cancelled) setInit(true);
+        };
+
+        if ("requestIdleCallback" in window) {
+            const idleId = window.requestIdleCallback(() => { void initEngine(); }, { timeout: 2000 });
+            return () => { cancelled = true; window.cancelIdleCallback(idleId); };
+        } else {
+            const timer = setTimeout(() => { void initEngine(); }, 500);
+            return () => { cancelled = true; clearTimeout(timer); };
+        }
+    }, []);
+
+    const particlesLoaded = useCallback(async () => {}, []);
+
     return (
         <div className="fixed inset-0 w-full h-dvh -z-[100] overflow-hidden pointer-events-none">
 
-            {/* 1. Base Gradient Layer - Deep forest / Surface forest brand direction */}
+            {/* 1. Base Gradient Layer */}
             <div className="fixed inset-0 w-full h-dvh bg-gradient-to-b transition-colors duration-1000 
-                /* Dark Mode: Deep Forest (#0A1F1A) -> Surface Forest (#102A24) */
-                dark:from-[#0A1F1A] dark:via-[#102A24] dark:to-[#0A1F1A] 
-                /* Light Mode: Peach tint (#FFF8F0) -> Soft Peach (#FFDAB9) */
-                from-[#FFF8F0] via-[#FFDAB9]/25 to-[#FFF8F0]"
+                /* Dark Mode: Deepest Forest Green -> Dark Moss -> Almost Black */
+                dark:from-[#0c1810] dark:via-[#081f12] dark:to-[#05110a] 
+                /* Light Mode: Soft Ivory -> Warm Peach */
+                from-[#f5ebd7] via-[#e8ddc5] to-[#dbcca8]"
             />
 
-            {/* 2. Fixed Atmosphere Layer - Overlays that stay with the viewport */}
-            <div className="fixed inset-0 w-full h-full pointer-events-none">
-                {/* Global Noise Overlay for texture consistency */}
-                <div className="absolute inset-0 noise-overlay opacity-20 pointer-events-none" />
-
-                {/* Dappled light effects - Mobile optimized GPU pulses */}
-                <div className="absolute top-0 left-1/4 w-[320px] sm:w-[500px] md:w-[800px] h-[320px] sm:h-[500px] md:h-[800px] bg-white/5 dark:bg-emerald-950/20 rounded-full blur-2xl md:blur-[120px] animate-pulse transform-gpu" />
-                <div className="absolute bottom-1/4 right-1/4 w-[300px] sm:w-[450px] md:w-[700px] h-[300px] sm:h-[450px] md:h-[700px] bg-[#FFDAB9]/10 dark:bg-emerald-900/5 rounded-full blur-3xl md:blur-[150px] animate-bounce-slow transform-gpu" />
-
-                {/* Vignette for depth - Stronger in dark mode */}
-                <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.05)_100%)] dark:bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
+            {/* 2. Fixed Atmosphere Layer */}
+            <div className="fixed inset-0 w-full h-full pointer-events-none mix-blend-overlay">
+                <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+                
+                {/* Dappled light effects — use will-change for GPU compositing */}
+                <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-white/10 dark:bg-[#F5D061]/5 rounded-full blur-[150px] animate-pulse" style={{ willChange: 'opacity' }} />
+                <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-[#D4AF37]/10 dark:bg-[#4ade80]/5 rounded-full blur-[150px] animate-bounce-slow" style={{ willChange: 'transform' }} />
             </div>
 
-            {/* 3. Floating Brand Fireflies - Desktop only for mobile battery optimization */}
-            <div className="hidden md:block absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#C8F169] blur-[1px] animate-firefly-1 will-change-transform" />
-                <div className="absolute top-0 left-0 w-3 h-3 rounded-full bg-[#FFDAB9] blur-[2px] animate-firefly-2 will-change-transform" />
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#F4F7F5] blur-[1px] animate-firefly-3 will-change-transform" />
-                <div className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-[#C8F169] blur-[2px] animate-firefly-4 will-change-transform" />
-                <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-[#FFDAB9] blur-[1px] animate-firefly-5 will-change-transform" />
-            </div>
+            {/* 3. Jungle Silhouette Edge (Vines/Leaves shadow overlay) */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none opacity-20 dark:opacity-40"
+                 style={{
+                     background: 'radial-gradient(circle at center, transparent 40%, rgba(5, 17, 10, 0.8) 100%)'
+                 }}
+            />
+
+            {/* 4. Fireflies using tsParticles — reduced count + lower FPS */}
+            {init && (
+                <div className="absolute inset-0 z-10 opacity-70">
+                    <Particles
+                        id="tsparticles-jungle"
+                        options={{
+                            fullScreen: { enable: false },
+                            background: { color: { value: "transparent" } },
+                            fpsLimit: 30, // 30fps is plenty for ambient particles
+                            interactivity: {
+                                events: {
+                                    onHover: { enable: true, mode: "slow" },
+                                },
+                                modes: {
+                                    slow: { radius: 150, factor: 3 },
+                                },
+                            },
+                            particles: {
+                                color: { value: ["#F5D061", "#D4AF37", "#FFFFFF", "#a3e635"] },
+                                move: {
+                                    direction: "none",
+                                    enable: true,
+                                    outModes: { default: "bounce" },
+                                    random: true,
+                                    speed: 0.4,
+                                    straight: false,
+                                },
+                                number: {
+                                    density: { enable: true, width: 800, height: 800 },
+                                    value: 20, // Reduced from 40 — less GPU/CPU work
+                                },
+                                opacity: {
+                                    value: { min: 0.1, max: 0.8 },
+                                    animation: {
+                                        enable: true,
+                                        speed: 0.8,
+                                        sync: false,
+                                    },
+                                },
+                                shape: { type: "circle" },
+                                size: {
+                                    value: { min: 1, max: 3 },
+                                    animation: { enable: true, speed: 1.5, sync: false },
+                                },
+                            },
+                            detectRetina: true,
+                        }}
+                    />
+                </div>
+            )}
 
             <style>{`
                 @keyframes bounce-slow {
@@ -41,54 +115,6 @@ const JungleBackground = () => {
                 }
                 .animate-bounce-slow {
                     animation: bounce-slow 15s ease-in-out infinite;
-                }
-                
-                @keyframes fly-1 {
-                    0% { transform: translate3d(-10vw, 15vh, 0) scale(0.8); opacity: 0; }
-                    20% { opacity: 0.8; }
-                    80% { opacity: 0.6; }
-                    100% { transform: translate3d(110vw, 45vh, 0) scale(1.4); opacity: 0; }
-                }
-                @keyframes fly-2 {
-                    0% { transform: translate3d(110vw, 80vh, 0) scale(1.2); opacity: 0; }
-                    20% { opacity: 0.5; }
-                    80% { opacity: 0.9; }
-                    100% { transform: translate3d(-10vw, 20vh, 0) scale(0.8); opacity: 0; }
-                }
-                @keyframes fly-3 {
-                    0% { transform: translate3d(30vw, -10vh, 0) scale(0.8); opacity: 0; }
-                    20% { opacity: 1; }
-                    80% { opacity: 0.3; }
-                    100% { transform: translate3d(70vw, 110vh, 0) scale(1.2); opacity: 0; }
-                }
-                @keyframes fly-4 {
-                    0% { transform: translate3d(60vw, 110vh, 0) scale(1.3); opacity: 0; }
-                    20% { opacity: 0.7; }
-                    80% { opacity: 0.4; }
-                    100% { transform: translate3d(20vw, -10vh, 0) scale(0.9); opacity: 0; }
-                }
-                @keyframes fly-5 {
-                    0% { transform: translate3d(-10vw, 55vh, 0) scale(1); opacity: 0; }
-                    20% { opacity: 0.6; }
-                    80% { opacity: 0.9; }
-                    100% { transform: translate3d(110vw, 85vh, 0) scale(1.3); opacity: 0; }
-                }
-
-                .animate-firefly-1 { animation: fly-1 18s ease-in-out infinite; }
-                .animate-firefly-2 { animation: fly-2 24s ease-in-out infinite 2s; }
-                .animate-firefly-3 { animation: fly-3 20s ease-in-out infinite 5s; }
-                .animate-firefly-4 { animation: fly-4 28s ease-in-out infinite 1s; }
-                .animate-firefly-5 { animation: fly-5 22s ease-in-out infinite 7s; }
-                @media (prefers-reduced-motion: reduce) {
-                    .animate-bounce-slow,
-                    .animate-firefly-1,
-                    .animate-firefly-2,
-                    .animate-firefly-3,
-                    .animate-firefly-4,
-                    .animate-firefly-5 {
-                        animation: none !important;
-                        opacity: 0 !important;
-                    }
                 }
             `}</style>
         </div>

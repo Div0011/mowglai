@@ -1,0 +1,310 @@
+{
+  "schema_version": "1.0.0",
+  "company_target": "Mowglai",
+  "source": {
+    "name": "Master Portfolio Consolidation & Executive Venture Blueprint",
+    "source_reported_project_count": 56,
+    "source_reported_vertical_count": 8,
+    "verification_note": "The source names 47 projects explicitly while declaring 56 total. The remaining 9 names are not present in the retrieved source text and are intentionally not invented. Local project folders and ZIP contents have not yet been read or hash-verified."
+  },
+  "integration_policy": {
+    "canonical_company": "Mowglai",
+    "strategy": "One company and shared platform foundation; independent product modules/services where needed.",
+    "merge_policy": "No blind copy-paste or destructive deletion. Compare source, dependencies, tests, licenses, data models and security before importing code.",
+    "ip_policy": "Repository integration does not itself prove legal transfer of intellectual property. Record provenance and obtain explicit assignment/license terms before commercial reuse.",
+    "verification_policy": "Blueprint mention is not repository verification; implementation and test status must be evidenced separately."
+  },
+  "verticals": [
+    {
+      "id": "ai-core",
+      "name": "AI Core & Autonomous Agents",
+      "declared_count": 10,
+      "projects": [
+        {
+          "id": "ai-data-research-agent",
+          "name": "ai-data-research-agent",
+          "purpose": "Web scraping and research agent"
+        },
+        {
+          "id": "ai-full-stack-dev-expert",
+          "name": "ai-full-stack-dev-expert",
+          "purpose": "Full-stack code generation assistant"
+        },
+        {
+          "id": "ai-project-roadmap-generator",
+          "name": "ai-project-roadmap-generator",
+          "purpose": "Architecture and roadmap planner"
+        },
+        {
+          "id": "jorvish",
+          "name": "j.o.r.v.i.s.h",
+          "purpose": "Autonomous assistant helper"
+        },
+        {
+          "id": "mowglai",
+          "name": "mowglai",
+          "purpose": "Premium digital agency platform and proposed company core"
+        },
+        {
+          "id": "opensource-ai-nexus",
+          "name": "opensource-ai-nexus",
+          "purpose": "Curated LLM directory"
+        },
+        {
+          "id": "seed-to-forest-autonomous-ai-os",
+          "name": "seed-to-forest-autonomous-ai-os",
+          "purpose": "Multi-agent enterprise execution cockpit"
+        },
+        {
+          "id": "universal-autonomous-agent",
+          "name": "universal-autonomous-agent",
+          "purpose": "Local-first universal AI work OS"
+        },
+        {
+          "id": "zenith-agi-the-robotic-oracle",
+          "name": "zenith-agi-the-robotic-oracle",
+          "purpose": "Multi-domain intelligence engine"
+        },
+        {
+          "id": "master-knowledge-map",
+          "name": "master-knowledge-map",
+          "purpose": "Interconnected systems architecture"
+        }
+      ]
+    },
+    {
+      "id": "commerce-retail-msme",
+      "name": "Commerce, Retail & MSME",
+      "declared_count": 14,
+      "projects": [
+        {
+          "id": "dukaanmitra-ai-aapka-digital-munim",
+          "name": "dukaanmitra-ai-aapka-digital-munim",
+          "purpose": "Voice and WhatsApp digital munim"
+        },
+        {
+          "id": "dukaanmitra-os-desktop",
+          "name": "DukaanMitra-OS_desktop",
+          "purpose": "Universal business OS and multimodal AI"
+        },
+        {
+          "id": "bazaarsync",
+          "name": "BazaarSync",
+          "purpose": "AI business OS for local stores"
+        },
+        {
+          "id": "dukaanmitra-das0",
+          "name": "dukaanmitra-das0",
+          "purpose": "WhatsApp CRM for kirana stores"
+        },
+        {
+          "id": "dukaanmitra-your-shops-digital-friend",
+          "name": "dukaanmitra-your-shops-digital-friend",
+          "purpose": "Automated customer retention bot"
+        },
+        {
+          "id": "dukaanmitra-ai-commerce-os",
+          "name": "dukaanmitra_-ai-commerce-os",
+          "purpose": "AI commerce OS and product intelligence"
+        },
+        {
+          "id": "dukaanmitra-universal-business-ai-mvp",
+          "name": "dukaanmitra_universal_business_ai_mvp",
+          "purpose": "Agent-first commerce MVP"
+        },
+        {
+          "id": "mitraos-digital-munim",
+          "name": "mitraos-digital-munim-for-shopkeepers",
+          "purpose": "Kirana SaaS and vernacular billing"
+        },
+        {
+          "id": "mitraos-ai-network",
+          "name": "mitraos-ai-network",
+          "purpose": "Custom agent builder for retail"
+        },
+        {
+          "id": "global-product-bridge",
+          "name": "global-product-bridge",
+          "purpose": "Export and manufacturing bridge"
+        },
+        {
+          "id": "obscura-market",
+          "name": "obscura-market",
+          "purpose": "Specialty e-commerce store"
+        }
+      ]
+    },
+    {
+      "id": "logistics-supply-chain",
+      "name": "Logistics & Supply Chain",
+      "declared_count": 6,
+      "projects": [
+        {
+          "id": "truck-wala-operations",
+          "name": "truck-wala-24x7-operations",
+          "purpose": "WhatsApp data capture and fleet audit engine"
+        },
+        {
+          "id": "truckwala-24x7",
+          "name": "truckwala-24x7",
+          "purpose": "Commercial vehicle 24x7 roadside repair"
+        },
+        {
+          "id": "truckwala24x7-desktop",
+          "name": "Truckwala24x7_desktop",
+          "purpose": "Commercial vehicle support portal"
+        },
+        {
+          "id": "truckwala-web-desktop",
+          "name": "Truckwala_Web_desktop",
+          "purpose": "Digital dispatch and booking platform"
+        },
+        {
+          "id": "jacky-billing-analysis",
+          "name": "jacky-billing-analysis",
+          "purpose": "Vehicle maintenance billing analytics"
+        }
+      ]
+    },
+    {
+      "id": "talent-hr",
+      "name": "Talent & HR Tech",
+      "declared_count": 3,
+      "projects": [
+        {
+          "id": "hiresaathi",
+          "name": "hiresaathi",
+          "purpose": "AI recruitment and candidate screening"
+        },
+        {
+          "id": "hiresaathi-enterprise-monorepo",
+          "name": "hiresaathi-ai-enterprise-monorepo",
+          "purpose": "Enterprise recruitment monorepo and MCP"
+        },
+        {
+          "id": "hiresaathi-full-app",
+          "name": "HireSaathi_AI_Full_App",
+          "purpose": "Full-stack recruitment application"
+        }
+      ]
+    },
+    {
+      "id": "cleantech-energy",
+      "name": "Cleantech & Energy",
+      "declared_count": 3,
+      "projects": [
+        {
+          "id": "solar-hub-desktop",
+          "name": "solar-hub_desktop",
+          "purpose": "Rooftop solar marketplace"
+        },
+        {
+          "id": "solar-wallet-desktop",
+          "name": "solar_wallet_desktop",
+          "purpose": "Microgrid and energy wallet"
+        },
+        {
+          "id": "solarhub",
+          "name": "solarhub",
+          "purpose": "Solar operations and services network"
+        }
+      ]
+    },
+    {
+      "id": "petcare-veterinary",
+      "name": "Petcare & Veterinary",
+      "declared_count": 4,
+      "projects": [
+        {
+          "id": "petsjanu",
+          "name": "petsjanu",
+          "purpose": "Pet healthcare, commerce and vet network"
+        },
+        {
+          "id": "petguardian",
+          "name": "petguardian",
+          "purpose": "Digital pet identity and QR/NFC safety tags"
+        },
+        {
+          "id": "petsjanu-desktop",
+          "name": "petsjanu.com_desktop",
+          "purpose": "PetsJanu web platform"
+        },
+        {
+          "id": "pets-main-desktop",
+          "name": "Pets-main_desktop",
+          "purpose": "Pet ecosystem core"
+        }
+      ]
+    },
+    {
+      "id": "govtech-security-identity",
+      "name": "GovTech, Security & Identity",
+      "declared_count": 7,
+      "projects": [
+        {
+          "id": "aether-multi-tenant-security-hub",
+          "name": "aether-multi-tenant-security-hub",
+          "purpose": "Supabase RLS and multi-tenant auth engine"
+        },
+        {
+          "id": "govai-india-central-services",
+          "name": "govai_-india-central-services",
+          "purpose": "Policy tracking and grievance redressal AI"
+        },
+        {
+          "id": "cultural-verification-identity-os",
+          "name": "cultural-verification-and-identity-os",
+          "purpose": "Cultural verification and digital trust"
+        },
+        {
+          "id": "proofledger-ai-aemy",
+          "name": "proofledger-ai-aemy_desktop",
+          "purpose": "Blockchain and AI audit-trail ledger"
+        },
+        {
+          "id": "dip-vision",
+          "name": "DIP_vision_desktop",
+          "purpose": "Edge-first vision and evidence search"
+        }
+      ]
+    },
+    {
+      "id": "media-gaming-ventures",
+      "name": "Media, Gaming & Ventures",
+      "declared_count": 9,
+      "projects": [
+        {
+          "id": "desi-arcade-game-pipeline",
+          "name": "desi-arcade-studios-game-pipeline",
+          "purpose": "Autonomous agentic game development"
+        },
+        {
+          "id": "apni-duniya-master-blueprint",
+          "name": "apni-duniya-master-blueprint",
+          "purpose": "Platform architecture and digital blueprint"
+        },
+        {
+          "id": "dupperai",
+          "name": "dupperai",
+          "purpose": "Enterprise AI content generation engine"
+        },
+        {
+          "id": "aura-intelligent-growth-platform",
+          "name": "aura-intelligent-growth-platform",
+          "purpose": "Intent orchestrator"
+        },
+        {
+          "id": "amey-the-search-within",
+          "name": "amey-the-search-within",
+          "purpose": "AI and consciousness research platform"
+        },
+        {
+          "id": "real-estate-developer-hq",
+          "name": "real-estate-developer-hq",
+          "purpose": "Real estate developer master system"
+        }
+      ]
+    }
+  ]
+}

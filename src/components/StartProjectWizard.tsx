@@ -1,18 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { ArrowLeft, ArrowRight, Check, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { sendEmail } from "@/utils/emailSender";
-import { useToast } from "@/hooks/use-toast";
-
 const StartProjectWizard = () => {
-    const router = useRouter();
-    const { toast } = useToast();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         idea: "",
@@ -54,33 +48,15 @@ const StartProjectWizard = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-
-        const result = await sendEmail({
-            subject: `New Project Blueprint from ${formData.name || formData.company || 'Client'}`,
-            service_type: "Project Blueprint Wizard",
-            name: formData.name,
-            email: formData.email,
-            company: formData.company,
-            timeline: formData.timeline,
-            project_idea: formData.idea,
-        });
-
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         setIsSubmitting(false);
-
-        if (result.status === "success" || result.message.includes("Local Testing")) {
-            router.push(`/thank-you?name=${encodeURIComponent(formData.name)}&form=Project%20Blueprint`);
-        } else {
-            toast({
-                title: "Submission Status",
-                description: result.message || "Failed to submit project blueprint. Please try again.",
-                variant: "destructive",
-            });
-        }
+        setIsSuccess(true);
     };
 
     if (isSuccess) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[60dvh] text-center p-6">
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -187,7 +163,7 @@ const StartProjectWizard = () => {
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         className="w-full bg-background/30 border border-white/10 rounded-xl p-4 text-lg focus:outline-none focus:border-primary/50 transition-all placeholder:text-white/20"
-                                        placeholder="Your Name"
+                                        placeholder="John Doe"
                                     />
                                 </div>
                                 <div className="space-y-2">

@@ -12,26 +12,14 @@ export default function robots(): MetadataRoute.Robots {
                     '/api/',
                     '/_next/',
                     '/private/',
-                    '/offline/',
                 ],
             },
             {
-                userAgent: [
-                    'Googlebot',
-                    'Bingbot',
-                    'Applebot',
-                    'GPTBot',
-                    'PerplexityBot',
-                    'ClaudeBot',
-                    'Google-Extended',
-                    'Applebot-Extended',
-                    'CCBot'
-                ],
+                userAgent: 'Googlebot',
                 allow: '/',
                 disallow: [
                     '/api/',
                     '/_next/',
-                    '/offline/',
                 ],
             },
             {

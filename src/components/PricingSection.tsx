@@ -6,13 +6,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
 import { useLanguage } from "@/context/LanguageContext";
-import { useCurrency } from "@/context/CurrencyContext";
 import { useTheme } from "next-themes";
 
 const PricingSection = () => {
   const router = useRouter();
   const { t } = useLanguage();
-  const { formatPrice } = useCurrency();
   const { Pricing } = t;
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -21,7 +19,7 @@ const PricingSection = () => {
     {
       id: "basic",
       name: Pricing.plans.basic.name,
-      price: "$55",
+      price: "$499",
       description: Pricing.plans.basic.description,
       features: Pricing.plans.basic.features,
       popular: false,
@@ -31,7 +29,7 @@ const PricingSection = () => {
     {
       id: "advanced",
       name: Pricing.plans.advanced.name,
-      price: "$110",
+      price: "$999",
       description: Pricing.plans.advanced.description,
       features: Pricing.plans.advanced.features,
       popular: true,
@@ -106,7 +104,7 @@ const PricingSection = () => {
                   "text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black mb-4",
                   isDark ? "text-white" : "text-foreground"
                 )}>
-                  {formatPrice(plan.price, plan.id)}
+                  {plan.price}
                   {plan.price !== "Custom" && <span className="text-lg font-normal opacity-60 ml-2">/ project</span>}
                 </div>
                 <p className={cn(

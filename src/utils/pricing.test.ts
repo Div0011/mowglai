@@ -21,11 +21,7 @@ describe('roundPrice', () => {
 
 describe('formatPrice', () => {
     it('formats USD values for a locale', () => {
-        expect(formatPrice(55, 'USD', 'en-US')).toBe('$55');
-    });
-
-    it('formats INR values for a locale', () => {
-        expect(formatPrice(5000, 'INR', 'en-IN')).toContain('5,000');
+        expect(formatPrice(499, 'USD', 'en-US')).toBe('$499');
     });
 
     it('falls back for invalid currency code', () => {

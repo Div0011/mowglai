@@ -1,0 +1,9 @@
+{
+  "name": "Mowglai - Premium Web Development & Digital Agency India",
+  "description": "Mowglai is a premium web development and digital agency based in India. We create award-winning websites, 3D experiences, high-performance web apps, and provide expert SEO services. Specializing in React, Next.js, and modern web technologies.",
+  "requestFeedback": false,
+  "userFacing": true,
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

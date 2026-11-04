@@ -6,14 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-lint_output*.txt
-build_output*.txt
-build_log.txt
-ts_error*.txt
-reflog.txt
-old_*.txt
-diff*.txt
-*.diff
 
 node_modules
 dist
@@ -51,3 +43,7 @@ tc.txt
 
 public/.htaccess
 out/.htaccess
+.vercel
+
+# Antigravity agents
+.agents/

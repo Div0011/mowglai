@@ -99,20 +99,25 @@ export default function ServiceRequestForm({
             const result = await sendEmail(emailData);
 
             if (result.status === 'success') {
-                const clientName = (formData.name as string) || (formData.contactName as string) || "";
-                router.push(`/thank-you?name=${encodeURIComponent(clientName)}&form=${encodeURIComponent(serviceName)}`);
-            } else {
                 toast({
-                    title: "Submission Status",
-                    description: result.message || "Failed to send request. Please try again.",
-                    variant: "destructive",
+                    title: "Request Sent Successfully",
+                    description: "We will review your details and get back to you shortly.",
                 });
+                router.push("/");
+            } else {
+                throw new Error("API Error");
             }
         } catch (error) {
+            console.warn("Server sending failed, falling back to mailto");
+            const body = Object.entries(formData)
+                .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`)
+                .join("\n");
+
+            window.location.href = `mailto:info@mowglai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
             toast({
-                title: "Submission Error",
-                description: "An unexpected error occurred. Please try again later.",
-                variant: "destructive",
+                title: "Opening Email Client",
+                description: "Server unreachable. Please send via your email client.",
             });
         } finally {
             setIsSubmitting(false);

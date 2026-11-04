@@ -11,14 +11,14 @@ import { downloadAsHtml } from "@/utils/pdfDownloader";
 import NextPageButton from "@/components/NextPageButton";
 import UserPurchasesSection from "@/components/UserPurchasesSection";
 import { useUserCurrency } from "@/hooks/useUserCurrency";
-import { BASE_PRICES_USD, BASE_PRICES_INR, formatPrice, roundPrice } from "@/utils/pricing";
+import { BASE_PRICES_USD, formatPrice, roundPrice } from "@/utils/pricing";
 
 const plans = {
     standard: [
         {
             name: "BASIC",
             priceKey: "basic",
-            description: "Essential Digital Presence",
+            description: "Essential Digital Prescence",
             features: ["Single page website", "Mobile responsive design", "Basic SEO optimization", "Contact form integration", "1 month support"],
             cta: "Initiate"
         },
@@ -73,18 +73,8 @@ export default function OriginalInvestment() {
     const getFinalPrice = (priceKey: string, applyDiscount: boolean = false) => {
         if (priceKey === "custom") return "CUSTOM";
 
-        // Check if currency is INR and clean base price exists
-        if (currency === 'INR' && (BASE_PRICES_INR as Record<string, number>)[priceKey]) {
-            let val = (BASE_PRICES_INR as Record<string, number>)[priceKey];
-            if (applyDiscount && isDiscountApplied) {
-                val = Math.round(val * 0.9);
-            }
-            let formatted = formatPrice(val, 'INR', 'en-IN');
-            if (priceKey === 'apex') formatted += '+';
-            return formatted;
-        }
-
-        // 1. Get Base Price in USD
+        // 1. Get Base Price
+        // Use assertion or safer check
         const basePrice = (BASE_PRICES_USD as Record<string, number>)[priceKey];
         if (!basePrice) return "CUSTOM"; // Should not happen based on types
 
@@ -391,9 +381,9 @@ export default function OriginalInvestment() {
                 {/* Next Chapter CTA - Final Narrative */}
                 <div className="mt-32 relative z-10">
                     <NextPageButton
-                        label="CONTACT"
+                        label="HELLO"
                         href="/contact"
-                        tagline="Get in Touch"
+                        tagline="Initiate Dialogue"
                     />
                 </div>
             </div>

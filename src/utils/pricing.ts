@@ -1,18 +1,8 @@
 
 export const BASE_PRICES_USD = {
-    basic: 55,
-    advanced: 110,
-    storeEssential: 149,
-    commercePro: 299,
-    apex: 599
-};
-
-export const BASE_PRICES_INR = {
-    basic: 5000,
-    advanced: 9999,
-    storeEssential: 12999,
-    commercePro: 24999,
-    apex: 49999
+    basic: 499,
+    advanced: 999,
+    apex: 4999
 };
 
 // Helper to round prices to look "clean" (e.g. 41234 -> 41200 or 41000)

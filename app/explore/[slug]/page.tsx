@@ -103,7 +103,7 @@ export default async function TemplateDetailsPage({
                     {/* Visual Background layer */}
                     <div className="fixed top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none -z-20" />
                     <div className="fixed top-[-20%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen animate-pulse-glow" />
-                    <div className="fixed inset-0 bg-[url('/noise.svg')] opacity-[0.03] mix-blend-overlay pointer-events-none -z-10" />
+                    <div className="fixed inset-0 bg-noise opacity-[0.03] mix-blend-overlay pointer-events-none -z-10" />
 
                     <div className="max-w-[1700px] mx-auto pt-24 md:pt-32 pb-48 px-3 sm:px-4 md:px-8 lg:px-12">
 
