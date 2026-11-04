@@ -1,0 +1,137 @@
+name: Diagnose & Fix 403
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: SSH Diagnostic & Fix
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          
+          SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
+          
+          echo "=========================================="
+          echo "MOWGLAI.COM SERVER DIAGNOSTIC REPORT"
+          echo "=========================================="
+          echo ""
+          echo "=== REMOTE_PATH secret value: '$REMOTE_PATH' ==="
+          echo ""
+          
+          ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'DIAG'
+            echo "=== 1. SYSTEM INFO ==="
+            echo "User: $(whoami)"
+            echo "Home: $HOME"
+            echo "Date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo ""
+            
+            echo "=== 2. ALL DOCUMENT ROOTS ==="
+            echo "--- /home/u707591712/public_html/ ---"
+            ls -la /home/u707591712/public_html/ 2>&1 | head -30
+            echo ""
+            echo "--- /home/u707591712/domains/ ---"
+            ls -la /home/u707591712/domains/ 2>&1 | head -20
+            echo ""
+            echo "--- /home/u707591712/domains/mowglai.com/ ---"
+            ls -la /home/u707591712/domains/mowglai.com/ 2>&1 | head -20
+            echo ""
+            echo "--- /home/u707591712/domains/mowglai.com/public_html/ ---"
+            ls -la /home/u707591712/domains/mowglai.com/public_html/ 2>&1 | head -30
+            echo ""
+            
+            echo "=== 3. SYMLINK CHECK ==="
+            echo "public_html type: $(stat -c '%F' /home/u707591712/public_html 2>&1)"
+            if [ -L /home/u707591712/public_html ]; then
+              echo "public_html -> $(readlink -f /home/u707591712/public_html)"
+            fi
+            echo "domain public_html type: $(stat -c '%F' /home/u707591712/domains/mowglai.com/public_html 2>&1)"
+            if [ -L /home/u707591712/domains/mowglai.com/public_html ]; then
+              echo "domain public_html -> $(readlink -f /home/u707591712/domains/mowglai.com/public_html)"
+            fi
+            echo ""
+            
+            echo "=== 4. INDEX FILE CHECK ==="
+            for d in /home/u707591712/public_html /home/u707591712/domains/mowglai.com/public_html; do
+              echo "--- $d ---"
+              for f in index.html index.htm index.php default.html .htaccess; do
+                if [ -f "$d/$f" ]; then
+                  echo "  FOUND: $f ($(stat -c '%s bytes, %y' "$d/$f" 2>/dev/null))"
+                  if [ "$f" = "index.html" ] || [ "$f" = "index.php" ]; then
+                    echo "  HEAD: $(head -c 200 "$d/$f" 2>/dev/null)"
+                  fi
+                else
+                  echo "  MISSING: $f"
+                fi
+              done
+            done
+            echo ""
+            
+            echo "=== 5. CRON JOBS ==="
+            crontab -l 2>&1 || echo "(no crontab)"
+            echo ""
+            
+            echo "=== 6. AUTO-INSTALLER / HOSTING ARTIFACTS ==="
+            for d in /home/u707591712/public_html /home/u707591712/domains/mowglai.com/public_html; do
+              echo "--- $d ---"
+              for f in wp-config.php .autoinstaller .installer .default default.php wp-login.php; do
+                [ -f "$d/$f" ] && echo "  FOUND: $f" || true
+              done
+              # Check for WordPress or CMS
+              [ -d "$d/wp-admin" ] && echo "  FOUND: wp-admin/" || true
+              [ -d "$d/wp-content" ] && echo "  FOUND: wp-content/" || true
+              [ -d "$d/wp-includes" ] && echo "  FOUND: wp-includes/" || true
+            done
+            echo ""
+            
+            echo "=== 7. LITESPEED / HTTPD CONFIG ==="
+            cat /home/u707591712/.htaccess 2>/dev/null || echo "(no root .htaccess)"
+            echo ""
+            ls -la /usr/local/lsws/conf/vhosts/ 2>/dev/null || echo "(cannot access lsws vhost config)"
+            echo ""
+            
+            echo "=== 8. DISK USAGE ==="
+            du -sh /home/u707591712/public_html/ 2>/dev/null || echo "N/A"
+            du -sh /home/u707591712/domains/mowglai.com/public_html/ 2>/dev/null || echo "N/A"
+            echo ""
+            
+            echo "=== 9. FILE COUNT ==="
+            echo "public_html: $(find /home/u707591712/public_html/ -type f 2>/dev/null | wc -l) files"
+            echo "domain public_html: $(find /home/u707591712/domains/mowglai.com/public_html/ -type f 2>/dev/null | wc -l) files"
+            echo ""
+            
+            echo "=== 10. RECENT FILE CHANGES (last 24h) ==="
+            echo "--- public_html (modified in last 24h) ---"
+            find /home/u707591712/public_html/ -type f -mmin -1440 2>/dev/null | head -20
+            echo "--- domain public_html (modified in last 24h) ---"
+            find /home/u707591712/domains/mowglai.com/public_html/ -type f -mmin -1440 2>/dev/null | head -20
+            echo ""
+            
+            echo "=== 11. HTACCESS CONTENT ==="
+            echo "--- /home/u707591712/public_html/.htaccess ---"
+            cat /home/u707591712/public_html/.htaccess 2>/dev/null || echo "(none)"
+            echo ""
+            echo "--- /home/u707591712/domains/mowglai.com/public_html/.htaccess ---"
+            cat /home/u707591712/domains/mowglai.com/public_html/.htaccess 2>/dev/null || echo "(none)"
+            echo ""
+            
+            echo "=== DIAGNOSTIC COMPLETE ==="
+          DIAG
+          
+          rm -f ~/.ssh/deploy_key
+        shell: bash
