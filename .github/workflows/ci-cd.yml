@@ -100,9 +100,13 @@ jobs:
             rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/" 2>/dev/null || true
           fi
           
-          echo "=== 5. Setting Permissions & Verifying Files on Hostinger ==="
+          echo "=== 5. Synchronizing & Verifying Document Roots on Hostinger ==="
           ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
             set -e
+            echo "--- Synchronizing public_html to domains/mowglai.com/public_html ---"
+            mkdir -p /home/u707591712/domains/mowglai.com/public_html
+            cp -a /home/u707591712/public_html/. /home/u707591712/domains/mowglai.com/public_html/
+
             TARGETS=("/home/u707591712/public_html" "/home/u707591712/domains/mowglai.com/public_html")
             for T in "${TARGETS[@]}"; do
               if [ -d "$T" ]; then
@@ -113,6 +117,10 @@ jobs:
                 echo ".htaccess in $T: $(ls -lh $T/.htaccess 2>/dev/null || echo 'NOT FOUND')"
               fi
             done
+
+            test -f /home/u707591712/public_html/index.html || { echo "CRITICAL: public_html/index.html missing"; exit 1; }
+            test -f /home/u707591712/domains/mowglai.com/public_html/index.html || { echo "CRITICAL: domains/mowglai.com/public_html/index.html missing"; exit 1; }
+
             echo "=== All Document Roots Verified Successfully! ==="
           EOF
           
