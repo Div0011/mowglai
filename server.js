@@ -28,16 +28,16 @@ fs.ensureDirSync(outputDir);
 // Serve the models statically via Express if needed, though Next.js handles /models/
 app.use('/models', express.static(outputDir));
 
-// Security: Read API key from environment variable, with a fallback for local dev
-const API_KEY = process.env.GLTF_UPLOAD_API_KEY || 'mowglai-secret-key-2026';
+// Security: Read API key strictly from environment variable
+const API_KEY = process.env.GLTF_UPLOAD_API_KEY;
 
 // API Endpoint
 app.post('/upload-and-convert', upload.single('modelFile'), async (req, res) => {
     // 1. API Security Check
     const clientApiKey = req.headers['x-api-key'];
-    if (clientApiKey !== API_KEY) {
+    if (!API_KEY || clientApiKey !== API_KEY) {
         if (req.file) await fs.remove(req.file.path); // Cleanup unauthorized upload
-        return res.status(401).json({ error: 'Unauthorized: Invalid API Key.' });
+        return res.status(401).json({ error: 'Unauthorized: Invalid or unconfigured API Key.' });
     }
 
     try {

@@ -25,6 +25,26 @@ if (!filter_var($url, FILTER_VALIDATE_URL)) {
     exit;
 }
 
+$host = parse_url($url, PHP_URL_HOST);
+if (!$host) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Unable to parse host from URL.']);
+    exit;
+}
+
+// SSRF Defense: Disallow local/private IP ranges
+$ips = @dns_get_record($host, DNS_A + DNS_AAAA);
+$resolvedIp = filter_var($host, FILTER_VALIDATE_IP) ? $host : (isset($ips[0]['ip']) ? $ips[0]['ip'] : (isset($ips[0]['ipv6']) ? $ips[0]['ipv6'] : ''));
+
+if ($resolvedIp && !filter_var($resolvedIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Audit of internal, private, or loopback network addresses is prohibited for security.',
+    ]);
+    exit;
+}
+
 $startTime = microtime(true);
 
 $ch = curl_init($url);
