@@ -1,72 +1,61 @@
 #!/usr/bin/env node
 /**
- * verify-export.js — Build-output integrity & hygiene gate.
- *
- * Runs after `next build` (static export mode). Fails the pipeline if:
- *  1. out/index.html is missing or suspiciously small (blank/broken deploy)
- *  2. Any built HTML contains defacement markers ("hacked", "defaced")
- *     -> this is what let a hacked index.html slip through before
- *  3. Secrets are accidentally baked into static output
- *     (db passwords, Razorpay key SECRET, Gemini keys, private keys)
+ * Verify static export integrity and scan deployable text assets for secrets.
  */
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, extname } from 'node:path';
 
 const OUT = 'out';
-
 if (!existsSync(OUT)) {
-    console.error(`[verify-export] FAIL: ${OUT}/ directory not found. Was EXPORT_MODE=true set?`);
+    console.error(`[verify-export] FAIL: ${OUT}/ directory not found.`);
     process.exit(1);
 }
 
 const SECRET_PATTERNS = [
-    /Mowglai@2025/i,                      // leaked DB password (rotate in prod too!)
+    /Mowglai@2025/i,
     /RAZORPAY_KEY_SECRET\s*[:=]\s*['"]?rzp_secret/i,
-    /sk-razorpay-[a-zA-Z0-9]{8,}/i,       // razorpay secrets should NEVER be in client bundle
-    /AIza[0-9A-Za-z_\-]{35}/,             // Google/Gemini API keys
+    /sk-razorpay-[a-zA-Z0-9]{8,}/i,
+    /AIza[0-9A-Za-z_\-]{35}/,
     /-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----/,
 ];
-
 const DEFACEMENT_PATTERNS = [/you'?ve been hacked/i, /defaced/i];
 
-let htmlFiles = [];
+const TEXT_EXTENSIONS = new Set([
+    '.html', '.htm', '.js', '.mjs', '.cjs', '.json', '.css', '.map',
+    '.xml', '.txt', '.webmanifest', '.svg', '.php', '.yml', '.yaml',
+    '.htaccess',
+]);
+const textFiles = [];
 function walk(dir) {
     for (const entry of readdirSync(dir)) {
-        const p = join(dir, entry);
-        const st = statSync(p);
-        if (st.isDirectory()) walk(p);
-        else if (entry.endsWith('.html')) htmlFiles.push(p);
+        const path = join(dir, entry);
+        const stat = statSync(path);
+        if (stat.isDirectory()) walk(path);
+        else if (TEXT_EXTENSIONS.has(extname(entry).toLowerCase())) textFiles.push(path);
     }
 }
 walk(OUT);
 
 const errors = [];
-
-// 1. Root page sanity
 const rootIndex = join(OUT, 'index.html');
 if (!existsSync(rootIndex)) {
-    errors.push('out/index.html is MISSING — nothing would be served at /');
-} else {
-    const size = statSync(rootIndex).size;
-    if (size < 2000) {
-        errors.push(`out/index.html is only ${size} bytes — looks like a blank/broken page`);
+    errors.push('out/index.html is missing.');
+} else if (statSync(rootIndex).size < 2000) {
+    errors.push(`out/index.html is only ${statSync(rootIndex).size} bytes.`);
+}
+
+for (const file of textFiles) {
+    const contents = readFileSync(file, 'utf8');
+    for (const pattern of DEFACEMENT_PATTERNS) {
+        if (pattern.test(contents)) errors.push(`Defacement marker ${pattern} found in ${file}`);
+    }
+    for (const pattern of SECRET_PATTERNS) {
+        if (pattern.test(contents)) errors.push(`Secret pattern ${pattern} found in deployable text asset ${file}`);
     }
 }
 
-// 2+3. Scan all HTML for defacement + secrets
-for (const file of htmlFiles) {
-    const text = readFileSync(file, 'utf8');
-    for (const re of DEFACEMENT_PATTERNS) {
-        if (re.test(text)) errors.push(`Defacement marker "${re}" found in ${file}`);
-    }
-    for (const re of SECRET_PATTERNS) {
-        if (re.test(text)) errors.push(`Secret pattern ${re} found in static output ${file}`);
-    }
-}
-
-if (errors.length) {
+if (errors.length > 0) {
     console.error('[verify-export] FAILED:\n - ' + errors.join('\n - '));
     process.exit(1);
 }
-
-console.log(`[verify-export] OK — ${htmlFiles.length} HTML pages verified, no defacement markers, no leaked secrets.`);
+console.log(`[verify-export] OK — ${textFiles.length} deployable text assets scanned.`);
