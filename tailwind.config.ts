@@ -14,10 +14,20 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Boldonse", "serif"],
-        body: ["Josefin Sans", "sans-serif"],
+        display: ["var(--font-display)", "Boldonse", "serif"],
+        body: ["var(--font-body)", "Josefin Sans", "sans-serif"],
       },
       colors: {
+        forest: {
+          DEFAULT: "#0A1F1A",
+          light: "#102A24",
+        },
+        lime: {
+          DEFAULT: "#C8F169",
+        },
+        peach: {
+          DEFAULT: "#FFDAB9",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

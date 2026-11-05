@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Phone, MessageCircle } from "lucide-react";
 import TextReveal from "./TextReveal";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { cn as clsx } from "@/lib/utils";
 
 
-const CONTACT_EMAIL = "info@mowglai.com";
+const CONTACT_EMAIL = "tech@mowglai.com";
 const COUNTRY_CODE = "91";
 const LOCAL_PHONE_NUMBER = "9452476331";
 const FULL_PHONE_NUMBER = `${COUNTRY_CODE}${LOCAL_PHONE_NUMBER}`;
@@ -49,6 +50,7 @@ const COUNTRY_CODE_OPTIONS = [
 ];
 
 const ContactSection = () => {
+  const router = useRouter();
   const { toast } = useToast();
   const { t } = useLanguage();
   const { Contact } = t;
@@ -82,10 +84,7 @@ const ContactSection = () => {
     });
 
     if (result.status === 'success') {
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you as soon as possible.",
-      });
+      const clientName = formData.name;
       setFormData({
         name: "",
         email: "",
@@ -95,22 +94,12 @@ const ContactSection = () => {
         socialMedia: "",
         preferredContactMethod: "",
       });
+      router.push(`/thank-you?name=${encodeURIComponent(clientName)}&form=Contact%20Form`);
     } else {
-      const body = `
-Name: ${formData.name}
-Email: ${formData.email}
-Phone Country Code: ${formData.phoneCountryCode || "Not provided"}
-Phone Number: ${formData.phoneNumber || "Not provided"}
-Social Media: ${formData.socialMedia || "Not provided"}
-Preferred Contact Method: ${formData.preferredContactMethod || "Not provided"}
-
-Message:
-${formData.message}
-        `;
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       toast({
-        title: "Opening Email Client",
-        description: "Server unreachable. Please check your email client.",
+        title: "Submission Status",
+        description: result.message || "Something went wrong. Please try again later.",
+        variant: "destructive",
       });
     }
 
@@ -129,11 +118,7 @@ ${formData.message}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative">
-          
-          {/* Smart Companion Waypoint */}
-          <div className="absolute left-1/4 top-0 w-[200px] h-[400px] companion-waypoint pointer-events-none hidden lg:block" />
-
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Contact Info - Minimal & Large */}
           <div className="space-y-12 lg:pt-10">
             <p className="text-3xl font-light text-foreground/80 max-w-lg leading-snug">

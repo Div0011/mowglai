@@ -3,6 +3,24 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$isAllowedOrigin = (
+    preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?mowglai\.(com|tech)$/i', $origin) ||
+    preg_match('/^https:\/\/([a-z0-9-]+\.)?vercel\.app$/i', $origin)
+);
+
+if ($isAllowedOrigin) {
+    header("Access-Control-Allow-Origin: $origin");
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 $rawBody = file_get_contents('php://input');
 $payload = json_decode($rawBody, true);
 
@@ -25,23 +43,27 @@ if (!filter_var($url, FILTER_VALIDATE_URL)) {
     exit;
 }
 
-$host = parse_url($url, PHP_URL_HOST);
-if (!$host) {
+// SSRF Protection: Ensure only public external HTTP/HTTPS URLs are audited
+$parsed = parse_url($url);
+$scheme = strtolower($parsed['scheme'] ?? '');
+$host = strtolower($parsed['host'] ?? '');
+if (!in_array($scheme, ['http', 'https'], true) || empty($host)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Unable to parse host from URL.']);
+    echo json_encode(['success' => false, 'error' => 'Only HTTP and HTTPS URLs are supported.']);
     exit;
 }
 
-// SSRF Defense: Disallow local/private IP ranges
-$ips = @dns_get_record($host, DNS_A + DNS_AAAA);
-$resolvedIp = filter_var($host, FILTER_VALIDATE_IP) ? $host : (isset($ips[0]['ip']) ? $ips[0]['ip'] : (isset($ips[0]['ipv6']) ? $ips[0]['ipv6'] : ''));
-
-if ($resolvedIp && !filter_var($resolvedIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+if (in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0'], true) ||
+    str_ends_with($host, '.local') || str_ends_with($host, '.internal') || str_ends_with($host, '.lan')) {
     http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Audit of internal, private, or loopback network addresses is prohibited for security.',
-    ]);
+    echo json_encode(['success' => false, 'error' => 'Auditing internal or local hostnames is prohibited.']);
+    exit;
+}
+
+$ip = @gethostbyname($host);
+if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Auditing private network or internal IP addresses is prohibited.']);
     exit;
 }
 
@@ -51,8 +73,11 @@ $ch = curl_init($url);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_TIMEOUT => 12,
-    CURLOPT_CONNECTTIMEOUT => 8,
+    CURLOPT_MAXREDIRS => 3,
+    CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_CONNECTTIMEOUT => 5,
     CURLOPT_USERAGENT => 'Mowglai-Audit-Bot/1.0',
     CURLOPT_HEADER => true,
     CURLOPT_SSL_VERIFYPEER => true,

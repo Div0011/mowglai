@@ -5,12 +5,8 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 /** @type {import('next').NextConfig} */
-const isExport = process.env.EXPORT_MODE === 'true';
-
 const nextConfig = {
-    // Hostinger shared hosting uses a static export. Server deployments retain
-    // standalone output and the Next.js response-header configuration.
-    ...(isExport ? { output: 'export' } : { output: 'standalone' }),
+    output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : 'export',
     trailingSlash: true,
     images: {
         unoptimized: true,
@@ -22,38 +18,56 @@ const nextConfig = {
             },
         ],
     },
-    // Next.js does not support headers() in output: 'export'. For Hostinger,
-    // the equivalent headers are configured in public/.htaccess instead.
-    ...(!isExport ? {
-        async headers() {
-            return [{
-                source: '/(.*)',
-                headers: [
-                    { key: 'X-Content-Type-Options', value: 'nosniff' },
-                    { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-                    { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-                    { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
-                    { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
-                ],
-            }];
-        },
-    } : {}),
+    compress: true,
+    // Experimental optimizations for faster bundle loading and tree-shaking
     experimental: {
         optimizePackageImports: [
             'lucide-react',
-            '@radix-ui/react-icons',
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-alert-dialog',
+            '@radix-ui/react-aspect-ratio',
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-context-menu',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-hover-card',
+            '@radix-ui/react-label',
+            '@radix-ui/react-menubar',
+            '@radix-ui/react-navigation-menu',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-progress',
+            '@radix-ui/react-radio-group',
+            '@radix-ui/react-scroll-area',
+            '@radix-ui/react-select',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-slider',
+            '@radix-ui/react-slot',
+            '@radix-ui/react-switch',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-toggle',
+            '@radix-ui/react-toggle-group',
+            '@radix-ui/react-tooltip',
             'recharts',
             'framer-motion',
             'gsap',
             '@gsap/react',
+            'clsx',
+            'tailwind-merge',
+            'lenis',
         ],
         webpackBuildWorker: true,
         parallelServerBuildTraces: true,
     },
-    transpilePackages: ['gsap', 'three', '@react-three/fiber', '@react-three/drei'],
+    // Ensure that GSAP is compiled correctly
+    transpilePackages: ['gsap'],
+    // Compiler optimizations
     compiler: {
         removeConsole: process.env.NODE_ENV === 'production',
     },
+    // Performance optimizations for static export
     poweredByHeader: false,
     generateEtags: false,
 };

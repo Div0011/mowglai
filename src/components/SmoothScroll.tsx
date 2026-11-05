@@ -1,68 +1,81 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type Lenis from "@studio-freight/lenis";
 
-gsap.registerPlugin(ScrollTrigger);
+declare global {
+    interface Window {
+        __lenis?: Lenis;
+    }
+}
 
 const SmoothScroll = () => {
+    const lenisRef = useRef<Lenis | null>(null);
+
     useEffect(() => {
-        let cancelled = false;
-        let lenisInstance: Lenis | null = null;
-        let tickerFn: ((time: number) => void) | null = null;
+        if (typeof window !== "undefined") {
+            gsap.registerPlugin(ScrollTrigger);
+        }
 
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
-        if (prefersReducedMotion || isCoarsePointer) {
+        if (prefersReducedMotion) {
             return;
         }
 
-        const bootLenis = async () => {
-            const module = await import("@studio-freight/lenis");
-            if (cancelled) {
-                return;
-            }
+        const lenis = new Lenis({
+            duration: 1.1,
+            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.2,
+            infinite: false,
+            autoResize: true,
+        });
 
-            const LenisClass = module.default;
-            lenisInstance = new LenisClass({
-                lerp: 0.1,
-                orientation: 'vertical',
-                gestureOrientation: 'vertical',
-                smoothWheel: true,
-                wheelMultiplier: 1,
-                touchMultiplier: 2,
-                infinite: false,
-            });
+        lenisRef.current = lenis;
+        window.__lenis = lenis;
 
-            // ═══ CRITICAL: Bridge Lenis → GSAP ScrollTrigger ═══
-            // Without this, ScrollTrigger reads native scroll position
-            // while Lenis interpolates it, causing animation desync.
-            lenisInstance.on('scroll', () => {
-                ScrollTrigger.update();
-            });
+        lenis.on("scroll", ScrollTrigger.update);
 
-            // Sync GSAP ticker with Lenis for perfect frame alignment
-            tickerFn = (time: number) => {
-                lenisInstance?.raf(time * 1000);
-            };
-            gsap.ticker.add(tickerFn);
-
-            // Disable Lenis's own rAF loop since GSAP ticker drives it now
-            gsap.ticker.lagSmoothing(0);
+        const updateTicker = (time: number) => {
+            lenis.raf(time * 1000);
         };
 
-        void bootLenis();
+        gsap.ticker.add(updateTicker);
+        gsap.ticker.lagSmoothing(0);
+
+        const handleAnchorClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            const anchor = target.closest("a");
+            if (!anchor) return;
+
+            const href = anchor.getAttribute("href");
+            if (href && href.startsWith("#") && href.length > 1) {
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    lenis.scrollTo(targetElement as HTMLElement, {
+                        offset: -40,
+                        duration: 1.2,
+                    });
+                }
+            }
+        };
+
+        document.addEventListener("click", handleAnchorClick);
 
         return () => {
-            cancelled = true;
-            if (tickerFn) {
-                gsap.ticker.remove(tickerFn);
-            }
-            if (lenisInstance) {
-                lenisInstance.destroy();
+            document.removeEventListener("click", handleAnchorClick);
+            gsap.ticker.remove(updateTicker);
+            lenis.destroy();
+            lenisRef.current = null;
+            if (window.__lenis === lenis) {
+                delete window.__lenis;
             }
         };
     }, []);

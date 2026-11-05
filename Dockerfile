@@ -1,14 +1,13 @@
 # Development Dockerfile with hot reload
-FROM node:22-slim
+FROM oven/bun:1
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
-COPY packages/ ./packages/
+COPY package.json bun.lockb ./
 
 # Install dependencies
-RUN npm install
+RUN bun install
 
 # Copy the rest of the application
 COPY . .
@@ -21,4 +20,4 @@ ENV CHOKIDAR_USEPOLLING=true
 ENV WATCHPACK_POLLING=true
 
 # Start development server
-CMD ["npm", "run", "dev"]
+CMD ["bun", "run", "dev"]

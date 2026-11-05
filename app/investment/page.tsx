@@ -2,15 +2,19 @@
 
 import PageLayout from "@/components/PageLayout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Download, FileText, Sparkles, Check, ArrowRight, Clock, Rocket, ShoppingCart } from "lucide-react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Download, FileText, Sparkles, Check, ArrowRight, Clock, Rocket, ShoppingCart, Globe } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { useRouter } from "next/navigation";
 import { downloadAsHtml } from "@/utils/pdfDownloader";
 import NextPageButton from "@/components/NextPageButton";
 import { cn } from "@/lib/utils";
-import UserPurchasesSection from "@/components/UserPurchasesSection";
+import { useCurrency, CurrencyType } from "@/context/CurrencyContext";
+import dynamic from "next/dynamic";
+
+const UserPurchasesSection = dynamic(() => import("@/components/UserPurchasesSection"), { ssr: false });
+const EcommerceServiceSection = dynamic(() => import("@/components/EcommerceServiceSection"), { ssr: false });
 
 interface Plan {
     name: string;
@@ -57,21 +61,22 @@ interface RazorpayInstance {
 const plans: {
     standard: Plan[];
     care: Plan[];
-    premium: Plan[];
     systems: Plan[];
     addons: Plan[];
+    premium: Plan[];
+    store: Plan[];
 } = {
     standard: [
         {
             name: "BASIC",
-            price: "$499",
+            price: "$55",
             description: "Essential Digital Prescence",
             features: ["Single page website", "Mobile responsive design", "Basic SEO optimization", "Contact form integration", "1 month support"],
             cta: "Initiate"
         },
         {
             name: "ADVANCED",
-            price: "$999",
+            price: "$110",
             description: "Scale & Growth Architecture",
             features: ["Multi-page website (up to 5)", "Custom animations", "Advanced SEO & Analytics", "CMS integration", "3 months support"],
             cta: "Accelerate"
@@ -96,7 +101,7 @@ const plans: {
         },
         {
             name: "Mowglai Growth",
-            price: "$49/mo",
+            price: "$39/mo",
             description: "Proactive improvements and analytics.",
             features: ["Everything in Care", "Priority Support Response", "Social Media Handling (2 posts/week)", "Monthly Analytics Report", "Basic SEO Health Check", "3 Hours Content Updates/mo"],
             cta: "Subscribe",
@@ -105,21 +110,12 @@ const plans: {
         },
         {
             name: "Mowglai Elite",
-            price: "$99/mo",
+            price: "$79/mo",
             description: "Complete peace of mind for business critical sites.",
             features: ["Everything in Growth", "1 Hour Custom Dev/mo", "Weekly Backups & Tests", "Phone Support Access", "Performance Optimization"],
             cta: "Subscribe",
             type: "elite",
             razorpayPlanId: "plan_SG1jkJ8tcJTgOS"
-        }
-    ],
-    premium: [
-        {
-            name: "APEX",
-            price: "$4,999+",
-            description: "Industry-Leading Digital Soul",
-            features: ["Bespoke Digital Architecture", "Survival Ready Support", "Strategic Market Hegemony", "Liquid Motion Graphics", "Neural AI Integration"],
-            cta: "Dominate"
         }
     ],
     systems: [
@@ -167,19 +163,74 @@ const plans: {
         },
         {
             name: "BRAND EVOLUTION",
-            price: "FROM $1499",
+            price: "FROM $149",
             description: "Total visual and identity transformation.",
             features: ["Logo Redesign", "Brand Guidelines", "Social Media Kit", "Typography System", "Marketing Assets"],
             cta: "Evolve",
             type: "addon"
         }
+    ],
+    premium: [
+        {
+            name: "APEX",
+            price: "$599+",
+            description: "Industry-Leading Digital Soul",
+            features: ["Bespoke Digital Architecture", "Survival Ready Support", "Strategic Market Hegemony", "Liquid Motion Graphics", "Neural AI Integration"],
+            cta: "Dominate"
+        }
+    ],
+    store: [
+        {
+            name: "STORE ESSENTIAL",
+            price: "$149",
+            description: "High-Converting Online Storefront",
+            features: [
+                "Full Product Catalog & Categories",
+                "Product Details, Images & Variants",
+                "Shopping Cart & Fast Checkout",
+                "Stripe, Razorpay & UPI Payments",
+                "Customer Order Management & Invoicing"
+            ],
+            cta: "Build Store"
+        },
+        {
+            name: "COMMERCE PRO",
+            price: "$299",
+            description: "Scale & Growth Marketplace Platform",
+            features: [
+                "Unlimited Products & Complex Variant Matrix",
+                "Real-Time Order Tracking & Automated Alerts",
+                "Inventory & Live Stock Sync Engine",
+                "Admin & Seller Dashboard Intelligence",
+                "Shipping, Courier API & Logistics Hub"
+            ],
+            cta: "Scale Store"
+        },
+        {
+            name: "ENTERPRISE STORE",
+            price: "CUSTOM",
+            description: "Headless Architecture & High-Volume Sales",
+            features: [
+                "Multi-Vendor Marketplace Infrastructure",
+                "Custom ERP & Warehouse Management API",
+                "Automated Global Taxes & Geo-Currencies",
+                "Bespoke Checkout & Conversion Engine",
+                "Dedicated 24/7 Priority Support & SLA"
+            ],
+            cta: "Custom Store"
+        }
     ]
 };
 
-export default function InvestmentPage() {
+function InvestmentContent() {
     const { t } = useLanguage();
     const router = useRouter();
-    const [planType, setPlanType] = useState<"standard" | "care" | "addons" | "premium" | "systems">("standard");
+    const searchParams = useSearchParams();
+    const typeParam = searchParams.get("type") || searchParams.get("plan");
+
+    const { currency, setCurrency, formatPrice } = useCurrency();
+    const [currencyOpen, setCurrencyOpen] = useState(false);
+    const [planType, setPlanType] = useState<"standard" | "care" | "systems" | "addons" | "premium" | "store">("standard");
     const [discountCode, setDiscountCode] = useState("");
     const [isDiscountApplied, setIsDiscountApplied] = useState(false);
     const [discountError, setDiscountError] = useState("");
@@ -188,6 +239,18 @@ export default function InvestmentPage() {
     const [processingPlan, setProcessingPlan] = useState<string | null>(null);
     const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? "";
     const subscriptionEndpoint = process.env.NEXT_PUBLIC_SUBSCRIPTION_ENDPOINT ?? "/api/create-subscription.php";
+
+    // Auto switch active tab bar based on URL param
+    useEffect(() => {
+        if (typeParam) {
+            const val = typeParam.toLowerCase();
+            if (["standard", "care", "systems", "addons", "premium", "store"].includes(val)) {
+                setPlanType(val as "standard" | "care" | "systems" | "addons" | "premium" | "store");
+            } else if (val === "system") {
+                setPlanType("systems");
+            }
+        }
+    }, [typeParam]);
 
     useEffect(() => {
         let isMounted = true;
@@ -228,7 +291,8 @@ export default function InvestmentPage() {
     }, []);
 
     const handleApplyDiscount = () => {
-        if (discountCode.trim().toUpperCase() === "MOWGLAI10") {
+        const code = discountCode.trim().toUpperCase();
+        if (code === "MOWGLAI10" || code.startsWith("MOW20")) {
             setIsDiscountApplied(true);
             setDiscountError("");
         } else {
@@ -238,12 +302,22 @@ export default function InvestmentPage() {
     };
 
     const getPrice = (originalPrice: string) => {
-        if (!isDiscountApplied || originalPrice === "CUSTOM" || originalPrice.includes("+")) return originalPrice;
-        const numericPart = originalPrice.replace(/[^\d]/g, "");
-        const numPrice = parseInt(numericPart, 10);
-        if (isNaN(numPrice)) return originalPrice;
-        const discounted = Math.round(numPrice * 0.9);
-        return `$${discounted}`;
+        if (!isDiscountApplied || originalPrice === "CUSTOM" || originalPrice.includes("+")) return formatPrice(originalPrice);
+        const formatted = formatPrice(originalPrice);
+        const numericMatch = formatted.replace(/,/g, "").match(/\d+/);
+        if (!numericMatch) return formatted;
+        
+        const numPrice = parseFloat(numericMatch[0]);
+        const discountFactor = discountCode.trim().toUpperCase().startsWith("MOW20") ? 0.8 : 0.9;
+        const discounted = Math.round(numPrice * discountFactor);
+        
+        const symbol = formatted.trim().charAt(0);
+        let suffix = "";
+        if (originalPrice.toLowerCase().includes("/mo")) {
+            suffix = "/mo";
+        }
+        
+        return `${symbol}${discounted.toLocaleString()}${suffix}`;
     };
 
     const handleCareSubscribe = (plan: Plan) => {
@@ -298,7 +372,7 @@ export default function InvestmentPage() {
                     subscription_id: data.subscription_id,
                     name: "Mowglai Care Plans",
                     description: plan.name,
-                    image: "/assets/mowglai_primary.png",
+                    image: "/mowglai-logo-light.png",
                     notes: {
                         plan: plan.name,
                         category: "care",
@@ -332,8 +406,17 @@ export default function InvestmentPage() {
     };
 
     // Helper to render plans dynamically
-    const renderPlans = (type: "standard" | "care" | "addons" | "systems") => {
-        const currentPlans = type === "standard" ? plans.standard : (type === "care" ? plans.care : (type === "systems" ? plans.systems : plans.addons));
+    const renderPlans = (type: "standard" | "care" | "addons" | "systems" | "store") => {
+        const currentPlans =
+            type === "standard"
+                ? plans.standard
+                : type === "care"
+                ? plans.care
+                : type === "systems"
+                ? plans.systems
+                : type === "store"
+                ? plans.store
+                : plans.addons;
         return currentPlans.map((plan, i) => (
             <div
                 key={i}
@@ -359,7 +442,7 @@ export default function InvestmentPage() {
                                     exit={{ opacity: 0, y: -10 }}
                                     className="flex items-center gap-3"
                                 >
-                                    <span className="line-through text-muted-foreground/30 text-xl sm:text-2xl">{plan.price}</span>
+                                    <span className="line-through text-muted-foreground/30 text-xl sm:text-2xl">{formatPrice(plan.price)}</span>
                                     <span className="text-primary">{getPrice(plan.price)}</span>
                                 </motion.div>
                             ) : (
@@ -370,7 +453,7 @@ export default function InvestmentPage() {
                                     exit={{ opacity: 0 }}
                                     className={cn(plan.price === "COMING SOON" && "text-base sm:text-lg text-primary/70 tracking-[0.2em]")}
                                 >
-                                    {plan.price}
+                                    {formatPrice(plan.price)}
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -399,7 +482,7 @@ export default function InvestmentPage() {
                     </button>
                 ) : (
                     <Link
-                        href={type === "systems" ? "/contact?subject=Systems Waitlist Request" : `/project-request?plan=${plan.name.toLowerCase()}`}
+                        href={type === "systems" ? "/contact?subject=Systems Waitlist Request" : `/start-project/?plan=${plan.name.toLowerCase()}`}
                         className={cn(
                             "relative z-10 w-full py-4 px-8 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center mt-auto",
                             plan.price === "COMING SOON" && "opacity-80 hover:opacity-100"
@@ -432,23 +515,67 @@ export default function InvestmentPage() {
                             </h1>
                         </div>
 
-                        <Link href="?modal=purchases" scroll={false} className="mb-4 md:mb-8 hidden md:block">
-                            <div className="p-4 md:p-6 rounded-full bg-primary/10 border border-primary/20 text-primary hover:scale-110 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg group">
-                                <ShoppingCart className="w-6 h-6 md:w-8 md:h-8" />
+                        <div className="flex items-center gap-4 mb-4 md:mb-8">
+                            <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-4 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground text-sm font-bold uppercase tracking-widest rounded-full transition-all duration-300">
+                                Custom Scope
+                                <ArrowRight className="w-4 h-4 animate-pulse" />
+                            </Link>
+
+                            <div className="relative hidden md:block">
+                                <button
+                                    onClick={() => setCurrencyOpen(!currencyOpen)}
+                                    className="p-5 rounded-full bg-primary/10 border border-primary/20 text-primary hover:scale-110 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg flex items-center gap-1 font-bold text-sm tracking-widest font-mono group"
+                                    aria-label="Change Currency"
+                                >
+                                    <span>{currency}</span>
+                                    <Globe className="w-4 h-4 transition-transform group-hover:rotate-45" />
+                                </button>
+                                <AnimatePresence>
+                                    {currencyOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            className="absolute right-0 mt-3 py-2 w-32 bg-background/95 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl z-50 flex flex-col overflow-hidden"
+                                        >
+                                            {(["USD", "INR", "EUR", "GBP"] as CurrencyType[]).map((cur) => (
+                                                <button
+                                                    key={cur}
+                                                    onClick={() => {
+                                                        setCurrency(cur);
+                                                        setCurrencyOpen(false);
+                                                    }}
+                                                    className={cn(
+                                                        "px-4 py-2.5 text-xs font-bold text-left hover:bg-primary hover:text-primary-foreground transition-colors font-mono uppercase tracking-wider",
+                                                        currency === cur ? "text-primary bg-primary/10" : "text-foreground/80"
+                                                    )}
+                                                >
+                                                    {cur}
+                                                </button>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
-                        </Link>
+
+                            <Link href="?modal=purchases" scroll={false} className="hidden md:block">
+                                <div className="p-5 rounded-full bg-primary/10 border border-primary/20 text-primary hover:scale-110 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg group">
+                                    <ShoppingCart className="w-6 h-6" />
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </motion.div>
 
                 {/* Toggle Section (Moved Here) */}
                 <div className="flex justify-center mb-12 relative z-20">
                     <div className="flex flex-wrap justify-center bg-background/40 backdrop-blur-xl p-1 md:p-1.5 rounded-2xl md:rounded-full border border-primary/20 w-full md:w-auto relative group hover:border-primary/40 transition-colors gap-1 md:gap-0">
-                        {["standard", "care", "systems", "addons", "premium"].map((type) => (
+                        {["standard", "care", "systems", "addons", "premium", "store"].map((type) => (
                             <button
                                 key={type}
-                                onClick={() => setPlanType(type as "standard" | "care" | "addons" | "premium" | "systems")}
+                                onClick={() => setPlanType(type as "standard" | "care" | "systems" | "addons" | "premium" | "store")}
                                 className={cn(
-                                    "relative px-4 sm:px-6 md:px-8 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider md:tracking-widest transition-colors rounded-xl md:rounded-full z-10 text-center flex-1 md:flex-none min-w-[30%] md:min-w-0",
+                                    "relative px-4 sm:px-6 md:px-7 py-2 md:py-3 text-[10px] md:text-sm font-bold uppercase tracking-wider md:tracking-widest transition-colors rounded-xl md:rounded-full z-10 text-center flex-1 md:flex-none min-w-[28%] md:min-w-0",
                                     planType === type ? "text-primary-foreground" : "text-primary/60 hover:text-primary"
                                 )}
                             >
@@ -526,7 +653,14 @@ export default function InvestmentPage() {
                             transition={{ duration: 0.4 }}
                             className="grid grid-cols-1 md:grid-cols-3 gap-8"
                         >
-                            {planType === "premium" ? (
+                            {planType === "store" ? (
+                                <div className="col-span-full space-y-12">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        {renderPlans("store")}
+                                    </div>
+                                    <EcommerceServiceSection className="mt-8" />
+                                </div>
+                            ) : planType === "premium" ? (
                                 <div className="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div className="md:col-span-1 p-8 md:p-14 rounded-[2.5rem] bg-primary/10 border-2 border-primary/30 hover:border-primary transition-all duration-500 flex flex-col group relative overflow-hidden backdrop-blur-xl">
                                         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
@@ -539,7 +673,9 @@ export default function InvestmentPage() {
                                         </div>
 
                                         <div className="mb-20 relative z-10">
-                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">$4,999+</div>
+                                            <div className="text-5xl md:text-7xl font-display font-black text-foreground mb-4">
+                                                {formatPrice("$599+")}
+                                            </div>
                                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/40">Architecture Level</span>
                                         </div>
 
@@ -571,7 +707,7 @@ export default function InvestmentPage() {
                                     </div>
                                 </div>
                             ) : (
-                                renderPlans(planType as "standard" | "care" | "addons" | "systems")
+                                renderPlans(planType as "standard" | "care" | "addons" | "systems" | "store")
                             )}
                         </motion.div>
                     </AnimatePresence>
@@ -633,12 +769,26 @@ export default function InvestmentPage() {
                 {/* Next Chapter CTA - Final Narrative */}
                 <div className="mt-32 relative z-10">
                     <NextPageButton
-                        label="HELLO"
+                        label="CONTACT"
                         href="/contact"
                         tagline="Initiate Dialogue"
                     />
                 </div>
-            </div >
-        </PageLayout >
-    )
-};
+            </div>
+        </PageLayout>
+    );
+}
+
+export default function InvestmentPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-background flex items-center justify-center text-primary font-mono text-xs uppercase tracking-widest animate-pulse">
+                    Loading Investment Protocol...
+                </div>
+            }
+        >
+            <InvestmentContent />
+        </Suspense>
+    );
+}

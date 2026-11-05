@@ -1,0 +1,68 @@
+name: Deep Server Forensics
+
+on:
+  workflow_dispatch:
+
+jobs:
+  forensics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Server Forensics
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
+
+          ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
+            echo "=== 1. WHO TOUCHED domains/mowglai.com/public_html AT 08:00 UTC? ==="
+            ls -ld --time=ctime /home/u707591712/domains/mowglai.com/public_html
+            ls -ld --time=atime /home/u707591712/domains/mowglai.com/public_html
+            ls -la /home/u707591712/domains/mowglai.com/public_html
+
+            echo ""
+            echo "=== 2. CHECKING ALL HIDDEN FILES AND CONFIGS IN HOME ==="
+            ls -la /home/u707591712/
+
+            echo ""
+            echo "=== 3. CHECKING BASH HISTORY ==="
+            tail -n 50 /home/u707591712/.bash_history 2>/dev/null || echo "(no bash history)"
+
+            echo ""
+            echo "=== 4. CHECKING HOSTINGER SPECIFIC DIRECTORIES ==="
+            ls -la /home/u707591712/.hostinger* 2>/dev/null || true
+            ls -la /home/u707591712/.cpanel* 2>/dev/null || true
+            ls -la /home/u707591712/.litespeed* 2>/dev/null || true
+            ls -la /home/u707591712/.git* 2>/dev/null || true
+            ls -la /home/u707591712/git/ 2>/dev/null || true
+
+            echo ""
+            echo "=== 5. CHECKING LITESPEED LOGS ==="
+            ls -la /home/u707591712/logs/ 2>/dev/null || true
+            tail -n 50 /home/u707591712/logs/* 2>/dev/null || echo "(no user logs)"
+
+            echo ""
+            echo "=== 6. CHECKING IF domains/mowglai.com/public_html CAN BE A HARD SYMLINK ==="
+            # If public_html (1005 files) is copied, but gets wiped, what if domains/mowglai.com/public_html IS A SYMLINK to /home/u707591712/public_html?
+            echo "Testing symlink possibility..."
+
+            echo ""
+            echo "=== 7. COPY FILES RIGHT NOW AND FIX 403 ==="
+            cp -a /home/u707591712/public_html/. /home/u707591712/domains/mowglai.com/public_html/
+            find /home/u707591712/domains/mowglai.com/public_html/ -type d -exec chmod 755 {} +
+            find /home/u707591712/domains/mowglai.com/public_html/ -type f -exec chmod 644 {} +
+            echo "File count now: $(find /home/u707591712/domains/mowglai.com/public_html/ -type f | wc -l)"
+            ls -la /home/u707591712/domains/mowglai.com/public_html/index.html
+          EOF
+
+          echo "=== 8. HTTP PROBE ==="
+          sleep 2
+          curl -s -o /dev/null -w "Final HTTP Code: %{http_code}\n" "https://mowglai.com"
+          curl -s -o /dev/null -w "index.html HTTP Code: %{http_code}\n" "https://mowglai.com/index.html"
+
+          rm -f ~/.ssh/deploy_key

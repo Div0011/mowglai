@@ -19,6 +19,17 @@ const teamMembers = [
         },
     },
     {
+        id: 2,
+        name: "Amit Sharma",
+        role: "Chief Operating Officer",
+        image: "/team/as.jpeg",
+        socials: {
+            linkedin: "#",
+            twitter: "#",
+            email: "mailto:tech@mowglai.com",
+        },
+    },
+    {
         id: 3,
         name: "Aryan Singh",
         role: "Chief Technical Officer",
@@ -30,7 +41,7 @@ const teamMembers = [
         },
     },
     {
-        id: 2,
+        id: 4,
         name: "Ankit Baghel",
         role: "Chief Marketing Officer",
         image: "/team/ab.jpeg",
@@ -41,7 +52,7 @@ const teamMembers = [
         },
     },
     {
-        id: 4,
+        id: 5,
         name: "Divyansh Awasthi",
         role: "Chief Financial Officer",
         image: "/team/da.jpeg",
@@ -69,7 +80,7 @@ const TeamSection = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 justify-center">
                     {teamMembers.map((member, index) => (
                         <motion.div
                             key={member.id}

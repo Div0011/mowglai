@@ -3,7 +3,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
-import jsPDF from 'jspdf';
 import { AuditResult, AuditCategory } from './actions';
 
 interface AuditReportProps {
@@ -61,6 +60,9 @@ const CategoryCard = ({ category, delay }: { category: AuditCategory, delay: num
 const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
     const handleDownloadPDF = async () => {
         try {
+            // Loaded on demand: jspdf is ~1MB minified and only needed
+            // when the user actually asks for a PDF.
+            const { default: jsPDF } = await import('jspdf');
             const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
@@ -323,7 +325,7 @@ const AuditReport: React.FC<AuditReportProps> = ({ result }) => {
                     </div>
                     <div className="text-right">
                         <p className="font-bold text-[#c5a059]">MOWGLAI</p>
-                        <p>mowglai.in</p>
+                        <p>mowglai.com</p>
                     </div>
                 </div>
 

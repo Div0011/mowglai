@@ -1,3 +1,4 @@
+import { generateBespokeWebsiteHtml } from './htmlGenerator';
 import { allTemplates, Template } from '@/data/templates';
 import {
     OnboardingInput,
@@ -277,7 +278,12 @@ export function analyzeClientOnboarding(input: OnboardingInput): OnboardingAnaly
         alternativeTemplates: alternativesInfo,
         websiteStructure: blueprint,
         seoStrategy: seo,
-        pricingSuggestion: pricing
+        pricingSuggestion: pricing,
+        generatedHtml: generateBespokeWebsiteHtml(input, {
+            name: input.businessName,
+            sector: sectorKey,
+            city: input.city
+        })
     };
 }
 

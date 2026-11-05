@@ -5,14 +5,12 @@ import "aos/dist/aos.css";
 
 export const AOSInit = () => {
     useEffect(() => {
-        // Check for reduced motion preference
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const hasAnimatedElements = document.querySelector("[data-aos]") !== null;
         let isCancelled = false;
         let timer: ReturnType<typeof setTimeout> | undefined;
         let idleId: number | undefined;
 
-        if (prefersReducedMotion || !hasAnimatedElements) {
+        if (prefersReducedMotion) {
             // Disable animations for users who prefer reduced motion
             return;
         }
@@ -23,12 +21,13 @@ export const AOSInit = () => {
                 return;
             }
 
+            const isMobile = window.innerWidth < 768;
             module.default.init({
-                duration: 600,
+                duration: isMobile ? 350 : 600,
                 easing: 'ease-out-cubic',
                 once: true,
                 mirror: false,
-                offset: 50,
+                offset: isMobile ? 15 : 50,
                 disableMutationObserver: false,
             });
         };

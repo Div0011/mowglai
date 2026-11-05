@@ -8,14 +8,14 @@ import StarryBackground from "./StarryBackground";
 import CustomCursor from "./CustomCursor";
 import XLogo from "@/components/icons/XLogo";
 
-const CONTACT_EMAIL = "info@mowglai.com";
+const CONTACT_EMAIL = "tech@mowglai.com";
 const WHATSAPP_NUMBER = "919452476331";
 const PHONE_NUMBER = "+91 94524 76331";
 
 const socialLinks = [
-    { icon: Instagram, href: "https://www.instagram.com/mowglai.in", label: "Instagram" },
+    { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
     { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/mowglai-in-47b3103a6/", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/mowglai", label: "LinkedIn" },
 ];
 
 const UnderMaintenance = () => {

@@ -1,5 +1,3 @@
-import html2pdf from 'html2pdf.js';
-
 export const downloadAsHtml = async (url: string, filename: string) => {
     try {
         const response = await fetch(url);

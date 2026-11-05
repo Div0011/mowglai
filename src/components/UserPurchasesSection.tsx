@@ -95,7 +95,7 @@ export default function UserPurchasesModal() {
 
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-w-4xl max-h-[85vh] md:max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur-xl border-primary/20 rounded-[2rem] md:rounded-[2.5rem] p-0 gap-0 shadow-2xl">
+            <DialogContent className="max-w-4xl max-h-[85dvh] md:max-h-[90dvh] overflow-y-auto bg-background/95 backdrop-blur-xl border-primary/20 rounded-[2rem] md:rounded-[2.5rem] p-0 gap-0 shadow-2xl">
                 <div className="p-6 md:p-12 pb-0 pt-12 md:pt-12">
                     <DialogHeader className="mb-6 md:mb-8 text-left">
                         <DialogTitle className="text-3xl md:text-5xl font-display font-black uppercase text-foreground leading-tight">

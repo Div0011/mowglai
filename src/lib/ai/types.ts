@@ -82,5 +82,6 @@ export interface OnboardingAnalysisResult {
     };
     seoStrategy: SeoGeoStrategy;
     pricingSuggestion: PricingSuggestion;
+    generatedHtml?: string;
 }
 

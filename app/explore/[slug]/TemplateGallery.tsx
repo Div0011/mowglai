@@ -68,14 +68,14 @@ export default function TemplateGallery({ images, title }: TemplateGalleryProps)
                 {/* Navigation Arrows - Inside on Desktop */}
                 {images.length > 1 && (
                     <>
-                        <CarouselPrevious className="left-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all z-20" />
-                        <CarouselNext className="right-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all z-20" />
+                        <CarouselPrevious className="left-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all z-20" />
+                        <CarouselNext className="right-6 w-10 h-10 bg-black/50 hover:bg-black/70 border-white/10 backdrop-blur-md text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all z-20" />
                     </>
                 )}
 
                 {/* Dots Indicator - Integrated Overlay */}
                 {images.length > 1 && (
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-20">
                         {images.map((_, idx) => (
                             <button
                                 key={idx}

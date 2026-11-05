@@ -4,19 +4,22 @@ import { useEffect, Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
-import SettingsToggle from "@/components/SettingsToggle";
-import ContactToggle from "@/components/ContactToggle";
 
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 
-import Footer from "@/components/Footer";
+
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-import JungleBackground from "@/components/JungleBackground";
-import BackToTopButton from "@/components/BackToTopButton";
+const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
+const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
+const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
+const InteractivePet = dynamic(() => import("@/components/InteractivePet"), { ssr: false });
+// Server-rendered so the footer nav links are present in the static HTML of
+// every page. Nothing here reads the browser during render, so it hydrates
+// cleanly; keeping it `ssr: false` hid the entire footer from crawlers.
+const ImmersiveFooter = dynamic(() => import("@/components/ImmersiveFooter"));
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -24,8 +27,12 @@ interface PageLayoutProps {
 
 const OriginalLayout = ({ children }: PageLayoutProps) => {
     const pathname = usePathname();
+    const [enableEnhancedCursor, setEnableEnhancedCursor] = useState(false);
+
     useEffect(() => {
-        // Removed custom cursor detection as per user request to always keep default cursor
+        const supportsFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        setEnableEnhancedCursor(supportsFinePointer && !prefersReducedMotion);
     }, []);
 
     // AOS is now initialized globally in AOSInit component linked in RootLayout
@@ -34,12 +41,13 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
 
     return (
         <div className="min-h-dvh relative text-foreground transition-colors duration-500">
-            <CustomCursor />
             <SmoothScroll />
             <ScrollToTop />
             <BackToTopButton />
-            <SettingsToggle />
-            <ContactToggle />
+            {enableEnhancedCursor ? <CustomCursor /> : null}
+
+
+            <InteractivePet />
 
             {/* Background - Spans entire page height */}
             <div className="absolute inset-0 z-0 pointer-events-none">
@@ -49,7 +57,7 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <FullScreenNav onOpenChat={() => {}} />
             <MobileNav />
 
-            <main className="relative z-10 w-full overflow-hidden min-h-dvh">
+            <main className="relative z-10 w-full overflow-x-clip min-h-dvh">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={pathname}
@@ -60,10 +68,8 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
                         className="gpu-accelerate"
                     >
                         <Suspense fallback={<div className="w-full h-screen flex items-center justify-center text-primary font-display animate-pulse">Loading Content...</div>}>
-                            <div className="relative z-10 bg-[#020804] shadow-[0_10px_50px_rgba(0,0,0,0.8)] w-full">
-                                {children}
-                            </div>
-                            <Footer />
+                            {children}
+                            <ImmersiveFooter />
                         </Suspense>
                     </motion.div>
                 </AnimatePresence>

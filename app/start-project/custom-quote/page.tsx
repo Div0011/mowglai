@@ -63,32 +63,19 @@ export default function CustomQuotePage() {
             });
 
             if (result.status === 'success') {
-                toast({
-                    title: "Quote Request Sent",
-                    description: "We'll analyze your requirements and send a custom proposal soon.",
-                });
-                router.push("/");
+                router.push(`/thank-you?name=${encodeURIComponent(formData.name)}&form=Custom%20Quote`);
             } else {
-                throw new Error("API Error");
+                toast({
+                    title: "Submission Status",
+                    description: result.message || "Failed to send quote request. Please try again.",
+                    variant: "destructive",
+                });
             }
         } catch (error) {
-            console.warn("Server sending failed, falling back to mailto");
-            const body = `
-Name: ${formData.name}
-Email: ${formData.email}
-Company: ${formData.company}
-Budget: ${formData.budget}
-Timeline: ${formData.timeline}
-
-Project Description:
-${formData.projectDescription}
-            `;
-
-            window.location.href = `mailto:divyanshawasthi@mowglai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
             toast({
-                title: "Opening Email Client",
-                description: "Server unreachable. Please send via your email client.",
+                title: "Submission Error",
+                description: "An unexpected error occurred. Please try again later.",
+                variant: "destructive",
             });
         } finally {
             setIsSubmitting(false);
@@ -121,7 +108,7 @@ ${formData.projectDescription}
                         </div>
 
                         <div className="text-center mb-10">
-                            <h1 className="text-3xl md:text-5xl font-display font-black text-foreground mb-4 uppercase leading-tight">
+                            <h1 className="text-3xl md:text-5xl font-display font-black text-foreground mb-4 uppercase leading-[1.3] md:leading-[1.35] tracking-normal">
                                 REQUEST <span className="text-primary">CUSTOM QUOTE</span>
                             </h1>
                             <p className="text-lg text-muted-foreground font-light max-w-lg mx-auto">
@@ -187,7 +174,7 @@ ${formData.projectDescription}
                                             <Label className="text-xs uppercase tracking-widest text-primary/70 font-display">Full Name <span className="text-red-500">*</span></Label>
                                             <Input
                                                 required
-                                                placeholder="John Doe"
+                                                placeholder="Your Name"
                                                 className="bg-background/30 border-primary/20 h-12 text-lg"
                                                 value={formData.name}
                                                 onChange={(e) => handleInputChange("name", e.target.value)}

@@ -1,5 +1,6 @@
 import { allTemplates, Template } from '@/data/templates';
 import { BusinessSector } from './types';
+import { generateBespokeWebsiteHtml } from './htmlGenerator';
 
 export interface CompetitorAnalysisResult {
     id: string;
@@ -34,6 +35,7 @@ export interface CompetitorAnalysisResult {
         features: string[];
     };
     suggestedStartingPrice: string;
+    generatedHtml?: string;
     prefillOnboardQuery: {
         businessName: string;
         businessSector: string;
@@ -153,6 +155,13 @@ export function analyzeCompetitorUrl(rawUrl: string): CompetitorAnalysisResult {
             features: matchedT.features
         },
         suggestedStartingPrice: '₹5,000',
+        generatedHtml: generateBespokeWebsiteHtml({
+            businessName: `${domainNameCapitalized} Pro`,
+            businessSector: sector,
+            city: 'Metro Hub',
+            budget: '₹5,000',
+            primaryGoal: 'WhatsApp & Direct Phone Inquiries'
+        }),
         prefillOnboardQuery: {
             businessName: `${domainNameCapitalized} Inspired Version`,
             businessSector: sector,

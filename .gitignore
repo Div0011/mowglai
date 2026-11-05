@@ -1,15 +1,53 @@
-*.pyc
-__pycache__/
-node_modules/
-.vscode/
-.idea/
-*.swp
-*.swo
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+lint_output*.txt
+build_output*.txt
+build_log.txt
+ts_error*.txt
+reflog.txt
+old_*.txt
+diff*.txt
+*.diff
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Next.js
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+*.zip
+
+mowglai T&C .pdf
+mowglai policies and T&C.pdf
+policies.txt
+tc.txt
+
+# env
 .env
 .env.local
-*.env.*
-.DS_Store
-Thumbs.db
-*.log
-*.tmp
-*.diff
+
+public/.htaccess
+out/.htaccess
