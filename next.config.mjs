@@ -8,11 +8,12 @@ const withBundleAnalyzer = bundleAnalyzer({
 const isExport = process.env.EXPORT_MODE === 'true';
 
 const nextConfig = {
-    // Hostinger deploy = static export (out/); Vercel/server deploy = standalone
+    // Hostinger shared hosting uses a static export. Server deployments retain
+    // standalone output and the Next.js response-header configuration.
     ...(isExport ? { output: 'export' } : { output: 'standalone' }),
     trailingSlash: true,
     images: {
-        unoptimized: true, // required for static export
+        unoptimized: true,
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [
             {
@@ -21,10 +22,11 @@ const nextConfig = {
             },
         ],
     },
-    // SECURITY: consistent headers on every page (server + static export)
-    async headers() {
-        return [
-            {
+    // Next.js does not support headers() in output: 'export'. For Hostinger,
+    // the equivalent headers are configured in public/.htaccess instead.
+    ...(!isExport ? {
+        async headers() {
+            return [{
                 source: '/(.*)',
                 headers: [
                     { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -33,10 +35,9 @@ const nextConfig = {
                     { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
                     { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
                 ],
-            },
-        ];
-    },
-    // Experimental optimizations for better performance
+            }];
+        },
+    } : {}),
     experimental: {
         optimizePackageImports: [
             'lucide-react',
@@ -49,13 +50,10 @@ const nextConfig = {
         webpackBuildWorker: true,
         parallelServerBuildTraces: true,
     },
-    // Ensure that GSAP and Three.js work correctly
     transpilePackages: ['gsap', 'three', '@react-three/fiber', '@react-three/drei'],
-    // Compiler optimizations
     compiler: {
         removeConsole: process.env.NODE_ENV === 'production',
     },
-    // Performance optimizations for static export
     poweredByHeader: false,
     generateEtags: false,
 };
