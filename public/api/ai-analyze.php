@@ -34,6 +34,14 @@ if (!preg_match('/^https?:\/\//i', $url)) {
 $parsedHost = parse_url($url, PHP_URL_HOST) ?: 'competitor.com';
 $domain = str_replace('www.', '', $parsedHost);
 
+// SSRF guard: block private/link-local/metadata ranges before fetching user-supplied URL
+$parsedIp = gethostbyname((string)$parsedHost);
+if ($parsedIp !== $parsedHost || filter_var($parsedIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Target URL not allowed']);
+    exit;
+}
+
 // Attempt safe shallow fetch with 3-second timeout
 $ch = curl_init();
 curl_setopt_array($ch, [
@@ -43,9 +51,11 @@ curl_setopt_array($ch, [
     CURLOPT_MAXREDIRS => 3,
     CURLOPT_TIMEOUT => 4,
     CURLOPT_CONNECTTIMEOUT => 2,
-    CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 MowglaiBot/1.0',
-    CURLOPT_SSL_VERIFYPEER => false,
-    CURLOPT_SSL_VERIFYHOST => false,
+    CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; MowglaiBot/1.0)',
+    // SECURITY: TLS verification re-enabled (was disabled = MITM risk)
+    CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2,
 ]);
 
 $html = curl_exec($ch);

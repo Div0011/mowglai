@@ -31,20 +31,12 @@ try {
     }
 
 } catch (PDOException $e) {
-    // If DB fails (likely since table might not exist), return mock data gracefully for UI testing
+    // SECURITY: Never leak internal error details (SQL, table names, paths) to clients.
+    error_log('[mowglai] get-purchases failed: ' . $e->getMessage());
+    http_response_code(500);
     echo json_encode([
-        'success' => true, 
-        'purchases' => [
-            [
-                'id' => 'err_mock_1',
-                'plan_name' => 'Connection Error',
-                'purchase_date' => date('Y-m-d'), 
-                'expiration_date' => date('Y-m-d', strtotime('+1 year')),
-                'status' => 'active',
-                'details' => 'Error: ' . $e->getMessage()
-            ]
-        ],
-        'error' => $e->getMessage()
+        'success' => false,
+        'message' => 'Unable to fetch purchases right now. Please try again later.'
     ]);
 }
 ?>

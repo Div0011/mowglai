@@ -1,22 +1,29 @@
 <?php
 // db.php - Database Connection
+//
+// SECURITY: Credentials are NEVER hardcoded here anymore (they were leaked in
+// git history + deployed publicly). They must come from environment variables.
+//
+// On Hostinger shared hosting, set them in the root .htaccess file:
+//   SetEnv DB_HOST localhost
+//   SetEnv DB_NAME your_db_name
+//   SetEnv DB_USER your_db_user
+//   SetEnv DB_PASS your_new_db_password   <-- rotate the old one immediately!
 
-// -------------------------------------------------------------------------
-// HOSTINGER CONFIGURATION
-// -------------------------------------------------------------------------
-// 1. Open your Hostinger Dashboard -> Databases
-// 2. Create a new MySQL Database and User
-// 3. Replace the values below with your actual database details:
+$host = getenv('DB_HOST') ?: 'localhost';
+$db   = getenv('DB_NAME') ?: '';
+$user = getenv('DB_USER') ?: '';
+$pass = getenv('DB_PASS') ?: '';
 
-$host = 'localhost';      // Usually 'localhost' on Hostinger
-$db   = 'u707591712_mowglai_data'; // Updated from screenshot
-$user = 'u707591712_mowglai_user'; // Assuming same prefix for user
-$pass = 'Mowglai@2025'; // The password you set
-
-// -------------------------------------------------------------------------
-// NOTE: For local development, you might want to use different checks or ENV vars.
-// But for simple shared hosting, editing the variables above is easiest.
-// -------------------------------------------------------------------------
+if ($db === '' || $user === '' || $pass === '') {
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database configuration missing. Set DB_HOST/DB_NAME/DB_USER/DB_PASS env vars.',
+    ]);
+    exit;
+}
 
 $charset = 'utf8mb4';
 

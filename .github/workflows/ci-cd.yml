@@ -25,34 +25,57 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies (lockfile-locked)
+        run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: Security audit (fail on high/critical)
+        run: npm audit --audit-level=high
 
-      - name: Build
-        run: npm run build
+      - name: Build static export
+        run: npm run export
         env:
           NEXT_PUBLIC_RAZORPAY_KEY_ID: ${{ secrets.NEXT_PUBLIC_RAZORPAY_KEY_ID }}
+
+      # ==========================================
+      # Post-deploy integrity guard (anti-defacement)
+      # ==========================================
+      - name: Verify local out/index.html is the real app
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.repository_owner == 'Div0011'
+        run: |
+          if grep -qiE "hacked|defaced" ./out/index.html; then
+            echo "::error::Build output contains defacement markers. Aborting deploy."
+            exit 1
+          fi
 
       - name: Inject Secrets into .htaccess
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.repository_owner == 'Div0011'
         env:
           RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
           RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
         run: |
-          echo "" >> ./out/.htaccess
-          echo "# Injected by CI/CD" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID" >> ./out/.htaccess
-          echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET" >> ./out/.htaccess
+          {
+            echo ""
+            echo "# Injected by CI/CD — DO NOT EDIT MANUALLY"
+            echo "SetEnv RAZORPAY_KEY_ID $RAZORPAY_KEY_ID"
+            echo "SetEnv RAZORPAY_KEY_SECRET $RAZORPAY_KEY_SECRET"
+            echo "SetEnv DB_HOST ${DB_HOST:-localhost}"
+            echo "SetEnv DB_NAME $DB_NAME"
+            echo "SetEnv DB_USER $DB_USER"
+            echo "SetEnv DB_PASS $DB_PASS"
+          } >> ./out/.htaccess
         shell: bash
 
       # ==========================================
       # CD (Continuous Deployment) Pipeline
       # ==========================================
       - name: Sync files to Hostinger via SSH
-        # Only deploy on push to main and if we are in the original repository
+        # Only deploy on push to main and if we are in the original repository.
+        # NOTE: intentionally NO `--delete` here — rsync only overwrites/adds,
+        # so a stale local build can never wipe live site files.
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.repository_owner == 'Div0011'
         uses: burnett01/rsync-deployments@8.0.4
         with:
@@ -63,3 +86,15 @@ jobs:
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_port: ${{ secrets.SSH_PORT }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Post-deploy production verification
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.repository_owner == 'Div0011'
+        run: |
+          sleep 5
+          BODY=$(curl -sL --max-time 20 https://mowglai.com/ || true)
+          if echo "$BODY" | grep -qiE "hacked|defaced"; then
+            echo "::error::Live site still serving defacement page after deploy!"
+            exit 1
+          fi
+          TITLE=$(echo "$BODY" | grep -oiE '<title>[^<]*' | head -1)
+          echo "Deploy OK. Live title: $TITLE"
