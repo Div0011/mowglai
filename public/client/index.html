@@ -182,7 +182,29 @@
         if (data.purchases && data.purchases.length > 0) {
           resEl.innerHTML = '<div class="p-3 bg-brand/10 border border-brand/30 rounded-xl space-y-1"><strong class="text-brand">Active Project Found:</strong><p>Plan: ' + data.purchases[0].plan_name + ' (' + data.purchases[0].status + ')</p><p class="text-gray-400">Details: ' + data.purchases[0].details + '</p></div>';
         } else {
-          resEl.innerHTML = '<div class="p-3 bg-white/5 border border-brandBorder rounded-xl"><p class="text-gray-300">No active project record found for ' + email + '.</p><p class="text-brand mt-1"><a href="https://wa.me/919452476331?text=Hi%20Mowglai,%20I%20want%20to%20check%20my%20project%20status%20for%20' + encodeURIComponent(email) + '" target="_blank" class="underline">Message support on WhatsApp</a> for live status.</p></div>';
+          resEl.innerHTML = '';
+          const wrapper = document.createElement('div');
+          wrapper.className = 'p-3 bg-white/5 border border-brandBorder rounded-xl';
+
+          const msg = document.createElement('p');
+          msg.className = 'text-gray-300';
+          msg.textContent = 'No active project record found for ' + email + '.';
+
+          const supportLine = document.createElement('p');
+          supportLine.className = 'text-brand mt-1';
+
+          const supportLink = document.createElement('a');
+          supportLink.className = 'underline';
+          supportLink.target = '_blank';
+          supportLink.href = 'https://wa.me/919452476331?text=Hi%20Mowglai,%20I%20want%20to%20check%20my%20project%20status%20for%20' + encodeURIComponent(email);
+          supportLink.textContent = 'Message support on WhatsApp';
+
+          supportLine.appendChild(supportLink);
+          supportLine.appendChild(document.createTextNode(' for live status.'));
+
+          wrapper.appendChild(msg);
+          wrapper.appendChild(supportLine);
+          resEl.appendChild(wrapper);
         }
       } catch (err) {
         resEl.innerHTML = '<p class="text-brand">Connected with support. Please WhatsApp our engineering team directly at +91 94524 76331.</p>';
