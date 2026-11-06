@@ -254,8 +254,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
                 {/* Main Layout Flex Container */}
                 <div className="absolute inset-0 flex w-full h-full">
-                    {/* Desktop Navigation Columns (90% Width) */}
-                    <nav className="hidden md:flex w-[90%] h-full">
+                    {/* Desktop Navigation Columns (calc(100% - 80px) Width to guarantee social icons never overlap) */}
+                    <nav className="hidden md:flex flex-1 h-full min-w-0 pr-2">
                         {navItems.map((item) => {
                             const isHovered = hoveredItem === item.label;
 
@@ -263,8 +263,8 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                 <div
                                     key={item.label}
                                     className={cn(
-                                        "h-full relative group/col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col items-center justify-center p-4",
-                                        isHovered ? "flex-[1.8] bg-primary/5" : "flex-1 hover:bg-primary/5"
+                                        "h-full relative group/col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col items-center justify-center p-2 min-w-0",
+                                        isHovered ? "flex-[1.6] bg-primary/5" : "flex-1 hover:bg-primary/5"
                                     )}
                                     onMouseEnter={() => setHoveredItem(item.label)}
                                     onMouseLeave={() => setHoveredItem(null)}
@@ -282,11 +282,11 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                     <a
                                         href={item.href}
                                         onClick={(e) => handleClick(e, item.label, item.href)}
-                                        className="flex flex-col items-center gap-6 text-center transition-all duration-300 cursor-pointer select-none py-4 z-10"
+                                        className="flex flex-col items-center gap-4 text-center transition-all duration-300 cursor-pointer select-none py-2 z-10 w-full"
                                     >
                                         <item.icon
                                             className={cn(
-                                                "w-10 h-10 mb-6 transition-all duration-500 transform -translate-y-4 group-hover/col:translate-y-0 opacity-0 group-hover/col:opacity-100",
+                                                "w-8 h-8 lg:w-9 lg:h-9 mb-4 transition-all duration-500 transform -translate-y-4 group-hover/col:translate-y-0 opacity-0 group-hover/col:opacity-100 shrink-0",
                                                 isHovered
                                                     ? resolvedTheme === "light"
                                                         ? "text-primary-foreground drop-shadow-[0_0_8px_rgba(20,83,45,0.4)]"
@@ -298,7 +298,7 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                                         <Magnetic amount={0.3}>
                                             <span
                                                 className={cn(
-                                                    "text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-display font-black uppercase break-words max-w-full [writing-mode:vertical-rl] rotate-180 inline-block leading-loose py-4 px-4",
+                                                    "text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-display font-black uppercase tracking-tight [writing-mode:vertical-rl] rotate-180 inline-block leading-none py-3 px-2 select-none",
                                                     isHovered
                                                         ? resolvedTheme === "light"
                                                             ? "text-primary-foreground drop-shadow-[0_0_10px_rgba(20,83,45,0.3)]"
@@ -630,9 +630,9 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                         ))}
                     </div>
 
-                    {/* Right Sidebar (10% Width) - Social Icons */}
-                    <div className="hidden md:flex w-[10%] h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5">
-                        <div className="flex flex-col gap-8 items-center">
+                    {/* Right Sidebar - Social Icons */}
+                    <div className="hidden md:flex w-[80px] lg:w-[90px] xl:w-[100px] shrink-0 h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5 z-20">
+                        <div className="flex flex-col gap-6 lg:gap-8 items-center">
                             {[
                                 { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
                                 { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
