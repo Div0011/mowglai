@@ -58,12 +58,14 @@ interface ValueThought {
   actionHref: string;
 }
 
-// 5 Mythical / Cyber Pet Forms (Roop Badalna on Rage / Multi-tap)
+// 8 Mythical / Cyber Outfits & Forms (Kapde badalna on every site refresh & rage morph)
 interface PetForm {
   id: string;
   name: string;
   emoji: string;
   badge: string;
+  outfitName: string;
+  outfitBadge: string;
   glowColor: string;
   filterStyle: string;
   rageSound: string;
@@ -77,6 +79,8 @@ const PET_FORMS: PetForm[] = [
     name: "Pixel Terminal",
     emoji: "📟",
     badge: "🌱 Mint Original",
+    outfitName: "Mint Cyber-Hoodie & Tech Cargo",
+    outfitBadge: "🌱 Mint Streetwear",
     glowColor: "rgba(200, 241, 105, 0.5)",
     filterStyle: "drop-shadow(0 4px 14px rgba(200, 241, 105, 0.45))",
     rageSound: "BEEP BEEP!",
@@ -88,6 +92,8 @@ const PET_FORMS: PetForm[] = [
     name: "Inferno Berserker",
     emoji: "🔥",
     badge: "🔥 Rage Inferno",
+    outfitName: "Crimson Lava Blazer & Scarf",
+    outfitBadge: "🧥 Crimson Lava Blazer",
     glowColor: "rgba(239, 68, 68, 0.8)",
     filterStyle: "hue-rotate(335deg) saturate(3.5) contrast(1.3) drop-shadow(0 0 16px rgba(239, 68, 68, 0.85))",
     rageSound: "GRRR! ROAR!",
@@ -99,6 +105,8 @@ const PET_FORMS: PetForm[] = [
     name: "Cosmic Specter",
     emoji: "🌌",
     badge: "🌌 Cosmic Void",
+    outfitName: "Galaxy Void Cloak & Stardust Mask",
+    outfitBadge: "🌌 Cosmic Void Cloak",
     glowColor: "rgba(168, 85, 247, 0.8)",
     filterStyle: "hue-rotate(225deg) saturate(2.6) brightness(1.2) drop-shadow(0 0 16px rgba(168, 85, 247, 0.85))",
     rageSound: "WARP!",
@@ -110,6 +118,8 @@ const PET_FORMS: PetForm[] = [
     name: "Golden Deity",
     emoji: "⚡",
     badge: "⚡ Supercharged Gold",
+    outfitName: "Royal Golden Sherwani & Crown",
+    outfitBadge: "👑 Royal Golden Sherwani",
     glowColor: "rgba(234, 179, 8, 0.85)",
     filterStyle: "hue-rotate(60deg) saturate(3.8) brightness(1.3) contrast(1.15) drop-shadow(0 0 18px rgba(234, 179, 8, 0.9))",
     rageSound: "OVERCLOCK!",
@@ -121,11 +131,52 @@ const PET_FORMS: PetForm[] = [
     name: "Shadow Matrix",
     emoji: "👾",
     badge: "👾 Matrix Glitch",
+    outfitName: "Stealth Matrix Trenchcoat & Shades",
+    outfitBadge: "🕶️ Matrix Trenchcoat",
     glowColor: "rgba(34, 197, 94, 0.9)",
     filterStyle: "invert(0.85) hue-rotate(130deg) contrast(1.4) drop-shadow(0 0 16px rgba(34, 197, 94, 0.9))",
     rageSound: "GLITCH DETECTED!",
     rageQuote: "SYSTEM OVERLOAD! Bypassing agency gatekeepers... Entering stealth Shadow Matrix dragon mode!",
     powerTrait: "Unbeatable Transparent Pricing from ₹5,000"
+  },
+  {
+    id: "neon-synthwave",
+    name: "Cyber Neon Rider",
+    emoji: "💜",
+    badge: "⚡ Neon Synthwave",
+    outfitName: "Neon Cyber-Jacket & Hologram Visor",
+    outfitBadge: "⚡ Neon Bomber Jacket",
+    glowColor: "rgba(236, 72, 153, 0.9)",
+    filterStyle: "hue-rotate(280deg) saturate(3.2) brightness(1.2) drop-shadow(0 0 16px rgba(236, 72, 153, 0.85))",
+    rageSound: "SYNTH OVERDRIVE!",
+    rageQuote: "Retro-futuristic vibes! Neon Cyber outfit unlocked — electrifying your digital brand with bold styling!",
+    powerTrait: "High-Converting Neon Visual Physics"
+  },
+  {
+    id: "safari-explorer",
+    name: "Jungle Mowglai",
+    emoji: "🌿",
+    badge: "🌿 Wild Safari",
+    outfitName: "Safari Khaki Explorer Gear & Boots",
+    outfitBadge: "🌿 Safari Explorer Suit",
+    glowColor: "rgba(34, 197, 94, 0.8)",
+    filterStyle: "sepia(0.6) hue-rotate(50deg) saturate(2.4) contrast(1.1) drop-shadow(0 0 14px rgba(34, 197, 94, 0.65))",
+    rageSound: "WELCOME TO THE JUNGLE!",
+    rageQuote: "Wild safari expedition active! Navigating your startup through the digital jungle to guaranteed growth!",
+    powerTrait: "Zero-Friction Client Onboarding"
+  },
+  {
+    id: "arctic-frost",
+    name: "Arctic Frostwalker",
+    emoji: "❄️",
+    badge: "❄️ Glacier Frost",
+    outfitName: "Glacier Thermal Parka & Snow Goggles",
+    outfitBadge: "❄️ Glacier Frost Parka",
+    glowColor: "rgba(56, 189, 248, 0.9)",
+    filterStyle: "hue-rotate(170deg) saturate(2.8) brightness(1.25) drop-shadow(0 0 16px rgba(56, 189, 248, 0.85))",
+    rageSound: "SUB-ZERO FREEZE!",
+    rageQuote: "Cooling all high-heat server bottlenecks! Arctic sub-zero speed keeping your website icy smooth under heavy traffic!",
+    powerTrait: "Sub-Second Global Edge Latency"
   }
 ];
 
@@ -240,10 +291,19 @@ export default function InteractivePet() {
   const [activeTab, setActiveTab] = useState<"advice" | "contact" | "settings">("advice");
   const [particles, setParticles] = useState<FloatingParticle[]>([]);
 
-  // Mythical Roop/Form State
+  // Mythical Roop/Outfit State (Automatic kapde badalna on every site refresh)
   const [activeFormIndex, setActiveFormIndex] = useState(0);
   const [isRageMorphing, setIsRageMorphing] = useState(false);
   const currentForm = PET_FORMS[activeFormIndex];
+
+  // End-of-page visibility: Pet is ONLY visible when user scrolls to the bottom of the page!
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  // Randomize outfit/clothes on every site refresh/reload
+  useEffect(() => {
+    const randomOutfitIndex = Math.floor(Math.random() * PET_FORMS.length);
+    setActiveFormIndex(randomOutfitIndex);
+  }, []);
 
   // Smooth position physics
   const [posX, setPosX] = useState(20);
@@ -472,9 +532,9 @@ export default function InteractivePet() {
     }, 1800);
   }, [activeFormIndex, spawnParticles, triggerThoughtPopup, whatsappUrl]);
 
-  // Auto-rotate value thoughts gently every 28 seconds
+  // Auto-rotate value thoughts gently when pet is visible at the bottom of page
   useEffect(() => {
-    if (isMinimized || isHubOpen || isRageMorphing) return;
+    if (!isAtBottom || isMinimized || isHubOpen || isRageMorphing) return;
 
     const scheduleNextThought = () => {
       autoPopTimer.current = setTimeout(() => {
@@ -494,13 +554,15 @@ export default function InteractivePet() {
       if (autoHideTimer.current) clearTimeout(autoHideTimer.current);
       if (progressInterval.current) clearInterval(progressInterval.current);
     };
-  }, [triggerThoughtPopup, isMinimized, isHubOpen, isRageMorphing]);
+  }, [triggerThoughtPopup, isAtBottom, isMinimized, isHubOpen, isRageMorphing]);
 
-  // 7. Section & Scroll Listener
+  // 7. Section & Scroll Listener - Strict End-of-Page Pet Visibility
   useEffect(() => {
     const handleScrollOrGesture = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const windowHeight = window.innerHeight || 0;
+      const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+      const maxScroll = docHeight - windowHeight;
       const progress = maxScroll > 0 ? Math.min(100, Math.max(0, Math.round((scrollY / maxScroll) * 100))) : 0;
       setScrollProgress(progress);
 
@@ -517,7 +579,34 @@ export default function InteractivePet() {
         setActiveSection("Ready to Launch");
       }
 
-      if (typeof window !== "undefined" && window.innerWidth >= 768) {
+      // STRICT USER REQUIREMENT:
+      // Pet ONLY appears when user reaches the end of the page (within 140px or >= 92% scroll).
+      // As soon as user scrolls up, pet disappears immediately!
+      const reachedEnd = maxScroll <= 60 || (scrollY + windowHeight >= docHeight - 140) || progress >= 92;
+
+      setIsAtBottom((prev) => {
+        if (reachedEnd && !prev) {
+          // Just arrived at bottom of page: celebrate and announce today's outfit
+          setPetState("celebrate");
+          spawnParticles(3, "star", currentForm.outfitBadge);
+          triggerThoughtPopup({
+            id: `end-${currentForm.id}`,
+            badge: `✨ ${currentForm.outfitBadge}`,
+            title: `👋 Welcome to the End!`,
+            thought: `Aap page ke end tak pahunch gaye! Aaj maine pehna hai: ${currentForm.outfitName}. Ready to launch your 5-day fast website?`,
+            actionText: "Chat on WhatsApp",
+            actionHref: whatsappUrl
+          }, 8000);
+        } else if (!reachedEnd && prev) {
+          // Scrolled up: dismiss bubble, hub and smoothly exit
+          setIsBubbleVisible(false);
+          setIsHubOpen(false);
+          setPetState("idle");
+        }
+        return reachedEnd;
+      });
+
+      if (typeof window !== "undefined" && window.innerWidth >= 768 && reachedEnd) {
         if (Math.abs(delta) > 10) {
           setSpeed("run");
           const isDown = delta > 0;
@@ -536,27 +625,15 @@ export default function InteractivePet() {
 
       if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
       scrollEndTimer.current = setTimeout(() => {
-        if (typeof window !== "undefined" && window.innerWidth >= 768) {
+        if (typeof window !== "undefined" && window.innerWidth >= 768 && reachedEnd) {
           const safeRest = findSafeEmptySpace(progress > 50 ? 0.85 : 0.15);
           setTargetX(safeRest);
         }
-
-        if (progress >= 95 && !isHubOpen) {
-          setPetState("celebrate");
-          spawnParticles(3, "star", "Finish!");
-          triggerThoughtPopup({
-            id: "finished",
-            badge: "🎉 Let's Connect",
-            title: "Ready to Grow Your Business?",
-            thought: "You've reviewed our plans! Contact us directly on WhatsApp for an instant free consultation.",
-            actionText: "Chat on WhatsApp",
-            actionHref: whatsappUrl
-          }, 7000);
-        } else {
-          setPetState("idle");
-        }
       }, 260);
     };
+
+    // Initial check on mount
+    handleScrollOrGesture();
 
     window.addEventListener("scroll", handleScrollOrGesture, { passive: true });
     window.addEventListener("touchmove", handleScrollOrGesture, { passive: true });
@@ -568,7 +645,7 @@ export default function InteractivePet() {
       window.removeEventListener("wheel", handleScrollOrGesture);
       if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
     };
-  }, [findSafeEmptySpace, triggerThoughtPopup, whatsappUrl, spawnParticles, isHubOpen]);
+  }, [findSafeEmptySpace, triggerThoughtPopup, whatsappUrl, spawnParticles, isHubOpen, currentForm]);
 
   // 8. Route Changes: Friendly greeting
   useEffect(() => {
@@ -680,8 +757,8 @@ export default function InteractivePet() {
 
   return (
     <>
-      {/* Floating Particle Reactions */}
-      {particles.map((p) => (
+      {/* Floating Particle Reactions - strictly when pet is visible at the bottom of the page */}
+      {isAtBottom && particles.map((p) => (
         <div
           key={p.id}
           className="fixed bottom-20 z-[42] pointer-events-none animate-in fade-in zoom-in duration-300 transition-all flex items-center gap-1 font-mono text-[11px] font-bold"
@@ -696,12 +773,17 @@ export default function InteractivePet() {
         </div>
       ))}
 
-      {/* Main Pet Container - Adjusted z-index to 40 so it never overlaps nav/modals */}
+      {/* Main Pet Container - STRICTLY ONLY VISIBLE WHEN USER SCROLLS TO THE END OF THE PAGE */}
       <div
-        className="fixed bottom-2.5 sm:bottom-3.5 z-40 select-none font-sans transition-transform duration-200 ease-out will-change-transform"
+        className={`fixed bottom-2.5 sm:bottom-3.5 z-40 select-none font-sans transition-all duration-500 ease-out will-change-transform ${
+          isAtBottom
+            ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+            : "opacity-0 translate-y-24 scale-75 pointer-events-none"
+        }`}
         style={{
-          transform: `translate3d(${posX}px, 0, 0)`,
+          transform: `translate3d(${posX}px, ${isAtBottom ? 0 : 80}px, 0)`,
         }}
+        aria-hidden={!isAtBottom}
       >
         {/* COMPACT AUTO-THOUGHT SPEECH BUBBLE */}
         {isBubbleVisible && !isHubOpen && !isMinimized && (
@@ -1125,14 +1207,14 @@ export default function InteractivePet() {
 
               {/* Integrated Persistent Quick Dock with Active Form Badge */}
               <div className="flex items-center gap-1 mt-1 bg-background/95 border border-primary/25 backdrop-blur-md px-2 py-0.5 rounded-full text-[9.5px] text-foreground/80 shadow-md transition-all">
-                {/* Form Roop Badge (Click to trigger rage morph directly) */}
+                {/* Form & Outfit Badge (Click to trigger rage morph directly) */}
                 <button
                   onClick={triggerRageMorph}
-                  className="hover:text-primary font-bold transition flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-primary/10 text-primary"
-                  title={`Form: ${currentForm.name} (Rapid click pet to morph!)`}
+                  className="hover:text-primary font-bold transition flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-primary/10 text-primary"
+                  title={`Outfit: ${currentForm.outfitName} (Click to change outfit!)`}
                 >
                   <span>{currentForm.emoji}</span>
-                  <span className="font-mono text-[9px]">{currentForm.name.split(" ")[0]}</span>
+                  <span className="font-mono text-[9px]">{currentForm.outfitBadge}</span>
                 </button>
 
                 <span className="text-foreground/30">•</span>
