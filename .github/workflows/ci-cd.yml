@@ -75,12 +75,25 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
         run: |
+          # 1. Validate required secrets
+          MISSING_SECRETS=""
+          if [ -z "$SSH_HOST" ]; then MISSING_SECRETS="${MISSING_SECRETS} SSH_HOST"; fi
+          if [ -z "$SSH_USER" ]; then MISSING_SECRETS="${MISSING_SECRETS} SSH_USERNAME"; fi
+          if [ -z "$SSH_KEY" ]; then MISSING_SECRETS="${MISSING_SECRETS} SSH_PRIVATE_KEY"; fi
+          
+          if [ -n "$MISSING_SECRETS" ]; then
+            echo "::error::Missing deployment secrets:${MISSING_SECRETS}. Please ensure SSH_HOST, SSH_USERNAME, and SSH_PRIVATE_KEY are added to repository secrets."
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/deploy_key
+          sed -i -e '$a\' ~/.ssh/deploy_key 2>/dev/null || true
           chmod 600 ~/.ssh/deploy_key
           
-          SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
-          RSYNC_RSH="ssh -o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
+          PORT="${SSH_PORT:-65002}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=20 -p $PORT -i ~/.ssh/deploy_key"
+          RSYNC_RSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=20 -p $PORT -i ~/.ssh/deploy_key"
           
           echo "=== 1. Checking Hostinger Environment & Neutralizing Rogue Processes ==="
           ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
