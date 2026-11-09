@@ -62,6 +62,13 @@ jobs:
           if [ -n "$DB_PASS" ]; then echo "SetEnv DB_PASS $DB_PASS" >> ./out/.htaccess; fi
         shell: bash
 
+      - name: Upload Production Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mowglai-production-build
+          path: ./out/
+          retention-days: 14
+
       # ==========================================
       # CD (Continuous Deployment) Pipeline
       # ==========================================
