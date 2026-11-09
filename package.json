@@ -4,11 +4,11 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "next dev --turbo",
+		"dev": "next dev -p 3000 -H 0.0.0.0",
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint .",
-		"test": "bun test",
+		"test": "node --test",
 		"pet:notify": "node scripts/pixel-pet-notify.mjs",
 		"pet:install": "node scripts/pixel-pet-install.mjs",
 		"pet:install:all": "node scripts/pixel-pet-install.mjs --all"

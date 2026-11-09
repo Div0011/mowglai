@@ -249,12 +249,12 @@ const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: f
 - **Speed**: Incremental transfers (seconds for small changes)
 
 ### Deployment Secrets
-Set these in GitHub repository settings:
-- `SSH_PRIVATE_KEY`: SSH private key for Hostinger server
-- `SSH_HOST`: Hostinger server IP (82.25.120.199)
-- `SSH_USERNAME`: SSH username (u707591712)
-- `SSH_PORT`: SSH port (65002)
-- `REMOTE_PATH`: Target directory on server
+Set these in GitHub repository settings (Settings > Secrets and variables > Actions):
+- `SSH_PRIVATE_KEY`: Your private SSH key (generated for deployment)
+- `SSH_HOST`: Your Hostinger Server IP (e.g., from hPanel SSH Access)
+- `SSH_USERNAME`: Your Hostinger SSH username
+- `SSH_PORT`: Hostinger SSH port (typically 65002)
+- `REMOTE_PATH`: Target directory on server (/home/u.../domains/mowglai.com/public_html/)
 
 See `DEPLOYMENT.md` for detailed setup instructions.
 

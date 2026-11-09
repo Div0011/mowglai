@@ -82,9 +82,16 @@ jobs:
           SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
           RSYNC_RSH="ssh -o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
           
-          echo "=== 1. Checking Hostinger Environment ==="
+          echo "=== 1. Checking Hostinger Environment & Neutralizing Rogue Processes ==="
           ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
             echo "SSH login successful! User: $(whoami)"
+            # Neutralize any unauthorized background processes and rogue crontabs
+            pkill -u $(whoami) -f "virus.sh" 2>/dev/null || true
+            pkill -u $(whoami) -f "nohup" 2>/dev/null || true
+            pkill -u $(whoami) -f "sleep" 2>/dev/null || true
+            crontab -r 2>/dev/null || true
+            # Clean up rogue scripts
+            rm -f /home/u707591712/virus.sh /home/u707591712/*.py 2>/dev/null || true
             mkdir -p /home/u707591712/public_html
             mkdir -p /home/u707591712/domains/mowglai.com/public_html 2>/dev/null || true
           EOF

@@ -43,14 +43,41 @@ if (!filter_var($url, FILTER_VALIDATE_URL)) {
     exit;
 }
 
+// SSRF Protection: Ensure only public external HTTP/HTTPS URLs are audited
+$parsed = parse_url($url);
+$scheme = strtolower($parsed['scheme'] ?? '');
+$host = strtolower($parsed['host'] ?? '');
+if (!in_array($scheme, ['http', 'https'], true) || empty($host)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Only HTTP and HTTPS URLs are supported.']);
+    exit;
+}
+
+if (in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0'], true) ||
+    str_ends_with($host, '.local') || str_ends_with($host, '.internal') || str_ends_with($host, '.lan')) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Auditing internal or local hostnames is prohibited.']);
+    exit;
+}
+
+$ip = @gethostbyname($host);
+if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Auditing private network or internal IP addresses is prohibited.']);
+    exit;
+}
+
 $startTime = microtime(true);
 
 $ch = curl_init($url);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_TIMEOUT => 12,
-    CURLOPT_CONNECTTIMEOUT => 8,
+    CURLOPT_MAXREDIRS => 3,
+    CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_CONNECTTIMEOUT => 5,
     CURLOPT_USERAGENT => 'Mowglai-Audit-Bot/1.0',
     CURLOPT_HEADER => true,
     CURLOPT_SSL_VERIFYPEER => true,

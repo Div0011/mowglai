@@ -1,8 +1,15 @@
 <?php
 declare(strict_types=1);
 
-// db.php - Database Connection with Environment & Hostinger Fallback
+// Direct web access prevention
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    header('HTTP/1.1 403 Forbidden');
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode(['error' => 'Direct access forbidden']);
+    exit(1);
+}
 
+// db.php - Database Connection with Secure Environment Variables
 if (!function_exists('mowglai_get_env')) {
     function mowglai_get_env(string $key, string $default = ''): string {
         if (!empty($_SERVER[$key])) {
@@ -25,7 +32,12 @@ if (!function_exists('mowglai_get_env')) {
 $host = mowglai_get_env('DB_HOST', 'localhost');
 $db   = mowglai_get_env('DB_NAME', 'u707591712_mowglai_data');
 $user = mowglai_get_env('DB_USER', 'u707591712_mowglai_user');
-$pass = mowglai_get_env('DB_PASS', 'Mowglai@2025');
+$pass = mowglai_get_env('DB_PASS', '');
+
+// Optional fallback if MYSQL_PASSWORD is used
+if (empty($pass)) {
+    $pass = mowglai_get_env('MYSQL_PASSWORD', '');
+}
 
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -38,22 +50,12 @@ $options = [
 $pdo = null;
 $pdo_error = null;
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    $pdo = null;
-    $pdo_error = $e->getMessage();
-
-    // Only exit with HTTP 500 if db.php was requested directly as an HTTP endpoint
-    $scriptFilename = isset($_SERVER['SCRIPT_FILENAME']) ? realpath($_SERVER['SCRIPT_FILENAME']) : '';
-    if ($scriptFilename && $scriptFilename === realpath(__FILE__)) {
-        header('Content-Type: application/json');
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Database connection failed. Please check server configuration.'
-        ]);
-        exit;
+if (!empty($pass)) {
+    try {
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    } catch (\PDOException $e) {
+        $pdo = null;
+        $pdo_error = 'Database connection failed';
+        error_log('[Mowglai DB] PDO connection error: ' . $e->getMessage());
     }
 }
-?>

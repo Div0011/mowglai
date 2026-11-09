@@ -1,0 +1,8 @@
+{
+  "name": "Mowglai",
+  "description": "High-performance digital agency website with 3D interactions, Next.js architecture, and SEO.",
+  "prompt": "Mowglai digital agency website",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
