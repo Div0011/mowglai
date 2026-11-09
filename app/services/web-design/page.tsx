@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "responsive design"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/web-design",
+        canonical: "https://mowglai.com/services/web-design/",
     },
     openGraph: {
         title: "Aesthetic Excellence & Web Design | Mowglai",
         description: "Transform your digital presence with world-class aesthetic UI/UX web design, spatial 3D interactions, and responsive design systems.",
-        url: "https://mowglai.com/services/web-design",
+        url: "https://mowglai.com/services/web-design/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

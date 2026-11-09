@@ -16,12 +16,12 @@ export const metadata: Metadata = {
         "ecommerce agency India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/ecommerce",
+        canonical: "https://mowglai.com/services/ecommerce/",
     },
     openGraph: {
         title: "E-Commerce & Online Store Architecture | Mowglai",
         description: "Transform your retail business with custom high-speed online stores, frictionless checkout flows, and automated inventory logistics.",
-        url: "https://mowglai.com/services/ecommerce",
+        url: "https://mowglai.com/services/ecommerce/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

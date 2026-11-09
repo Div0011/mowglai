@@ -3,6 +3,9 @@ import PageLayout from "@/components/PageLayout";
 export const metadata = {
     title: "Privacy Policy | Mowglai",
     description: "Privacy Policy for Mowglai Digital Agency and Template Store.",
+    alternates: {
+        canonical: "https://mowglai.com/privacy/",
+    },
 };
 
 export default function PrivacyPage() {

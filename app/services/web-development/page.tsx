@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "custom software development India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/web-development",
+        canonical: "https://mowglai.com/services/web-development/",
     },
     openGraph: {
         title: "Robust Engineering & Web Development | Mowglai",
         description: "Enterprise-grade web applications engineered on Next.js 16, React 19, and TypeScript for infinite scalability and sub-second load times.",
-        url: "https://mowglai.com/services/web-development",
+        url: "https://mowglai.com/services/web-development/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

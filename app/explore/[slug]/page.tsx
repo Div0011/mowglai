@@ -34,9 +34,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {
         title: `${template.title} - ${template.type} Website Template | Mowglai`,
         description: template.description,
+        alternates: {
+            canonical: `https://mowglai.com/explore/${slug}/`,
+        },
         openGraph: {
             title: `${template.title} - Premium ${template.type} Template | Mowglai`,
             description: template.description,
+            url: `https://mowglai.com/explore/${slug}/`,
             images: [
                 {
                     url: template.image,

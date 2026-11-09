@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "agency culture"
     ],
     alternates: {
-        canonical: "https://mowglai.com/our-dna",
+        canonical: "https://mowglai.com/our-dna/",
     },
     openGraph: {
         title: "Our DNA & Process | How Mowglai Creates Digital Excellence",
         description: "Discover Mowglai's unique approach to web development. Learn about our process, methodology, and principles.",
-        url: "https://mowglai.com/our-dna",
+        url: "https://mowglai.com/our-dna/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

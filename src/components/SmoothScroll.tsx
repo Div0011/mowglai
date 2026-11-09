@@ -51,18 +51,22 @@ const SmoothScroll = () => {
 
         const handleAnchorClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            const anchor = target.closest("a");
+            const anchor = target?.closest?.("a");
             if (!anchor) return;
 
             const href = anchor.getAttribute("href");
             if (href && href.startsWith("#") && href.length > 1) {
-                const targetElement = document.querySelector(href);
-                if (targetElement) {
-                    e.preventDefault();
-                    lenis.scrollTo(targetElement as HTMLElement, {
-                        offset: -40,
-                        duration: 1.2,
-                    });
+                try {
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        lenis.scrollTo(targetElement as HTMLElement, {
+                            offset: -40,
+                            duration: 1.2,
+                        });
+                    }
+                } catch {
+                    // Safe guard: Ignore invalid selector syntax or non-element hashes
                 }
             }
         };

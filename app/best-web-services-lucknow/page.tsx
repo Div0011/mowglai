@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "top digital agency Lucknow"
     ],
     alternates: {
-        canonical: "https://mowglai.com/best-web-services-lucknow",
+        canonical: "https://mowglai.com/best-web-services-lucknow/",
     },
     openGraph: {
         title: "Best Web Services in Lucknow | Mowglai Digital Agency",
         description: "Premier digital agency delivering modern websites and 48-hour GMB setups across Lucknow. High-performance websites starting at ₹5,000 INR ($55 USD).",
-        url: "https://mowglai.com/best-web-services-lucknow",
+        url: "https://mowglai.com/best-web-services-lucknow/",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

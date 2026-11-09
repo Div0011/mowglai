@@ -97,7 +97,7 @@ export const metadata: Metadata = {
     },
     manifest: "/site.webmanifest",
     alternates: {
-        canonical: "https://mowglai.com",
+        canonical: "https://mowglai.com/",
     },
     verification: {
         google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || "3MLnnPXMmJ1XyDvq4Pg8NU7d539HnXlro5bRLijpH98",

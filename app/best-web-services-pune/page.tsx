@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "top digital agency Pune"
     ],
     alternates: {
-        canonical: "https://mowglai.com/best-web-services-pune",
+        canonical: "https://mowglai.com/best-web-services-pune/",
     },
     openGraph: {
         title: "Best Web Services in Pune | Mowglai Digital Agency",
         description: "Modern web engineering for startups, auto-tech enterprises, and IT leaders across Pune. High-performance Next.js websites starting at ₹5,000 INR ($55 USD).",
-        url: "https://mowglai.com/best-web-services-pune",
+        url: "https://mowglai.com/best-web-services-pune/",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",
