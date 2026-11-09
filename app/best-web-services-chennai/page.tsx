@@ -24,7 +24,6 @@ export const metadata: Metadata = {
         title: "Best Web Services in Chennai | Mowglai Digital Agency",
         description: "Premier web engineering for SaaS enterprises, manufacturers, and startups across Chennai. High-performance Next.js websites starting at ₹5,000 INR ($55 USD).",
         url: "https://mowglai.com/best-web-services-chennai/",
-        url: "https://mowglai.com/best-web-services-chennai",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

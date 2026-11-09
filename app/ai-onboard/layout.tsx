@@ -16,3 +16,4 @@ export const metadata: Metadata = {
 export default function AiOnboardLayout({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
 }
+

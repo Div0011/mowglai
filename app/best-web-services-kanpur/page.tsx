@@ -24,7 +24,6 @@ export const metadata: Metadata = {
         title: "Best Web Services in Kanpur | Mowglai Digital Agency",
         description: "Transform your business with Kanpur's premier web development agency. High-speed websites, modern e-commerce stores, and local SEO starting at ₹5,000 INR ($55 USD).",
         url: "https://mowglai.com/best-web-services-kanpur/",
-        url: "https://mowglai.com/best-web-services-kanpur",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

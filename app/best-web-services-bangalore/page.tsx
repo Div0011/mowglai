@@ -24,7 +24,6 @@ export const metadata: Metadata = {
         title: "Best Web Services in Bangalore | Mowglai Digital Agency",
         description: "Silicon Valley-caliber web development for startups and enterprises across Bengaluru. High-performance Next.js websites starting at ₹5,000 INR ($55 USD).",
         url: "https://mowglai.com/best-web-services-bangalore/",
-        url: "https://mowglai.com/best-web-services-bangalore",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

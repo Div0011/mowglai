@@ -16,3 +16,4 @@ export const metadata: Metadata = {
 export default function AiAnalyzeLayout({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
 }
+
