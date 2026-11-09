@@ -45,9 +45,16 @@ mowglai policies and T&C.pdf
 policies.txt
 tc.txt
 
-# env
+# env & credentials
 .env
-.env.local
+.env*.local
+.env.production
+.env.development
+*.pem
+*.key
+credentials.json
+service-account*.json
+auth-token*
 
 public/.htaccess
 out/.htaccess
