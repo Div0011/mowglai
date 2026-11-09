@@ -21,9 +21,9 @@ Configure the following secrets in **GitHub > Repository Settings > Secrets and 
 ### Required Deployment Secrets
 | Secret Name | Description | Example / Notes |
 |---|---|---|
-| `SSH_HOST` | Hostinger Server IP or Hostname | Found in Hostinger hPanel > SSH Access |
+| `SSH_HOST` | Hostinger Server IP (CRITICAL: Do NOT use domain name) | `82.25.120.199` (Use this exact IP so SSH doesn't hit Vercel) |
 | `SSH_USERNAME` | Hostinger SSH Username | e.g., `u707591712` |
-| `SSH_PORT` | Hostinger SSH Port | Typically `65002` (defaults to 65002 if omitted) |
+| `SSH_PORT` | Hostinger SSH Port | `65002` (Hostinger default) |
 | `SSH_PRIVATE_KEY` | Ed25519 or RSA Private SSH Key | Generated for GitHub Actions |
 | `REMOTE_PATH` | Optional Custom Path | e.g., `/home/u707591712/public_html` |
 
@@ -42,7 +42,24 @@ Configure the following secrets in **GitHub > Repository Settings > Secrets and 
 
 ---
 
-## 3. SSH Key Setup on Hostinger
+## 3. Critical DNS Configuration (Hostinger hPanel)
+
+> [!IMPORTANT]
+> If your domain's DNS is still pointing to Vercel (`76.76.21.21`), visitors will continue to see the old November 5 cached site!
+> To serve the live site from Hostinger, update your DNS in Hostinger:
+
+1. Log in to **Hostinger hPanel** > **Domains** > **mowglai.com** > **DNS / Nameservers**.
+2. Find the **A** record for `@` (or `mowglai.com`):
+   - Current / Old: `76.76.21.21` (Vercel)
+   - Change to Hostinger Server IP: `82.25.120.199`
+3. Find the **CNAME** record for `www`:
+   - Current / Old: `cname.vercel-dns.com`
+   - Change to: `mowglai.com` (or create an A record pointing to `82.25.120.199`)
+4. Save the DNS changes. (DNS propagation takes 5-15 minutes).
+
+---
+
+## 4. SSH Key Setup on Hostinger
 
 1. Generate a dedicated SSH key pair on your local machine (or in terminal):
    ```bash
