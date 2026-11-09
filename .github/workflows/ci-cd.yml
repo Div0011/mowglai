@@ -95,34 +95,37 @@ jobs:
 
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/deploy_key
+          tr -d '\r' < ~/.ssh/deploy_key > ~/.ssh/deploy_key.tmp && mv ~/.ssh/deploy_key.tmp ~/.ssh/deploy_key
           sed -i -e '$a\' ~/.ssh/deploy_key 2>/dev/null || true
           chmod 600 ~/.ssh/deploy_key
           
           PORT="${SSH_PORT:-65002}"
           SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=20 -p $PORT -i ~/.ssh/deploy_key"
           RSYNC_RSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=20 -p $PORT -i ~/.ssh/deploy_key"
+          USER_HOME="/home/${SSH_USER}"
           
           echo "=== 1. Checking Hostinger Environment & Neutralizing Rogue Processes ==="
           ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
-            echo "SSH login successful! User: $(whoami)"
-            # Neutralize any unauthorized background processes and rogue crontabs
+            echo "SSH login successful! User: $(whoami), Home: $HOME"
+            # Neutralize any unauthorized background processes
             pkill -u $(whoami) -f "virus.sh" 2>/dev/null || true
             pkill -u $(whoami) -f "nohup" 2>/dev/null || true
             pkill -u $(whoami) -f "sleep" 2>/dev/null || true
-            crontab -r 2>/dev/null || true
+            # Clean rogue crontabs
+            crontab -l 2>/dev/null | grep -v 'virus\.sh' | grep -v 'rogue' | crontab - 2>/dev/null || true
             # Clean up rogue scripts
-            rm -f /home/u707591712/virus.sh /home/u707591712/*.py 2>/dev/null || true
-            mkdir -p /home/u707591712/public_html
-            mkdir -p /home/u707591712/domains/mowglai.com/public_html 2>/dev/null || true
+            rm -f "$HOME/virus.sh" "$HOME"/*.py 2>/dev/null || true
+            mkdir -p "$HOME/public_html"
+            mkdir -p "$HOME/domains/mowglai.com/public_html" 2>/dev/null || true
           EOF
           
-          echo "=== 2. Deploying out/ to /home/u707591712/public_html/ ==="
-          rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:/home/u707591712/public_html/"
+          echo "=== 2. Deploying out/ to $USER_HOME/public_html/ ==="
+          rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:$USER_HOME/public_html/"
           
-          echo "=== 3. Deploying out/ to /home/u707591712/domains/mowglai.com/public_html/ ==="
-          rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:/home/u707591712/domains/mowglai.com/public_html/" 2>/dev/null || true
+          echo "=== 3. Deploying out/ to $USER_HOME/domains/mowglai.com/public_html/ ==="
+          rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:$USER_HOME/domains/mowglai.com/public_html/" 2>/dev/null || true
           
-          if [ -n "$REMOTE_PATH" ] && [ "$REMOTE_PATH" != "/home/u707591712/public_html" ] && [ "$REMOTE_PATH" != "/home/u707591712/domains/mowglai.com/public_html" ]; then
+          if [ -n "$REMOTE_PATH" ] && [ "$REMOTE_PATH" != "$USER_HOME/public_html" ] && [ "$REMOTE_PATH" != "$USER_HOME/domains/mowglai.com/public_html" ]; then
             echo "=== 4. Deploying out/ to custom REMOTE_PATH: $REMOTE_PATH ==="
             rsync -avzr --chmod=D755,F644 -e "$RSYNC_RSH" --exclude '.next' --exclude 'node_modules' --exclude '.git' ./out/ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/" 2>/dev/null || true
           fi
@@ -131,22 +134,22 @@ jobs:
           ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
             set -e
             echo "--- Synchronizing public_html to domains/mowglai.com/public_html ---"
-            mkdir -p /home/u707591712/domains/mowglai.com/public_html
-            cp -a /home/u707591712/public_html/. /home/u707591712/domains/mowglai.com/public_html/
+            mkdir -p "$HOME/domains/mowglai.com/public_html"
+            cp -a "$HOME/public_html/." "$HOME/domains/mowglai.com/public_html/" 2>/dev/null || true
 
-            TARGETS=("/home/u707591712/public_html" "/home/u707591712/domains/mowglai.com/public_html")
+            TARGETS=("$HOME/public_html" "$HOME/domains/mowglai.com/public_html")
             for T in "${TARGETS[@]}"; do
               if [ -d "$T" ]; then
                 echo "--- Target: $T ---"
                 find "$T" -type d -exec chmod 755 {} + 2>/dev/null || true
                 find "$T" -type f -exec chmod 644 {} + 2>/dev/null || true
-                echo "index.html in $T: $(ls -lh $T/index.html 2>/dev/null || echo 'NOT FOUND')"
-                echo ".htaccess in $T: $(ls -lh $T/.htaccess 2>/dev/null || echo 'NOT FOUND')"
+                echo "index.html in $T: $(ls -lh "$T/index.html" 2>/dev/null || echo 'NOT FOUND')"
+                echo ".htaccess in $T: $(ls -lh "$T/.htaccess" 2>/dev/null || echo 'NOT FOUND')"
               fi
             done
 
-            test -f /home/u707591712/public_html/index.html || { echo "CRITICAL: public_html/index.html missing"; exit 1; }
-            test -f /home/u707591712/domains/mowglai.com/public_html/index.html || { echo "CRITICAL: domains/mowglai.com/public_html/index.html missing"; exit 1; }
+            test -f "$HOME/public_html/index.html" || { echo "CRITICAL: public_html/index.html missing"; exit 1; }
+            test -f "$HOME/domains/mowglai.com/public_html/index.html" || { echo "CRITICAL: domains/mowglai.com/public_html/index.html missing"; exit 1; }
 
             echo "=== All Document Roots Verified Successfully! ==="
           EOF
