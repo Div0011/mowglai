@@ -682,13 +682,13 @@ export default function InteractivePet() {
     }
 
     const timer = setTimeout(() => {
-      if (!isMinimized && !isHubOpen && !isRageMorphing) {
+      if (isAtBottom && !isMinimized && !isHubOpen && !isRageMorphing) {
         triggerThoughtPopup(thought, 6500);
       }
     }, 2500);
 
     return () => clearTimeout(timer);
-  }, [pathname, triggerThoughtPopup, whatsappUrl, telUrl, isMinimized, isHubOpen, isRageMorphing]);
+  }, [pathname, triggerThoughtPopup, whatsappUrl, telUrl, isAtBottom, isMinimized, isHubOpen, isRageMorphing]);
 
   // 9. Pet Click & Rapid Tap (Rage Morph) Handler
   const handlePetClick = useCallback(() => {
@@ -786,7 +786,7 @@ export default function InteractivePet() {
         aria-hidden={!isAtBottom}
       >
         {/* COMPACT AUTO-THOUGHT SPEECH BUBBLE */}
-        {isBubbleVisible && !isHubOpen && !isMinimized && (
+        {isBubbleVisible && isAtBottom && !isHubOpen && !isMinimized && (
           <div
             className={`mb-2 w-[270px] sm:w-[310px] max-w-[calc(100vw-36px)] bg-card/95 border border-primary/30 backdrop-blur-xl p-3 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.35),0_0_20px_rgba(200,241,105,0.15)] animate-in fade-in slide-in-from-bottom-2 duration-200 ${
               isRightSide ? "origin-bottom-right -translate-x-[calc(100%-70px)]" : "origin-bottom-left"
