@@ -117,5 +117,5 @@ if (process.argv[1] && process.argv[1].endsWith('pixel-pet-notify.mjs')) {
   const msg = process.argv[2] || 'Mowglai workflow in progress...';
   const reaction = process.argv[3] || 'working';
   const targetPet = process.argv[4] || 'pixel-terminal';
-  notifyPixelTerminal(msg, reaction, targetPet);
+  await notifyPixelTerminal(msg, reaction, targetPet);
 }
