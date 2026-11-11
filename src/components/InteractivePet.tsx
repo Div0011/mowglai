@@ -420,27 +420,41 @@ export default function InteractivePet() {
     return () => clearTimeout(timer);
   }, [isLoaded, petState, isMinimized]);
 
-  // 3. Smooth Physical Movement Lerp Loop
+  // 3. Smooth Position Interpolation (rAF-based delta-time lerp)
+  const posRef = useRef(24);
+  useEffect(() => {
+    posRef.current = posX;
+  }, [posX]);
+
   useEffect(() => {
     if (isMinimized) return;
 
-    const interval = setInterval(() => {
-      setPosX((current) => {
-        const diff = targetX - current;
-        if (Math.abs(diff) < 2) {
-          if (petState === "walkRight" || petState === "walkLeft" || petState === "runAlt") {
-            setPetState("idle");
-          }
-          return targetX;
-        }
+    let rafId = 0;
+    let last = performance.now();
 
-        const step = speed === "run" ? 7 : 3.2;
-        const next = diff > 0 ? current + Math.min(diff, step) : current - Math.min(Math.abs(diff), step);
-        return Math.round(next);
-      });
-    }, 20);
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 50);
+      last = now;
 
-    return () => clearInterval(interval);
+      const current = posRef.current;
+      const diff = targetX - current;
+
+      if (Math.abs(diff) >= 3) {
+        const step = (speed === "run" ? 8 : 3.5) * (dt / 16.67);
+        posRef.current = diff > 0 ? current + Math.min(diff, step) : current - Math.min(Math.abs(diff), step);
+        setPosX(Math.round(posRef.current));
+      } else if (
+        (petState === "walkRight" || petState === "walkLeft" || petState === "runAlt") &&
+        Math.abs(targetX - current) < 3
+      ) {
+        setPetState("idle");
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [targetX, petState, speed, isMinimized]);
 
   // 4. Empty-Space Locator with strict Mobile Protection
@@ -538,12 +552,10 @@ export default function InteractivePet() {
 
     const scheduleNextThought = () => {
       autoPopTimer.current = setTimeout(() => {
-        setThoughtIndex((prev) => {
-          const nextIdx = (prev + 1) % CONSUMER_VALUE_STREAM.length;
-          const nextThought = CONSUMER_VALUE_STREAM[nextIdx];
-          triggerThoughtPopup(nextThought, 6500);
-          return nextIdx;
-        });
+        const nextIdx = (thoughtIndex + 1) % CONSUMER_VALUE_STREAM.length;
+        const nextThought = CONSUMER_VALUE_STREAM[nextIdx];
+        setThoughtIndex(nextIdx);
+        triggerThoughtPopup(nextThought, 8000);
         scheduleNextThought();
       }, 28000);
     };
@@ -554,7 +566,7 @@ export default function InteractivePet() {
       if (autoHideTimer.current) clearTimeout(autoHideTimer.current);
       if (progressInterval.current) clearInterval(progressInterval.current);
     };
-  }, [triggerThoughtPopup, isAtBottom, isMinimized, isHubOpen, isRageMorphing]);
+  }, [thoughtIndex, triggerThoughtPopup, isAtBottom, isMinimized, isHubOpen, isRageMorphing]);
 
   // 7. Section & Scroll Listener - Strict End-of-Page Pet Visibility
   useEffect(() => {
