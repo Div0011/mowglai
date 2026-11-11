@@ -18,12 +18,12 @@ export const metadata: Metadata = {
         "top digital agency Delhi"
     ],
     alternates: {
-        canonical: "https://mowglai.com/best-web-services-delhi-ncr",
+        canonical: "https://mowglai.com/best-web-services-delhi-ncr/",
     },
     openGraph: {
         title: "Best Web Services in NCR & Delhi | Mowglai Digital Agency",
         description: "Award-winning web development & digital services for startups and businesses across Delhi NCR. High-performance Next.js websites starting at ₹5,000 INR ($55 USD).",
-        url: "https://mowglai.com/best-web-services-delhi-ncr",
+        url: "https://mowglai.com/best-web-services-delhi-ncr/",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

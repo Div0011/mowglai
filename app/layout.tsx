@@ -97,10 +97,10 @@ export const metadata: Metadata = {
     },
     manifest: "/site.webmanifest",
     alternates: {
-        canonical: "https://mowglai.com",
+        canonical: "https://mowglai.com/",
     },
     verification: {
-        google: "3MLnnPXMmJ1XyDvq4Pg8NU7d539HnXlro5bRLijpH98",
+        google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || "3MLnnPXMmJ1XyDvq4Pg8NU7d539HnXlro5bRLijpH98",
         other: {
             "razorpay-verification": "YOUR_RAZORPAY_VERIFICATION_KEY",
             "geo.region": "IN-DL;IN-UP",
@@ -151,20 +151,30 @@ export default function RootLayout({
                 <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
                 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-                {/* Google tag (gtag.js) - lazy loaded after critical UX content */}
-                <Script
-                    src="https://www.googletagmanager.com/gtag/js?id=AW-17452438899"
-                    strategy="lazyOnload"
-                />
-                <Script id="google-tag-aw-17452438899" strategy="lazyOnload">
-                    {`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
+                {/* Google Analytics 4 (GA4) & Google Ads via gtag.js */}
+                {(() => {
+                    const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+                    const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-17452438899";
+                    const primaryTagId = gaId || adsId;
 
-                        gtag('config', 'AW-17452438899');
-                    `}
-                </Script>
+                    return (
+                        <>
+                            <Script
+                                src={`https://www.googletagmanager.com/gtag/js?id=${primaryTagId}`}
+                                strategy="lazyOnload"
+                            />
+                            <Script id="google-tags-init" strategy="lazyOnload">
+                                {`
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+                                    ${adsId ? `gtag('config', '${adsId}');` : ''}
+                                    ${gaId ? `gtag('config', '${gaId}');` : ''}
+                                `}
+                            </Script>
+                        </>
+                    );
+                })()}
             </head>
             <body className="bg-background text-foreground antialiased min-h-dvh">
                 <LanguageProvider>
@@ -201,7 +211,7 @@ export default function RootLayout({
                             </p>
                         </div>
                     </noscript>
-                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
                         <Providers>
                             <AOSInit />
                             <ReferralBanner />

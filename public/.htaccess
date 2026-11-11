@@ -1,8 +1,12 @@
 # Default Directory Index
-DirectoryIndex index.html index.php
+<IfModule mod_dir.c>
+  DirectoryIndex index.html index.php
+</IfModule>
 
-# Prevent Directory Browsing
-Options -Indexes
+# Prevent Directory Browsing safely
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
 
 # Enable compression
 <IfModule mod_deflate.c>
@@ -23,6 +27,11 @@ Options -Indexes
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.*)$ $1.html [L]
+
+  # Serve directories with index.html directly
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)/?$ $1/index.html [L]
   
   # Do not rewrite missing API or PHP scripts to index.html (return clean 404 if not found)
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -66,7 +75,3 @@ Options -Indexes
 
 # Error Pages
 ErrorDocument 404 /404.html
-
-# Razorpay Keys (server-only; do not commit secrets)
-# SetEnv RAZORPAY_KEY_ID rzp_test_...
-# SetEnv RAZORPAY_KEY_SECRET your_secret

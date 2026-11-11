@@ -15,12 +15,12 @@ export const metadata: Metadata = {
         "growth consulting India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/digital-strategy",
+        canonical: "https://mowglai.com/services/digital-strategy/",
     },
     openGraph: {
         title: "Global Reach & Digital Strategy | Mowglai",
         description: "Position your brand on the global map. International SEO, multi-region edge deployment, and hyper-targeted conversion funnels.",
-        url: "https://mowglai.com/services/digital-strategy",
+        url: "https://mowglai.com/services/digital-strategy/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

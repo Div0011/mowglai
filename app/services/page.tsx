@@ -24,12 +24,12 @@ export const metadata: Metadata = {
         "website maintenance"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services",
+        canonical: "https://mowglai.com/services/",
     },
     openGraph: {
         title: "Web Development Services | Mowglai Digital Agency",
         description: "Premium web development services for startups and enterprises: SaaS, MVPs, MVC architecture, custom websites, React & Next.js, 3D experiences, e-commerce, SEO, and digital strategy.",
-        url: "https://mowglai.com/services",
+        url: "https://mowglai.com/services/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "predictive analytics"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/intelligent-systems",
+        canonical: "https://mowglai.com/services/intelligent-systems/",
     },
     openGraph: {
         title: "Intelligent Systems & AI Automation | Mowglai",
         description: "Scale your business with bespoke AI agents, automated workflows, and intelligent integrations engineered for speed and precision.",
-        url: "https://mowglai.com/services/intelligent-systems",
+        url: "https://mowglai.com/services/intelligent-systems/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

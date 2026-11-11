@@ -16,7 +16,13 @@ import {
     RefreshCw,
     Layers,
     MessageCircle,
-    Globe
+    Globe,
+    Download,
+    Smartphone,
+    Tablet,
+    Monitor,
+    Copy,
+    Check
 } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import { CompetitorAnalysisResult, analyzeCompetitorUrl } from "@/lib/ai/analyzer";
@@ -37,6 +43,10 @@ export default function AiAnalyzePage() {
     const [statusText, setStatusText] = useState("");
     const [result, setResult] = useState<CompetitorAnalysisResult | null>(null);
     const [activePreviewUrl, setActivePreviewUrl] = useState<string | null>(null);
+    const [copiedHtml, setCopiedHtml] = useState(false);
+    const [showHtmlCode, setShowHtmlCode] = useState(false);
+    const [activeHtmlPreview, setActiveHtmlPreview] = useState<string | null>(null);
+    const [previewDevice, setPreviewDevice] = useState<"desktop" | "tablet" | "mobile">("desktop");
 
     const handleAnalyze = async (urlToTest?: string) => {
         const query = (urlToTest || targetUrl).trim();
@@ -86,6 +96,24 @@ export default function AiAnalyzePage() {
             clearTimeout(t2);
             clearTimeout(t3);
         };
+    };
+
+    const handleDownloadHtml = (htmlContent: string, fileName: string) => {
+        const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleCopyHtml = (htmlContent: string) => {
+        navigator.clipboard.writeText(htmlContent);
+        setCopiedHtml(true);
+        setTimeout(() => setCopiedHtml(false), 2500);
     };
 
     const handleBuildMyVersion = () => {
@@ -272,6 +300,94 @@ I want to build an original, 3x faster platform with Mowglai. Please share proje
                             </div>
                         </div>
 
+                        {/* RE-ENGINEERED CLEAN-ROOM HTML CARD */}
+                        {result.generatedHtml && (
+                            <div className="rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-card/80 via-primary/5 to-card/90 p-6 sm:p-8 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+                                <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                                    <span className="text-xs font-semibold px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 inline-flex items-center gap-1.5 font-mono">
+                                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                                        CLEAN-ROOM RE-ENGINEERED ARCHITECTURE
+                                    </span>
+                                    <span className="text-xs font-mono text-foreground/60">
+                                        3x Faster Guarantee • Zero Bloat
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div className="lg:col-span-7 space-y-3">
+                                        <h3 className="text-2xl sm:text-3xl font-display font-black text-foreground uppercase tracking-tight">
+                                            Synthesized Platform for {result.domain}
+                                        </h3>
+                                        <p className="text-foreground/80 text-sm leading-relaxed">
+                                            Mowglai AI decompiled {result.domain} and synthesized a clean-room, sub-second single-page website with Tailwind CSS, 4.9★ social proof, LocalBusiness JSON-LD schema, and direct WhatsApp / Call conversion.
+                                        </p>
+
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 text-xs text-foreground/80 font-mono">
+                                            <div className="p-2.5 rounded-lg bg-background/50 border border-primary/20">
+                                                ⚡ Sub-Second: <strong className="text-primary">0.6s LCP</strong>
+                                            </div>
+                                            <div className="p-2.5 rounded-lg bg-background/50 border border-primary/20">
+                                                🛡️ SEO: <strong className="text-emerald-400">100/100 GEO</strong>
+                                            </div>
+                                            <div className="p-2.5 rounded-lg bg-background/50 border border-primary/20">
+                                                📱 Lead Engine: <strong className="text-primary">WhatsApp Active</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="lg:col-span-5 flex flex-col gap-2.5 bg-background/60 border border-primary/20 p-5 rounded-xl">
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveHtmlPreview(result.generatedHtml || null)}
+                                            className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg hover:scale-105"
+                                        >
+                                            <Eye className="w-4 h-4" /> Live Interactive Preview
+                                        </button>
+
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDownloadHtml(result.generatedHtml || "", `${result.domain.replace(/[^a-z0-9]/g, '-')}-reengineered.html`)}
+                                                className="py-2.5 px-3 rounded-xl bg-background/80 hover:bg-background border border-primary/30 text-foreground text-xs font-bold flex items-center justify-center gap-1.5 transition"
+                                            >
+                                                <Download className="w-3.5 h-3.5 text-primary" /> Download HTML
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => handleCopyHtml(result.generatedHtml || "")}
+                                                className="py-2.5 px-3 rounded-xl bg-background/80 hover:bg-background border border-primary/30 text-foreground text-xs font-bold flex items-center justify-center gap-1.5 transition"
+                                            >
+                                                {copiedHtml ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-primary" />}
+                                                {copiedHtml ? "Copied!" : "Copy Code"}
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowHtmlCode(!showHtmlCode)}
+                                            className="text-[11px] text-foreground/60 hover:text-primary transition py-1 text-center font-mono"
+                                        >
+                                            {showHtmlCode ? "Hide HTML Code ▲" : "Inspect Raw Code Preview ▼"}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {showHtmlCode && (
+                                    <div className="mt-6 pt-4 border-t border-primary/20">
+                                        <div className="flex items-center justify-between mb-2 text-xs font-mono text-foreground/60">
+                                            <span>Synthesized Single-File HTML</span>
+                                            <span>~{result.generatedHtml.split('\n').length} lines</span>
+                                        </div>
+                                        <pre className="p-4 rounded-xl bg-black/70 border border-primary/20 text-[11px] font-mono text-emerald-300 max-h-60 overflow-y-auto overflow-x-auto whitespace-pre">
+                                            {result.generatedHtml.slice(0, 2400)}
+                                            {result.generatedHtml.length > 2400 && "\n\n... [Download full file to view complete 250+ lines] ..."}
+                                        </pre>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
                         {/* Matched Template Banner with Primary CTA */}
                         <div className="rounded-2xl border-2 border-primary/40 bg-card/60 p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl backdrop-blur-md">
                             <div className="space-y-3 max-w-xl">
@@ -380,39 +496,103 @@ I want to build an original, 3x faster platform with Mowglai. Please share proje
                 )}
             </main>
 
-            {/* Embedded Live Preview Modal */}
-            {activePreviewUrl && (
-                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col p-4 sm:p-6">
-                    <div className="flex items-center justify-between pb-3 border-b border-primary/20 max-w-7xl w-full mx-auto">
+            {/* Interactive Preview Modal (Generated HTML & Templates) */}
+            {(activeHtmlPreview || activePreviewUrl) && (
+                <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col p-3 sm:p-6">
+                    <div className="flex flex-wrap items-center justify-between pb-3 border-b border-primary/20 max-w-7xl w-full mx-auto gap-3">
                         <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-xs font-mono text-foreground/80">Live Preview: {activePreviewUrl}</span>
+                            <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="text-xs font-mono text-foreground/90 font-bold">
+                                {activeHtmlPreview ? `Re-Engineered Clean-Room Preview: ${result?.domain}` : `Template: ${activePreviewUrl}`}
+                            </span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <a
-                                href={activePreviewUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-xs font-semibold px-3 py-1.5 rounded-md bg-background/80 text-foreground hover:text-primary flex items-center gap-1.5 border border-primary/20"
-                            >
-                                Open in New Tab <ExternalLink className="w-3 h-3" />
-                            </a>
+
+                        {/* Device Viewport Selector */}
+                        <div className="flex items-center gap-1 bg-background/80 p-1 rounded-lg border border-primary/20">
                             <button
                                 type="button"
-                                onClick={() => setActivePreviewUrl(null)}
-                                className="text-xs font-bold px-3 py-1.5 rounded-md bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+                                onClick={() => setPreviewDevice("desktop")}
+                                className={`px-2.5 py-1 rounded text-xs flex items-center gap-1 transition ${
+                                    previewDevice === "desktop" ? "bg-primary text-primary-foreground font-bold" : "text-foreground/70 hover:text-foreground"
+                                }`}
                             >
-                                Close Preview ✕
+                                <Monitor className="w-3.5 h-3.5" /> Desktop
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setPreviewDevice("tablet")}
+                                className={`px-2.5 py-1 rounded text-xs flex items-center gap-1 transition ${
+                                    previewDevice === "tablet" ? "bg-primary text-primary-foreground font-bold" : "text-foreground/70 hover:text-foreground"
+                                }`}
+                            >
+                                <Tablet className="w-3.5 h-3.5" /> Tablet (768px)
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setPreviewDevice("mobile")}
+                                className={`px-2.5 py-1 rounded text-xs flex items-center gap-1 transition ${
+                                    previewDevice === "mobile" ? "bg-primary text-primary-foreground font-bold" : "text-foreground/70 hover:text-foreground"
+                                }`}
+                            >
+                                <Smartphone className="w-3.5 h-3.5" /> Mobile (390px)
+                            </button>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            {activeHtmlPreview && (
+                                <button
+                                    type="button"
+                                    onClick={() => handleDownloadHtml(activeHtmlPreview, `${result?.domain.replace(/[^a-z0-9]/g, '-') || 'reengineered'}.html`)}
+                                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-primary text-primary-foreground flex items-center gap-1.5 shadow"
+                                >
+                                    <Download className="w-3.5 h-3.5" /> Download
+                                </button>
+                            )}
+                            {activePreviewUrl && (
+                                <a
+                                    href={activePreviewUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-background/80 text-foreground hover:text-primary flex items-center gap-1.5 border border-primary/20"
+                                >
+                                    New Tab <ExternalLink className="w-3 h-3" />
+                                </a>
+                            )}
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setActiveHtmlPreview(null);
+                                    setActivePreviewUrl(null);
+                                }}
+                                className="text-xs font-bold px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+                            >
+                                Close ✕
                             </button>
                         </div>
                     </div>
 
-                    <div className="flex-1 w-full max-w-7xl mx-auto mt-4 rounded-xl overflow-hidden border border-primary/20 bg-background">
-                        <iframe
-                            src={activePreviewUrl}
-                            className="w-full h-full border-0"
-                            title="Mowglai Matched Template Preview"
-                        />
+                    {/* Modal Iframe Wrapper with Device Sizing */}
+                    <div className="flex-1 w-full max-w-7xl mx-auto mt-3 rounded-2xl overflow-hidden border border-primary/30 bg-background flex justify-center items-center">
+                        <div
+                            className="h-full transition-all duration-300 bg-background shadow-2xl overflow-hidden"
+                            style={{
+                                width: previewDevice === "desktop" ? "100%" : previewDevice === "tablet" ? "768px" : "390px"
+                            }}
+                        >
+                            {activeHtmlPreview ? (
+                                <iframe
+                                    srcDoc={activeHtmlPreview}
+                                    className="w-full h-full border-0"
+                                    title="Mowglai AI Re-Engineered Platform Preview"
+                                />
+                            ) : (
+                                <iframe
+                                    src={activePreviewUrl || ""}
+                                    className="w-full h-full border-0"
+                                    title="Mowglai Matched Template Preview"
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

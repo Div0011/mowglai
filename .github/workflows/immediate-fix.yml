@@ -1,0 +1,72 @@
+name: Immediate Fix & Server Monitor
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-and-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Server Fix & Inspection
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
+
+          echo "=== 1. Inspecting running processes and scheduled tasks ==="
+          ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
+            echo "--- Active processes ---"
+            ps aux 2>&1 | head -30
+            echo ""
+            echo "--- Git configuration on server ---"
+            git config --list 2>&1 || true
+            echo ""
+            echo "--- Check if /home/u707591712/domains/mowglai.com has any git repo ---"
+            ls -la /home/u707591712/domains/mowglai.com/.git 2>&1 || true
+            ls -la /home/u707591712/domains/mowglai.com/public_html/.git 2>&1 || true
+            ls -la /home/u707591712/.git 2>&1 || true
+            echo ""
+            echo "--- Hostinger webhooks or deployment scripts ---"
+            find /home/u707591712/ -maxdepth 3 -name "*deploy*" -o -name "*hook*" -o -name "*sync*" 2>/dev/null || true
+          EOF
+
+          echo "=== 2. Copying 930 files from public_html to domains/mowglai.com/public_html ==="
+          ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
+            set -e
+            SRC="/home/u707591712/public_html"
+            DEST="/home/u707591712/domains/mowglai.com/public_html"
+
+            echo "Ensuring DEST exists: $DEST"
+            mkdir -p "$DEST"
+
+            echo "Copying files from $SRC to $DEST..."
+            cp -a "$SRC"/. "$DEST"/
+
+            echo "Verifying file counts:"
+            echo "SRC count:  $(find "$SRC" -type f | wc -l)"
+            echo "DEST count: $(find "$DEST" -type f | wc -l)"
+
+            echo "Setting permissions 755 (dirs) and 644 (files) on both..."
+            find "$SRC" -type d -exec chmod 755 {} + 2>/dev/null || true
+            find "$SRC" -type f -exec chmod 644 {} + 2>/dev/null || true
+            find "$DEST" -type d -exec chmod 755 {} + 2>/dev/null || true
+            find "$DEST" -type f -exec chmod 644 {} + 2>/dev/null || true
+
+            echo "Checking index.html in DEST:"
+            ls -la "$DEST/index.html"
+            ls -la "$DEST/.htaccess"
+          EOF
+
+          echo "=== 3. Probing mowglai.com via HTTP ==="
+          sleep 3
+          curl -ILs "https://mowglai.com" | head -20 || true
+          curl -s -o /dev/null -w "Final HTTP Code: %{http_code}\n" "https://mowglai.com"
+          curl -s -o /dev/null -w "Index.html HTTP Code: %{http_code}\n" "https://mowglai.com/index.html"
+
+          rm -f ~/.ssh/deploy_key

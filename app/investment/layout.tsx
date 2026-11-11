@@ -16,12 +16,12 @@ export const metadata: Metadata = {
         "Next.js development cost"
     ],
     alternates: {
-        canonical: "https://mowglai.com/investment",
+        canonical: "https://mowglai.com/investment/",
     },
     openGraph: {
         title: "Pricing & Investment | Mowglai Web Development Services",
         description: "Transparent pricing for web development services. From $499 basic websites to custom enterprise solutions. View packages and get 10% off.",
-        url: "https://mowglai.com/investment",
+        url: "https://mowglai.com/investment/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

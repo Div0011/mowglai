@@ -16,12 +16,12 @@ export const metadata: Metadata = {
         "website upgrade India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/website-redesign",
+        canonical: "https://mowglai.com/services/website-redesign/",
     },
     openGraph: {
         title: "Website Redesign & Digital Evolution | Mowglai",
         description: "Breathe new life into legacy platforms. 10x faster load speeds, modern 3D spatial aesthetics, and zero SEO ranking loss.",
-        url: "https://mowglai.com/services/website-redesign",
+        url: "https://mowglai.com/services/website-redesign/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

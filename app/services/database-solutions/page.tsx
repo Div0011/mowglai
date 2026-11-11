@@ -16,12 +16,12 @@ export const metadata: Metadata = {
         "database consulting India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/services/database-solutions",
+        canonical: "https://mowglai.com/services/database-solutions/",
     },
     openGraph: {
         title: "Data Intelligence & Database Solutions | Mowglai",
         description: "Organize, secure, and scale your mission-critical data with enterprise cloud architectures, sub-millisecond caching, and zero-downtime replication.",
-        url: "https://mowglai.com/services/database-solutions",
+        url: "https://mowglai.com/services/database-solutions/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

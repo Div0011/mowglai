@@ -1085,7 +1085,7 @@ const htmlContent = `<!DOCTYPE html>
             <div style="display: flex; flex-direction: column; gap: 8px; font-size: 8.5pt;">
               <div>
                 <span style="color: var(--text-muted); font-size: 7.5pt; text-transform: uppercase; display: block;">Official Email</span>
-                <span style="color: var(--text-main); font-weight: 700;">info@mowglai.com</span>
+                <span style="color: var(--text-main); font-weight: 700;">tech@mowglai.com</span>
               </div>
               <div>
                 <span style="color: var(--text-muted); font-size: 7.5pt; text-transform: uppercase; display: block;">Interactive Web Catalogue</span>

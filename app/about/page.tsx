@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "best web agency India"
     ],
     alternates: {
-        canonical: "https://mowglai.com/about",
+        canonical: "https://mowglai.com/about/",
     },
     openGraph: {
         title: "About Mowglai | Leading Web Development Company in India",
         description: "Discover India's premier web development agency. Learn about our mission, expert team, and commitment to digital excellence.",
-        url: "https://mowglai.com/about",
+        url: "https://mowglai.com/about/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

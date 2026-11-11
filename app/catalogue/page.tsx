@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "digital agency capabilities"
     ],
     alternates: {
-        canonical: "https://mowglai.com/catalogue",
+        canonical: "https://mowglai.com/catalogue/",
     },
     openGraph: {
         title: "Official Business Catalogue | Mowglai Digital Agency",
         description: "Bespoke web development, SaaS platforms, 3D WebGL, and proven client platforms like More Interior. Download the official PDF catalogue.",
-        url: "https://mowglai.com/catalogue",
+        url: "https://mowglai.com/catalogue/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",

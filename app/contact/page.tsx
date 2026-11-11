@@ -17,12 +17,12 @@ export const metadata: Metadata = {
         "web agency contact"
     ],
     alternates: {
-        canonical: "https://mowglai.com/contact",
+        canonical: "https://mowglai.com/contact/",
     },
     openGraph: {
         title: "Contact Mowglai | Web Development Agency India",
         description: "Get in touch with India's leading web development agency. Contact us for custom website design and development projects.",
-        url: "https://mowglai.com/contact",
+        url: "https://mowglai.com/contact/",
         images: [
             {
                 url: "https://mowglai.com/mowglai-logo-new.jpg",
@@ -70,7 +70,7 @@ const jsonLdContactPage = {
         "@type": "Organization",
         "name": "Mowglai Digital Agency",
         "telephone": "+91-9452476331",
-        "email": "info@mowglai.com",
+        "email": "tech@mowglai.com",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Noida",

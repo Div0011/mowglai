@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ── Configuration ──────────────────────────────────────────────
-$ADMIN_EMAIL  = "info@mowglai.com";
+$ADMIN_EMAIL  = mowglai_get_env('ADMIN_EMAIL', 'tech@mowglai.com');
 $FROM_NAME    = "Mowglai Website";
-$FROM_ADDRESS = "info@mowglai.com";
+$FROM_ADDRESS = mowglai_get_env('FROM_ADDRESS', 'tech@mowglai.com');
 
 /**
  * The mailbox password is read from the environment only.
@@ -63,7 +63,7 @@ if (empty($SMTP_PASSWORD)) {
     header('Content-Type: application/json');
     echo json_encode([
         'status'  => 'error',
-        'message' => 'Email service is not configured. Please email info@mowglai.com directly.',
+        'message' => 'Email service is not configured. Please email tech@mowglai.com directly.',
     ]);
     exit;
 }
@@ -73,7 +73,7 @@ $SMTP_CONFIG = [
     'enabled'  => true,
     'host'     => mowglai_get_env('SMTP_HOST', 'ssl://smtp.hostinger.com'),
     'port'     => (int)mowglai_get_env('SMTP_PORT', '465'),
-    'username' => mowglai_get_env('SMTP_USER', 'info@mowglai.com'),
+    'username' => mowglai_get_env('SMTP_USER', 'tech@mowglai.com'),
     'password' => $SMTP_PASSWORD,
     'timeout'  => 10
 ];
@@ -82,11 +82,7 @@ $SMTP_CONFIG = [
 function log_email(string $status, string $details): void {
     $timestamp = gmdate('Y-m-d H:i:s UTC');
     $log_line  = "[{$timestamp}] {$status}: {$details}\n";
-    $log_dir   = __DIR__ . '/api';
-    if (!is_dir($log_dir)) {
-        @mkdir($log_dir, 0755, true);
-    }
-    $log_file = $log_dir . '/email.log';
+    $log_file  = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'mowglai-email.log';
     @file_put_contents($log_file, $log_line, FILE_APPEND | LOCK_EX);
 }
 
@@ -95,28 +91,12 @@ function sanitize_header(string $val): string {
     return trim(str_replace(["\r", "\n", "%0a", "%0d"], '', $val));
 }
 
-// ── Diagnostic / Health Check (GET ?test=1) ────────────────────
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['test'])) {
+// ── Health Check (GET) ─────────────────────────────────────────
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['health'])) {
     ob_end_clean();
-    $db_ok = false;
-    try {
-        if (file_exists(__DIR__ . '/api/db.php')) {
-            include_once __DIR__ . '/api/db.php';
-            if (isset($pdo) && $pdo instanceof PDO) {
-                $db_ok = true;
-            }
-        }
-    } catch (\Throwable $e) {}
-
     echo json_encode([
-        "status"               => "ok",
-        "service"              => "Mowglai Mail & Database Handler",
-        "php_version"          => phpversion(),
-        "database_connected"   => $db_ok,
-        "mail_func"            => function_exists('mail'),
-        "openssl"              => extension_loaded('openssl'),
-        "smtp_pass_configured" => !empty($SMTP_CONFIG['password']),
-        "log_writable"          => is_writable(__DIR__ . '/api') || is_writable(__DIR__)
+        "status"  => "ok",
+        "service" => "Mowglai Secure Form Dispatcher"
     ]);
     exit();
 }
@@ -128,6 +108,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+// ── IP Rate Limiting (Prevent abuse on Hostinger) ───────────────
+$client_ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+$rate_key  = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'mowglai_rate_' . md5($client_ip);
+$now       = time();
+$requests  = [];
+if (file_exists($rate_key)) {
+    $raw_rate = @file_get_contents($rate_key);
+    $decoded  = json_decode((string)$raw_rate, true);
+    if (is_array($decoded)) {
+        $requests = array_filter($decoded, function($t) use ($now) { return is_int($t) && ($now - $t) < 60; });
+    }
+}
+if (count($requests) >= 8) {
+    ob_end_clean();
+    http_response_code(429);
+    echo json_encode(["status" => "error", "message" => "Too many submissions. Please wait a moment."]);
+    exit();
+}
+$requests[] = $now;
+@file_put_contents($rate_key, json_encode(array_values($requests)));
+
 // Parse JSON payload
 $raw  = file_get_contents("php://input");
 $data = json_decode($raw, true);
@@ -136,6 +137,13 @@ if (!is_array($data)) {
     ob_end_clean();
     http_response_code(400);
     echo json_encode(["status" => "error", "message" => "Invalid JSON payload"]);
+    exit();
+}
+
+// Honeypot bot protection (drop automated bot spam quietly)
+if (!empty($data['hp_website']) || !empty($data['trap_field']) || !empty($data['website_url'])) {
+    ob_end_clean();
+    echo json_encode(["status" => "success", "message" => "Your message has been submitted successfully."]);
     exit();
 }
 
@@ -479,7 +487,7 @@ if ($sent || $submission_id) {
     http_response_code(500);
     echo json_encode([
         "status"  => "error",
-        "message" => "Submission error. Please try again or reach us at info@mowglai.com."
+        "message" => "Submission error. Please try again or reach us at tech@mowglai.com."
     ]);
 }
 ?>

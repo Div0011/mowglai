@@ -48,3 +48,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"businessName":"Audit Ping","businessSector":"portfolio","city":"NCR"}' \
             -w "\nHTTP Response: %{http_code}\n" || true
+          # Audit Send Email endpoint health
+          echo "Testing /send_email.php?health=1..."
+          curl -s https://mowglai.com/send_email.php?health=1 \
+            -w "\nHTTP Response: %{http_code}\n" || true

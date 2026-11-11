@@ -30,9 +30,13 @@ echo "3. Compiling production static export..."
 bun run build
 
 echo "4. Deploying files to Hostinger via rsync..."
+SSH_USER="${SSH_USERNAME:-u707591712}"
+SSH_TARGET="${SSH_HOST:-82.25.120.199}"
+SSH_PORT_NUM="${SSH_PORT:-65002}"
+
 rsync -avzr --delete \
-  -e "ssh -p 65002 -i $SSH_KEY_PATH -o StrictHostKeyChecking=no" \
+  -e "ssh -p $SSH_PORT_NUM -i $SSH_KEY_PATH -o StrictHostKeyChecking=no" \
   ./out/ \
-  u707591712@82.25.120.199:public_html/
+  "${SSH_USER}@${SSH_TARGET}:public_html/"
 
 echo "=== Deployment Completed Successfully ==="

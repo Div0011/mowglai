@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mowglai Client Hub | Project Tracking, Onboarding & Bespoke Architecture</title>
+  <meta name="description" content="Dedicated client portal for Mowglai digital agency. Track project status, onboard your business, and access technical support." />
+  <link rel="icon" href="/logo1.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#c8f169',
+            emeraldGlow: '#10b981',
+            obsidian: '#040a07',
+            surface: '#091913',
+            surfaceCard: '#07150f',
+            brandBorder: 'rgba(200, 241, 105, 0.22)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(ellipse 130% 100% at 50% -15%, #0d2e24 0%, #061610 40%, #030906 100%);
+      min-height: 100vh;
+      color: #f4f7f5;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col justify-between relative overflow-x-hidden">
+  <!-- Cosmic Jungle Bioluminescent Aura -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#c8f169]/15 via-[#10b981]/10 to-transparent blur-[140px] rounded-full pointer-events-none -z-10"></div>
+  <div class="fixed bottom-0 right-0 w-[450px] h-[450px] bg-[#10b981]/8 blur-[160px] rounded-full pointer-events-none -z-10"></div>
+
+  <!-- Ambient Stardust Grid -->
+  <div class="fixed inset-0 opacity-[0.04] pointer-events-none -z-10" style="background-image: radial-gradient(#c8f169 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+  <!-- Header -->
+  <header class="max-w-6xl w-full mx-auto flex items-center justify-between py-4 border-b border-brandBorder/50 relative z-10 backdrop-blur-md">
+    <a href="https://mowglai.com" class="flex items-center gap-3 group">
+      <img src="/logo1.png" alt="Mowglai Logo" class="w-10 h-10 object-contain drop-shadow-[0_0_16px_rgba(200,241,105,0.45)] group-hover:scale-105 transition" />
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-display font-extrabold text-xl tracking-tight text-white">MOWGLAI</span>
+          <span class="px-1.5 py-0.5 rounded bg-brand/15 text-brand text-[9.5px] font-mono font-bold border border-brand/30">CLIENT HUB</span>
+        </div>
+        <span class="text-[10px] block font-mono text-gray-400">client.mowglai.com • Official Portal</span>
+      </div>
+    </a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="https://wa.me/919452476331?text=Hi%20Mowglai,%20I'm%20accessing%20the%20Client%20Portal." target="_blank" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#25D366] text-xs font-bold transition shadow-sm">
+        <span>WhatsApp Lead Engineer</span>
+      </a>
+      <a href="mailto:tech@mowglai.com" class="px-3.5 py-2 rounded-xl bg-brand/10 hover:bg-brand/20 border border-brand/30 text-brand text-xs font-bold transition font-mono">
+        tech@mowglai.com
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Hero & Services Grid -->
+  <main class="max-w-6xl w-full mx-auto my-8 relative z-10 space-y-10">
+    <!-- Hero Banner -->
+    <div class="text-center max-w-2xl mx-auto space-y-3.5">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-mono font-bold">
+        <span class="w-2 h-2 rounded-full bg-brand animate-ping"></span>
+        Zero Agency Lock-In • 100% Code Ownership
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-display text-white tracking-tight leading-tight">
+        Manage Your Project & <span class="text-brand">Scale Fast</span>
+      </h1>
+      <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+        Everything you need to onboard your business, track milestone deliverables, review bespoke architecture, and communicate directly with your developers.
+      </p>
+    </div>
+
+    <!-- Quick Action Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Card 1: AI Onboarding -->
+      <div class="bg-surfaceCard/90 border border-brandBorder rounded-2xl p-6 flex flex-col justify-between hover:border-brand/60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl group hover:-translate-y-1 duration-200">
+        <div class="space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-brand/15 border border-brand/30 flex items-center justify-center text-brand text-2xl group-hover:scale-110 transition shadow-[0_0_14px_rgba(200,241,105,0.2)]">
+            🚀
+          </div>
+          <h3 class="font-display font-bold text-lg text-white">Interactive AI Onboarding</h3>
+          <p class="text-gray-400 text-xs leading-relaxed">
+            Specify your business goals, target audience, local city SEO, and custom features in 3 quick steps with instant blueprint generation.
+          </p>
+        </div>
+        <div class="pt-5 mt-4 border-t border-brandBorder/40">
+          <a href="https://mowglai.com/ai-onboard" class="w-full py-2.5 px-4 rounded-xl bg-brand text-obsidian font-bold text-xs flex items-center justify-center gap-2 hover:bg-brand/90 transition shadow-md">
+            <span>Launch Project Onboarding</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Quotations & Deliverables -->
+      <div class="bg-surfaceCard/90 border border-brandBorder rounded-2xl p-6 flex flex-col justify-between hover:border-brand/60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl group hover:-translate-y-1 duration-200">
+        <div class="space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-emeraldGlow/15 border border-emeraldGlow/30 flex items-center justify-center text-emeraldGlow text-2xl group-hover:scale-110 transition shadow-[0_0_14px_rgba(16,185,129,0.2)]">
+            📄
+          </div>
+          <h3 class="font-display font-bold text-lg text-white">Quotations & Pricing</h3>
+          <p class="text-gray-400 text-xs leading-relaxed">
+            Inspect transparent fixed-rate project scopes: Starter at ₹5,000 ($55), Scale at ₹9,999 ($110), and Full Storefront at ₹12,999 ($149).
+          </p>
+        </div>
+        <div class="pt-5 mt-4 border-t border-brandBorder/40">
+          <a href="/mowglai-quotation.html" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-brandBorder text-white font-bold text-xs flex items-center justify-center gap-2 transition">
+            <span>View Official GST Quotation</span>
+            <span>&nearr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: Dedicated Support -->
+      <div class="bg-surfaceCard/90 border border-brandBorder rounded-2xl p-6 flex flex-col justify-between hover:border-brand/60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl group hover:-translate-y-1 duration-200">
+        <div class="space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-[#25D366]/15 border border-[#25D366]/30 flex items-center justify-center text-[#25D366] text-2xl group-hover:scale-110 transition shadow-[0_0_14px_rgba(37,211,102,0.2)]">
+            💬
+          </div>
+          <h3 class="font-display font-bold text-lg text-white">Direct Engineering Desk</h3>
+          <p class="text-gray-400 text-xs leading-relaxed">
+            Zero support queues or outsourced bots. Talk directly with our full-stack engineers on WhatsApp, phone, or direct email.
+          </p>
+        </div>
+        <div class="pt-5 mt-4 border-t border-brandBorder/40 space-y-2">
+          <a href="https://wa.me/919452476331" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-[#25D366]/30 transition shadow-sm">
+            <span>WhatsApp: +91 94524 76331</span>
+          </a>
+          <a href="mailto:tech@mowglai.com" class="w-full py-2 px-3 rounded-lg bg-brand/10 border border-brand/20 text-brand font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-brand/20 transition font-mono">
+            <span>Email: tech@mowglai.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Project Lookup Widget -->
+    <div class="bg-surfaceCard/80 border border-brandBorder rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto space-y-4 text-center backdrop-blur-2xl shadow-xl">
+      <div class="inline-block p-2 rounded-xl bg-brand/10 border border-brand/20 text-brand text-xs font-mono font-bold">
+        Live Build Status Tracker
+      </div>
+      <h4 class="font-display font-bold text-white text-xl">Check Your Active Project Milestones</h4>
+      <p class="text-xs text-gray-400">Enter your registered email address to check staging links, invoice status, and active deployment timeline.</p>
+      <form onsubmit="handleLookup(event)" class="flex flex-col sm:flex-row gap-2.5 max-w-lg mx-auto">
+        <input id="clientEmail" type="email" required placeholder="client@company.com" class="flex-1 bg-black/60 border border-brandBorder/60 rounded-xl px-4 py-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand font-mono" />
+        <button type="submit" class="px-6 py-3 rounded-xl bg-brand text-obsidian font-bold text-xs hover:bg-brand/90 transition shadow-md">
+          Track Status
+        </button>
+      </form>
+      <div id="lookupResult" class="text-xs text-left pt-2 hidden"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-6xl w-full mx-auto py-6 border-t border-brandBorder/30 text-center text-xs text-gray-400 space-y-1 relative z-10">
+    <p>&copy; 2026 Mowglai Digital Agency. All rights reserved.</p>
+    <p>Powered by Next.js & Hostinger High-Performance Cloud • Support: <a href="mailto:tech@mowglai.com" class="text-brand hover:underline font-mono">tech@mowglai.com</a></p>
+  </footer>
+
+  <script>
+    async function handleLookup(e) {
+      e.preventDefault();
+      const email = document.getElementById('clientEmail').value.trim();
+      const resEl = document.getElementById('lookupResult');
+      resEl.className = "text-xs text-left pt-2 text-gray-300";
+      resEl.innerHTML = '<span class="text-brand animate-pulse">Checking records...</span>';
+      resEl.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/get-purchases.php?email=' + encodeURIComponent(email));
+        const data = await res.json();
+        if (data.purchases && data.purchases.length > 0) {
+          resEl.innerHTML = '<div class="p-3 bg-brand/10 border border-brand/30 rounded-xl space-y-1"><strong class="text-brand">Active Project Found:</strong><p>Plan: ' + data.purchases[0].plan_name + ' (' + data.purchases[0].status + ')</p><p class="text-gray-400">Details: ' + data.purchases[0].details + '</p></div>';
+        } else {
+          resEl.innerHTML = '';
+          const wrapper = document.createElement('div');
+          wrapper.className = 'p-3 bg-white/5 border border-brandBorder rounded-xl';
+
+          const msg = document.createElement('p');
+          msg.className = 'text-gray-300';
+          msg.textContent = 'No active project record found for ' + email + '.';
+
+          const supportLine = document.createElement('p');
+          supportLine.className = 'text-brand mt-1';
+
+          const supportLink = document.createElement('a');
+          supportLink.className = 'underline';
+          supportLink.target = '_blank';
+          supportLink.href = 'https://wa.me/919452476331?text=Hi%20Mowglai,%20I%20want%20to%20check%20my%20project%20status%20for%20' + encodeURIComponent(email);
+          supportLink.textContent = 'Message support on WhatsApp';
+
+          supportLine.appendChild(supportLink);
+          supportLine.appendChild(document.createTextNode(' for live status.'));
+
+          wrapper.appendChild(msg);
+          wrapper.appendChild(supportLine);
+          resEl.appendChild(wrapper);
+        }
+      } catch (err) {
+        resEl.innerHTML = '<p class="text-brand">Connected with support. Please WhatsApp our engineering team directly at +91 94524 76331.</p>';
+      }
+    }
+  </script>
+</body>
+</html>

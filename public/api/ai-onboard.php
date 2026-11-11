@@ -104,6 +104,9 @@ if (strpos($budget, '5,000') !== false || stripos($budget, 'starter') !== false)
     ];
 }
 
+
+require_once __DIR__ . '/html-generator.php';
+
 $cleanSector = ucwords(str_replace('-', ' ', $businessSector));
 
 $response = [
@@ -152,7 +155,8 @@ $response = [
         'metaTitle' => "$businessName | Premier $cleanSector in $city",
         'metaDescription' => "Discover $businessName, the premier $cleanSector destination in $city. Instant booking, transparent pricing, and 5-star customer experience."
     ],
-    'pricingSuggestion' => $pricing
+    'pricingSuggestion' => $pricing,
+    'generatedHtml' => mowglai_generate_html($businessName, $cleanSector, $city, $phone, "Premier {$cleanSector} solutions in {$city} crafted for rapid growth.")
 ];
 
 echo json_encode($response);

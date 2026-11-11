@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { AlertCircle, RefreshCcw, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CustomCursor from "@/components/CustomCursor";
 import Link from "next/link";
 
 export default function Error({
@@ -14,14 +13,21 @@ export default function Error({
     reset: () => void;
 }) {
     useEffect(() => {
-        console.error(error);
+        console.error("Mowglai Caught Runtime Error:", error);
     }, [error]);
 
+    const handleRecalibrate = () => {
+        try {
+            reset();
+        } catch {
+            window.location.reload();
+        }
+    };
+
     return (
-        <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background text-foreground selection:bg-primary/30 cursor-auto">
-            <CustomCursor />
+        <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background text-foreground selection:bg-primary/30">
             {/* Animated Background Elements */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.05)_0%,transparent_70%)]" />
                 <div className="absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-destructive/5 blur-[120px] animate-pulse" />
             </div>
@@ -53,7 +59,7 @@ export default function Error({
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Button
-                            onClick={() => reset()}
+                            onClick={handleRecalibrate}
                             className="group h-12 bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive/20 px-8 transition-all duration-300"
                         >
                             <RefreshCcw className="mr-2 h-4 w-4 transition-transform group-hover:rotate-180" />

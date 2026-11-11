@@ -18,12 +18,12 @@ export const metadata: Metadata = {
         "top digital agency Noida"
     ],
     alternates: {
-        canonical: "https://mowglai.com/best-web-services-noida",
+        canonical: "https://mowglai.com/best-web-services-noida/",
     },
     openGraph: {
         title: "Best Web Services in Noida | Mowglai Digital Agency",
         description: "Noida's premier web development agency delivering high-performance Next.js websites, 3D interactive graphics, and search optimization starting at ₹5,000 INR ($55 USD).",
-        url: "https://mowglai.com/best-web-services-noida",
+        url: "https://mowglai.com/best-web-services-noida/",
         siteName: "Mowglai",
         images: [{
             url: "https://mowglai.com/mowglai-logo-new.jpg",

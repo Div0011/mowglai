@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/html-generator.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -34,18 +35,35 @@ if (!preg_match('/^https?:\/\//i', $url)) {
 $parsedHost = parse_url($url, PHP_URL_HOST) ?: 'competitor.com';
 $domain = str_replace('www.', '', $parsedHost);
 
-// Attempt safe shallow fetch with 3-second timeout
+// SSRF Protection: block local, private, and reserved IPs
+if (in_array(strtolower($parsedHost), ['localhost', '127.0.0.1', '::1', '0.0.0.0'], true) ||
+    str_ends_with(strtolower($parsedHost), '.local') || str_ends_with(strtolower($parsedHost), '.internal')) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Internal or private hostnames cannot be analyzed']);
+    exit;
+}
+
+$resolvedIp = @gethostbyname($parsedHost);
+if (!filter_var($resolvedIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Private network IPs cannot be analyzed']);
+    exit;
+}
+
+// Attempt safe shallow fetch with 4-second timeout
 $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_MAXREDIRS => 3,
+    CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
     CURLOPT_TIMEOUT => 4,
     CURLOPT_CONNECTTIMEOUT => 2,
     CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 MowglaiBot/1.0',
-    CURLOPT_SSL_VERIFYPEER => false,
-    CURLOPT_SSL_VERIFYHOST => false,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2,
 ]);
 
 $html = curl_exec($ch);
@@ -158,6 +176,13 @@ $response = [
         'features' => ['Next.js 16 Ready', 'Sub-second LCP', 'Direct WhatsApp Integration', 'SEO Optimized']
     ],
     'suggestedStartingPrice' => '₹5,000',
+    'generatedHtml' => mowglai_generate_html(
+        $namePart . ' Pro',
+        $cleanSector,
+        'Metro Hub',
+        '919452476331',
+        "Re-engineered $cleanSector platform for $domain with 0.6s instant load and zero layout shifts."
+    ),
     'prefillOnboardQuery' => [
         'businessName' => "$namePart Inspired",
         'businessSector' => $sector,

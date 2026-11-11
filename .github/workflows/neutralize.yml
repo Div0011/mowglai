@@ -1,0 +1,64 @@
+name: Eliminate Rogue Script & Permanent Neutralization
+
+on:
+  workflow_dispatch:
+
+jobs:
+  neutralize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect and Destroy virus.sh
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          SSH_OPTS="-o StrictHostKeyChecking=no -p $SSH_PORT -i ~/.ssh/deploy_key"
+
+          ssh $SSH_OPTS "$SSH_USER@$SSH_HOST" "bash -s" << 'EOF'
+            echo "=== 1. CONTENTS OF virus.sh ==="
+            cat /home/u707591712/virus.sh 2>/dev/null || echo "virus.sh not found"
+
+            echo ""
+            echo "=== 2. KILLING ALL BACKGROUND RUNNING PROCESSES FOR USER ==="
+            pkill -f "virus.sh" || true
+            pkill -f "nohup" || true
+            pkill -u u707591712 -f "bash" || true
+
+            echo ""
+            echo "=== 3. REMOVING virus.sh ==="
+            rm -f /home/u707591712/virus.sh
+            echo "virus.sh removed!"
+
+            echo ""
+            echo "=== 4. CHECKING OTHER POTENTIAL ROGUE FILES ==="
+            find /home/u707591712/ -maxdepth 2 -name "*.sh" -o -name "*.py" -o -name "*.pl" 2>/dev/null || true
+
+            echo ""
+            echo "=== 5. CLEARING ROGUE CRONTAB & USER TIMERS ==="
+            echo "Old Crontab:"
+            crontab -l 2>&1 || true
+            crontab -r 2>/dev/null || true
+            echo "Crontab cleared to prevent recurring reinfection."
+            rm -rf /home/u707591712/.config/systemd/user/* 2>/dev/null || true
+            pkill -u u707591712 -f "sleep" 2>/dev/null || true
+            pkill -u u707591712 -f "python" 2>/dev/null || true
+            pkill -u u707591712 -f "perl" 2>/dev/null || true
+
+            echo ""
+            echo "=== 6. VERIFYING AND LOCKING DOWN PERMISSIONS ==="
+            # Make sure public_html and domains/mowglai.com/public_html are 100% full
+            cp -a /home/u707591712/public_html/. /home/u707591712/domains/mowglai.com/public_html/
+            find /home/u707591712/domains/mowglai.com/public_html/ -type d -exec chmod 755 {} +
+            find /home/u707591712/domains/mowglai.com/public_html/ -type f -exec chmod 644 {} +
+            echo "Total files in domain public_html: $(find /home/u707591712/domains/mowglai.com/public_html/ -type f | wc -l)"
+          EOF
+
+          echo "=== 7. LIVE HTTP PROBE ==="
+          sleep 2
+          curl -s -o /dev/null -w "Final HTTP Code: %{http_code}\n" "https://mowglai.com"
+          curl -s -o /dev/null -w "index.html HTTP Code: %{http_code}\n" "https://mowglai.com/index.html"

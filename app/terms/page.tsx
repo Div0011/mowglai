@@ -3,6 +3,9 @@ import PageLayout from "@/components/PageLayout";
 export const metadata = {
     title: "Terms of Service | Mowglai",
     description: "Terms of Service for Mowglai Digital Agency and Template Store.",
+    alternates: {
+        canonical: "https://mowglai.com/terms/",
+    },
 };
 
 export default function TermsPage() {
