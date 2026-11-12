@@ -15,7 +15,6 @@ import { usePathname } from "next/navigation";
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
 const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
-const InteractivePet = dynamic(() => import("@/components/InteractivePet"), { ssr: false });
 // Server-rendered so the footer nav links are present in the static HTML of
 // every page. Nothing here reads the browser during render, so it hydrates
 // cleanly; keeping it `ssr: false` hid the entire footer from crawlers.
@@ -45,9 +44,6 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <ScrollToTop />
             <BackToTopButton />
             {enableEnhancedCursor ? <CustomCursor /> : null}
-
-
-            <InteractivePet />
 
             {/* Background - Spans entire page height */}
             <div className="absolute inset-0 z-0 pointer-events-none">
