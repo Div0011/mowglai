@@ -4,8 +4,8 @@ import { useEffect, Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
-
-
+import SettingsToggle from "@/components/SettingsToggle";
+import ContactToggle from "@/components/ContactToggle";
 
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const JungleBackground = dynamic(() => import("@/components/JungleBackground"), { ssr: false });
 const BackToTopButton = dynamic(() => import("@/components/BackToTopButton"), { ssr: false });
+const ChatbotModal = dynamic(() => import("@/components/ChatbotModal"), { ssr: false });
 // Server-rendered so the footer nav links are present in the static HTML of
 // every page. Nothing here reads the browser during render, so it hydrates
 // cleanly; keeping it `ssr: false` hid the entire footer from crawlers.
@@ -27,6 +28,7 @@ interface PageLayoutProps {
 const OriginalLayout = ({ children }: PageLayoutProps) => {
     const pathname = usePathname();
     const [enableEnhancedCursor, setEnableEnhancedCursor] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         const supportsFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -36,8 +38,6 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
 
     // AOS is now initialized globally in AOSInit component linked in RootLayout
 
-
-
     return (
         <div className="min-h-dvh relative text-foreground transition-colors duration-500">
             <SmoothScroll />
@@ -45,12 +45,19 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <BackToTopButton />
             {enableEnhancedCursor ? <CustomCursor /> : null}
 
+            {/* Bottom Floating Controls: Settings & Contact/Chat */}
+            <SettingsToggle />
+            <ContactToggle onOpenChat={() => setIsChatOpen(true)} />
+
+            {/* AI Assistant Chat Modal */}
+            <ChatbotModal isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+
             {/* Background - Spans entire page height */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <JungleBackground />
             </div>
 
-            <FullScreenNav onOpenChat={() => {}} />
+            <FullScreenNav onOpenChat={() => setIsChatOpen(true)} />
             <MobileNav />
 
             <main className="relative z-10 w-full overflow-x-clip min-h-dvh">

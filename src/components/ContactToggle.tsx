@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Phone, Mail, X } from "lucide-react";
+import { MessageCircle, Phone, Mail, X, Bot, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -13,7 +13,11 @@ import { useTheme } from "next-themes";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMenuOpen } from "@/hooks/use-menu-open";
 
-const ContactToggle = () => {
+interface ContactToggleProps {
+    onOpenChat?: () => void;
+}
+
+const ContactToggle = ({ onOpenChat }: ContactToggleProps) => {
     const { resolvedTheme } = useTheme();
     const { t } = useLanguage();
     const [mounted, setMounted] = useState(false);
@@ -92,6 +96,31 @@ const ContactToggle = () => {
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
                         Connect with Mowglai
                     </h4>
+
+                    {/* AI Chatbot Option */}
+                    {onOpenChat && (
+                        <motion.button
+                            type="button"
+                            onClick={() => {
+                                setIsPopoverOpen(false);
+                                onOpenChat();
+                            }}
+                            className="w-full flex items-center gap-3 p-3 rounded-xl border border-primary/40 bg-primary/10 hover:border-primary hover:bg-primary/20 transition-all duration-300 group cursor-pointer text-left"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors shrink-0 text-primary">
+                                <Bot className="w-5 h-5" />
+                            </div>
+                            <div className="text-left flex-1">
+                                <div className="font-medium text-sm flex items-center gap-1.5 text-primary">
+                                    AI Guardian Chat
+                                    <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                                </div>
+                                <div className="text-xs text-muted-foreground">Instant answers & project guide</div>
+                            </div>
+                        </motion.button>
+                    )}
 
                     {/* WhatsApp Option */}
                     <motion.a
