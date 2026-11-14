@@ -47,9 +47,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     { icon: Home, label: "HOME", href: "/" },
-    { icon: Zap, label: "AI ANALYZE", href: "/ai-analyze" },
-    { icon: Sparkles, label: "AI ONBOARD", href: "/ai-onboard" },
-    { icon: LayoutTemplate, label: "TEMPLATES", href: "/explore" },
+    { icon: LayoutTemplate, label: "TEMPLATES", href: "/templates" },
     { icon: DollarSign, label: "PRICING", href: "/investment", hasSubmenu: true },
     { icon: Layers, label: "SERVICES", href: "/services", hasSubmenu: true },
     { icon: Mail, label: "CONTACT", href: "/contact" },
@@ -609,8 +607,21 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                         </AnimatePresence>
                     </nav>
 
-                    {/* Mobile Social Icons (Bottom Row) */}
-                    <div className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-0 w-full flex md:hidden justify-center gap-6 z-50">
+                    {/* Mobile Social Icons & AI Chat (Bottom Row) */}
+                    <div className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-0 w-full flex md:hidden justify-center items-center gap-4 z-50">
+                        <Magnetic amount={0.5}>
+                            <button
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    onOpenChat();
+                                }}
+                                className="relative group w-11 h-11 rounded-full border border-primary/30 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/20 bg-primary/10 text-primary cursor-pointer backdrop-blur-sm"
+                                aria-label="Open AI Assistant"
+                                title="Chat with AI"
+                            >
+                                <Bot className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                            </button>
+                        </Magnetic>
                         {[
                             { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
                             { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },
@@ -630,9 +641,22 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
                         ))}
                     </div>
 
-                    {/* Right Sidebar - Social Icons */}
+                    {/* Right Sidebar - Social Icons & AI Chat */}
                     <div className="hidden md:flex w-[80px] lg:w-[90px] xl:w-[100px] shrink-0 h-full border-l border-primary/10 flex-col justify-center items-center py-10 bg-primary/5 z-20">
                         <div className="flex flex-col gap-6 lg:gap-8 items-center">
+                            <Magnetic amount={0.5}>
+                                <button
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        onOpenChat();
+                                    }}
+                                    className="relative group w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center transition-all duration-300 hover:border-primary hover:bg-primary/20 bg-primary/10 text-primary cursor-pointer shadow-[0_0_15px_rgba(var(--primary-rgb),0.2)]"
+                                    aria-label="Open AI Assistant"
+                                    title="Chat with AI"
+                                >
+                                    <Bot className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+                                </button>
+                            </Magnetic>
                             {[
                                 { icon: Instagram, href: "https://www.instagram.com/mowglai.tech?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==", label: "Instagram" },
                                 { icon: XLogo, href: "https://x.com/mowglai_in", label: "X" },

@@ -6,6 +6,7 @@ import FullScreenNav from "@/components/FullScreenNav";
 import MobileNav from "@/components/MobileNav";
 import SettingsToggle from "@/components/SettingsToggle";
 import ContactToggle from "@/components/ContactToggle";
+import ChatbotButton from "@/components/ChatbotButton";
 
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -45,8 +46,9 @@ const OriginalLayout = ({ children }: PageLayoutProps) => {
             <BackToTopButton />
             {enableEnhancedCursor ? <CustomCursor /> : null}
 
-            {/* Bottom Floating Controls: Settings & Contact/Chat */}
+            {/* Bottom Floating Controls: Settings (Theme/Language), Contact & AI Chatbot */}
             <SettingsToggle />
+            <ChatbotButton onClick={() => setIsChatOpen(true)} />
             <ContactToggle onOpenChat={() => setIsChatOpen(true)} />
 
             {/* AI Assistant Chat Modal */}
