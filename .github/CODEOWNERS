@@ -1,0 +1,17 @@
+# --- Global Code Owners ---
+# These owners will be requested for review on ALL pull requests.
+# Customize per-repo as the team grows.
+
+* @amitsharmaanxt
+
+# --- CI/CD ---
+.github/ @amitsharmaanxt
+
+# --- Documentation ---
+*.md @amitsharmaanxt
+docs/ @amitsharmaanxt
+
+# --- Security-sensitive files ---
+.env* @amitsharmaanxt
+**/auth/ @amitsharmaanxt
+**/security/ @amitsharmaanxt
