@@ -58,3 +58,9 @@ auth-token*
 
 public/.htaccess
 out/.htaccess
+
+# Environment secrets
+.env.local
+.env.*.local
+.env.development
+.env.production
