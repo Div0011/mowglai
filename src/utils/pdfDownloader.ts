@@ -1,6 +1,11 @@
 export const downloadAsHtml = async (url: string, filename: string) => {
     try {
-        const response = await fetch(url);
+        let response = await fetch(url);
+        if (!response.ok && url.endsWith('.html')) {
+            response = await fetch(url.replace(/\.html$/, ''));
+        } else if (!response.ok && !url.endsWith('.html')) {
+            response = await fetch(`${url}.html`);
+        }
         const text = await response.text();
 
         // Ensure filename ends in .html

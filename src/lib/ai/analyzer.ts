@@ -150,7 +150,7 @@ export function analyzeCompetitorUrl(rawUrl: string): CompetitorAnalysisResult {
             id: matchedT.id,
             title: matchedT.title,
             sector: sector,
-            previewUrl: `/previews/${matchedT.id}.html`,
+            previewUrl: `/previews/${matchedT.id}`,
             matchScore: 98,
             features: matchedT.features
         },

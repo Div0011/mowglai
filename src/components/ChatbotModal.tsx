@@ -41,7 +41,7 @@ const FAQ_KNOWLEDGE_BASE = [
     {
         keywords: ['turnaround', 'how long', 'duration', 'time', 'timeline', 'weeks', 'days'],
         response: "Project timelines vary by complexity. A 'Basic' single-page site typically launches in 5-7 days, while 'Advanced' sites take 10-14 days. 'Epic' enterprise solutions follow a custom roadmap.",
-        options: [{ label: "View Process", path: "/mowglai-brochure.html", external: true }]
+        options: [{ label: "View Process", path: "/mowglai-brochure", external: true }]
     },
     {
         keywords: ['ecommerce', 'shop', 'store', 'selling', 'products', 'shopify', 'woocommerce'],
@@ -51,7 +51,7 @@ const FAQ_KNOWLEDGE_BASE = [
     {
         keywords: ['brochure', 'download', 'pdf', 'catalog', 'deck'],
         response: "You can download our detailed brochure to explore our full capabilities and success stories.",
-        options: [{ label: "Open Brochure", path: "/mowglai-brochure.html", external: true }]
+        options: [{ label: "Open Brochure", path: "/mowglai-brochure", external: true }]
     },
     {
         keywords: ['technology', 'stack', 'tech', 'react', 'nextjs', 'typescript', 'framework'],

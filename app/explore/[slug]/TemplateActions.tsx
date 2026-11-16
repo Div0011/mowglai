@@ -28,7 +28,7 @@ export default function TemplateActions({ templateId, price, isMobileBar }: Temp
 
                 {/* Preview Button */}
                 <button
-                    onClick={() => window.open(`/previews/${templateId}.html`, '_blank')}
+                    onClick={() => window.open(`/previews/${templateId}`, '_blank')}
                     className="group w-9 h-9 flex items-center justify-center bg-white/5 border border-white/10 text-white/70 rounded-full hover:bg-white/10 hover:text-white hover:border-white/20 hover:scale-105 active:scale-95 transition-all duration-200"
                     aria-label="Preview template"
                 >
@@ -51,7 +51,7 @@ export default function TemplateActions({ templateId, price, isMobileBar }: Temp
 
             {/* Secondary Action - Preview */}
             <button
-                onClick={() => window.open(`/previews/${templateId}.html`, '_blank')}
+                onClick={() => window.open(`/previews/${templateId}`, '_blank')}
                 className="w-full py-4 px-8 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95"
             >
                 <Eye className="w-5 h-5" />

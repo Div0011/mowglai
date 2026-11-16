@@ -48,7 +48,7 @@ function templateToMatchedInfo(t: Template, sector: string, score: number, reaso
         title: t.title,
         sector,
         description: t.description,
-        previewUrl: `/previews/${t.id}.html`,
+        previewUrl: `/previews/${t.id}`,
         matchScore: score,
         matchedReasons: reasons,
         features: t.features,

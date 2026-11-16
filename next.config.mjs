@@ -70,6 +70,28 @@ const nextConfig = {
     // Performance optimizations for static export
     poweredByHeader: false,
     generateEtags: false,
+    ...(process.env.NODE_ENV === 'development' ? {
+        async rewrites() {
+            return [
+                {
+                    source: '/previews/:slug/',
+                    destination: '/previews/:slug.html',
+                },
+                {
+                    source: '/previews/:slug',
+                    destination: '/previews/:slug.html',
+                },
+                {
+                    source: '/mowglai-brochure/',
+                    destination: '/mowglai-brochure.html',
+                },
+                {
+                    source: '/mowglai-brochure',
+                    destination: '/mowglai-brochure.html',
+                },
+            ];
+        },
+    } : {}),
 };
 
 export default withBundleAnalyzer(nextConfig);
