@@ -67,7 +67,7 @@ const jsonLdData = {
             "name": "Mowglai - Web Services Lucknow",
             "url": "https://mowglai.com/best-web-services-lucknow",
             "telephone": "+91-9452476331",
-            "email": "contact@mowglai.com",
+            "email": "tech@mowglai.com",
             "priceRange": "₹5,000 - ₹50,000+ / $55 - $599+",
             "address": {
                 "@type": "PostalAddress",

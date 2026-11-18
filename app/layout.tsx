@@ -255,7 +255,7 @@ export default function RootLayout({
                                         "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Net Banking, Razorpay, Stripe",
                                         "description": "Premier digital agency delivering the best web services in NCR, Delhi, Noida, and Kanpur. We specialize in custom website development, SaaS MVPs, 3D web experiences, e-commerce stores, and generative AI search optimization (AIO/GEO).",
                                         "telephone": "+91-9452476331",
-                                        "email": "contact@mowglai.com",
+                                        "email": "tech@mowglai.com",
                                         "address": {
                                             "@type": "PostalAddress",
                                             "streetAddress": "Sector 62",

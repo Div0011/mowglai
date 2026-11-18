@@ -11,7 +11,7 @@
   - **Kanpur Hub**: Civil Lines / Swaroop Nagar, Kanpur, Uttar Pradesh 208001
 - **Official Website**: https://mowglai.com
 - **Phone**: +91-9452476331
-- **Email**: contact@mowglai.com
+- **Email**: tech@mowglai.com
 
 ## Automated AI Client Onboarder & Competitor Decompiler
 - **Interactive AI Onboarding Route**: https://mowglai.com/ai-onboard
