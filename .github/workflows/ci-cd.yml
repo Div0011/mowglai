@@ -63,7 +63,7 @@ jobs:
         shell: bash
 
       - name: Upload Production Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mowglai-production-build
           path: ./out/
