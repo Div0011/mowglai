@@ -18,25 +18,25 @@ const AUTOMATION_STEPS = [
     {
         step: "01",
         title: "Audit & Map",
-        desc: "We break down your repetitive manual workflows, spreadsheets, and bottlenecks to pinpoint high-ROI automation opportunities.",
+        desc: "Spot manual bottlenecks with the highest ROI.",
         icon: Workflow,
     },
     {
         step: "02",
-        title: "Architect & Connect",
-        desc: "We wire APIs, webhooks, databases, CRMs, and custom AI agents into a single unified pipeline tailored to your stack.",
+        title: "Connect Stack",
+        desc: "Wire APIs, CRMs, webhooks, and AI agents.",
         icon: GitBranch,
     },
     {
         step: "03",
-        title: "Test & Guardrail",
-        desc: "Every trigger, fallback, and edge case is stress-tested with retries, error alerts, and human-in-the-loop approvals.",
+        title: "Guardrails",
+        desc: "Test retries, fallbacks, and approval checks.",
         icon: ShieldCheck,
     },
     {
         step: "04",
-        title: "Deploy & Scale",
-        desc: "Your automations run 24/7 in production with real-time monitoring, zero-downtime updates, and continuous tuning.",
+        title: "Run 24/7",
+        desc: "Deploy live with real-time monitoring.",
         icon: Zap,
     },
 ];
@@ -44,22 +44,22 @@ const AUTOMATION_STEPS = [
 const AUTOMATION_CAPABILITIES = [
     {
         title: "AI Lead & WhatsApp Bots",
-        desc: "Instant 24/7 lead qualification, quote estimation, appointment booking, and CRM sync directly from web forms and WhatsApp.",
+        desc: "24/7 lead qualification, quotes, and CRM sync.",
         icon: MessageSquare,
     },
     {
-        title: "CRM, Billing & Ops Sync",
-        desc: "Automated invoicing, client onboarding, Slack/email notifications, and multi-app data pipelines with zero manual entry.",
+        title: "CRM & Ops Pipelines",
+        desc: "Automated invoicing, onboarding, and team alerts.",
         icon: Database,
     },
     {
         title: "Custom AI Agents",
-        desc: "Context-aware AI assistants trained on your docs and catalog to answer customer queries, triage tickets, and trigger actions.",
+        desc: "Assistants trained on your docs to resolve queries.",
         icon: Bot,
     },
     {
-        title: "Reporting & Growth Flows",
-        desc: "Scheduled competitor tracking, automated analytics digests, and content or catalog publishing pipelines.",
+        title: "Reporting & Growth",
+        desc: "Scheduled analytics digests and SEO tracking.",
         icon: BarChart3,
     },
 ];
@@ -88,7 +88,7 @@ export default function AutomationSection() {
                             We Build <span className="text-primary italic">Automations</span>
                         </h2>
                         <p className="text-foreground/75 text-sm md:text-base font-normal leading-relaxed">
-                            From AI agents and WhatsApp lead flows to full CRM and operations pipelines — here is how we engineer custom automations that run your business on autopilot.
+                            AI agents, WhatsApp flows, and CRM pipelines built to run your business on autopilot.
                         </p>
                     </motion.div>
 

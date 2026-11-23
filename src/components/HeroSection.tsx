@@ -9,41 +9,33 @@ const HeroSection = () => {
             id="home"
             className="relative w-full h-[100dvh] z-10 overflow-hidden flex flex-col items-center justify-center px-6 select-none"
         >
-            <div className="container mx-auto max-w-4xl flex flex-col items-center text-center gap-6 md:gap-8">
-                <h1 className="text-[16vw] sm:text-[13vw] md:text-[9.5vw] lg:text-[8.5vw] font-display font-black uppercase tracking-[0.06em] text-foreground leading-none">
-                    MOWGLAI
-                </h1>
-
-                <p className="text-sm sm:text-base md:text-lg text-foreground/65 font-normal max-w-xl leading-relaxed">
-                    Custom websites, web applications, and AI workflow automations built for speed and clarity.
-                </p>
-
-                {/* Minimalist Underlined Hyperlink CTAs */}
-                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-2">
+            <div className="container mx-auto max-w-7xl flex flex-col items-center text-center gap-6">
+                {/* Desktop: Left CTA | MOWGLAI | Right CTA */}
+                <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-14">
                     <Link
                         href="/ai-analyze"
-                        className="group inline-flex items-center gap-1.5 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-primary/60 hover:text-primary hover:decoration-primary transition-colors duration-200"
+                        className="order-2 md:order-1 group inline-flex items-center gap-1.5 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-primary/60 hover:text-primary hover:decoration-primary transition-colors duration-200 whitespace-nowrap"
                     >
                         <span>AI Analyze</span>
                         <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                     </Link>
 
-                    <Link
-                        href="/ai-onboard"
-                        className="group inline-flex items-center gap-1.5 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-primary/60 hover:text-primary hover:decoration-primary transition-colors duration-200"
-                    >
-                        <span>AI Onboard</span>
-                        <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
-                    </Link>
+                    <h1 className="order-1 md:order-2 text-[16vw] sm:text-[13vw] md:text-[8.5vw] lg:text-[7.5vw] font-display font-black uppercase tracking-[0.06em] text-foreground leading-none">
+                        MOWGLAI
+                    </h1>
 
                     <Link
                         href="/start-project"
-                        className="group inline-flex items-center gap-1.5 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-foreground/30 hover:text-primary hover:decoration-primary transition-colors duration-200"
+                        className="order-3 group inline-flex items-center gap-1.5 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-primary/60 hover:text-primary hover:decoration-primary transition-colors duration-200 whitespace-nowrap"
                     >
-                        <span>Start a Project</span>
+                        <span>Start Project</span>
                         <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                     </Link>
                 </div>
+
+                <p className="text-xs sm:text-sm md:text-base text-foreground/60 font-normal tracking-wide">
+                    Websites, Software &amp; AI Automations.
+                </p>
             </div>
 
             {/* Subtle Scroll Down Indicator */}

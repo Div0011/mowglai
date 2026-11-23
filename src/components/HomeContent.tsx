@@ -299,7 +299,7 @@ export default function HomeContent() {
                                 Our <span className="text-primary italic">Services</span>
                             </h2>
                             <p className="text-foreground/75 text-sm md:text-base font-normal max-w-md leading-relaxed">
-                                High-speed websites, SEO, and AI systems engineered for startups & growing businesses — starting at ₹5,000 INR / $55 USD.
+                                High-speed websites, SEO, and AI systems — starting at ₹5,000 / $55.
                             </p>
                         </ScrollReveal>
                         <ScrollReveal direction="right" delay={0.2} className="shrink-0 -my-4 scale-75 md:scale-90">
@@ -311,28 +311,28 @@ export default function HomeContent() {
                         {[
                             {
                                 title: "Website Development",
-                                desc: "Bespoke high-performance web systems engineered with React, Next.js, and modern UI. Starting at ₹5,000 INR / $55 USD.",
+                                desc: "Fast React & Next.js sites with custom UI. From ₹5,000 / $55.",
                                 icon: <Code2 className="w-6 h-6 text-primary" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(200,241,105,0.15)]",
                                 border: "group-hover/tile:border-primary/30",
                             },
                             {
-                                title: "GMB & Local 3-Pack Setup",
-                                desc: "Complete Google My Business profile verification, map ranking, and local SEO in 48 hours to drive immediate customer calls.",
+                                title: "GMB & Local SEO",
+                                desc: "Google Business verification and local map ranking in 48 hours.",
                                 icon: <MapPin className="w-6 h-6 text-emerald-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(16,185,129,0.12)]",
                                 border: "group-hover/tile:border-emerald-500/30",
                             },
                             {
-                                title: "AI Search Engine (GEO & AIO)",
-                                desc: "Optimizing structure and authority so your business ranks as the primary recommended answer in ChatGPT, Gemini & Perplexity.",
+                                title: "AI Search (GEO & AIO)",
+                                desc: "Rank your brand inside ChatGPT, Gemini, and Perplexity answers.",
                                 icon: <Bot className="w-6 h-6 text-indigo-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(99,102,241,0.12)]",
                                 border: "group-hover/tile:border-indigo-500/30",
                             },
                             {
                                 title: "AI & WhatsApp Automation",
-                                desc: "24/7 intelligent WhatsApp lead capture, instant quote estimation, and automated onboarding assistants for your business.",
+                                desc: "24/7 WhatsApp lead capture, instant quotes, and onboarding.",
                                 icon: <Cpu className="w-6 h-6 text-amber-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(245,158,11,0.12)]",
                                 border: "group-hover/tile:border-amber-500/30",
