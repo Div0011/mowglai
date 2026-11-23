@@ -284,7 +284,6 @@ export default function HomeContent() {
     return (
         <div ref={containerRef} className="relative">
             <MouseGlow />
-            <AmbientParticles />
 
             <AutomationSection />
 
@@ -292,10 +291,6 @@ export default function HomeContent() {
                 <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col gap-8 md:gap-12">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                         <ScrollReveal direction="left" className="space-y-2">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] md:text-xs font-semibold text-primary uppercase tracking-wider mb-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                Best Web Services in NCR • Delhi • Noida • Kanpur
-                            </div>
                             <div className="flex items-center gap-3 text-primary font-display font-bold text-xs tracking-[0.4em] uppercase">
                                 <div className="w-10 h-[1.5px] bg-primary" />
                                 Capabilities
@@ -304,7 +299,7 @@ export default function HomeContent() {
                                 Our <span className="text-primary italic">Services</span>
                             </h2>
                             <p className="text-foreground/75 text-sm md:text-base font-normal max-w-md leading-relaxed">
-                                Hyper-optimized digital solutions engineered for startups & enterprises across Delhi NCR, Noida, Kanpur, and global markets. Starting at ₹5,000 INR / $55 USD.
+                                High-speed websites, SEO, and AI systems engineered for startups & growing businesses — starting at ₹5,000 INR / $55 USD.
                             </p>
                         </ScrollReveal>
                         <ScrollReveal direction="right" delay={0.2} className="shrink-0 -my-4 scale-75 md:scale-90">
@@ -347,7 +342,7 @@ export default function HomeContent() {
                                 key={idx}
                                 direction="up"
                                 delay={idx * 0.1}
-                                className="group/tile relative p-5 md:p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md transition-all duration-500 hover:translate-y-[-2px] overflow-hidden"
+                                className="group/tile relative p-5 md:p-6 rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/35 overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover/tile:opacity-100 transition-opacity duration-500" />
                                 <div className={cn("absolute inset-0 rounded-2xl border border-transparent transition-all duration-500", service.border, service.glow)} />

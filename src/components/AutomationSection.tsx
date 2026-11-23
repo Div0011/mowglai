@@ -13,7 +13,6 @@ import {
     Zap,
     BarChart3,
 } from "lucide-react";
-import Magnetic from "@/components/Magnetic";
 
 const AUTOMATION_STEPS = [
     {
@@ -100,15 +99,13 @@ export default function AutomationSection() {
                         transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                         className="shrink-0"
                     >
-                        <Magnetic>
-                            <Link
-                                href="/start-project"
-                                className="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-primary text-primary-foreground font-display font-bold text-xs md:text-sm uppercase tracking-[0.2em] hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.4)] transition-all duration-300"
-                            >
-                                <span>Automate Your Workflow</span>
-                                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                            </Link>
-                        </Magnetic>
+                        <Link
+                            href="/start-project"
+                            className="group inline-flex items-center gap-2 text-sm md:text-base font-medium tracking-wide text-foreground underline underline-offset-8 decoration-primary/60 hover:text-primary hover:decoration-primary transition-colors duration-200"
+                        >
+                            <span>Automate your workflow</span>
+                            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
                     </motion.div>
                 </div>
 
@@ -127,7 +124,7 @@ export default function AutomationSection() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: "-40px" }}
                                     transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                                    className="group relative p-6 rounded-2xl border border-primary/15 bg-background/40 backdrop-blur-md hover:border-primary/40 transition-all duration-300"
+                                    className="group relative p-6 rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm hover:border-primary/40 transition-all duration-300"
                                 >
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="font-mono text-xs font-bold text-primary tracking-widest">
@@ -164,7 +161,7 @@ export default function AutomationSection() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: "-40px" }}
                                     transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                                    className="group flex items-start gap-4 p-6 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md hover:border-primary/35 transition-all duration-300"
+                                    className="group flex items-start gap-4 p-6 rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm hover:border-primary/35 transition-all duration-300"
                                 >
                                     <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0 group-hover:scale-105 transition-transform duration-300">
                                         <Icon className="w-5 h-5" />
