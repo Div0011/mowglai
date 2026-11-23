@@ -121,16 +121,6 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
     }, []);
 
     const isLogoActive = isOpen || !scrolled;
-    const showStrips = !isOpen && !scrolled && pathname === "/";
-
-    useEffect(() => {
-        const cls = "mowglai-strips-visible";
-        if (showStrips) document.documentElement.classList.add(cls);
-        else document.documentElement.classList.remove(cls);
-        return () => {
-            document.documentElement.classList.remove(cls);
-        };
-    }, [showStrips]);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -150,47 +140,6 @@ const FullScreenNav = ({ onOpenChat }: FullScreenNavProps) => {
 
     return (
         <>
-            {/* Decorative marquee strips */}
-            <div
-                className={cn(
-                    "fixed z-[50] pointer-events-none bottom-[8dvh] md:bottom-auto md:top-[calc(2.3rem+env(safe-area-inset-top))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 -rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
-                    !showStrips && "opacity-0 pointer-events-none !hidden"
-                )}
-            >
-                <div className="relative left-0 right-0 w-full h-[20px] md:h-[36px] overflow-hidden">
-                    <div className="absolute inset-0" style={{ backgroundColor: "rgba(212,175,55,0.8)" }} />
-                    <div className="absolute inset-0 flex items-center pointer-events-none">
-                        <div className="min-w-[200%] whitespace-nowrap animate-marquee-hr-continuous flex gap-8">
-                            {Array.from({ length: 12 }).map((_, i) => (
-                                <span key={i} className="text-black font-bold uppercase tracking-wider text-[11px] md:text-sm">
-                                    FREE HOSTING FOR NEW BUSINESSES (CONDITIONS APPLY)
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div
-                className={cn(
-                    "fixed z-[49] pointer-events-none bottom-[8dvh] md:bottom-[calc(2.2rem+env(safe-area-inset-bottom))] -left-[20%] md:left-0 w-[140%] md:w-auto md:right-0 rotate-12 md:rotate-0 origin-center transition-all duration-500 mowglai-strip",
-                    !showStrips && "opacity-0 pointer-events-none !hidden"
-                )}
-            >
-                <div className="relative left-0 right-0 w-full h-[20px] md:h-[36px] overflow-hidden">
-                    <div className="absolute inset-0" style={{ backgroundColor: "rgba(180,140,40,0.75)" }} />
-                    <div className="absolute inset-0 flex items-center pointer-events-none">
-                        <div className="min-w-[200%] whitespace-nowrap animate-marquee-hr-continuous-slow flex gap-8">
-                            {Array.from({ length: 12 }).map((_, i) => (
-                                <span key={i} className="text-black font-bold uppercase tracking-wider text-[11px] md:text-sm">
-                                    FREE HOSTING FOR NEW BUSINESSES (CONDITIONS APPLY)
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {/* Hamburger Button - Fixed Top Right */}
             <div className="fixed top-[calc(1rem+env(safe-area-inset-top))] right-[calc(1.1rem+env(safe-area-inset-right))] md:top-[calc(2rem+env(safe-area-inset-top))] md:right-[calc(2rem+env(safe-area-inset-right))] z-[60]">
                 <Magnetic>
