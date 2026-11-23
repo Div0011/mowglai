@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import localFont from "next/font/local";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "../src/index.css";
 import { Providers } from "@/components/Providers";
 import { AOSInit } from "@/components/AOSInit";
@@ -8,17 +8,19 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import ReferralBanner from "@/components/ReferralBanner";
 import { ThemeProvider } from "@/components/theme-provider";
 
-// Preload critical fonts for better performance
-const boldonse = localFont({
-    src: "../public/fonts/Boldonse-Regular.ttf",
+// Clean, high-readability Google Fonts
+const plusJakartaSans = Plus_Jakarta_Sans({
+    subsets: ["latin"],
+    weight: ["500", "600", "700", "800"],
     variable: "--font-display",
     display: "swap",
     preload: true,
     fallback: ["system-ui", "sans-serif"],
 });
 
-const josefinSans = localFont({
-    src: "../public/fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf",
+const inter = Inter({
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"],
     variable: "--font-body",
     display: "swap",
     preload: true,
@@ -145,7 +147,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${boldonse.variable} ${josefinSans.variable}`} suppressHydrationWarning>
+        <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable}`} suppressHydrationWarning>
             <head>
                 {/* Resource hints for rapid network delivery */}
                 <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
@@ -176,7 +178,7 @@ export default function RootLayout({
                     );
                 })()}
             </head>
-            <body className="bg-background text-foreground antialiased min-h-dvh">
+            <body className="bg-background text-foreground font-body antialiased min-h-dvh">
                 <LanguageProvider>
                     <noscript>
                         <div style={{

@@ -92,8 +92,8 @@
     --border: 0 0% 0%;
     --ring: 0 0% 0%;
 
-    --font-display: 'Valerie Angel', 'Sloops', serif;
-    --font-body: 'Josefin Sans', sans-serif;
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
   }
 
   /* Minimal Dark Mode Inversion */

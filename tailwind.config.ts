@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["var(--font-display)", "Boldonse", "serif"],
-        body: ["var(--font-body)", "Josefin Sans", "sans-serif"],
+        sans: ["var(--font-body)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "Inter", "system-ui", "sans-serif"],
       },
       colors: {
         forest: {
