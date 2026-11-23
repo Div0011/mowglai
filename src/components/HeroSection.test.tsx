@@ -23,19 +23,13 @@ mock.module('../context/LanguageContext', () => ({
 const { default: HeroSection } = await import('./HeroSection');
 
 describe('HeroSection', () => {
-    it('renders title and main elements', () => {
+    it('renders MOWGLAI title and CTA buttons', () => {
         const html = renderToStaticMarkup(<HeroSection />);
 
-        expect(html).not.toContain('MOWGLAI');
-        expect(html).toContain('YOUR');
-        expect(html).toContain('WEBSITE');
-        expect(html).toContain('WINDOW');
-        expect(html).toContain('WORLD.');
-        expect(html).toContain('START');
-        expect(html).toContain('PROJECT');
-        expect(html).toContain('GET FREE');
-        expect(html).toContain('AUDIT');
-        expect(html).toContain('href="/investment"');
-        expect(html).toContain('href="/audit"');
+        expect(html).toContain('MOWGLAI');
+        expect(html).toContain('AI ANALYZE');
+        expect(html).toContain('AI ONBOARD');
+        expect(html).toContain('href="/ai-analyze"');
+        expect(html).toContain('href="/ai-onboard"');
     });
 });

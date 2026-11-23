@@ -1,266 +1,464 @@
 "use client";
 
+import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Code2, Search, Bot, Cpu, MapPin } from "lucide-react";
+import NextPageButton from "@/components/NextPageButton";
+import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import {
-    ArrowRight,
-    Bot,
-    Code2,
-    Database,
-    Mail,
-    MapPin,
-    MessageSquare,
-    ShoppingCart,
-    Workflow,
-} from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import LuminaSprout from "@/components/interactive/LuminaSprout";
+import AutomationSection from "@/components/AutomationSection";
 
+gsap.registerPlugin(ScrollTrigger);
+
+const SelectedWork = dynamic(() => import("@/components/SelectedWork"), { ssr: false });
 const TemplatesShowcase = dynamic(() => import("@/components/TemplatesShowcase"), { ssr: false });
+const ConsultationForm = dynamic(() => import("@/components/ConsultationForm"), { ssr: false });
+const InteractiveSetupSection = dynamic(() => import("@/components/InteractiveSetupSection"), { ssr: false });
+const StartupGrowthSection = dynamic(() => import("@/components/StartupGrowthSection"), { ssr: false });
 
-const AUTOMATION_CAPABILITIES = [
-    {
-        title: "WhatsApp & Lead Auto-Reply",
-        desc: "Reply to new inquiries in seconds, qualify prospects, and book calls automatically 24/7.",
-        icon: MessageSquare,
-    },
-    {
-        title: "CRM & Sheet Sync",
-        desc: "Route every website form, quote, and customer detail directly into your CRM, Notion, or Google Sheets.",
-        icon: Database,
-    },
-    {
-        title: "AI Assistants & Support",
-        desc: "Deploy custom AI chatbots trained on your services to answer FAQs and guide visitors to checkout.",
-        icon: Bot,
-    },
-    {
-        title: "Email & Order Pipelines",
-        desc: "Trigger instant welcome emails, proposals, invoices, and follow-up reminders without manual effort.",
-        icon: Mail,
-    },
-];
+function MouseGlow() {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isTouchDevice, setIsTouchDevice] = useState(true);
 
-const AUTOMATION_STEPS = [
-    {
-        step: "01",
-        title: "Map Your Workflow",
-        desc: "We look at the repetitive tasks slowing your team down—lead follow-ups, data entry, or customer onboarding.",
-    },
-    {
-        step: "02",
-        title: "Connect & Automate",
-        desc: "We link your website, forms, WhatsApp, email, and business tools into clean, reliable automated pipelines.",
-    },
-    {
-        step: "03",
-        title: "Launch & Scale",
-        desc: "Your system runs 24/7 with zero manual copy-pasting, freeing your team to focus on real growth.",
-    },
-];
+    useEffect(() => {
+        const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (hasFinePointer && !prefersReducedMotion) {
+            setIsTouchDevice(false);
+        }
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener("mousemove", handleMouseMove, { passive: true });
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
 
-const CORE_SERVICES = [
-    {
-        title: "Website Development",
-        desc: "Fast, responsive Next.js websites built for clarity, SEO, and conversion.",
-        icon: Code2,
-    },
-    {
-        title: "Business Automation",
-        desc: "Custom AI, WhatsApp, and workflow integrations tailored to your operations.",
-        icon: Workflow,
-    },
-    {
-        title: "SEO & Google Maps",
-        desc: "Local 3-pack ranking, Google Business setup, and AI search optimization.",
-        icon: MapPin,
-    },
-    {
-        title: "E-Commerce & Web Apps",
-        desc: "Online stores, client portals, and scalable full-stack platforms.",
-        icon: ShoppingCart,
-    },
-];
+    if (isTouchDevice) return null;
+
+    return (
+        <motion.div
+            className="fixed pointer-events-none z-[100]"
+            animate={{
+                x: mousePosition.x - 150,
+                y: mousePosition.y - 150,
+            }}
+            transition={{
+                type: "spring",
+                stiffness: 150,
+                damping: 15,
+                mass: 0.1,
+            }}
+            style={{
+                width: 300,
+                height: 300,
+                background: "radial-gradient(circle, rgba(200, 241, 105, 0.08) 0%, transparent 70%)",
+                borderRadius: "50%",
+            }}
+        />
+    );
+}
+
+function AmbientParticles() {
+    const [particleCount, setParticleCount] = useState(0);
+
+    useEffect(() => {
+        const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (window.innerWidth >= 768 && !isReduced) {
+            setParticleCount(6);
+        }
+    }, []);
+
+    if (particleCount === 0) return null;
+
+    return (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+            {[...Array(particleCount)].map((_, i) => (
+                <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 rounded-full bg-primary/30 transform-gpu"
+                    style={{
+                        left: `${10 + i * 25}%`,
+                        top: `${20 + (i % 3) * 25}%`,
+                    }}
+                    animate={{
+                        y: [0, -30, 0],
+                        x: [0, 15, 0],
+                        opacity: [0.2, 0.6, 0.2],
+                        scale: [0.8, 1.2, 0.8],
+                    }}
+                    transition={{
+                        duration: 4 + i * 0.5,
+                        repeat: Infinity,
+                        delay: i * 0.3,
+                        ease: "easeInOut",
+                    }}
+                />
+            ))}
+        </div>
+    );
+}
+
+function ScrollReveal({
+    children,
+    delay = 0,
+    direction = "up",
+    className = ""
+}: {
+    children: React.ReactNode;
+    delay?: number;
+    direction?: "up" | "down" | "left" | "right";
+    className?: string;
+}) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 768) {
+            setIsMobile(true);
+        }
+    }, []);
+
+    const offset = isMobile ? 25 : 60;
+
+    const directions = {
+        up: { y: offset, x: 0 },
+        down: { y: -offset, x: 0 },
+        left: { y: 0, x: offset },
+        right: { y: 0, x: -offset },
+    };
+
+    return (
+        <motion.div
+            className={className}
+            initial={{ opacity: 0, ...directions[direction] }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+                duration: 0.8,
+                delay,
+                ease: [0.22, 1, 0.36, 1]
+            }}
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+function ParallaxSection({
+    children,
+    speed = 0.5,
+    className = ""
+}: {
+    children: React.ReactNode;
+    speed?: number;
+    className?: string;
+}) {
+    const ref = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], [100 * speed, -100 * speed]);
+
+    return (
+        <section ref={ref} className={className}>
+            <motion.div style={{ y }}>
+                {children}
+            </motion.div>
+        </section>
+    );
+}
+
+function InteractiveButton({
+    href,
+    children,
+    variant = "primary",
+    icon: Icon = ArrowRight
+}: {
+    href: string;
+    children: React.ReactNode;
+    variant?: "primary" | "secondary";
+    icon?: React.ComponentType<{ className?: string }>;
+}) {
+    const isPrimary = variant === "primary";
+
+    return (
+        <Magnetic>
+            <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+            >
+                <Link
+                    href={href}
+                    className={`group relative inline-flex items-center justify-center px-8 md:px-10 py-4 md:py-5 text-sm md:text-base font-bold uppercase tracking-[0.2em] rounded-full overflow-hidden transition-all duration-500 ${
+                        isPrimary
+                            ? "bg-primary text-primary-foreground hover:shadow-[0_0_50px_rgba(230,185,61,0.4)]"
+                            : "bg-background/5 backdrop-blur-2xl border border-foreground/15 text-foreground hover:border-primary/50"
+                    }`}
+                >
+                    <motion.span
+                        className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-green-500"
+                        initial={{ x: "-100%", opacity: 0 }}
+                        whileHover={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    />
+
+                    <motion.span
+                        className="absolute inset-0 rounded-full"
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileHover={{ scale: 2, opacity: 0.1 }}
+                        transition={{ duration: 0.6 }}
+                        style={{ background: "radial-gradient(circle, white 0%, transparent 70%)" }}
+                    />
+
+                    <span className="relative z-10 flex items-center gap-3">
+                        {children}
+                        <motion.span
+                            animate={{ x: [0, 5, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <Icon className="w-5 h-5" />
+                        </motion.span>
+                    </span>
+                </Link>
+            </motion.div>
+        </Magnetic>
+    );
+}
+
+function AnimatedText({ text, className = "" }: { text: string; className?: string }) {
+    return (
+        <motion.span className={className}>
+            {text.split("").map((char, i) => (
+                <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                        duration: 0.4,
+                        delay: i * 0.03,
+                        ease: [0.22, 1, 0.36, 1]
+                    }}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </motion.span>
+            ))}
+        </motion.span>
+    );
+}
 
 export default function HomeContent() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (isReduced) return;
+        const cards = gsap.utils.toArray(".reveal-card", containerRef.current) as HTMLElement[];
+        cards.forEach((card) => {
+            gsap.fromTo(
+                card,
+                { y: 80, opacity: 0, rotateX: 15 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotateX: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse",
+                    },
+                }
+            );
+        });
+    }, { scope: containerRef });
+
     return (
-        <div className="relative z-20">
-            {/* Section 2: Automation & How We Build Automation */}
-            <section id="automation-section" className="relative w-full py-20 md:py-28 px-6">
-                <div className="container mx-auto max-w-6xl space-y-14">
-                    <div className="max-w-2xl space-y-4">
-                        <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-primary">
-                            Automation
-                        </span>
-                        <h2 className="text-3xl sm:text-5xl font-display font-black tracking-tight text-foreground leading-tight">
-                            How We Build <span className="text-primary">Automation</span> For Your Business
-                        </h2>
-                        <p className="text-foreground/75 text-base md:text-lg leading-relaxed">
-                            Stop spending hours on manual follow-ups and repetitive tasks. We turn your website and tools into an automated system that works around the clock.
-                        </p>
-                    </div>
+        <div ref={containerRef} className="relative">
+            <MouseGlow />
+            <AmbientParticles />
 
-                    {/* 3-Step Process: How We Make Automation */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {AUTOMATION_STEPS.map((item) => (
-                            <div
-                                key={item.step}
-                                className="p-6 md:p-7 rounded-2xl border border-foreground/10 bg-background/60 backdrop-blur-md space-y-3"
-                            >
-                                <span className="inline-block font-mono text-xs font-bold px-2.5 py-1 rounded-full bg-primary/15 text-primary">
-                                    STEP {item.step}
-                                </span>
-                                <h3 className="text-xl font-display font-bold text-foreground">
-                                    {item.title}
-                                </h3>
-                                <p className="text-sm md:text-base text-foreground/75 leading-relaxed">
-                                    {item.desc}
-                                </p>
+            <AutomationSection />
+
+            <section id="our-services-section" className="relative w-full py-16 md:py-24 z-20 overflow-hidden content-visibility-auto gpu-accelerate">
+                <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col gap-8 md:gap-12">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <ScrollReveal direction="left" className="space-y-2">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] md:text-xs font-semibold text-primary uppercase tracking-wider mb-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                Best Web Services in NCR • Delhi • Noida • Kanpur
                             </div>
-                        ))}
-                    </div>
-
-                    {/* What We Automate */}
-                    <div className="space-y-6">
-                        <h3 className="text-xl md:text-2xl font-display font-bold text-foreground">
-                            What We Can Automate
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            {AUTOMATION_CAPABILITIES.map((cap) => {
-                                const Icon = cap.icon;
-                                return (
-                                    <div
-                                        key={cap.title}
-                                        className="p-6 rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm flex items-start gap-4 hover:border-primary/40 transition-colors"
-                                    >
-                                        <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                                            <Icon className="w-5 h-5" />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <h4 className="text-base md:text-lg font-display font-bold text-foreground">
-                                                {cap.title}
-                                            </h4>
-                                            <p className="text-sm text-foreground/75 leading-relaxed">
-                                                {cap.desc}
-                                            </p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div>
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:opacity-90 transition-all"
-                        >
-                            <span>Automate Your Workflow</span>
-                            <ArrowRight className="w-4 h-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* Section 3: Simple Services Overview */}
-            <section id="our-services-section" className="relative w-full py-16 md:py-24 px-6 border-t border-foreground/10">
-                <div className="container mx-auto max-w-6xl space-y-10">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                        <div className="space-y-2 max-w-xl">
-                            <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-primary">
-                                Services
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-foreground">
-                                Everything You Need Online
+                            <div className="flex items-center gap-3 text-primary font-display font-bold text-xs tracking-[0.4em] uppercase">
+                                <div className="w-10 h-[1.5px] bg-primary" />
+                                Capabilities
+                            </div>
+                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-black tracking-normal text-foreground uppercase leading-[1.3] md:leading-[1.35]">
+                                Our <span className="text-primary italic">Services</span>
                             </h2>
-                        </div>
-                        <Link
-                            href="/services"
-                            className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
-                        >
-                            <span>View All Services</span>
-                            <ArrowRight className="w-4 h-4" />
-                        </Link>
+                            <p className="text-foreground/75 text-sm md:text-base font-normal max-w-md leading-relaxed">
+                                Hyper-optimized digital solutions engineered for startups & enterprises across Delhi NCR, Noida, Kanpur, and global markets. Starting at ₹5,000 INR / $55 USD.
+                            </p>
+                        </ScrollReveal>
+                        <ScrollReveal direction="right" delay={0.2} className="shrink-0 -my-4 scale-75 md:scale-90">
+                            <LuminaSprout />
+                        </ScrollReveal>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {CORE_SERVICES.map((service) => {
-                            const Icon = service.icon;
-                            return (
-                                <div
-                                    key={service.title}
-                                    className="p-6 rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm space-y-3 hover:border-primary/40 transition-colors"
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                                        <Icon className="w-5 h-5" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+                        {[
+                            {
+                                title: "Website Development",
+                                desc: "Bespoke high-performance web systems engineered with React, Next.js, and modern UI. Starting at ₹5,000 INR / $55 USD.",
+                                icon: <Code2 className="w-6 h-6 text-primary" />,
+                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(200,241,105,0.15)]",
+                                border: "group-hover/tile:border-primary/30",
+                            },
+                            {
+                                title: "GMB & Local 3-Pack Setup",
+                                desc: "Complete Google My Business profile verification, map ranking, and local SEO in 48 hours to drive immediate customer calls.",
+                                icon: <MapPin className="w-6 h-6 text-emerald-500" />,
+                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(16,185,129,0.12)]",
+                                border: "group-hover/tile:border-emerald-500/30",
+                            },
+                            {
+                                title: "AI Search Engine (GEO & AIO)",
+                                desc: "Optimizing structure and authority so your business ranks as the primary recommended answer in ChatGPT, Gemini & Perplexity.",
+                                icon: <Bot className="w-6 h-6 text-indigo-500" />,
+                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(99,102,241,0.12)]",
+                                border: "group-hover/tile:border-indigo-500/30",
+                            },
+                            {
+                                title: "AI & WhatsApp Automation",
+                                desc: "24/7 intelligent WhatsApp lead capture, instant quote estimation, and automated onboarding assistants for your business.",
+                                icon: <Cpu className="w-6 h-6 text-amber-500" />,
+                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(245,158,11,0.12)]",
+                                border: "group-hover/tile:border-amber-500/30",
+                            },
+                        ].map((service, idx) => (
+                            <ScrollReveal
+                                key={idx}
+                                direction="up"
+                                delay={idx * 0.1}
+                                className="group/tile relative p-5 md:p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md transition-all duration-500 hover:translate-y-[-2px] overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover/tile:opacity-100 transition-opacity duration-500" />
+                                <div className={cn("absolute inset-0 rounded-2xl border border-transparent transition-all duration-500", service.border, service.glow)} />
+
+                                <div className="relative z-10 flex items-center gap-4 mb-4">
+                                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 group-hover/tile:border-white/10 group-hover/tile:bg-white/[0.06] transition-all duration-500">
+                                        {service.icon}
                                     </div>
-                                    <h3 className="text-base font-display font-bold text-foreground">
+                                    <h3 className="text-base sm:text-lg font-display font-black tracking-tight text-foreground uppercase">
                                         {service.title}
                                     </h3>
-                                    <p className="text-sm text-foreground/75 leading-relaxed">
-                                        {service.desc}
-                                    </p>
                                 </div>
-                            );
-                        })}
+
+                                <p className="relative z-10 text-foreground/75 text-sm md:text-base font-normal leading-relaxed">
+                                    {service.desc}
+                                </p>
+                            </ScrollReveal>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* Section 4: Templates Showcase */}
-            <section id="templates-showcase-section" className="relative w-full py-16 md:py-24 px-6 border-t border-foreground/10">
-                <div className="container mx-auto max-w-6xl space-y-10">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                        <div className="space-y-2 max-w-xl">
-                            <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-primary">
-                                Templates
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-foreground">
-                                Ready-to-Launch Designs
-                            </h2>
-                            <p className="text-sm md:text-base text-foreground/75">
-                                Pick a clean starting template and we customize it for your brand and automations.
-                            </p>
+            {/* Services button placed between Our Services section and Launch Faster with Mowglai section */}
+            <div className="relative z-20 -mt-14 md:-mt-20 mb-4">
+                <NextPageButton
+                    href="/services"
+                    label="SERVICES"
+                    className="h-[120px] md:h-[140px]"
+                />
+            </div>
+
+            <section id="services-section" className="relative w-full py-16 z-20 content-visibility-auto gpu-accelerate">
+                <StartupGrowthSection />
+            </section>
+
+            <section id="our-work-section" className="relative w-full pt-12 pb-8 z-20 content-visibility-auto gpu-accelerate">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                        <div className="lg:col-span-4 space-y-4">
+                            <ScrollReveal direction="left" className="space-y-4">
+                                <div className="flex items-center gap-3 text-primary font-display font-bold text-xs tracking-[0.4em] uppercase">
+                                    <div className="w-10 h-[1.5px] bg-primary" />
+                                    Portfolio
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-normal text-foreground uppercase leading-[1.25] pb-2">
+                                    Our <br />Selected{" "}<span className="text-primary italic">Works</span>
+                                </h2>
+                                <p className="text-foreground/75 text-sm md:text-base font-normal leading-relaxed border-l border-primary/20 pl-4 max-w-xs">
+                                    A showcase of digital products and client ecosystems.
+                                </p>
+                            </ScrollReveal>
                         </div>
-                        <Link
-                            href="/templates"
-                            className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
-                        >
-                            <span>Browse All Templates</span>
-                            <ArrowRight className="w-4 h-4" />
-                        </Link>
-                    </div>
 
-                    <TemplatesShowcase />
-                </div>
-            </section>
-
-            {/* Section 5: Simple Closing CTA */}
-            <section className="relative w-full py-16 md:py-24 px-6 border-t border-foreground/10">
-                <div className="container mx-auto max-w-4xl">
-                    <div className="p-8 md:p-12 rounded-3xl border border-primary/20 bg-primary/5 backdrop-blur-md text-center space-y-6">
-                        <h2 className="text-2xl sm:text-4xl font-display font-black text-foreground">
-                            Ready to simplify your website &amp; automate your work?
-                        </h2>
-                        <p className="text-sm md:text-base text-foreground/75 max-w-xl mx-auto">
-                            Tell us what you want to build or automate and we will get back with a clear plan and transparent pricing.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link
-                                href="/contact"
-                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:opacity-90 transition-all"
-                            >
-                                <span>Get in Touch</span>
-                                <ArrowRight className="w-4 h-4" />
-                            </Link>
-                            <Link
-                                href="/investment"
-                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border border-foreground/15 text-foreground font-semibold text-sm tracking-wide hover:border-primary/50 hover:text-primary transition-all"
-                            >
-                                <span>View Pricing</span>
-                            </Link>
+                        <div className="lg:col-span-8">
+                            <ScrollReveal direction="up" className="w-full">
+                                <SelectedWork />
+                            </ScrollReveal>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* Explore Templates Button — between work and templates */}
+            <div className="relative z-20">
+                <NextPageButton
+                    href="/explore"
+                    label="TEMPLATES"
+                    className="h-[160px] md:h-[180px]"
+                />
+            </div>
+
+            <section id="templates-showcase-section" className="relative w-full pt-8 pb-12 z-20 content-visibility-auto gpu-accelerate">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                        <div className="lg:col-span-8 order-2 lg:order-1">
+                            <ScrollReveal direction="up" className="w-full">
+                                <TemplatesShowcase />
+                            </ScrollReveal>
+                        </div>
+
+                        <div className="lg:col-span-4 order-1 lg:order-2 space-y-4">
+                            <ScrollReveal direction="right" className="space-y-4">
+                                <div className="flex items-center gap-3 text-primary font-display font-bold text-xs tracking-[0.4em] uppercase justify-start lg:justify-end">
+                                    <div className="w-10 h-[1.5px] bg-primary lg:hidden" />
+                                    Marketplace
+                                    <div className="w-10 h-[1.5px] bg-primary hidden lg:block" />
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-normal text-foreground uppercase leading-[1.25] text-left lg:text-right pr-4 lg:pr-6 pb-2">
+                                    Selected <br /><span className="text-primary italic">Templates</span>
+                                </h2>
+                                <p className="text-foreground/75 text-sm md:text-base font-normal leading-relaxed border-l lg:border-l-0 lg:border-r border-primary/20 pl-4 lg:pl-0 lg:pr-4 text-left lg:text-right max-w-xs lg:ml-auto">
+                                    Production-ready systems, crafted with world-class aesthetics.
+                                </p>
+                            </ScrollReveal>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <InteractiveSetupSection />
+
+
+
+            {/* Centered Our Story section */}
+            <div className="pt-2 pb-6 relative z-20">
+                <NextPageButton
+                    href="/about"
+                    label="ABOUT"
+                    className="h-[160px] md:h-[180px]"
+                />
+            </div>
         </div>
     );
 }
