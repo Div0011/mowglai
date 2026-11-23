@@ -33,7 +33,7 @@ const HeroSection = () => {
                     </Link>
                 </div>
 
-                <p className="text-xs sm:text-sm md:text-base text-foreground/60 font-normal tracking-wide">
+                <p className="text-[3.4vw] sm:text-sm md:text-base lg:text-lg text-foreground/85 font-bold tracking-wide whitespace-nowrap">
                     Websites, Software &amp; AI Automations.
                 </p>
             </div>
