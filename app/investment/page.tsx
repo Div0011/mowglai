@@ -121,26 +121,26 @@ const plans: {
     systems: [
         {
             name: "NATIVE OS",
-            price: "COMING SOON",
+            price: "",
             description: "High-Performance Mobile Applications",
             features: ["iOS & Android Development", "Native Performance", "Offline Capabilities", "Device Hardware Access", "App Store Optimization"],
-            cta: "Waitlist",
+            cta: "Ask for Quotation",
             type: "system"
         },
         {
             name: "PURE API",
-            price: "COMING SOON",
-            description: "headless Architecture & Integrations",
+            price: "",
+            description: "Headless Architecture & Integrations",
             features: ["Custom REST/gRPC APIs", "Third-party Integrations", "Secure Authentication", "Scalable Infrastructure", "Real-time Data Processing"],
-            cta: "Waitlist",
+            cta: "Ask for Quotation",
             type: "system"
         },
         {
             name: "NERVE CENTER",
-            price: "COMING SOON",
+            price: "",
             description: "Administrative Command & Intelligence",
             features: ["Real-time user analytics", "Content Management", "Role-based Access", "Custom Reporting", "Server Health Monitoring"],
-            cta: "Waitlist",
+            cta: "Ask for Quotation",
             type: "system"
         }
     ],
@@ -155,10 +155,10 @@ const plans: {
         },
         {
             name: "AI INTEGRATION",
-            price: "CUSTOM",
+            price: "",
             description: "Embed intelligence into your digital ecosystem.",
             features: ["Custom Chatbots", "Automated Workflows", "Predictive Analytics", "OpenAI/Claude API", "Vector Database Setup"],
-            cta: "Deployment",
+            cta: "Ask for Quotation",
             type: "addon"
         },
         {
@@ -428,37 +428,39 @@ function InvestmentContent() {
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-display uppercase italic mb-3 text-primary group-hover:scale-105 transition-transform origin-left leading-tight">{plan.name}</h3>
                     <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground/80">{plan.description}</p>
                 </div>
-                <div className="mb-12 sm:mb-16 relative z-10 min-h-[3rem] sm:min-h-[4rem] flex flex-col justify-center overflow-visible">
-                    <div className={cn(
-                        "font-display font-black leading-none text-foreground flex items-center whitespace-nowrap gap-x-2",
-                        plan.price.length > 8 ? "text-lg sm:text-xl md:text-2xl" : "text-3xl sm:text-4xl md:text-5xl"
-                    )}>
-                        <AnimatePresence mode="wait">
-                            {type === 'standard' && isDiscountApplied && plan.price !== "CUSTOM" && !plan.price.includes("+") ? (
-                                <motion.div
-                                    key="discounted"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    className="flex items-center gap-3"
-                                >
-                                    <span className="line-through text-muted-foreground/30 text-xl sm:text-2xl">{formatPrice(plan.price)}</span>
-                                    <span className="text-primary">{getPrice(plan.price)}</span>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key="regular"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className={cn(plan.price === "COMING SOON" && "text-base sm:text-lg text-primary/70 tracking-[0.2em]")}
-                                >
-                                    {formatPrice(plan.price)}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                {plan.price ? (
+                    <div className="mb-12 sm:mb-16 relative z-10 min-h-[3rem] sm:min-h-[4rem] flex flex-col justify-center overflow-visible">
+                        <div className={cn(
+                            "font-display font-black leading-none text-foreground flex items-center whitespace-nowrap gap-x-2",
+                            plan.price.length > 8 ? "text-lg sm:text-xl md:text-2xl" : "text-3xl sm:text-4xl md:text-5xl"
+                        )}>
+                            <AnimatePresence mode="wait">
+                                {type === 'standard' && isDiscountApplied && plan.price !== "CUSTOM" && !plan.price.includes("+") ? (
+                                    <motion.div
+                                        key="discounted"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="flex items-center gap-3"
+                                    >
+                                        <span className="line-through text-muted-foreground/30 text-xl sm:text-2xl">{formatPrice(plan.price)}</span>
+                                        <span className="text-primary">{getPrice(plan.price)}</span>
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="regular"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className={cn(plan.price === "COMING SOON" && "text-base sm:text-lg text-primary/70 tracking-[0.2em]")}
+                                    >
+                                        {formatPrice(plan.price)}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </div>
-                </div>
+                ) : null}
 
                 <ul className="space-y-6 mb-16 flex-grow font-body text-base md:text-lg tracking-wide relative z-10">
                     {(plan.features as string[]).map((f, fi) => (
@@ -482,11 +484,8 @@ function InvestmentContent() {
                     </button>
                 ) : (
                     <Link
-                        href={type === "systems" ? "/contact?subject=Systems Waitlist Request" : `/start-project/?plan=${plan.name.toLowerCase()}`}
-                        className={cn(
-                            "relative z-10 w-full py-4 px-8 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center mt-auto",
-                            plan.price === "COMING SOON" && "opacity-80 hover:opacity-100"
-                        )}
+                        href={type === "systems" || plan.cta === "Ask for Quotation" ? "/start-project/custom-quote" : `/start-project/?plan=${plan.name.toLowerCase()}`}
+                        className="relative z-10 w-full py-4 px-8 bg-primary text-primary-foreground text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-colors duration-300 rounded-full text-center mt-auto"
                     >
                         {plan.cta}
                     </Link>

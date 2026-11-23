@@ -2,7 +2,7 @@
 
 import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Code2, Search, Bot, Cpu, MapPin } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Code2, Bot, MapPin } from "lucide-react";
 import NextPageButton from "@/components/NextPageButton";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -307,7 +307,7 @@ export default function HomeContent() {
                         </ScrollReveal>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                         {[
                             {
                                 title: "Website Development",
@@ -329,13 +329,6 @@ export default function HomeContent() {
                                 icon: <Bot className="w-6 h-6 text-indigo-500" />,
                                 glow: "group-hover/tile:shadow-[0_0_30px_rgba(99,102,241,0.12)]",
                                 border: "group-hover/tile:border-indigo-500/30",
-                            },
-                            {
-                                title: "AI & WhatsApp Automation",
-                                desc: "24/7 WhatsApp lead capture, instant quotes, and onboarding.",
-                                icon: <Cpu className="w-6 h-6 text-amber-500" />,
-                                glow: "group-hover/tile:shadow-[0_0_30px_rgba(245,158,11,0.12)]",
-                                border: "group-hover/tile:border-amber-500/30",
                             },
                         ].map((service, idx) => (
                             <ScrollReveal
