@@ -2,11 +2,13 @@
 
 import AboutSection from "@/components/AboutSection";
 import MissionSection from "@/components/MissionSection";
+import KnowThePeopleSection from "@/components/KnowThePeopleSection";
 import NextPageButton from "@/components/NextPageButton";
 import PageLayout from "@/components/PageLayout";
 import dynamic from "next/dynamic";
 
 const HowWeBuiltSection = dynamic(() => import("@/components/HowWeBuiltSection"), { ssr: false });
+const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection"), { ssr: false });
 const FaqSection = dynamic(() => import("@/components/FaqSection"), { ssr: false });
 
 export default function OriginalAbout() {
@@ -14,6 +16,8 @@ export default function OriginalAbout() {
         <PageLayout>
             <AboutSection />
             <MissionSection />
+            <KnowThePeopleSection />
+            <TestimonialsSection />
             <HowWeBuiltSection />
 
             {/* FAQ Section */}
