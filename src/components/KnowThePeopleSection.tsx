@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 
@@ -8,13 +7,11 @@ const PEOPLE_QUOTES = [
     {
         name: "Divyansh Awasthi",
         role: "Lead Developer",
-        image: "/team/da.jpeg",
         quote: "We build software and automations that stay fast, clean, and reliable long after launch—no bloat, just engineering that works.",
     },
     {
         name: "Ajay Ahlawat",
         role: "Marketing Lead",
-        image: "/team/aa.jpeg",
         quote: "Great design only wins when the right customers find it. We pair clear positioning with measurable growth so every launch converts.",
     },
 ];
@@ -53,24 +50,13 @@ export default function KnowThePeopleSection() {
                                 </p>
                             </div>
 
-                            <div className="flex items-center gap-4 pt-4 border-t border-foreground/10">
-                                <div className="relative w-12 h-12 rounded-full overflow-hidden border border-primary/30 shrink-0">
-                                    <Image
-                                        src={person.image}
-                                        alt={`${person.name} - ${person.role}`}
-                                        fill
-                                        sizes="48px"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <h3 className="text-base font-display font-bold text-foreground uppercase tracking-wide">
-                                        {person.name}
-                                    </h3>
-                                    <p className="text-xs font-mono uppercase tracking-widest text-primary">
-                                        {person.role}
-                                    </p>
-                                </div>
+                            <div className="pt-4 border-t border-foreground/10">
+                                <h3 className="text-base font-display font-bold text-foreground uppercase tracking-wide">
+                                    {person.name}
+                                </h3>
+                                <p className="text-xs font-mono uppercase tracking-widest text-primary mt-0.5">
+                                    {person.role}
+                                </p>
                             </div>
                         </motion.div>
                     ))}
