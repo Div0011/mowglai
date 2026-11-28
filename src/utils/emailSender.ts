@@ -1,15 +1,19 @@
+import { captureLeadFromForm } from "@/lib/crm/store";
+
 const PHP_ENDPOINT = "/send_email.php";
 const TARGET_EMAIL = "tech@mowglai.com";
 const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
 
 /**
- * Sends form data to tech@mowglai.com.
+ * Sends form data to tech@mowglai.com and logs the lead into Mowglai's CRM.
  * Tries the PHP backend endpoint first (for PHP/Hostinger hosting) and
  * automatically falls back to FormSubmit AJAX (for static Vercel hosting).
  */
 export const sendEmail = async (
     data: Record<string, string>
 ): Promise<{ status: "success" | "error"; message: string }> => {
+    // Log lead to CRM & optional webhook (non-blocking)
+    captureLeadFromForm(data).catch(() => {});
     // 1. Try production PHP endpoint first (when hosted on a PHP server)
     try {
         const controller = new AbortController();

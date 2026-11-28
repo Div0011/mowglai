@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import AuditReport from './AuditReport';
 import { analyzeWebsite, AuditResult } from './actions';
 import { generateDemoLandingPageFromUrl, DemoLandingPageResult } from '@/lib/ai/demoLandingPage';
+import { sendEmail } from '@/utils/emailSender';
 import { motion, AnimatePresence } from "framer-motion";
 import JungleBackground from '@/components/JungleBackground';
 import MowglaiLogo from "@/components/MowglaiLogo";
@@ -75,7 +76,17 @@ export default function AuditPage() {
     const [demoLoading, setDemoLoading] = useState(false);
     const [demoResult, setDemoResult] = useState<DemoLandingPageResult | null>(null);
     const [demoViewport, setDemoViewport] = useState<'desktop' | 'mobile'>('desktop');
+    const [leadModalOpen, setLeadModalOpen] = useState(false);
+    const [leadUnlocked, setLeadUnlocked] = useState(false);
+    const [leadSubmitting, setLeadSubmitting] = useState(false);
+    const [leadForm, setLeadForm] = useState({ name: '', email: '', phone: '' });
     const [focused, setFocused] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && sessionStorage.getItem('mowglai_audit_lead_unlocked') === '1') {
+            setLeadUnlocked(true);
+        }
+    }, []);
     const { toast } = useToast();
     const router = useRouter();
 
@@ -119,12 +130,7 @@ export default function AuditPage() {
         }
     };
 
-    const handleGenerateDemo = async () => {
-        if (!url.trim()) {
-            toast({ title: 'Paste a URL first', description: 'Enter a website link to extract content and generate a demo landing page.', variant: 'destructive' });
-            return;
-        }
-
+    const runDemoGeneration = async () => {
         setDemoLoading(true);
         try {
             const generated = await generateDemoLandingPageFromUrl(url);
@@ -140,6 +146,38 @@ export default function AuditPage() {
         } finally {
             setDemoLoading(false);
         }
+    };
+
+    const handleGenerateDemo = async () => {
+        if (!url.trim()) {
+            toast({ title: 'Paste a URL first', description: 'Enter a website link to extract content and generate a demo landing page.', variant: 'destructive' });
+            return;
+        }
+        if (!leadUnlocked) {
+            setLeadModalOpen(true);
+            return;
+        }
+        await runDemoGeneration();
+    };
+
+    const handleUnlockLeadMagnet = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!leadForm.name.trim() || !leadForm.email.trim()) return;
+        setLeadSubmitting(true);
+        await sendEmail({
+            subject: `Lead Magnet: Demo Landing Page for ${url}`,
+            source: 'Lead Magnet - Audit Demo Generator',
+            name: leadForm.name.trim(),
+            email: leadForm.email.trim(),
+            phone: leadForm.phone.trim(),
+            websiteUrl: url.trim(),
+            message: `Requested free Demo Landing Page from /audit for ${url}`,
+        });
+        sessionStorage.setItem('mowglai_audit_lead_unlocked', '1');
+        setLeadUnlocked(true);
+        setLeadModalOpen(false);
+        setLeadSubmitting(false);
+        await runDemoGeneration();
     };
 
     const handleOpenDemoInTab = () => {
@@ -494,6 +532,79 @@ export default function AuditPage() {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* ── Lead Magnet Unlock Modal ── */}
+            <AnimatePresence>
+                {leadModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+                            className="w-full max-w-md rounded-2xl border border-primary/30 bg-background p-6 md:p-8 shadow-2xl relative"
+                        >
+                            <button
+                                type="button"
+                                onClick={() => setLeadModalOpen(false)}
+                                className="absolute top-4 right-4 p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-foreground/10 transition"
+                                aria-label="Close"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+
+                            <div className="space-y-2 mb-6">
+                                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.25em] text-primary">
+                                    <Sparkles className="w-3.5 h-3.5" /> Free Demo Generator
+                                </span>
+                                <h2 className="text-2xl font-display font-black uppercase text-foreground">
+                                    Unlock Your Demo Page
+                                </h2>
+                                <p className="text-xs text-foreground/65 leading-relaxed">
+                                    Enter your details to extract content from <span className="text-primary font-mono">{url}</span> and generate your upgraded landing page.
+                                </p>
+                            </div>
+
+                            <form onSubmit={handleUnlockLeadMagnet} className="space-y-4">
+                                <Input
+                                    required
+                                    placeholder="Your Name"
+                                    value={leadForm.name}
+                                    onChange={(e) => setLeadForm((p) => ({ ...p, name: e.target.value }))}
+                                />
+                                <Input
+                                    required
+                                    type="email"
+                                    placeholder="Work Email"
+                                    value={leadForm.email}
+                                    onChange={(e) => setLeadForm((p) => ({ ...p, email: e.target.value }))}
+                                />
+                                <Input
+                                    type="tel"
+                                    placeholder="WhatsApp / Phone (optional)"
+                                    value={leadForm.phone}
+                                    onChange={(e) => setLeadForm((p) => ({ ...p, phone: e.target.value }))}
+                                />
+                                <Button
+                                    type="submit"
+                                    disabled={leadSubmitting}
+                                    className="w-full h-12 bg-primary text-background hover:bg-foreground font-bold uppercase tracking-widest text-xs rounded-xl"
+                                >
+                                    {leadSubmitting ? (
+                                        <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Generating Demo…</>
+                                    ) : (
+                                        <><Wand2 className="w-4 h-4 mr-2" /> Unlock &amp; Generate Demo</>
+                                    )}
+                                </Button>
+                            </form>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* ── Demo Landing Page Preview Modal ── */}
             <AnimatePresence>
