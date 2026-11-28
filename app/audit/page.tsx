@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, ArrowRight, ShieldCheck, Zap, Globe, ScanLine, TrendingUp, X, Sparkles } from "lucide-react";
+import { Loader2, ArrowRight, ShieldCheck, Zap, Globe, ScanLine, TrendingUp, X, Sparkles, Wand2, ExternalLink, Download, Monitor, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AuditReport from './AuditReport';
 import { analyzeWebsite, AuditResult } from './actions';
+import { generateDemoLandingPageFromUrl, DemoLandingPageResult } from '@/lib/ai/demoLandingPage';
 import { motion, AnimatePresence } from "framer-motion";
 import JungleBackground from '@/components/JungleBackground';
 import MowglaiLogo from "@/components/MowglaiLogo";
@@ -71,6 +72,9 @@ export default function AuditPage() {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<AuditResult | null>(null);
+    const [demoLoading, setDemoLoading] = useState(false);
+    const [demoResult, setDemoResult] = useState<DemoLandingPageResult | null>(null);
+    const [demoViewport, setDemoViewport] = useState<'desktop' | 'mobile'>('desktop');
     const [focused, setFocused] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -113,6 +117,49 @@ export default function AuditPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleGenerateDemo = async () => {
+        if (!url.trim()) {
+            toast({ title: 'Paste a URL first', description: 'Enter a website link to extract content and generate a demo landing page.', variant: 'destructive' });
+            return;
+        }
+
+        setDemoLoading(true);
+        try {
+            const generated = await generateDemoLandingPageFromUrl(url);
+            setDemoResult(generated);
+            toast({
+                title: 'Demo Landing Page Ready',
+                description: generated.extractedFromSource
+                    ? `Extracted live content from ${generated.domain} and generated a modernized landing page.`
+                    : `Generated an upgraded landing page for ${generated.domain}.`,
+            });
+        } catch {
+            toast({ title: 'Generation Failed', description: 'Could not generate a demo page from that URL.', variant: 'destructive' });
+        } finally {
+            setDemoLoading(false);
+        }
+    };
+
+    const handleOpenDemoInTab = () => {
+        if (!demoResult) return;
+        const blob = new Blob([demoResult.html], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    const handleDownloadDemo = () => {
+        if (!demoResult) return;
+        const blob = new Blob([demoResult.html], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `${demoResult.domain.replace(/[^a-z0-9]/gi, '-')}-demo-landing.html`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
     };
 
     return (
@@ -295,32 +342,55 @@ export default function AuditPage() {
                                             />
                                         </div>
 
-                                        {/* Submit */}
-                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                                            <Button
-                                                type="submit"
-                                                disabled={loading}
-                                                className="w-full md:w-auto h-14 md:h-16 px-8 md:px-12
-                                                          bg-primary hover:bg-foreground text-background
-                                                          font-bold text-sm tracking-[0.2em] uppercase
-                                                          rounded-xl md:rounded-2xl transition-all duration-400
-                                                          shadow-[0_8px_32px_rgba(197,160,89,0.2)]
-                                                          hover:shadow-[0_12px_40px_rgba(197,160,89,0.08)]
-                                                          disabled:opacity-50 shrink-0 relative overflow-hidden group/btn"
-                                            >
-                                                {/* Shine sweep */}
-                                                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
-                                                               translate-x-[-100%] group-hover/btn:translate-x-[100%]
-                                                               transition-transform duration-700 ease-in-out pointer-events-none" />
-                                                <span className="relative z-10 flex items-center gap-2.5">
-                                                    {loading ? (
-                                                        <><Loader2 className="w-5 h-5 animate-spin" /><span>Analyzing…</span></>
-                                                    ) : (
-                                                        <><ScanLine className="w-4 h-4" /><span>Run Audit</span><ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></>
-                                                    )}
-                                                </span>
-                                            </Button>
-                                        </motion.div>
+                                        {/* Submit & Demo Buttons */}
+                                        <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto shrink-0">
+                                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                                                <Button
+                                                    type="submit"
+                                                    disabled={loading || demoLoading}
+                                                    className="w-full sm:w-auto h-14 md:h-16 px-7 md:px-9
+                                                              bg-primary hover:bg-foreground text-background
+                                                              font-bold text-sm tracking-[0.18em] uppercase
+                                                              rounded-xl md:rounded-2xl transition-all duration-400
+                                                              shadow-[0_8px_32px_rgba(197,160,89,0.2)]
+                                                              hover:shadow-[0_12px_40px_rgba(197,160,89,0.08)]
+                                                              disabled:opacity-50 shrink-0 relative overflow-hidden group/btn"
+                                                >
+                                                    {/* Shine sweep */}
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+                                                                   translate-x-[-100%] group-hover/btn:translate-x-[100%]
+                                                                   transition-transform duration-700 ease-in-out pointer-events-none" />
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        {loading ? (
+                                                            <><Loader2 className="w-5 h-5 animate-spin" /><span>Analyzing…</span></>
+                                                        ) : (
+                                                            <><ScanLine className="w-4 h-4" /><span>Run Audit</span><ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" /></>
+                                                        )}
+                                                    </span>
+                                                </Button>
+                                            </motion.div>
+
+                                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                                                <Button
+                                                    type="button"
+                                                    onClick={handleGenerateDemo}
+                                                    disabled={loading || demoLoading}
+                                                    variant="outline"
+                                                    className="w-full sm:w-auto h-14 md:h-16 px-6 md:px-8
+                                                              border-primary/40 bg-primary/10 hover:bg-primary hover:text-background text-primary
+                                                              font-bold text-xs md:text-sm tracking-[0.15em] uppercase
+                                                              rounded-xl md:rounded-2xl transition-all duration-300 shrink-0"
+                                                >
+                                                    <span className="flex items-center gap-2">
+                                                        {demoLoading ? (
+                                                            <><Loader2 className="w-4 h-4 animate-spin" /><span>Building…</span></>
+                                                        ) : (
+                                                            <><Wand2 className="w-4 h-4" /><span>Demo Landing Page</span></>
+                                                        )}
+                                                    </span>
+                                                </Button>
+                                            </motion.div>
+                                        </div>
                                     </form>
                                 </motion.div>
 
@@ -391,18 +461,31 @@ export default function AuditPage() {
                                     </div>
                                     <span className="break-all">Audit complete · <span className="text-primary">{url}</span></span>
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.04 }}
-                                    whileTap={{ scale: 0.96 }}
-                                    onClick={() => { setResult(null); setUrl(''); }}
-                                    className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-foreground/10
-                                              bg-foreground/[0.03] backdrop-blur-sm text-primary text-xs font-bold
-                                              uppercase tracking-widest hover:bg-primary hover:text-background hover:border-primary
-                                              transition-all duration-300 w-full sm:w-auto"
-                                >
-                                    <ScanLine className="w-3.5 h-3.5" />
-                                    New Audit
-                                </motion.button>
+                                <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                                    <motion.button
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.96 }}
+                                        onClick={handleGenerateDemo}
+                                        disabled={demoLoading}
+                                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-background text-xs font-bold
+                                                  uppercase tracking-widest hover:bg-foreground transition-all duration-300 w-full sm:w-auto disabled:opacity-50"
+                                    >
+                                        {demoLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
+                                        {demoLoading ? 'Generating…' : 'Generate Demo Page'}
+                                    </motion.button>
+                                    <motion.button
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.96 }}
+                                        onClick={() => { setResult(null); setUrl(''); }}
+                                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-foreground/10
+                                                  bg-foreground/[0.03] backdrop-blur-sm text-primary text-xs font-bold
+                                                  uppercase tracking-widest hover:bg-primary hover:text-background hover:border-primary
+                                                  transition-all duration-300 w-full sm:w-auto"
+                                    >
+                                        <ScanLine className="w-3.5 h-3.5" />
+                                        New Audit
+                                    </motion.button>
+                                </div>
                             </motion.div>
 
                             <AuditReport result={result} />
@@ -411,6 +494,98 @@ export default function AuditPage() {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* ── Demo Landing Page Preview Modal ── */}
+            <AnimatePresence>
+                {demoResult && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 md:p-6"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.97, y: 12 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.97, y: 12 }}
+                            className="w-full max-w-6xl h-[90dvh] rounded-2xl border border-primary/25 bg-background flex flex-col overflow-hidden shadow-2xl"
+                        >
+                            {/* Modal Toolbar */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 py-3.5 border-b border-foreground/10 bg-foreground/[0.02]">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    <div className="p-2 rounded-lg bg-primary/15 text-primary shrink-0">
+                                        <Wand2 className="w-4 h-4" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-bold text-foreground truncate">
+                                            Demo Landing Page · {demoResult.businessName}
+                                        </p>
+                                        <p className="text-[11px] font-mono text-primary/80 truncate">
+                                            {demoResult.extractedFromSource
+                                                ? `Extracted live content from ${demoResult.domain}`
+                                                : `Generated from ${demoResult.domain}`}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <div className="hidden sm:flex items-center rounded-lg border border-foreground/10 p-0.5 bg-background">
+                                        <button
+                                            type="button"
+                                            onClick={() => setDemoViewport('desktop')}
+                                            className={`p-1.5 rounded-md transition ${demoViewport === 'desktop' ? 'bg-primary text-background' : 'text-foreground/60 hover:text-foreground'}`}
+                                            title="Desktop preview"
+                                        >
+                                            <Monitor className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setDemoViewport('mobile')}
+                                            className={`p-1.5 rounded-md transition ${demoViewport === 'mobile' ? 'bg-primary text-background' : 'text-foreground/60 hover:text-foreground'}`}
+                                            title="Mobile preview"
+                                        >
+                                            <Smartphone className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
+
+                                    <Button type="button" size="sm" variant="outline" onClick={handleOpenDemoInTab} className="text-xs gap-1.5">
+                                        <ExternalLink className="w-3.5 h-3.5" />
+                                        Open Tab
+                                    </Button>
+                                    <Button type="button" size="sm" variant="outline" onClick={handleDownloadDemo} className="text-xs gap-1.5">
+                                        <Download className="w-3.5 h-3.5" />
+                                        Download
+                                    </Button>
+                                    <Button type="button" size="sm" onClick={() => router.push('/start-project/custom-quote')} className="text-xs gap-1.5 bg-primary text-background hover:bg-foreground">
+                                        <span>Build This</span>
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </Button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setDemoResult(null)}
+                                        className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-foreground/10 transition"
+                                        aria-label="Close demo preview"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Live Iframe Preview */}
+                            <div className="flex-1 bg-black/40 flex items-center justify-center p-2 md:p-4 overflow-hidden">
+                                <iframe
+                                    title="Generated Demo Landing Page"
+                                    srcDoc={demoResult.html}
+                                    sandbox="allow-scripts allow-popups"
+                                    className={`h-full bg-black rounded-xl border border-foreground/10 transition-all duration-300 ${
+                                        demoViewport === 'mobile' ? 'w-[390px] max-w-full' : 'w-full'
+                                    }`}
+                                />
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

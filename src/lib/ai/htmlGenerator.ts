@@ -1,5 +1,14 @@
 import { OnboardingInput } from './types';
 
+function escapeHtml(str: string): string {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 export function generateBespokeWebsiteHtml(
     input: OnboardingInput,
     profile?: {
@@ -7,13 +16,16 @@ export function generateBespokeWebsiteHtml(
         sector?: string;
         city?: string;
         tagline?: string;
+        headline?: string;
+        subheadline?: string;
+        services?: { title: string; desc: string; icon: string }[];
     }
 ): string {
-    const businessName = (input.businessName || profile?.name || 'Premier Business').trim();
-    const city = (input.city || profile?.city || 'NCR, India').trim();
+    const businessName = escapeHtml((input.businessName || profile?.name || 'Premier Business').trim());
+    const city = escapeHtml((input.city || profile?.city || 'NCR, India').trim());
     const sector = (input.businessSector || profile?.sector || 'portfolio').toLowerCase();
     const phone = (input.phone || '919452476331').replace(/[^0-9]/g, '');
-    const email = input.email || 'tech@mowglai.com';
+    const email = escapeHtml(input.email || 'tech@mowglai.com');
     const primaryGoal = input.primaryGoal || 'WhatsApp Leads';
 
     // Sector-specific theme styling & content
@@ -164,7 +176,20 @@ export function generateBespokeWebsiteHtml(
         }
     };
 
-    const config = sectorConfigs[sector] || sectorConfigs.portfolio;
+    const baseConfig = sectorConfigs[sector] || sectorConfigs.portfolio;
+    const config = {
+        ...baseConfig,
+        headline: profile?.headline ? escapeHtml(profile.headline) : baseConfig.headline,
+        subheadline: profile?.subheadline ? escapeHtml(profile.subheadline) : baseConfig.subheadline,
+        services:
+            profile?.services && profile.services.length > 0
+                ? profile.services.map((s) => ({
+                      title: escapeHtml(s.title),
+                      desc: escapeHtml(s.desc),
+                      icon: s.icon || '✨',
+                  }))
+                : baseConfig.services,
+    };
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(`Hi ${businessName}! I found your website and I am interested in your services in ${city}.`)}`;
     const telUrl = `tel:+${phone}`;
 
